@@ -4,7 +4,7 @@ game            'gta5'
 
 name            'bnl-housing'
 author          'Boris'
-version         '1.0.0'
+version         '0.0.1'
 repository      ''
 description     'A free and open source player property script for FiveM'
 

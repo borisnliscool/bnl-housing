@@ -1,6 +1,8 @@
 local ox_inventory = exports.ox_inventory
 allPropertyLocations = nil; properties = nil; shells = nil;
 
+lib.versionCheck('borisnliscool/bnl-housing')
+
 Citizen.CreateThread(function()
     shells = data('shells')
 
