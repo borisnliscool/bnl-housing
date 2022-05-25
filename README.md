@@ -71,6 +71,7 @@ ensure bnl-housing
 - [ ] Police raid
 - [ ] Property selling
 - [ ] Realtor job
+- [ ] Rent out property
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
