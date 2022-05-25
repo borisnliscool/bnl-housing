@@ -223,6 +223,10 @@ RegisterNetEvent("bnl-housing:client:enter", function(menuData)
     
     if (data.ret == true) then
         lib.hideTextUI()
+
+        DoScreenFadeOut(500)
+        Wait(500)
+
         local property = data.property
         propertyPlayerIsIn = property
         currentPropertyPermissionLevel = data.permissionLevel
@@ -234,6 +238,8 @@ RegisterNetEvent("bnl-housing:client:enter", function(menuData)
         HandlePropertyMenus(property)
 
         SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - shell.foot_entrance - vector3(0,0,1.0))
+
+        DoScreenFadeIn(500)
     else
         if (data.notification) then
             lib.defaultNotify(data.notification)
