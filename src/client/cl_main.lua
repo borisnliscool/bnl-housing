@@ -243,6 +243,45 @@ function HandlePropertyMenus(property)
     end
 end
 
+function HandleEnter(data)
+    lib.hideTextUI()
+
+    DoScreenFadeOut(500)
+    Wait(500)
+
+    local property = data.property
+    propertyPlayerIsIn = property
+    currentPropertyPermissionLevel = data.permissionLevel
+    isInProperty = true
+
+    local shell = property.shell
+    SpawnPropertyShell(property, shell)
+    SpawnPropertyDecoration(property)
+    HandlePropertyMenus(property)
+
+    if data.withVehicle and IsPedInAnyVehicle(cache.ped, false) then
+        local vehicle = GetVehiclePedIsIn(cache.ped, false)
+        SetEntityCoords(vehicle, GetEntityCoords(shellObject) - V4ToV3(shell.vehicle_entrance) - vector3(0,0,1.0))
+        SetEntityHeading(vehicle, GetEntityHeading(shellObject) + shell.vehicle_entrance.w)
+
+        local thread = Citizen.CreateThread(function()
+            repeat
+                Wait(100)
+                veh = GetVehiclePedIsIn(cache.ped, false)
+            until veh == 0 or veh == nil
+            
+            local vehicleProps = GetVehicleProperties(vehicle)
+
+            lib.callback.await("")
+        end)
+    else
+        SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - V4ToV3(shell.foot_entrance) - vector3(0,0,1.0))
+        SetEntityHeading(cache.ped, GetEntityHeading(shellObject) + shell.foot_entrance.w)
+    end
+
+    DoScreenFadeIn(500)
+end
+
 RegisterNetEvent("bnl-housing:client:enter", function(menuData)
     local vehicleEnter = false
     if (IsPedInAnyVehicle(cache.ped, false)) then
@@ -261,42 +300,7 @@ RegisterNetEvent("bnl-housing:client:enter", function(menuData)
     local data = lib.callback.await('bnl-housing:server:enter', false, menuData.property_id, vehicleEnter)
     
     if (data.ret == true) then
-        lib.hideTextUI()
-
-        DoScreenFadeOut(500)
-        Wait(500)
-
-        local property = data.property
-        propertyPlayerIsIn = property
-        currentPropertyPermissionLevel = data.permissionLevel
-        isInProperty = true
-
-        local shell = property.shell
-        SpawnPropertyShell(property, shell)
-        SpawnPropertyDecoration(property)
-        HandlePropertyMenus(property)
-
-        if data.withVehicle and IsPedInAnyVehicle(cache.ped, false) then
-            local vehicle = GetVehiclePedIsIn(cache.ped, false)
-            SetEntityCoords(vehicle, GetEntityCoords(shellObject) - V4ToV3(shell.vehicle_entrance) - vector3(0,0,1.0))
-            SetEntityHeading(vehicle, GetEntityHeading(shellObject) + shell.vehicle_entrance.w)
-
-            local thread = Citizen.CreateThread(function()
-                repeat
-                    Wait(100)
-                    veh = GetVehiclePedIsIn(cache.ped, false)
-                until veh == 0 or veh == nil
-                
-                local vehicleProps = GetVehicleProperties(vehicle)
-
-                lib.callback.await("")
-            end)
-        else
-            SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - V4ToV3(shell.foot_entrance) - vector3(0,0,1.0))
-            SetEntityHeading(cache.ped, GetEntityHeading(shellObject) + shell.foot_entrance.w)
-        end
-
-        DoScreenFadeIn(500)
+        HandleEnter(data)
     else
         if (data.notification) then
             lib.defaultNotify(data.notification)
@@ -481,7 +485,6 @@ RegisterNetEvent("bnl-housing:client:exit", function()
     end
 end)
 
--- TODO: MAKE THIS BETTER WITH SERVERSIDED CODE
 RegisterNetEvent("bnl-housing:client:getInvite", function()
     HelpNotification(locale('invited_to_property'), 30000)
 
@@ -491,7 +494,10 @@ RegisterNetEvent("bnl-housing:client:getInvite", function()
             Wait(1)
             count = count + 1
             if IsControlJustReleased(0, 47) then
-                TriggerServerEvent('bnl-housing:server:acceptInvite')
+                local data = lib.callback.await('bnl-housing:server:acceptInvite', false)
+                if (data.ret) then
+                    HandleEnter(data)
+                end
                 break
             end
         until count > 30000 or isInProperty

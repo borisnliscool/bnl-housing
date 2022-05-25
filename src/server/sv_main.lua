@@ -63,6 +63,35 @@ end)
 
 local propertyInvites = {}
 
+lib.callback.register('bnl-housing:server:acceptInvite', function(source)
+    for i=1,#propertyInvites do
+        local invite = propertyInvites[i]
+        if (invite.player == tostring(source)) then
+            table.remove(propertyInvites, i)
+
+            local property = GetPropertyById(invite.property_id)
+            if (property) then
+                PlayerEnterProperty(property, {
+                    name = PlayerName(source),
+                    permissionLevel = 'visitor',
+                    identifier = GetIdentifier(source),
+                    serverId = source,
+                })
+
+                return {
+                    ret = true,
+                    property = property,
+                    permissionLevel = 'visitor',
+                }
+            end
+        end
+    end
+
+    return {
+        ret = false,
+    }
+end)
+
 RegisterNetEvent("bnl-housing:server:invitePlayer", function(player)
     local property = GetPropertyPlayerIsInside(source)
     local plr = FindPlayerInProperty(property, source)
@@ -99,25 +128,6 @@ RegisterNetEvent("bnl-housing:server:invitePlayer", function(player)
         Logger.Error(string.format("Player %s tried to invite player %s to property %s, but they don't have permission.", PlayerName(source), PlayerName(player), property.name))
     end
     ::eof::
-end)
-
-RegisterNetEvent("bnl-housing:server:acceptInvite", function()
-    local _source = source
-    for i=1,#propertyInvites do
-        local invite = propertyInvites[i]
-        if (tonumber(invite.player) == tonumber(_source)) then
-            local property = GetPropertyById(invite.property_id)
-            TriggerClientEvent("bnl-housing:client:enterProperty", _source, property, "visitor")
-            Logger.Success(string.format("Player %s accepted invite to property #%s.", PlayerName(invite.source), property.id))
-            PlayerEnterProperty(property, {
-                identifier = GetIdentifier(_source),
-                serverId = _source,
-                name = PlayerName(_source),
-                permissionLevel = 'visitor',
-            })
-            table.remove(propertyInvites, i)
-        end
-    end
 end)
 
 lib.callback.register('bnl-housing:server:enter', function(source, property_id, enterWithVehicle)
