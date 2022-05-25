@@ -71,6 +71,10 @@ function JsonCoordToVector3(coord)
     return vector3(coord.x, coord.y, coord.z)
 end
 
+function IsPedVehicleDriver(ped, vehicle)
+    return ped == GetPedInVehicleSeat(vehicle, -1)
+end
+
 -- Taken from ox_inventory by @Overextended All credit goes to them!
 -- I take no credit for this code. (Changed little a bit)
 -- https://github.com/overextended/ox_inventory

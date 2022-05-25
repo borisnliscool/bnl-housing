@@ -1,6 +1,7 @@
 {
     "property": "Property",
     "property_menu": "Property Menu",
+    "open_menu": "Press [E] to open the menu",
     "open_property_menu": "Press [E] to open the property menu",
     "not_close_enough": "You're not close enough",
     "no_permission": "You don't have permission to do that",

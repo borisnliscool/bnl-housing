@@ -1,6 +1,6 @@
 function GetIdentifier(source)
     for _,id in pairs(GetPlayerIdentifiers(source)) do 
-        if string.match(id, 'license:') then 
+        if (string.match(id, 'license:')) then 
             return id:gsub('license:', '') 
         end 
     end
@@ -9,7 +9,7 @@ end
 
 function GetPropertyById(property_id)
     for _,property in pairs(properties) do
-        if property.id == property_id then
+        if (property.id == property_id) then
             return property
         end
     end
@@ -20,25 +20,54 @@ function PlayerEnterProperty(property, player)
     if property.playersInside == nil then
         property.playersInside = {}
     end
+
+    for _,playerInProperty in pairs(property.playersInside) do
+        if (playerInProperty.identifier == player.identifier) then
+            return
+        end
+    end
+
     return table.insert(property.playersInside, player)
 end
 
 function VehicleEnterProperty(property, vehicle)
-    if property.vehicles == nil then
+    if (property.vehicles == nil) then
         property.vehicles = {}
     end
+
+    for _,vehicleInProperty in pairs(property.vehicles) do
+        if (vehicleInProperty.plate == vehicle.plate) then
+            return
+        end
+    end
+
     return table.insert(property.vehicles, vehicle)
 end
 
 function PlayerExitProperty(property, playerId)
-    if property.playersInside == nil then
+    if (property.playersInside == nil) then
         property.playersInside = {}
         return false
     end
 
     for i,v in pairs(property.playersInside) do
-        if v.identifier == playerId then
+        if (v.identifier == playerId) then
             return table.remove(property.playersInside, i)
+        end
+    end
+
+    return false
+end
+
+function VehicleExitProperty(property, vehiclePlate)
+    if (property.vehicles == nil) then
+        property.vehicles = {}
+        return false
+    end
+
+    for _,vehicle in pairs(property.vehicles) do
+        if (vehicle.plate == vehiclePlate) then
+            return table.remove(property.vehicles, i)
         end
     end
 
@@ -47,7 +76,7 @@ end
 
 function GetPropertyPlayerIsInside(player)
     for _,property in pairs(properties) do
-        if property.playersInside ~= nil then
+        if (property.playersInside ~= nil) then
             for _,playerId in pairs(property.playersInside) do
                 if playerId.identifier == GetIdentifier(player) then
                     return property
@@ -59,7 +88,7 @@ function GetPropertyPlayerIsInside(player)
 end
 
 function FindPlayerInProperty(property, player)
-    if property.playersInside == nil then
+    if (property.playersInside == nil) then
         property.playersInside = {}
         return nil
     end
@@ -79,6 +108,7 @@ function FindPlayerInProperty(property, player)
     return nil
 end
 
+-- TODO: Framework detection for this
 function PlayerName(source)
     return GetPlayerName(source)
 end

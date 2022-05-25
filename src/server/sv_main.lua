@@ -229,12 +229,27 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
     }
 end)
 
-lib.callback.register('bnl-housing:server:exit', function(source)
+lib.callback.register('bnl-housing:server:exit', function(source, exitWithVehicle)
     local property = GetPropertyPlayerIsInside(source)
     if (not property) then return false end
     
+    local player = GetPlayerPed(source)
     PlayerExitProperty(GetPropertyById(property.id), GetIdentifier(source))
-    return true
+
+    local deleteVehicle = property.shell.vehicle_entrance == nil
+    local vehicle, withVehicle = nil, false
+
+    if (exitWithVehicle) then
+        vehicle = GetVehiclePedIsIn(player, false)
+        VehicleExitProperty(property, GetVehicleNumberPlateText(vehicle))
+        withVehicle = IsPedVehicleDriver(player, vehicle)
+    end
+
+    return {
+        ret = true,
+        withVehicle = withVehicle,
+        deleteVehicle = deleteVehicle,
+    }
 end)
 
 lib.callback.register("bnl-housing:server:knock", function(source, property_id)
@@ -408,3 +423,11 @@ lib.callback.register("bnl-housing:server:take_keys_menu", function()
         }
     }
 end)
+
+-- TEMP
+RegisterCommand("housing:property", function(source, args, rawCommand)
+    local _source = source
+    local property = GetPropertyPlayerIsInside(_source)
+    return Logger.Info(property)
+end)
+-- END TEMP

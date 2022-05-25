@@ -202,6 +202,46 @@ function HandlePropertyMenus(property)
     end
 
     table.insert(inPropertyPoints, foot_point)
+
+    local vehicle_entrance = shellCoord - V4ToV3(property.shell.vehicle_entrance)
+    local vehicle_point = lib.points.new(vehicle_entrance, 5, {
+        property_id = property.id,
+        type = 'vehicle',
+    })
+
+    local vehicle_entered = true
+    function vehicle_point:nearby()
+        if (IsPedInAnyVehicle(cache.ped, true)) then
+            DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.25, 0.25, 0.25, 0, 150, 255, 155, false, true, 2, nil, nil, false)
+
+            if self.currentDistance < 1.5 then
+                if not entered then
+                    lib.showTextUI(locale('open_menu'))
+                    entered = true
+                end
+
+                if IsControlJustReleased(0, 38) then
+                    lib.registerContext({
+                        id = 'property_vehicle',
+                        title = locale('property_menu'),
+                        options = {
+                            {
+                                title = locale('exit_property'),
+                                event = 'bnl-housing:client:exit',
+                                arrow = true,
+                            },
+                        }
+                    })
+                    lib.showContext('property_vehicle')
+                end
+            else
+                if entered then
+                    lib.hideTextUI()
+                    entered = false
+                end
+            end
+        end
+    end
 end
 
 RegisterNetEvent("bnl-housing:client:enter", function(menuData)
@@ -392,12 +432,37 @@ RegisterNetEvent("bnl-housing:client:giveKeysMenu", function()
 end)
 
 RegisterNetEvent("bnl-housing:client:exit", function()
-    local ret = lib.callback.await('bnl-housing:server:exit', false)
-    if ret then
+    local vehicleExit = false
+    if (IsPedInAnyVehicle(cache.ped, false)) then
+        local vehicle = GetVehiclePedIsIn(cache.ped, false)
+        if (IsPedVehicleDriver(cache.ped, vehicle)) then
+            vehicleExit = true
+        else
+            lib.defaultNotify({
+                title = locale('property'),
+                description = locale('not_driver'),
+                status = 'error',
+            })
+            return
+        end
+    end
+
+    local data = lib.callback.await('bnl-housing:server:exit', false, vehicleExit)
+    if data.ret then
+        local vehicle = GetVehiclePedIsIn(cache.ped, false)
+
+        if (data.deleteVehicle) then 
+            DeleteVehicle(vehicle)
+        end
+        
+        if (data.withVehicle) then
+            SetEntityCoords(vehicle, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
+        else
+            SetEntityCoords(cache.ped, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
+        end
+
         lib.hideTextUI()
         isInProperty = false
-        local ped = cache.ped
-        SetEntityCoords(ped, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
         propertyPlayerIsIn = nil
         currentPropertyPermissionLevel = nil
         
@@ -484,16 +549,26 @@ RegisterNetEvent("bnl-housing:client:sell", function(data)
         end
 
         local sellAmount = tonumber(data[1])
+        lib.defaultNotify({
+            title = locale('property'),
+            description = "This feature is not yet implemented",
+            status = 'error',
+        })
     end
 end)
 
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
         if isInProperty then
-            -- TriggerEvent("bnl-housing:client:exitProperty")
             local property = propertyPlayerIsIn
             local entrance = JsonCoordToVector3(property.entrance)
-            SetEntityCoords(cache.ped, entrance)
+
+            local vehicle = GetVehiclePedIsIn(cache.ped, false)
+            if (vehicle and IsPedVehicleDriver(cache.ped, vehicle)) then
+                SetEntityCoords(vehicle, entrance)
+            else
+                SetEntityCoords(cache.ped, entrance)
+            end
         end
 
         if allPropertyPoints ~= nil then
@@ -531,9 +606,5 @@ RegisterCommand("housing:getRelativeCoord", function(source, args, rawCommand)
 
     local shellcoords = GetEntityCoords(shellObject)
     lib.setClipboard(json.encode(vector4(vector3(shellcoords - pedcoords), heading)))
-end)
-
-RegisterCommand("housing:property", function(source, args, rawCommand)
-    Logger.Info(propertyPlayerIsIn)
 end)
 -- END

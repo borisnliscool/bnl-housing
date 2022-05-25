@@ -1,7 +1,3 @@
-function IsPedVehicleDriver(ped, vehicle)
-    return ped == GetPedInVehicleSeat(vehicle, -1)
-end
-
 function Play3DSound(sound, distance)
     SendNUIMessage({
         type = 'playSound',
