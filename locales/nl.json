@@ -1,0 +1,39 @@
+{
+    "property": "Eigendom",
+    "property_menu": "Eigendom Menu",
+    "open_property_menu": "Klik op [E] voor het eigendom menu",
+    "not_close_enough": "Je bent niet dichtbij genoeg",
+
+    "enter_property": "Eigendom binnen gaan",
+    "exit_property": "Eigendom verlaten",
+    "not_close_to_enter": "Je bent niet dichtbij om dit eigendom in te gaan",
+    "no_access": "Je hebt geen toegang tot dit eigendom",
+    "break_in": "Inbreken",
+
+    "invite_to_property": "Uitnodigen",
+    "invited_to_property": "Je bent uitgenodigd voor een eigendom.\nKlik op ~INPUT_DETONATE~ om de uitnodiging te accepteren en naar binnen te gaan",
+    "entered_property": "Eigendom binnen gegaan",
+    "knock_on_door": "Aankloppen",
+    "knocking_notification": "Je hebt op de deur geklopt",
+    "knocking_on_door": "Er klopt iemand op de deur. Als je ze naar binnen wilt laten, nodig ze uit naar binnen.",
+    "noone_outside": "Er is niemand buiten",
+
+    "manage_keys": "Sleutels beheren",
+    "player_has_access": "Deze speler heeft al toegang tot dit eigendom",
+    "give_keys": "Geef sleutels",
+    "take_keys": "Sleutels afpakken",
+    "gave_keys": "Je hebt extra sleutels aan %s gegeven",
+    "taken_keys": "Je hebt de sleutels van %s afgepakt",
+    "no_key_owners": "Niemand heeft een extra sleutel van dit eigendom",
+    "keys_noone_close": "Er is niemand dichtbij om sleutels te geven",
+
+    "decorate_property": "Eigendom decoreren",
+
+    "unlock_property": "Eigendom ontgrendelen",
+
+    "sell_property": "Eigendom verkopen",
+    "sell_price": "Verkoop prijs",
+    "sell_confirm": "Typ '%s' om te bevestigen",
+    "sell_confirm_string": "bevestig",
+    "sell_confirm_error": "Je moet '%s' typen om te bevestigen"
+}

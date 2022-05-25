@@ -1,0 +1,40 @@
+{
+    "property": "Property",
+    "property_menu": "Property Menu",
+    "open_property_menu": "Press [E] to open the property menu",
+    "not_close_enough": "You're not close enough",
+    "no_permission": "You don't have permission to do that",
+
+    "enter_property": "Enter the property",
+    "exit_property": "Exit the property",
+    "not_close_to_enter": "You're not close enough to the property to enter it",
+    "no_access": "You don't have access to this property",
+    "break_in": "Break in",
+
+    "invite_to_property": "Invite to property",
+    "invited_to_property": "You have been invited to a property.\nPress ~INPUT_DETONATE~ to accept the invite and enter the property",
+    "entered_property": "You've entered the property",
+    "knock_on_door": "Knock on the door",
+    "knocking_notification": "You've knocked on the door",
+    "knocking_on_door": "There's someone knocking on the door. If you want to let them in, invite them to the property",
+    "noone_outside": "There's no one outside the property",
+
+    "manage_keys": "Manage keys",
+    "player_has_access": "This player already has access to this property!",
+    "give_keys": "Give keys",
+    "take_keys": "Take keys",
+    "gave_keys": "You gave spare keys of this property to %s",
+    "taken_keys": "You took spare keys of this property from %s",
+    "no_key_owners": "This property has no key owners!",
+    "keys_noone_close": "There's no one close enough to give spare keys of this property to",
+
+    "decorate_property": "Decorate Property",
+
+    "unlock_property": "Unlock Property",
+
+    "sell_property": "Sell Property",
+    "sell_price": "Sell Price",
+    "sell_confirm": "Type '%s' to confirm",
+    "sell_confirm_string": "confirm",
+    "sell_confirm_error": "You must type '%s' to confirm"
+}
