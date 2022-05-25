@@ -423,11 +423,3 @@ lib.callback.register("bnl-housing:server:take_keys_menu", function()
         }
     }
 end)
-
--- TEMP
-RegisterCommand("housing:property", function(source, args, rawCommand)
-    local _source = source
-    local property = GetPropertyPlayerIsInside(_source)
-    return Logger.Info(property)
-end)
--- END TEMP

@@ -454,11 +454,13 @@ RegisterNetEvent("bnl-housing:client:exit", function()
         if (data.deleteVehicle) then 
             DeleteVehicle(vehicle)
         end
-        
+
         if (data.withVehicle) then
             SetEntityCoords(vehicle, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
+            SetEntityHeading(vehicle, json.decode(propertyPlayerIsIn.entrance).w)
         else
             SetEntityCoords(cache.ped, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
+            SetEntityHeading(cache.ped, json.decode(propertyPlayerIsIn.entrance).w)
         end
 
         lib.hideTextUI()
@@ -606,5 +608,9 @@ RegisterCommand("housing:getRelativeCoord", function(source, args, rawCommand)
 
     local shellcoords = GetEntityCoords(shellObject)
     lib.setClipboard(json.encode(vector4(vector3(shellcoords - pedcoords), heading)))
+end)
+
+RegisterCommand("housing:property", function(source, args, rawCommand)
+    Logger.Info(propertyPlayerIsIn)
 end)
 -- END
