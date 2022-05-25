@@ -1,8 +1,7 @@
-allPropertyLocations = nil; allPropertyPoints = nil; shells = nil; shellObject = nil; isInProperty = false; propertyPlayerIsIn = nil; currentPropertyPermissionLevel = nil; inPropertyPoints = nil; currentPropertyProps = nil;
+allPropertyLocations = nil; allPropertyPoints = nil; shellObject = nil; isInProperty = false; propertyPlayerIsIn = nil; currentPropertyPermissionLevel = nil; inPropertyPoints = nil; currentPropertyProps = nil;
 
 Citizen.CreateThread(function()
     allPropertyLocations = lib.callback.await('bnl-housing:server:getAllPropertyLocations', 1500)
-    shells = lib.callback.await('bnl-inventory:server:getAllShells', 0)
     RegisterAllPropertyPoints()
 end)
 
