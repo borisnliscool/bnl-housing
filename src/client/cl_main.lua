@@ -228,7 +228,6 @@ function HandlePropertyMenus(property)
                             {
                                 title = locale('exit_property'),
                                 event = 'bnl-housing:client:exit',
-                                arrow = true,
                             },
                         }
                     })
