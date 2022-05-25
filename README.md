@@ -88,3 +88,6 @@ Distributed under the GPL-3.0 License. See `LICENSE` for more information.
 Project Link: [https://github.com/borisnliscool/bnl-housing](https://github.com/borisnliscool/bnl-housing)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+## Acknowledgments
+Thanks to all contributors and testers especially [@CasperV06](https://github.com/CasperV06) & [@pimiscool](https://github.com/pimiscool) for helping me test.
