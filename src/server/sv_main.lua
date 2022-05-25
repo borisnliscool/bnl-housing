@@ -343,7 +343,7 @@ RegisterNetEvent("bnl-housing:server:giveKeys", function(player_id)
         table.insert(key_owners, new_key_owner)
         property.key_owners = json.encode(key_owners)
 
-        MySQL.query("UPDATE `bnl_housing` SET `key_owners` = @key_owners WHERE `id` = @id", {
+        MySQL.update("UPDATE `bnl_housing` SET `key_owners` = @key_owners WHERE `id` = @id", {
             ['@key_owners'] = property.key_owners,
             ['@id'] = property.id
         })
@@ -379,7 +379,7 @@ RegisterNetEvent("bnl-housing:server:takeKeys", function(player_id)
                 table.remove(key_owners, i)
                 property.key_owners = json.encode(key_owners)
 
-                MySQL.query("UPDATE `bnl_housing` SET `key_owners` = @key_owners WHERE `id` = @id", {
+                MySQL.update("UPDATE `bnl_housing` SET `key_owners` = @key_owners WHERE `id` = @id", {
                     ['@key_owners'] = property.key_owners,
                     ['@id'] = property.id
                 })
@@ -401,7 +401,7 @@ RegisterNetEvent("bnl-housing:server:takeKeys", function(player_id)
     end
 end)
 
-lib.callback.register("bnl-housing:server:take_keys_menu", function()
+lib.callback.register("bnl-housing:server:take_keys_menu", function(source)
     local _source = source
     local property = GetPropertyPlayerIsInside(source)
     local player = FindPlayerInProperty(property, _source)

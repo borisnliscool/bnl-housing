@@ -64,7 +64,11 @@ ensure bnl-housing
   - [ ] Normal props
   - [ ] Special props that do things when near like a storage container or laptop
 - [ ] Park vehicles in garages or warehouses
+  - [x] Enter properties with vehicles
+  - [ ] Save them
 - [ ] Break in / lockpick
+- [ ] Code lock option
+- [ ] Police raid
 - [ ] Property selling
 - [ ] Realtor job
 
