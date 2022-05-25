@@ -9,24 +9,6 @@ RegisterNetEvent("bnl-housing:client:notify", function(data)
     lib.defaultNotify(data)
 end)
 
-function IsPedVehicleDriver(ped, vehicle)
-    return ped == GetPedInVehicleSeat(vehicle, -1)
-end
-
-function Play3DSound(sound, distance)
-    SendNUIMessage({
-        type = 'playSound',
-        soundFile = sound,
-        distance = distance
-    })
-end
-
-function HelpNotification(message, duration)
-    SetTextComponentFormat("STRING")
-    AddTextComponentString(message)
-    DisplayHelpTextFromStringLabel(0,0,1, duration or -1)
-end
-
 function RegisterAllPropertyPoints()
     Logger.Log('Registering all property points')
 
@@ -49,7 +31,7 @@ function RegisterAllPropertyPoints()
             function point:nearby()
                 DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.25, 0.25, 0.25, 0, 150, 255, 155, false, true, 2, nil, nil, false)
 
-                if self.currentDistance < 1 then
+                if self.currentDistance < 1.5 then
                     if not entered then
                         lib.showTextUI(locale('open_property_menu'))
                         entered = true
@@ -259,6 +241,17 @@ RegisterNetEvent("bnl-housing:client:enter", function(menuData)
             local vehicle = GetVehiclePedIsIn(cache.ped, false)
             SetEntityCoords(vehicle, GetEntityCoords(shellObject) - V4ToV3(shell.vehicle_entrance) - vector3(0,0,1.0))
             SetEntityHeading(vehicle, GetEntityHeading(shellObject) + shell.vehicle_entrance.w)
+
+            local thread = Citizen.CreateThread(function()
+                repeat
+                    Wait(100)
+                    veh = GetVehiclePedIsIn(cache.ped, false)
+                until veh == 0 or veh == nil
+                
+                local vehicleProps = GetVehicleProperties(vehicle)
+
+                lib.callback.await("")
+            end)
         else
             SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - V4ToV3(shell.foot_entrance) - vector3(0,0,1.0))
             SetEntityHeading(cache.ped, GetEntityHeading(shellObject) + shell.foot_entrance.w)
@@ -538,5 +531,9 @@ RegisterCommand("housing:getRelativeCoord", function(source, args, rawCommand)
 
     local shellcoords = GetEntityCoords(shellObject)
     lib.setClipboard(json.encode(vector4(vector3(shellcoords - pedcoords), heading)))
+end)
+
+RegisterCommand("housing:property", function(source, args, rawCommand)
+    Logger.Info(propertyPlayerIsIn)
 end)
 -- END

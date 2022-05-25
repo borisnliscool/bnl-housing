@@ -23,6 +23,13 @@ function PlayerEnterProperty(property, player)
     return table.insert(property.playersInside, player)
 end
 
+function VehicleEnterProperty(property, vehicle)
+    if property.vehicles == nil then
+        property.vehicles = {}
+    end
+    return table.insert(property.vehicles, vehicle)
+end
+
 function PlayerExitProperty(property, playerId)
     if property.playersInside == nil then
         property.playersInside = {}

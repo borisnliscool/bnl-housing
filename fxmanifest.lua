@@ -27,6 +27,7 @@ ui_page 'src/client/html/index.html'
 
 client_scripts {
     'src/client/cl_main.lua',
+    'src/client/cl_func.lua',
 }
 
 server_scripts {

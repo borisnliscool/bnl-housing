@@ -7,6 +7,10 @@ function math.round(number, decimals)
     return math.floor(number * multiplier + 0.5) / multiplier
 end
 
+function math.trim(value)
+	return (string.gsub(value, "^%s*(.-)%s*$", "%1"))
+end
+
 function GetShellById(shell_id)
     for _,shell in pairs(shells) do
         if shell.id == shell_id then
@@ -39,10 +43,10 @@ Logger.Error = function(...)
     print(string.format("^7[^1ERROR^7] %s^7", FormatLoggingString(args)))
 end
 
-Logger.Succes = function(...)
+Logger.Success = function(...)
     if not Logger.Enabled then return end
     local args = {...}
-    print(string.format("^7[^2SUCCES^7] %s^7", FormatLoggingString(args)))
+    print(string.format("^7[^2SUCCESS^7] %s^7", FormatLoggingString(args)))
 end
 
 function FormatLoggingString(...)
@@ -67,7 +71,7 @@ function JsonCoordToVector3(coord)
     return vector3(coord.x, coord.y, coord.z)
 end
 
--- Taken from @Overextended's ox_inventory!
+-- Taken from ox_inventory by @Overextended All credit goes to them!
 -- I take no credit for this code. (Changed little a bit)
 -- https://github.com/overextended/ox_inventory
 function data(name)

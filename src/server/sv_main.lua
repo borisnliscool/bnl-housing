@@ -26,6 +26,8 @@ Citizen.CreateThread(function()
                         break
                     end
                 end
+
+                property.vehicles = json.decode(property.vehicles)
             end
 
             TriggerEvent('bnl-housing:server:onPropertiesLoaded', properties)
@@ -106,7 +108,7 @@ RegisterNetEvent("bnl-housing:server:acceptInvite", function()
         if (tonumber(invite.player) == tonumber(_source)) then
             local property = GetPropertyById(invite.property_id)
             TriggerClientEvent("bnl-housing:client:enterProperty", _source, property, "visitor")
-            Logger.Succes(string.format("Player %s accepted invite to property #%s.", PlayerName(invite.source), property.id))
+            Logger.Success(string.format("Player %s accepted invite to property #%s.", PlayerName(invite.source), property.id))
             PlayerEnterProperty(property, {
                 identifier = GetIdentifier(_source),
                 serverId = _source,
@@ -118,17 +120,22 @@ RegisterNetEvent("bnl-housing:server:acceptInvite", function()
     end
 end)
 
-lib.callback.register('bnl-housing:server:enter', function(source, property_id, withVehicle)
+lib.callback.register('bnl-housing:server:enter', function(source, property_id, enterWithVehicle)
     local player = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(player)
     local playerIdentifier = GetIdentifier(source)
+
+    local vehicle = nil
+    if (enterWithVehicle) then
+        vehicle = GetVehiclePedIsIn(player, false)
+    end
 
     local property = GetPropertyById(property_id)
     local entrance = json.decode(property.entrance)
     entrance = vector3(entrance.x, entrance.y, entrance.z)
     local distance = #(playerCoords - entrance)
 
-    local canEnterWithVehicle = property.shell.vehicle_entrance ~= nil
+    local enteringWithVehicle = property.shell.vehicle_entrance ~= nil and enterWithVehicle and vehicle ~= nil
 
     if (distance > 2.5) then
         return {
@@ -149,11 +156,18 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
             permissionLevel = 'owner',
         })
 
+        if (enteringWithVehicle) then
+            VehicleEnterProperty(property, {
+                networkId = NetworkGetNetworkIdFromEntity(vehicle),
+                plate = GetVehicleNumberPlateText(vehicle),
+            })
+        end
+
         return {
             ret = true,
             property = property,
             permissionLevel = 'owner',
-            withVehicle = withVehicle and canEnterWithVehicle,
+            withVehicle = enteringWithVehicle,
         }
     end
 
@@ -166,11 +180,18 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
                 permissionLevel = 'key_owner',
             })
 
+            if (enteringWithVehicle) then
+                VehicleEnterProperty(property, {
+                    networkId = NetworkGetNetworkIdFromEntity(vehicle),
+                    plate = GetVehicleNumberPlateText(vehicle),
+                })
+            end
+
             return {
                 ret = true,
                 property = property,
                 permissionLevel = 'key_owner',
-                withVehicle = withVehicle and canEnterWithVehicle,
+                withVehicle = enteringWithVehicle,
             }
         end
     end
@@ -183,11 +204,18 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
             permissionLevel = 'key_owner',
         })
 
+        if (enteringWithVehicle) then
+            VehicleEnterProperty(property, {
+                networkId = NetworkGetNetworkIdFromEntity(vehicle),
+                plate = GetVehicleNumberPlateText(vehicle),
+            })
+        end
+
         return {
             ret = true,
             property = property,
             permissionLevel = 'key_owner',
-            withVehicle = withVehicle and canEnterWithVehicle,
+            withVehicle = enteringWithVehicle,
         }
     end
 
@@ -243,7 +271,7 @@ lib.callback.register("bnl-housing:server:knock", function(source, property_id)
         notification = {
             title = 'Property',
             description = locale('knocking_notification'),
-            status = 'success',
+            status = 'Successs',
         }
     }
 end)
@@ -298,10 +326,10 @@ RegisterNetEvent("bnl-housing:server:giveKeys", function(player_id)
         TriggerClientEvent("bnl-housing:client:notify", _source, {
             title = 'Property',
             description = locale('gave_keys', new_key_owner.name),
-            status = 'success',
+            status = 'Successs',
         })
 
-        Logger.Succes(string.format("%s gave keys to %s", PlayerName(_source), PlayerName(player_id)))
+        Logger.Success(string.format("%s gave keys to %s", PlayerName(_source), PlayerName(player_id)))
 
         -- TODO: Update the player that has been given the keys
     else
@@ -334,10 +362,10 @@ RegisterNetEvent("bnl-housing:server:takeKeys", function(player_id)
                 TriggerClientEvent("bnl-housing:client:notify", _source, {
                     title = 'Property',
                     description = locale('taken_keys', key_owner.name),
-                    status = 'success',
+                    status = 'Successs',
                 })
 
-                Logger.Succes(string.format("%s took keys from %s", PlayerName(_source), key_owner.name))
+                Logger.Success(string.format("%s took keys from %s", PlayerName(_source), key_owner.name))
 
                 -- TODO: Update the player that the keys were taken from
             end
