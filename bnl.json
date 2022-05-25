@@ -1,0 +1,8 @@
+{
+    "name": "bnl-housing",
+    "description": "A player property script for FiveM",
+    "version": "1.0.0",
+    "changes": "Initial version",
+    "author": "Boris NL",
+    "license": "GPL-3.0"
+}
