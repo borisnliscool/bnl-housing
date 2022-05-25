@@ -9,6 +9,10 @@ RegisterNetEvent("bnl-housing:client:notify", function(data)
     lib.defaultNotify(data)
 end)
 
+function IsPedVehicleDriver(ped, vehicle)
+    return ped == GetPedInVehicleSeat(vehicle, -1)
+end
+
 function Play3DSound(sound, distance)
     SendNUIMessage({
         type = 'playSound',
@@ -122,7 +126,7 @@ function HandlePropertyMenus(property)
     local shellCoord = GetEntityCoords(shellObject)
     local property_id = property.id
     
-    local foot_entrance = shellCoord - property.shell.foot_entrance
+    local foot_entrance = shellCoord - V4ToV3(property.shell.foot_entrance)
     local foot_point = lib.points.new(foot_entrance, 5, {
         property_id = property.id,
         type = 'foot',
@@ -219,7 +223,21 @@ function HandlePropertyMenus(property)
 end
 
 RegisterNetEvent("bnl-housing:client:enter", function(menuData)
-    local data = lib.callback.await('bnl-housing:server:enter', false, menuData.property_id)
+    local vehicleEnter = false
+    if (IsPedInAnyVehicle(cache.ped, false)) then
+        local vehicle = GetVehiclePedIsIn(cache.ped, false)
+        if (IsPedVehicleDriver(cache.ped, vehicle)) then
+            vehicleEnter = true
+        else
+            lib.defaultNotify({
+                title = locale('property'),
+                description = locale('not_driver'),
+                status = 'error',
+            })
+            return
+        end
+    end
+    local data = lib.callback.await('bnl-housing:server:enter', false, menuData.property_id, vehicleEnter)
     
     if (data.ret == true) then
         lib.hideTextUI()
@@ -237,7 +255,14 @@ RegisterNetEvent("bnl-housing:client:enter", function(menuData)
         SpawnPropertyDecoration(property)
         HandlePropertyMenus(property)
 
-        SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - shell.foot_entrance - vector3(0,0,1.0))
+        if data.withVehicle and IsPedInAnyVehicle(cache.ped, false) then
+            local vehicle = GetVehiclePedIsIn(cache.ped, false)
+            SetEntityCoords(vehicle, GetEntityCoords(shellObject) - V4ToV3(shell.vehicle_entrance) - vector3(0,0,1.0))
+            SetEntityHeading(vehicle, GetEntityHeading(shellObject) + shell.vehicle_entrance.w)
+        else
+            SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - V4ToV3(shell.foot_entrance) - vector3(0,0,1.0))
+            SetEntityHeading(cache.ped, GetEntityHeading(shellObject) + shell.foot_entrance.w)
+        end
 
         DoScreenFadeIn(500)
     else
@@ -259,8 +284,8 @@ RegisterNetEvent("bnl-housing:client:knocking", function()
     local property = propertyPlayerIsIn
     local shellCoord = GetEntityCoords(shellObject)
     local property_id = property.id
-    local foot_entrance = shellCoord - property.shell.foot_entrance
-    Play3DSound('knocking', #(foot_entrance - GetEntityCoords(cache.ped)))
+    local foot_entrance = shellCoord - V4ToV3(property.shell.foot_entrance)
+    Play3DSound('knocking', #(V4ToV3(foot_entrance) - GetEntityCoords(cache.ped)))
 end)
 
 RegisterNetEvent("bnl-housing:client:breakin", function(data)

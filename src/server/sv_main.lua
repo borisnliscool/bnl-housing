@@ -118,7 +118,7 @@ RegisterNetEvent("bnl-housing:server:acceptInvite", function()
     end
 end)
 
-lib.callback.register('bnl-housing:server:enter', function(source, property_id)
+lib.callback.register('bnl-housing:server:enter', function(source, property_id, withVehicle)
     local player = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(player)
     local playerIdentifier = GetIdentifier(source)
@@ -127,6 +127,8 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id)
     local entrance = json.decode(property.entrance)
     entrance = vector3(entrance.x, entrance.y, entrance.z)
     local distance = #(playerCoords - entrance)
+
+    local canEnterWithVehicle = property.shell.vehicle_entrance ~= nil
 
     if (distance > 2.5) then
         return {
@@ -151,6 +153,7 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id)
             ret = true,
             property = property,
             permissionLevel = 'owner',
+            withVehicle = withVehicle and canEnterWithVehicle,
         }
     end
 
@@ -167,6 +170,7 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id)
                 ret = true,
                 property = property,
                 permissionLevel = 'key_owner',
+                withVehicle = withVehicle and canEnterWithVehicle,
             }
         end
     end
@@ -183,80 +187,18 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id)
             ret = true,
             property = property,
             permissionLevel = 'key_owner',
+            withVehicle = withVehicle and canEnterWithVehicle,
         }
     end
 
     return {
         ret = false,
         notification = {
-            title = 'Property',
+            title = locale('property'),
             description = locale('no_access'),
             status = 'error',
         }
     }
-end)
-
-RegisterNetEvent("bnl-housing:server:enter", function(property_id)
-    local _source = source
-    local ped = GetPlayerPed(_source)
-    local pedcoord = GetEntityCoords(ped)
-    local playerIdentifier = GetIdentifier(_source)
-
-    local property = GetPropertyById(property_id)
-    local entrance = json.decode(property.entrance)
-    entrance = vector3(entrance.x, entrance.y, entrance.z)
-
-    local distance = #(pedcoord - entrance)
-    
-    if (distance > 2.0) then
-        TriggerClientEvent("bnl-housing:client:notify", _source, {
-            title = 'Property',
-            description = locale('not_close_to_enter'),
-            status = 'error',
-        })
-        return Logger.Error(string.format("%s tried to enter property #%s but isn't close enough (%sm)", PlayerName(_source), property_id, math.round(distance, 2)))
-    end
-
-    if (playerIdentifier == property.owner) then
-        TriggerClientEvent("bnl-housing:client:enterProperty", _source, property, "owner")
-        PlayerEnterProperty(property, {
-            identifier = playerIdentifier,
-            serverId = _source,
-            name = PlayerName(_source),
-            permissionLevel = 'owner',
-        })
-        return Logger.Succes(string.format("%s entered property #%s, they are the owner", PlayerName(_source), property_id))
-    end
-
-    for _,key_owner in pairs(json.decode(property.key_owners)) do
-        if (playerIdentifier == key_owner.identifier) then
-            TriggerClientEvent("bnl-housing:client:enterProperty", _source, property, "key_owner")
-            PlayerEnterProperty(property, {
-                identifier = playerIdentifier,
-                serverId = _source,
-                name = PlayerName(_source),
-                permissionLevel = 'key_owner',
-            })
-            return Logger.Succes(string.format("%s entered property #%s, because they are a key owner", PlayerName(_source), property_id))
-        end
-    end
-
-    if (ox_inventory:Search(_source, 'property_key', {property_id = property_id})) then
-        TriggerClientEvent("bnl-housing:client:enterProperty", _source, property, "key_owner")
-        PlayerEnterProperty(property, {
-            identifier = playerIdentifier,
-            serverId = _source,
-            name = PlayerName(_source),
-            permissionLevel = 'key_owner',
-        })
-        return Logger.Succes(string.format("%s entered property #%s with a key item", PlayerName(_source), property_id))
-    end
-
-    TriggerClientEvent("bnl-housing:client:notify", _source, {
-        title = 'Property',
-        description = locale('no_access'),
-        status = 'error',
-    })
 end)
 
 lib.callback.register('bnl-housing:server:exit', function(source)

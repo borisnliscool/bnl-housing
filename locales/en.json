@@ -6,6 +6,7 @@
     "no_permission": "You don't have permission to do that",
 
     "enter_property": "Enter the property",
+    "not_driver": "You're not the driver of this vehicle",
     "exit_property": "Exit the property",
     "not_close_to_enter": "You're not close enough to the property to enter it",
     "no_access": "You don't have access to this property",
