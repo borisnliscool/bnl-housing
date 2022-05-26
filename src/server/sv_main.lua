@@ -22,14 +22,15 @@ Citizen.CreateThread(function()
                 })
 
                 property.shell = nil
+                property.saved_vehicles = json.decode(property.vehicles)
+                property.vehicles = nil
+
                 for _,shell in pairs(shells) do
                     if (property.shell_id == shell.id) then
                         property.shell = shell
                         break
                     end
                 end
-
-                property.vehicles = json.decode(property.vehicles)
             end
 
             TriggerEvent('bnl-housing:server:onPropertiesLoaded', properties)
@@ -189,18 +190,24 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
             name = PlayerName(source),
             permissionLevel = permissionLevel,
         })
-    
+        
         if (enteringWithVehicle) then
             VehicleEnterProperty(property, {
                 networkId = NetworkGetNetworkIdFromEntity(vehicle),
                 plate = GetVehicleNumberPlateText(vehicle),
             })
         end
+        
+        -- TODO: MAKE THIS BETTER WORKS NOW THO
+        Citizen.CreateThread(function()
+            Wait(1000)
+            SpawnPropertyVehicles(property)
+        end)
     
         return {
             ret = true,
             property = property,
-            permissionLevel = 'key_owner',
+            permissionLevel = permissionLevel,
             withVehicle = enteringWithVehicle,
         }
     end 
@@ -217,10 +224,10 @@ end)
 
 lib.callback.register('bnl-housing:server:exit', function(source, exitWithVehicle)
     local property = GetPropertyPlayerIsInside(source)
-    if (not property) then return false end
+    if (not property) then return { ret = false } end
     
     local player = GetPlayerPed(source)
-    PlayerExitProperty(GetPropertyById(property.id), GetIdentifier(source))
+    PlayerExitProperty(property, GetIdentifier(source))
 
     local deleteVehicle = property.shell.vehicle_entrance == nil
     local vehicle, withVehicle = nil, false
@@ -409,3 +416,19 @@ lib.callback.register("bnl-housing:server:take_keys_menu", function(source)
         }
     }
 end)
+
+-- TEMP
+RegisterCommand("housing:property", function(source, args, rawCommand)
+    if (args[1]) then
+        local property_id = args[1]
+        local property = GetPropertyById(property_id)
+        Logger.Info(property)
+        return
+    else
+        local _source = source
+        local property = GetPropertyPlayerIsInside(_source)
+        Logger.Info(property)
+        return
+    end
+end)
+-- END TEMP

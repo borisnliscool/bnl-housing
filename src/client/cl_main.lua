@@ -88,7 +88,7 @@ function SpawnPropertyShell(property, shell)
     end
 
     entrance = json.decode(property.entrance)
-    local shellSpawnLocation = vector3(entrance.x, entrance.y, entrance.z) - vector3(0,0, 50.0)
+    local shellSpawnLocation = vector3(entrance.x, entrance.y, entrance.z) - lowerBy
     local shellModel = GetHashKey(shell.spawn)
     shellObject = CreateObject(shellModel, shellSpawnLocation, false, false, false)
     FreezeEntityPosition(shellObject, true)
@@ -263,17 +263,6 @@ function HandleEnter(data)
         local vehicle = GetVehiclePedIsIn(cache.ped, false)
         SetEntityCoords(vehicle, GetEntityCoords(shellObject) - V4ToV3(shell.vehicle_entrance) - vector3(0,0,1.0))
         SetEntityHeading(vehicle, GetEntityHeading(shellObject) + shell.vehicle_entrance.w)
-
-        local thread = Citizen.CreateThread(function()
-            repeat
-                Wait(100)
-                veh = GetVehiclePedIsIn(cache.ped, false)
-            until veh == 0 or veh == nil
-            
-            local vehicleProps = GetVehicleProperties(vehicle)
-
-            lib.callback.await("")
-        end)
     else
         SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - V4ToV3(shell.foot_entrance) - vector3(0,0,1.0))
         SetEntityHeading(cache.ped, GetEntityHeading(shellObject) + shell.foot_entrance.w)
@@ -281,6 +270,14 @@ function HandleEnter(data)
 
     DoScreenFadeIn(500)
 end
+
+RegisterNetEvent("bnl-housing:client:setVehicleProps", function(networkId, props)
+    local vehicle = NetworkGetEntityFromNetworkId(networkId)
+    if (not DoesEntityExist(vehicle)) then
+        return
+    end
+    SetVehicleProperties(vehicle, props)
+end)
 
 RegisterNetEvent("bnl-housing:client:enter", function(menuData)
     local vehicleEnter = false
@@ -452,6 +449,7 @@ RegisterNetEvent("bnl-housing:client:exit", function()
 
     local data = lib.callback.await('bnl-housing:server:exit', false, vehicleExit)
     if data.ret then
+        Logger.Info(data)
         local vehicle = GetVehiclePedIsIn(cache.ped, false)
 
         if (data.deleteVehicle) then 
@@ -569,12 +567,17 @@ RegisterNetEvent("bnl-housing:client:requestVehicleData", function(vehicle)
     if (vehicleEntity ~= nil) then
         local vehicleData = GetVehicleProperties(vehicleEntity)
 
-        if (shellObject) then
-            vehicleData.location = GetEntityCoords(shellObject) - GetEntityCoords(vehicleEntity)
-        end
+        -- if (shellObject) then
+        --     vehicleData.location = GetEntityCoords(shellObject) - GetEntityCoords(vehicleEntity)
+        --     vehicleData.heading = GetEntityHeading(vehicleEntity)
+        -- end
 
         TriggerServerEvent("bnl-housing:server:postVehicleData", vehicle, vehicleData)
     end
+end)
+
+RegisterNetEvent("bnl-housing:client:setNetworkOwner", function(networkId)
+    NetworkRequestControlOfNetworkId(networkId)
 end)
 
 AddEventHandler('onResourceStop', function(resource)
@@ -588,6 +591,16 @@ AddEventHandler('onResourceStop', function(resource)
                 SetEntityCoords(vehicle, entrance)
             else
                 SetEntityCoords(cache.ped, entrance)
+            end
+
+            if (type(property.vehicles) == 'string') then property.vehicles = json.decode(property.vehicles) end
+            for _,vehicle in pairs(property.vehicles) do
+                local vehicleEntity = NetworkGetEntityFromNetworkId(vehicle.networkId)
+                if (vehicleEntity ~= nil) then
+                    if (not IsPedVehicleDriver(cache.ped, vehicleEntity)) then
+                        DeleteEntity(vehicleEntity)
+                    end
+                end
             end
         end
 
@@ -628,7 +641,7 @@ RegisterCommand("housing:getRelativeCoord", function(source, args, rawCommand)
     lib.setClipboard(json.encode(vector4(vector3(shellcoords - pedcoords), heading)))
 end)
 
-RegisterCommand("housing:property", function(source, args, rawCommand)
-    Logger.Info(propertyPlayerIsIn)
+RegisterCommand("housing:permission", function(source, args, rawCommand)
+    Logger.Info(currentPropertyPermissionLevel)
 end)
 -- END

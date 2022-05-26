@@ -1,6 +1,8 @@
 lib.locale()
 resource = GetCurrentResourceName()
 
+lowerBy = vector3(0.0, 0.0, 25.0)
+
 function math.round(number, decimals)
     decimals = decimals or 1
     local multiplier = 10 ^ decimals
@@ -73,6 +75,18 @@ end
 
 function IsPedVehicleDriver(ped, vehicle)
     return ped == GetPedInVehicleSeat(vehicle, -1)
+end
+
+function IsVehicleEmpty(vehicle)
+    if (not vehicle) then return false end
+    if (not DoesEntityExist(vehicle)) then return true end
+
+    for i=1,16 do
+        if GetPedInVehicleSeat(vehicle, i) ~= 0 then
+            return false
+        end
+    end
+    return true
 end
 
 -- Taken from ox_inventory by @Overextended All credit goes to them!
