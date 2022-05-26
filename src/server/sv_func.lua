@@ -44,19 +44,94 @@ function VehicleEnterProperty(property, vehicle)
     return table.insert(property.vehicles, vehicle)
 end
 
+local vehicleDataRequests = {}
+local vehicleData = {}
+
+RegisterNetEvent("bnl-housing:server:postVehicleData", function(vehicle, data)
+    for i=1,#vehicleDataRequests do
+        local vehicleDataRequest = vehicleDataRequests[i]
+
+        if (vehicleDataRequest.networkId == vehicle.networkId) then
+            vehicleData[vehicle.networkId] = data
+
+            table.remove(vehicleDataRequests, i)
+            break
+        end
+    end
+end)
+
+function SavePropertyVehicles(property)
+    if (property.vehicles == nil) then
+        return
+    end
+
+    local allVehicles = {}
+    for _,vehicle in pairs(property.vehicles) do
+        local vehicleEntity = NetworkGetEntityFromNetworkId(vehicle.networkId)
+
+        if (not DoesEntityExist(vehicleEntity)) then
+            goto continue
+        end
+
+        local vehicleOwner = NetworkGetEntityOwner(vehicleEntity)
+
+        table.insert(vehicleDataRequests, vehicle)
+        TriggerClientEvent('bnl-housing:client:requestVehicleData', vehicleOwner, vehicle)
+
+        local timeout = false
+        Citizen.CreateThread(function()
+            Wait(1000)
+            if (vehicleData[vehicle.networkId] == nil) then
+                timeout = true
+
+                for i=1,#vehicleDataRequests do
+                    local vehicleDataRequest = vehicleDataRequests[i]
+
+                    if (vehicleDataRequest.networkId == vehicle.networkId) then
+                        table.remove(vehicleDataRequests, i)
+                        break
+                    end
+                end
+            end
+        end)
+
+        repeat
+            Wait(10)
+        until vehicleData[vehicle.networkId] ~= nil or timeout
+        
+        table.insert(allVehicles, vehicleData[vehicle.networkId])
+        DeleteEntity(vehicleEntity)
+
+        ::continue::
+    end
+
+    property.vehicles = json.encode(allVehicles)
+
+    MySQL.update("UPDATE `bnl_housing` SET `vehicles` = @vehicles WHERE `id` = @id", {
+        ['@vehicles'] = property.vehicles,
+        ['@id'] = property.id
+    })
+end
+
 function PlayerExitProperty(property, playerId)
     if (property.playersInside == nil) then
         property.playersInside = {}
         return false
     end
 
+    local removed = false
     for i,v in pairs(property.playersInside) do
         if (v.identifier == playerId) then
-            return table.remove(property.playersInside, i)
+            table.remove(property.playersInside, i)
+            removed = true
         end
     end
 
-    return false
+    if (#property.playersInside == 0) then
+        SavePropertyVehicles(property)
+    end
+
+    return removed
 end
 
 function VehicleExitProperty(property, vehiclePlate)

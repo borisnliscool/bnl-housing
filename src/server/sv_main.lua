@@ -163,7 +163,6 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
     local permissionLevel = nil
 
     if (playerIdentifier == property.owner) then
-        Logger.Info(string.format("Player %s entered property %s as owner.", PlayerName(source), property.name))
         if (permissionLevel == nil) then
             permissionLevel = 'owner'
         end

@@ -564,6 +564,19 @@ RegisterNetEvent("bnl-housing:client:sell", function(data)
     end
 end)
 
+RegisterNetEvent("bnl-housing:client:requestVehicleData", function(vehicle)
+    local vehicleEntity = NetworkGetEntityFromNetworkId(vehicle.networkId)
+    if (vehicleEntity ~= nil) then
+        local vehicleData = GetVehicleProperties(vehicleEntity)
+
+        if (shellObject) then
+            vehicleData.location = GetEntityCoords(shellObject) - GetEntityCoords(vehicleEntity)
+        end
+
+        TriggerServerEvent("bnl-housing:server:postVehicleData", vehicle, vehicleData)
+    end
+end)
+
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
         if isInProperty then

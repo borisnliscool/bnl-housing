@@ -109,7 +109,9 @@ function GetVehicleProperties(vehicle)
 			modTrimB          = GetVehicleMod(vehicle, 44),
 			modTank           = GetVehicleMod(vehicle, 45),
 			modWindows        = GetVehicleMod(vehicle, 46),
-			modLivery         = GetVehicleLivery(vehicle)
+			modLivery         = GetVehicleLivery(vehicle),
+
+            locked            = GetVehicleDoorLockStatus(vehicle),
 		}
 	else
 		return
