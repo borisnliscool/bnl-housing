@@ -147,7 +147,7 @@ function SpawnPropertyVehicles(property)
         })
 
         -- This is needed for some anticheats.
-        Wait(500)
+        Wait(300)
     end
 
     UpdateProperty(property)
