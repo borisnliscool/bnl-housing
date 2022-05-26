@@ -128,7 +128,6 @@ function SpawnPropertyVehicles(property)
     for _,vehicleInProperty in pairs(property.saved_vehicles) do
         local v3 = vector3(vehicleInProperty.location.x, vehicleInProperty.location.y, vehicleInProperty.location.z)
         local location = JsonCoordToVector3(property.entrance) - lowerBy + v3 + vector3(0.0, 0.0, 1.5)
-        print(location)
 
         local heading = vehicleInProperty.heading
         local vehicle = CreateVehicle(vehicleInProperty.model, location, heading, true, false)
@@ -276,5 +275,6 @@ function VehicleExitProperty(property, vehiclePlate)
         end
     end
 
+    UpdateProperty(property)
     return false
 end

@@ -567,11 +567,6 @@ RegisterNetEvent("bnl-housing:client:requestVehicleData", function(vehicle)
     if (vehicleEntity ~= nil) then
         local vehicleData = GetVehicleProperties(vehicleEntity)
 
-        -- if (shellObject) then
-        --     vehicleData.location = GetEntityCoords(shellObject) - GetEntityCoords(vehicleEntity)
-        --     vehicleData.heading = GetEntityHeading(vehicleEntity)
-        -- end
-
         TriggerServerEvent("bnl-housing:server:postVehicleData", vehicle, vehicleData)
     end
 end)
