@@ -150,23 +150,6 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
 
     local enteringWithVehicle = property.shell.vehicle_entrance ~= nil and enterWithVehicle and vehicle ~= nil
 
-    if (enteringWithVehicle) then
-        if (type(property.saved_vehicles) == 'string') then property.saved_vehicles = json.decode(property.saved_vehicles) end
-
-        if (property.shell.vehicle_limit) then
-            if (#property.saved_vehicles >= property.shell.vehicle_limit) then
-                return {
-                    ret = false,
-                    notification = {
-                        title = 'Property',
-                        description = locale('property_full'),
-                        status = 'error',
-                    }
-                }
-            end
-        end
-    end
-
     if (distance > 2.5) then
         return {
             ret = false,
@@ -201,6 +184,23 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
     end
     
     if (permissionLevel ~= nil) then
+        if (enteringWithVehicle) then
+            if (type(property.saved_vehicles) == 'string') then property.saved_vehicles = json.decode(property.saved_vehicles) end
+
+            if (property.shell.vehicle_limit) then
+                if (#property.saved_vehicles >= property.shell.vehicle_limit) then
+                    return {
+                        ret = false,
+                        notification = {
+                            title = 'Property',
+                            description = locale('property_full'),
+                            status = 'error',
+                        }
+                    }
+                end
+            end
+        end
+
         PlayerEnterProperty(property, {
             identifier = playerIdentifier,
             serverId = source,
