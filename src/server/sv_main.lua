@@ -160,76 +160,51 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
         }
     end
     
+    local permissionLevel = nil
+
     if (playerIdentifier == property.owner) then
-        PlayerEnterProperty(property, {
-            identifier = playerIdentifier,
-            serverId = source,
-            name = PlayerName(source),
-            permissionLevel = 'owner',
-        })
-
-        if (enteringWithVehicle) then
-            VehicleEnterProperty(property, {
-                networkId = NetworkGetNetworkIdFromEntity(vehicle),
-                plate = GetVehicleNumberPlateText(vehicle),
-            })
+        Logger.Info(string.format("Player %s entered property %s as owner.", PlayerName(source), property.name))
+        if (permissionLevel == nil) then
+            permissionLevel = 'owner'
         end
-
-        return {
-            ret = true,
-            property = property,
-            permissionLevel = 'owner',
-            withVehicle = enteringWithVehicle,
-        }
     end
 
     for _,key_owner in pairs(json.decode(property.key_owners)) do
         if (playerIdentifier == key_owner.identifier) then
-            PlayerEnterProperty(property, {
-                identifier = playerIdentifier,
-                serverId = source,
-                name = PlayerName(source),
-                permissionLevel = 'key_owner',
-            })
-
-            if (enteringWithVehicle) then
-                VehicleEnterProperty(property, {
-                    networkId = NetworkGetNetworkIdFromEntity(vehicle),
-                    plate = GetVehicleNumberPlateText(vehicle),
-                })
+            if (permissionLevel == nil) then
+                permissionLevel = 'key_owner'
             end
-
-            return {
-                ret = true,
-                property = property,
-                permissionLevel = 'key_owner',
-                withVehicle = enteringWithVehicle,
-            }
         end
     end
 
     if (ox_inventory:Search(source, 'property_key', {property_id = property_id})) then
+        if (permissionLevel == nil) then
+            permissionLevel = 'key_owner'
+        end
+    end
+    
+    if (permissionLevel ~= nil) then
         PlayerEnterProperty(property, {
             identifier = playerIdentifier,
             serverId = source,
             name = PlayerName(source),
-            permissionLevel = 'key_owner',
+            permissionLevel = permissionLevel,
         })
-
+    
         if (enteringWithVehicle) then
             VehicleEnterProperty(property, {
                 networkId = NetworkGetNetworkIdFromEntity(vehicle),
                 plate = GetVehicleNumberPlateText(vehicle),
             })
         end
-
+    
         return {
             ret = true,
             property = property,
             permissionLevel = 'key_owner',
             withVehicle = enteringWithVehicle,
         }
-    end
+    end 
 
     return {
         ret = false,
