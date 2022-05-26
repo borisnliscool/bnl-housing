@@ -65,7 +65,9 @@ ensure bnl-housing
   - [ ] Special props that do things when near like a storage container or laptop
 - [ ] Park vehicles in garages or warehouses
   - [x] Enter properties with vehicles
-  - [ ] Save them
+  - [x] Save them
+  - [ ] Check for space before enter
+  - [ ] Idea: Max vehicle count per shell
 - [ ] Break in / lockpick
 - [ ] Code lock option
 - [ ] Police raid
