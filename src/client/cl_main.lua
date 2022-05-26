@@ -329,33 +329,38 @@ RegisterNetEvent("bnl-housing:client:breakin", function(data)
 end)
 
 function OpenPropertyEnterMenu(property_id)
+    local options = {
+        {
+            title = locale('enter_property'),
+            event = 'bnl-housing:client:enter',
+            args = {
+                property_id = property_id,
+            },
+        },
+    }
+
+    if (not IsPedInAnyVehicle(cache.ped)) then
+        table.insert(options, {
+            title = locale('knock_on_door'),
+            event = 'bnl-housing:client:knock',
+            args = {
+                property_id = property_id
+            },
+        })
+        table.insert(options, {
+            title = locale('break_in'),
+            event = 'bnl-housing:client:breakin',
+            args = {
+                property_id = property_id,
+                type = 'lockpick',
+            },
+        })
+    end
+
     lib.registerContext({
         id = 'property_enter',
         title = locale('property_menu'),
-        options = {
-            {
-                title = locale('enter_property'),
-                event = 'bnl-housing:client:enter',
-                args = {
-                    property_id = property_id,
-                },
-            },
-            {
-                title = locale('knock_on_door'),
-                event = 'bnl-housing:client:knock',
-                args = {
-                    property_id = property_id
-                },
-            },
-            {
-                title = locale('break_in'),
-                event = 'bnl-housing:client:breakin',
-                args = {
-                    property_id = property_id,
-                    type = 'lockpick',
-                },
-            },
-        }
+        options = options
     })
     lib.showContext('property_enter')
 end
