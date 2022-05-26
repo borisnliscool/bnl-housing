@@ -74,6 +74,7 @@ ensure bnl-housing
 - [ ] Property selling
 - [ ] Realtor job
 - [ ] Rent out property
+- [ ] Property blips
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
