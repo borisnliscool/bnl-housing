@@ -55,7 +55,11 @@ end
 function SpawnPropertyDecoration(property)
     DespawnPropertyDecoration()
 
-    local decoration = json.decode(property.decoration)
+    local decoration = property.decoration
+    if (type(decoration) == 'string') then
+        decoration = json.decode(property.decoration)
+    end
+
     local shellCoord = GetEntityCoords(shellObject)
 
     if currentPropertyProps == nil then
