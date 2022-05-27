@@ -580,6 +580,10 @@ RegisterNetEvent("bnl-housing:client:setNetworkOwner", function(networkId)
     NetworkRequestControlOfNetworkId(networkId)
 end)
 
+RegisterNetEvent("bnl-housing:client:updateProperty", function(property)
+    propertyPlayerIsIn = property
+end)
+
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
         if isInProperty then
@@ -643,5 +647,9 @@ end)
 
 RegisterCommand("housing:permission", function(source, args, rawCommand)
     Logger.Info(currentPropertyPermissionLevel)
+end)
+
+RegisterCommand("housing:current", function(source, args, rawCommand)
+    Logger.Info(propertyPlayerIsIn)
 end)
 -- END

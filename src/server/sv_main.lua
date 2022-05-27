@@ -355,8 +355,7 @@ RegisterNetEvent("bnl-housing:server:giveKeys", function(player_id)
         })
 
         Logger.Success(string.format("%s gave keys to %s", PlayerName(_source), PlayerName(player_id)))
-
-        -- TODO: Update the player that has been given the keys
+        UpdateProperty(property)
     else
         Logger.Error(string.format("Player %s tried to give keys to player %s, but they don't have permission.", PlayerName(_source), PlayerName(player_id)))
         return
@@ -391,8 +390,7 @@ RegisterNetEvent("bnl-housing:server:takeKeys", function(player_id)
                 })
 
                 Logger.Success(string.format("%s took keys from %s", PlayerName(_source), key_owner.name))
-
-                -- TODO: Update the player that the keys were taken from
+                UpdateProperty(property)
             end
         end
     else

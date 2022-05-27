@@ -17,6 +17,12 @@ function UpdateProperty(newProperty)
     for _,property in pairs(properties) do
         if (property.id == property_id) then
             property = newProperty
+
+            if (property.playersInside) then
+                for _,player in pairs(property.playersInside) do
+                    TriggerClientEvent('bnl-housing:client:updateProperty', player.serverId, property)
+                end
+            end
             return true
         end
     end
