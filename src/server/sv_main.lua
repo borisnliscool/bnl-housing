@@ -493,7 +493,7 @@ lib.callback.register("bnl-housing:server:openSafe", function(source, data)
                 return {
                     ret = false,
                     notification = {
-                        title = locale('property'),
+                        title = locale('safe'),
                         description = locale('wrong_code'),
                         status = 'error',
                     }
@@ -513,7 +513,7 @@ lib.callback.register("bnl-housing:server:openSafe", function(source, data)
         return {
             ret = false,
             notification = {
-                title = locale('property'),
+                title = locale('safe'),
                 description = locale('no_permission'),
                 status = 'error',
             }
@@ -539,7 +539,7 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
                     return {
                         ret = false, 
                         notification = {
-                            title = locale('property'),
+                            title = locale('safe'),
                             description = locale('invalid_code'),
                             status = 'error',
                         }
@@ -550,7 +550,7 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
                 return {
                     ret = true,
                     notification = {
-                        title = locale('property'),
+                        title = locale('safe'),
                         description = locale('code_changed'),
                         status = 'success',
                     }
@@ -559,7 +559,7 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
                 return {
                     ret = false,
                     notification = {
-                        title = locale('property'),
+                        title = locale('safe'),
                         description = locale('wrong_code'),
                         status = 'error',
                     }
@@ -571,7 +571,7 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
                 return {
                     ret = false, 
                     notification = {
-                        title = locale('property'),
+                        title = locale('safe'),
                         description = locale('invalid_code'),
                         status = 'error',
                     }
@@ -582,7 +582,7 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
             return {
                 ret = true,
                 notification = {
-                    title = locale('property'),
+                    title = locale('safe'),
                     description = locale('code_changed'),
                     status = 'success',
                 }
@@ -593,7 +593,7 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
     return {
         ret = false,
         notification = {
-            title = locale('property'),
+            title = locale('safe'),
             description = locale('error'),
             status = 'error',
         }
