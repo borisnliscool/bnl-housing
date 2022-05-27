@@ -39,5 +39,7 @@
     "sell_price": "Sell Price",
     "sell_confirm": "Type '%s' to confirm",
     "sell_confirm_string": "confirm",
-    "sell_confirm_error": "You must type '%s' to confirm"
+    "sell_confirm_error": "You must type '%s' to confirm",
+
+    "rent_property": "Rent Out Property"
 }

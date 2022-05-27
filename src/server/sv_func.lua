@@ -216,12 +216,14 @@ function SavePropertyVehicles(property)
         repeat
             Wait(10)
         until vehicleData[vehicle.networkId] ~= nil or timeout
-         
-        vehicleData[vehicle.networkId].location = GetEntityCoords(vehicleEntity) - JsonCoordToVector3(property.entrance) + lowerBy
-        vehicleData[vehicle.networkId].heading = GetEntityHeading(vehicleEntity)
-
+        
         if (GetPedInVehicleSeat(vehicleEntity, -1) == 0 or GetPedInVehicleSeat(vehicleEntity, -1) == nil) then
-            table.insert(savedVehicles, vehicleData[vehicle.networkId])
+            if (not timeout) then
+                vehicleData[vehicle.networkId].location = GetEntityCoords(vehicleEntity) - JsonCoordToVector3(property.entrance) + lowerBy
+                vehicleData[vehicle.networkId].heading = GetEntityHeading(vehicleEntity)
+                table.insert(savedVehicles, vehicleData[vehicle.networkId])
+            end
+
             DeleteEntity(vehicleEntity)
         end
 
@@ -229,12 +231,15 @@ function SavePropertyVehicles(property)
     end
 
     property.vehicles = {}
-    property.saved_vehicles = savedVehicles
 
-    MySQL.update("UPDATE `bnl_housing` SET `vehicles` = @vehicles WHERE `id` = @id", {
-        ['@vehicles'] = json.encode(property.saved_vehicles),
-        ['@id'] = property.id
-    })
+    if (next(savedVehicles) ~= nil) then
+        property.saved_vehicles = savedVehicles
+
+        MySQL.update("UPDATE `bnl_housing` SET `vehicles` = @vehicles WHERE `id` = @id", {
+            ['@vehicles'] = json.encode(property.saved_vehicles),
+            ['@id'] = property.id
+        })
+    end
 
     UpdateProperty(property)
 end

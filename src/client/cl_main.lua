@@ -170,20 +170,20 @@ function HandlePropertyMenus(property)
                         table.insert(foot_options, {
                             title = locale('sell_property'),
                             event = 'bnl-housing:client:sell',
-                            args = {
-                                property_id = property_id,
-                                type = 'sell',
-                            },
+                        })
+                        table.insert(foot_options, {
+                            title = locale('rent_property'),
+                            event = 'bnl-housing:client:rent',
                         })
                         -- TODO: MAKE THIS WORK WITH DIFFERENT LOCK STATES, MAYBE EVEN RERMOVE IT
-                        table.insert(foot_options, {
-                            title = locale('unlock_property'),
-                            event = 'bnl-housing:client:propertyOption',
-                            args = {
-                                property_id = property_id,
-                                type = 'unlock',
-                            },
-                        })
+                        -- table.insert(foot_options, {
+                        --     title = locale('unlock_property'),
+                        --     event = 'bnl-housing:client:propertyOption',
+                        --     args = {
+                        --         property_id = property_id,
+                        --         type = 'unlock',
+                        --     },
+                        -- })
                     end
                     lib.registerContext({
                         id = 'property_foot',
@@ -543,9 +543,8 @@ RegisterNetEvent("bnl-housing:client:invite", function()
     end
 end)
 
-RegisterNetEvent("bnl-housing:client:sell", function(data)
+RegisterNetEvent("bnl-housing:client:sell", function()
     local confirmString = locale('sell_confirm_string')
-    local property_id = data.property_id
     local data = lib.inputDialog(locale('sell_property'), {locale('sell_price'), locale('sell_confirm', confirmString)})
 
     if data then
@@ -565,6 +564,14 @@ RegisterNetEvent("bnl-housing:client:sell", function(data)
             status = 'error',
         })
     end
+end)
+
+RegisterNetEvent("bnl-housing:client:rent", function()
+    lib.defaultNotify({
+        title = locale('property'),
+        description = "This feature is not yet implemented",
+        status = 'error',
+    })
 end)
 
 RegisterNetEvent("bnl-housing:client:requestVehicleData", function(vehicle)

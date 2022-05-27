@@ -432,6 +432,16 @@ lib.callback.register("bnl-housing:server:take_keys_menu", function(source)
     }
 end)
 
+AddEventHandler('playerDropped', function (reason)
+    local _source = source
+    local player = GetIdentifier(_source)
+    local property = GetPropertyPlayerIsInside(_source)
+
+    if (not player or not property) then return end
+
+    PlayerExitProperty(property, player)
+end)
+
 -- TEMP
 RegisterCommand("housing:property", function(source, args, rawCommand)
     if (args[1]) then
