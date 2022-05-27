@@ -470,6 +470,7 @@ RegisterCommand("housing:property", function(source, args, rawCommand)
 end)
 -- END TEMP
 
+-- SPECIAL PROPS
 lib.callback.register("bnl-housing:server:openSafe", function(source, data)
     local property = GetPropertyPlayerIsInside(source)
     if (not property) then return end
@@ -533,7 +534,18 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
 
         if (prop.data.code) then
             if (prop.data.code == tonumber(data.old_code)) then
-                prop.data.code = tonumber(data.new_code)
+                local new_code = tonumber(data.new_code)
+                if (#tostring(new_code) ~= 4) then
+                    return {
+                        ret = false, 
+                        notification = {
+                            title = locale('property'),
+                            description = locale('invalid_code'),
+                            status = 'error',
+                        }
+                    }
+                end
+                prop.data.code = new_code
                 UpdatePropertyProp(property, prop)
                 return {
                     ret = true,
@@ -554,7 +566,18 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
                 }
             end
         else
-            prop.data.code = tonumber(data.code)
+            local new_code = tonumber(data.code)
+            if (#tostring(new_code) ~= 4) then
+                return {
+                    ret = false, 
+                    notification = {
+                        title = locale('property'),
+                        description = locale('invalid_code'),
+                        status = 'error',
+                    }
+                }
+            end
+            prop.data.code = new_code
             UpdatePropertyProp(property, prop)
             return {
                 ret = true,

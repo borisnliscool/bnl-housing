@@ -12,6 +12,7 @@
     "open_safe": "Open Safe",
     "set_safe_code": "Set Safe Code",
     "code_changed": "You changed the code",
+    "invalid_code": "The code you entered is invalid",
 
     "enter_property": "Enter the property",
     "property_full": "There is no room left in this property for your vehicle",

@@ -728,6 +728,7 @@ RegisterCommand("housing:current", function(source, args, rawCommand)
 end)
 -- END
 
+-- SPECIAL PROPS
 function OpenSafeWithCode(data)
     local prop = data.prop
     if (not prop) then return end
