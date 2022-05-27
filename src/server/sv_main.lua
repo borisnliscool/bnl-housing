@@ -199,6 +199,18 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
                     }
                 end
             end
+
+            local plate = GetVehicleNumberPlateText(vehicle)
+            if (IsPlateInAnyProperty(plate)) then
+                return {
+                    ret = false,
+                    notification = {
+                        title = 'Property',
+                        description = locale('vehicle_already_in_property'),
+                        status = 'error',
+                    }
+                }
+            end
         end
 
         PlayerEnterProperty(property, {

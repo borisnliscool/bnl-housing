@@ -314,3 +314,14 @@ function UpdatePropertyProp(property, prop)
 
     UpdateProperty(property)
 end
+
+function IsPlateInAnyProperty(plate)
+    for _,property in pairs(properties) do
+        for _,vehicle in pairs(property.saved_vehicles) do
+            if (vehicle.plate == plate) then
+                return property
+            end
+        end
+    end
+    return false
+end

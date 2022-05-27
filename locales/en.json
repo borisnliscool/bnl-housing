@@ -15,6 +15,7 @@
 
     "enter_property": "Enter the property",
     "property_full": "There is no room left in this property for your vehicle",
+    "vehicle_already_in_property": "Your vehicle is already in this property",
     "not_driver": "You're not the driver of this vehicle",
     "exit_property": "Exit the property",
     "not_close_to_enter": "You're not close enough to the property to enter it",
