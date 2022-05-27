@@ -24,6 +24,7 @@ Citizen.CreateThread(function()
                 property.shell = nil
                 property.saved_vehicles = json.decode(property.vehicles)
                 property.vehicles = nil
+                property.saved_players = json.decode(property.saved_players)
 
                 for _,shell in pairs(shells) do
                     if (property.shell_id == shell.id) then
@@ -451,10 +452,83 @@ AddEventHandler('playerDropped', function (reason)
 
     if (not player or not property) then return end
 
+    local data = {
+        identifier = player,
+        name = GetPlayerName(_source),
+        permissionLevel = FindPlayerInProperty(property, player).permissionLevel,
+        timestamp = os.time()
+    }
+
+    table.insert(property.saved_players, data)
+
+    MySQL.update("UPDATE `bnl_housing` SET `saved_players` = @saved_players WHERE `id` = @id", {
+        ['@saved_players'] = json.encode(property.saved_players),
+        ['@id'] = property.id
+    })
+
     PlayerExitProperty(property, player)
+    UpdateProperty(property)
+end)
+
+RegisterNetEvent("bnl-housing:server:playerLoaded", function()
+    local _source = source
+    local playerIdentifier = GetIdentifier(_source)
+    local data = FindSavedPlayer(playerIdentifier)
+
+    if (not data) then return end
+
+    if (data.ret) then
+        local property = data.property
+        local player = data.player
+
+        if (type(property.saved_players) == 'string') then
+            property.saved_players = json.decode(property.saved_players)
+        end
+
+        for i,saved_player in pairs(property.saved_players) do
+            if (saved_player.identifier == player.identifier) then
+                table.remove(property.saved_players, i)
+                break
+            end
+        end
+
+        MySQL.update("UPDATE `bnl_housing` SET `saved_players` = @saved_players WHERE `id` = @id", {
+            ['@saved_players'] = json.encode(property.saved_players),
+            ['@id'] = property.id
+        })
+
+        PlayerEnterProperty(property, {
+            identifier = playerIdentifier,
+            serverId = _source,
+            name = PlayerName(_source),
+            permissionLevel = player.permissionLevel,
+        })
+        
+        -- TODO: MAKE THIS BETTER WORKS NOW THO
+        Citizen.CreateThread(function()
+            Wait(1000)
+            SpawnPropertyVehicles(property)
+        end)
+        
+        TriggerClientEvent("bnl-housing:client:handleEnter", source, {
+            property = property,
+            permissionLevel = player.permissionLevel,
+            withVehicle = false
+        })
+
+        UpdateProperty(property)
+    end
 end)
 
 -- TEMP
+RegisterCommand("housing:test", function(source, args, rawCommand)
+    TriggerClientEvent("bnl-housing:client:handleEnter", source, {
+        property = GetPropertyById(1),
+        permissionLevel = "owner",
+        withVehicle = false
+    })
+end)
+
 RegisterCommand("housing:property", function(source, args, rawCommand)
     if (args[1]) then
         local property_id = args[1]

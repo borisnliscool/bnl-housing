@@ -267,7 +267,7 @@ function SavePropertyVehicles(property)
     UpdateProperty(property)
 end
 
-function PlayerExitProperty(property, playerId)
+function PlayerExitProperty(property, playerIdentifier)
     if (property.playersInside == nil) then
         property.playersInside = {}
         return false
@@ -275,7 +275,7 @@ function PlayerExitProperty(property, playerId)
 
     local removed = false
     for i,v in pairs(property.playersInside) do
-        if (v.identifier == playerId) then
+        if (v.identifier == playerIdentifier) then
             table.remove(property.playersInside, i)
             removed = true
         end
@@ -346,4 +346,19 @@ function IsPlateInAnyProperty(plate)
         end
     end
     return false
+end
+
+function FindSavedPlayer(identifier)
+    for _,property in pairs(properties) do
+        for _,player in pairs(property.saved_players) do
+            if (player.identifier == identifier) then
+                return {
+                    ret = true,
+                    property = property,
+                    player = player,
+                }
+            end
+        end
+    end
+    return nil
 end

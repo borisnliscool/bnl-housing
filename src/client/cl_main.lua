@@ -4,6 +4,11 @@ Citizen.CreateThread(function()
     allPropertyLocations = lib.callback.await('bnl-housing:server:getAllPropertyLocations', 1500)
     RegisterAllPropertyPoints()
     specialProps = data('specialprops')
+
+    repeat
+        Wait(0)
+    until allPropertyLocations ~= nil
+    TriggerServerEvent('bnl-housing:server:playerLoaded')
 end)
 
 RegisterNetEvent("bnl-housing:client:notify", function(data)
@@ -338,6 +343,8 @@ function HandleEnter(data)
     DoScreenFadeIn(500)
 end
 
+RegisterNetEvent("bnl-housing:client:handleEnter", HandleEnter)
+
 RegisterNetEvent("bnl-housing:client:setVehicleProps", function(networkId, props)
     local vehicle = NetworkGetEntityFromNetworkId(networkId)
     if (not DoesEntityExist(vehicle)) then
@@ -551,6 +558,14 @@ RegisterNetEvent("bnl-housing:client:exit", function()
             end
         
             currentPropertyProps = nil
+        end
+
+        if (decorationPoints ~= nil) then
+            for _,point in pairs(decorationPoints) do
+                point:remove()
+            end
+        
+            decorationPoints = nil
         end
     end
 end)
