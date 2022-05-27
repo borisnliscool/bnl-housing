@@ -66,22 +66,41 @@ function SpawnPropertyDecoration(property)
         local propCoord = shellCoord - vector3(prop.x, prop.y, prop.z)
         local propModel = prop.model
 
+        local propObject = CreateObject(GetHashKey(propModel), propCoord.x, propCoord.y, propCoord.z, true, true, true)
+        SetEntityHeading(propObject, prop.w)
+        FreezeEntityPosition(propObject, true)
+        SetEntityAsMissionEntity(propObject, true, true)
+        table.insert(currentPropertyProps, propObject)
+
         for spName,spData in pairs(specialProps) do
             if (spName == propModel) then
                 local point = lib.points.new(propCoord, spData.range, {
                     property_id = property.property_id,
                     spData = spData,
+                    entity = propObject,
                 })
 
                 function point:onEnter()
                     if (spData.closeText) then
                         lib.showTextUI(spData.closeText)
                     end
+                    if (spData.outline) then
+                        SetEntityDrawOutline(self.entity, true)
+                        if (spData.outline.color) then
+                            SetEntityDrawOutlineColor(self.entity, spData.outline.color[1], spData.outline.color[2], spData.outline.color[3], spData.outline.color[4])
+                        end
+                        if (spData.outline.shader) then
+                            SetEntityDrawOutlineShader(spData.outline.shader)
+                        end
+                    end
                 end
                 
                 function point:onExit()
                     if (spData.closeText) then
                         lib.hideTextUI()
+                    end
+                    if (spData.outline) then
+                        SetEntityDrawOutline(self.entity, false)
                     end
                 end
 
@@ -105,12 +124,6 @@ function SpawnPropertyDecoration(property)
                 table.insert(decorationPoints, point)
             end
         end
-
-        local propObject = CreateObject(GetHashKey(propModel), propCoord.x, propCoord.y, propCoord.z, true, true, true)
-        SetEntityHeading(propObject, prop.w)
-        FreezeEntityPosition(propObject, true)
-        SetEntityAsMissionEntity(propObject, true, true)
-        table.insert(currentPropertyProps, propObject)
     end
 end
 

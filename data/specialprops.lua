@@ -15,6 +15,15 @@ return {
             bob = false,
             faceCamera = true
         },
+        outline = {
+            color = {
+                255,
+                255,
+                255,
+                255
+            },
+            shader = 1
+        },
         range = 1.5,
         func = function(data)
             Logger.Success("Executed function for prop_ld_int_safe_01")
