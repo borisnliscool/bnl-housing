@@ -362,3 +362,42 @@ function FindSavedPlayer(identifier)
     end
     return nil
 end
+
+function GetPlayerPropertyPermissionLevel(player, property)
+    local playerIdentifier = player
+    local permissionLevel = nil
+
+    if (type(player) == 'number') then
+        playerIdentifier = GetIdentifier(player)
+        if (exports.ox_inventory:Search(source, 'property_key', {property_id = property_id})) then
+            if (permissionLevel == nil) then
+                permissionLevel = 'key_owner'
+            end
+        end
+    end
+
+    for _,key_owner in pairs(json.decode(property.key_owners)) do
+        if (playerIdentifier == key_owner.identifier) then
+            if (permissionLevel == nil) then
+                permissionLevel = 'key_owner'
+            end
+        end
+    end
+
+    if (playerIdentifier == property.owner) then
+        if (permissionLevel == nil) then
+            permissionLevel = 'owner'
+        end
+    end
+
+    return permissionLevel
+end
+
+function GetPlayerServerId(player)
+    for _,id in pairs(GetPlayers()) do
+        if (GetPlayerPed(id) == player) then
+            return id
+        end
+    end
+    return nil
+end

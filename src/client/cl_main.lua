@@ -78,7 +78,7 @@ function SpawnPropertyDecoration(property)
         local propObject = CreateObject(GetHashKey(propModel), propCoord.x, propCoord.y, propCoord.z, true, true, true)
         SetEntityHeading(propObject, prop.w)
         FreezeEntityPosition(propObject, true)
-        SetEntityAsMissionEntity(propObject, true, true)
+
         table.insert(currentPropertyProps, propObject)
 
         for spName, spData in pairs(specialProps) do

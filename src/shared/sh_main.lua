@@ -81,12 +81,29 @@ function IsVehicleEmpty(vehicle)
     if (not vehicle) then return false end
     if (not DoesEntityExist(vehicle)) then return true end
 
-    for i=1,16 do
+    for i=-1,16 do
         if GetPedInVehicleSeat(vehicle, i) ~= 0 then
             return false
         end
     end
     return true
+end
+
+function GetPlayersInVehicle(vehicle)
+    if (not vehicle) then return false end
+    if (not DoesEntityExist(vehicle)) then return true end
+
+    local players = {}
+    for i=-1,16 do
+        if GetPedInVehicleSeat(vehicle, i) ~= 0 then
+            local ped = GetPedInVehicleSeat(vehicle, i)
+            local serverId = GetPlayerServerId(ped)
+            if (serverId ~= 0) then
+                table.insert(players, serverId)
+            end
+        end
+    end
+    return players
 end
 
 function GetPropertyPropById(property, prop_id)

@@ -1,4 +1,3 @@
-local ox_inventory = exports.ox_inventory
 allPropertyLocations = nil; properties = nil; shells = nil;
 
 lib.versionCheck('borisnliscool/bnl-housing')
@@ -75,17 +74,19 @@ lib.callback.register('bnl-housing:server:acceptInvite', function(source)
 
             local property = GetPropertyById(invite.property_id)
             if (property) then
+                local identifier = GetIdentifier(source)
+                local permission = GetPlayerPropertyPermissionLevel(identifier, property)
                 PlayerEnterProperty(property, {
                     name = PlayerName(source),
-                    permissionLevel = 'visitor',
-                    identifier = GetIdentifier(source),
+                    permissionLevel = permission,
+                    identifier = identifier,
                     serverId = source,
                 })
 
                 return {
                     ret = true,
                     property = property,
-                    permissionLevel = 'visitor',
+                    permissionLevel = permission,
                 }
             end
         end
@@ -162,27 +163,7 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
         }
     end
     
-    local permissionLevel = nil
-
-    if (playerIdentifier == property.owner) then
-        if (permissionLevel == nil) then
-            permissionLevel = 'owner'
-        end
-    end
-
-    for _,key_owner in pairs(json.decode(property.key_owners)) do
-        if (playerIdentifier == key_owner.identifier) then
-            if (permissionLevel == nil) then
-                permissionLevel = 'key_owner'
-            end
-        end
-    end
-
-    if (ox_inventory:Search(source, 'property_key', {property_id = property_id})) then
-        if (permissionLevel == nil) then
-            permissionLevel = 'key_owner'
-        end
-    end
+    local permissionLevel = GetPlayerPropertyPermissionLevel(source, property)
     
     if (permissionLevel ~= nil) then
         if (enteringWithVehicle) then
@@ -211,6 +192,28 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
                         status = 'error',
                     }
                 }
+            end
+
+            if (vehicle) then
+                local playersInVehicle = GetPlayersInVehicle(vehicle)
+                for _,id in pairs(playersInVehicle) do
+                    if (tonumber(id) ~= tonumber(source)) then
+                        local identifier = GetIdentifier(id)
+                        local playerPermissionLevel = GetPlayerPropertyPermissionLevel(identifier, property)
+                        PlayerEnterProperty(property, {
+                            identifier = identifier,
+                            serverId = id,
+                            name = PlayerName(id),
+                            permissionLevel = playerPermissionLevel,
+                        })
+        
+                        TriggerClientEvent("bnl-housing:client:handleEnter", id, {
+                            property = property,
+                            permissionLevel = playerPermissionLevel,
+                            withVehicle = true
+                        })
+                    end
+                end
             end
         end
 
@@ -289,7 +292,7 @@ lib.callback.register("bnl-housing:server:knock", function(source, property_id)
         return {
             ret = false,
             notification = {
-                title = 'Property',
+                title = locale('property'),
                 description = locale('not_close_enough'),
                 status = 'error',
             }
@@ -307,7 +310,7 @@ lib.callback.register("bnl-housing:server:knock", function(source, property_id)
     return {
         ret = true,
         notification = {
-            title = 'Property',
+            title = locale('property'),
             description = locale('knocking_notification'),
             status = 'Successs',
         }
@@ -318,7 +321,7 @@ lib.callback.register("bnl-housing:server:breakin", function(source, property_id
     return {
         ret = true,
         notification = {
-            title = 'Property',
+            title = locale('property'),
             description = "This feature is not yet implemented!",
             status = 'error',
         }
@@ -339,7 +342,7 @@ RegisterNetEvent("bnl-housing:server:giveKeys", function(player_id)
         for _,key_owner in pairs(key_owners) do
             if (key_owner.identifier == player) then
                 TriggerClientEvent("bnl-housing:client:notify", _source, {
-                    title = 'Property',
+                    title = locale('property'),
                     description = locale('player_has_access'),
                     status = 'error',
                 })
@@ -362,7 +365,7 @@ RegisterNetEvent("bnl-housing:server:giveKeys", function(player_id)
         })
 
         TriggerClientEvent("bnl-housing:client:notify", _source, {
-            title = 'Property',
+            title = locale('property'),
             description = locale('gave_keys', new_key_owner.name),
             status = 'Successs',
         })
@@ -397,7 +400,7 @@ RegisterNetEvent("bnl-housing:server:takeKeys", function(player_id)
                 })
 
                 TriggerClientEvent("bnl-housing:client:notify", _source, {
-                    title = 'Property',
+                    title = locale('property'),
                     description = locale('taken_keys', key_owner.name),
                     status = 'Successs',
                 })
@@ -422,7 +425,7 @@ lib.callback.register("bnl-housing:server:take_keys_menu", function(source)
         
         if (#keys == 0) then
             TriggerClientEvent("bnl-housing:client:notify", _source, {
-                title = 'Property',
+                title = locale('property'),
                 description = locale('no_key_owners'),
                 status = 'error',
             })
@@ -438,7 +441,7 @@ lib.callback.register("bnl-housing:server:take_keys_menu", function(source)
     return {
         ret = false,
         notification = {
-            title = 'Property',
+            title = locale('property'),
             description = locale('no_permission'),
             status = 'error',
         }
