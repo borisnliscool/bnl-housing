@@ -26,20 +26,33 @@ return {
         },
         range = 1.5,
         func = function(prop)
-            if (prop.data.code) then
-                local input = lib.inputDialog("Safe is Locked", {"Enter Code"})
-                if (input) then
-                    local code = tonumber(input[1])
-                    local data = lib.callback.await("bnl-housing:server:openSafe", false, {
-                        prop_id = prop.id,
-                        code = code
-                    })
-                    if (data.ret) then
-                        exports.ox_inventory:openInventory('stash', data.safe_id)
-                    else
-                        lib.defaultNotify(data.notification)
-                    end
-                end
+            local prop = GetPropertyPropById(propertyPlayerIsIn, prop.id)
+            if (currentPropertyPermissionLevel == 'owner') then
+                lib.registerContext({
+                    id = 'property_safe_menu',
+                    title = locale('property') .. ' ' .. locale('safe'),
+                    options = {
+                        {
+                            title = locale('open_safe'),
+                            event = 'bnl-housing:client:openSafe',
+                            args = {
+                                prop = prop
+                            }
+                        },
+                        {
+                            title = locale('set_safe_code'),
+                            event = 'bnl-housing:client:setSafeCode',
+                            args = {
+                                prop = prop
+                            }
+                        },
+                    }
+                })
+                lib.showContext('property_safe_menu')
+            else
+                OpenSafeWithCode({
+                    prop = prop
+                })
             end
         end,
     },

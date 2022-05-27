@@ -507,3 +507,60 @@ lib.callback.register("bnl-housing:server:openSafe", function(source, data)
         }
     end
 end)
+
+lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
+    local property = GetPropertyPlayerIsInside(source)
+    if (not property) then return end
+
+    local player = FindPlayerInProperty(property, source)
+    if (not player) then return end
+
+    local prop = GetPropertyPropById(property, data.prop_id)
+    if (prop) then
+        if (not prop.data) then prop.data = {} end
+
+        if (prop.data.code) then
+            if (prop.data.code == tonumber(data.old_code)) then
+                prop.data.code = tonumber(data.new_code)
+                UpdatePropertyProp(property, prop)
+                return {
+                    ret = true,
+                    notification = {
+                        title = locale('property'),
+                        description = locale('code_changed'),
+                        status = 'success',
+                    }
+                }
+            else
+                return {
+                    ret = false,
+                    notification = {
+                        title = locale('property'),
+                        description = locale('wrong_code'),
+                        status = 'error',
+                    }
+                }
+            end
+        else
+            prop.data.code = tonumber(data.code)
+            UpdatePropertyProp(property, prop)
+            return {
+                ret = true,
+                notification = {
+                    title = locale('property'),
+                    description = locale('code_changed'),
+                    status = 'success',
+                }
+            }
+        end
+    end
+
+    return {
+        ret = false,
+        notification = {
+            title = locale('property'),
+            description = locale('error'),
+            status = 'error',
+        }
+    }
+end)

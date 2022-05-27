@@ -5,7 +5,13 @@
     "open_property_menu": "Press [E] to open the property menu",
     "not_close_enough": "You're not close enough",
     "no_permission": "You don't have permission to do that",
+    "error": "Something went wrong...",
+    
     "wrong_code": "The code you entered is incorrect",
+    "safe": "Safe",
+    "open_safe": "Open Safe",
+    "set_safe_code": "Set Safe Code",
+    "code_changed": "You changed the code",
 
     "enter_property": "Enter the property",
     "property_full": "There is no room left in this property for your vehicle",

@@ -26,6 +26,7 @@ function UpdateProperty(newProperty)
             return true
         end
     end
+    return false
 end
 
 function GetPropertyById(property_id)
@@ -290,20 +291,26 @@ function VehicleExitProperty(property, vehiclePlate)
     return false
 end
 
-function GetPropertyPropById(property, prop_id)
+function UpdatePropertyProp(property, prop)
     if (property.decoration == nil) then
-        return nil
+        property.decoration = {}
     end
 
     if (type(property.decoration) == 'string') then
         property.decoration = json.decode(property.decoration)
     end
 
-    for _,prop in pairs(property.decoration) do
-        if (prop.id == prop_id) then
-            return prop
+    for i,v in pairs(property.decoration) do
+        if (v.id == prop.id) then
+            property.decoration[i] = prop
+            break
         end
     end
 
-    return nil
+    MySQL.update("UPDATE `bnl_housing` SET `decoration` = @decoration WHERE `id` = @id", {
+        ['@decoration'] = json.encode(property.decoration),
+        ['@id'] = property.id
+    })
+
+    UpdateProperty(property)
 end

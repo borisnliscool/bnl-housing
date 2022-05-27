@@ -723,3 +723,64 @@ RegisterCommand("housing:current", function(source, args, rawCommand)
     Logger.Info(propertyPlayerIsIn)
 end)
 -- END
+
+function OpenSafeWithCode(data)
+    local prop = data.prop
+    if (not prop) then return end
+    if (not prop.data) then prop.data = {} end
+
+    if (prop.data.code) then
+        local input = lib.inputDialog("Safe is Locked", {"Enter Code"})
+        if (input) then
+            local code = tonumber(input[1])
+            local data = lib.callback.await("bnl-housing:server:openSafe", false, {
+                prop_id = prop.id,
+                code = code
+            })
+
+            if (data.ret) then
+                exports.ox_inventory:openInventory('stash', data.safe_id)
+            else
+                lib.defaultNotify(data.notification)
+            end
+        end
+    else
+        Logger.Error("No code for safe")
+    end
+end
+
+RegisterNetEvent("bnl-housing:client:openSafe", OpenSafeWithCode)
+
+function SetSafeCode(data)
+    local prop = data.prop
+    if (not prop) then return end
+    if (not prop.data) then prop.data = {} end
+
+    if (prop.data.code) then
+        local input = lib.inputDialog("Set Safe Code", {"Old Code", "New Code"})
+        if (input) then
+            local oldCode = tonumber(input[1])
+            local newCode = tonumber(input[2])
+            local data = lib.callback.await("bnl-housing:server:setSafeCode", false, {
+                prop_id = prop.id,
+                old_code = oldCode,
+                new_code = newCode
+            })
+
+            lib.defaultNotify(data.notification)
+        end
+    else
+        local input = lib.inputDialog("Set Safe Code", {"Code"})
+        if (input) then
+            local code = tonumber(input[1])
+            local data = lib.callback.await("bnl-housing:server:setSafeCode", false, {
+                prop_id = prop.id,
+                code = code
+            })
+
+            lib.defaultNotify(data.notification)
+        end
+    end
+end
+
+RegisterNetEvent("bnl-housing:client:setSafeCode", SetSafeCode)
