@@ -25,8 +25,22 @@ return {
             shader = 1
         },
         range = 1.5,
-        func = function(data)
-            Logger.Success("Executed function for prop_ld_int_safe_01")
+        func = function(prop)
+            if (prop.data.code) then
+                local input = lib.inputDialog("Safe is Locked", {"Enter Code"})
+                if (input) then
+                    local code = tonumber(input[1])
+                    local data = lib.callback.await("bnl-housing:server:openSafe", false, {
+                        prop_id = prop.id,
+                        code = code
+                    })
+                    if (data.ret) then
+                        exports.ox_inventory:openInventory('stash', data.safe_id)
+                    else
+                        lib.defaultNotify(data.notification)
+                    end
+                end
+            end
         end,
-    }
+    },
 }

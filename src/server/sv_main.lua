@@ -457,3 +457,53 @@ RegisterCommand("housing:property", function(source, args, rawCommand)
     end
 end)
 -- END TEMP
+
+lib.callback.register("bnl-housing:server:openSafe", function(source, data)
+    local property = GetPropertyPlayerIsInside(source)
+    if (not property) then return end
+
+    local player = FindPlayerInProperty(property, source)
+    if (not player) then return end
+
+    local prop = GetPropertyPropById(property, data.prop_id)
+    
+    if (prop) then
+        if (prop.data.code) then
+            if (prop.data.code == tonumber(data.code)) then
+                local safe_id = 'property_' .. property.id
+                exports.ox_inventory:RegisterStash(safe_id, 'Property Safe', 50, 1000  * 1000)
+                return {
+                    ret = true,
+                    safe_id = safe_id
+                }
+            else
+                return {
+                    ret = false,
+                    notification = {
+                        title = locale('property'),
+                        description = locale('wrong_code'),
+                        status = 'error',
+                    }
+                }
+            end
+        end
+    end
+
+    if (player.permissionLevel == "key_owner" or player.permissionLevel == "owner") then
+        local safe_id = 'property_' .. property.id
+        exports.ox_inventory:RegisterStash(safe_id, 'Property Safe', 50, 1000  * 1000)
+        return {
+            ret = true,
+            safe_id = safe_id
+        }
+    else
+        return {
+            ret = false,
+            notification = {
+                title = locale('property'),
+                description = locale('no_permission'),
+                status = 'error',
+            }
+        }
+    end
+end)

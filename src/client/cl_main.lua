@@ -72,7 +72,7 @@ function SpawnPropertyDecoration(property)
         SetEntityAsMissionEntity(propObject, true, true)
         table.insert(currentPropertyProps, propObject)
 
-        for spName,spData in pairs(specialProps) do
+        for spName, spData in pairs(specialProps) do
             if (spName == propModel) then
                 local point = lib.points.new(propCoord, spData.range, {
                     property_id = property.property_id,
@@ -107,7 +107,7 @@ function SpawnPropertyDecoration(property)
                 function point:nearby()
                     if (IsControlJustPressed(0, 38)) then
                         if (spData.func ~= nil) then
-                            spData.func(spData)
+                            spData.func(prop)
                         end
                     end
                     if (spData.marker) then

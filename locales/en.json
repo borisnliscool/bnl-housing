@@ -5,6 +5,7 @@
     "open_property_menu": "Press [E] to open the property menu",
     "not_close_enough": "You're not close enough",
     "no_permission": "You don't have permission to do that",
+    "wrong_code": "The code you entered is incorrect",
 
     "enter_property": "Enter the property",
     "property_full": "There is no room left in this property for your vehicle",

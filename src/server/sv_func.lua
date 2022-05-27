@@ -289,3 +289,21 @@ function VehicleExitProperty(property, vehiclePlate)
     UpdateProperty(property)
     return false
 end
+
+function GetPropertyPropById(property, prop_id)
+    if (property.decoration == nil) then
+        return nil
+    end
+
+    if (type(property.decoration) == 'string') then
+        property.decoration = json.decode(property.decoration)
+    end
+
+    for _,prop in pairs(property.decoration) do
+        if (prop.id == prop_id) then
+            return prop
+        end
+    end
+
+    return nil
+end
