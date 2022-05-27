@@ -124,7 +124,7 @@ RegisterNetEvent("baseevents:leftVehicle", function(_, _, _, netId)
     if (property) then
         local vehicle = NetworkGetEntityFromNetworkId(netId)
         if (IsVehicleEmpty(vehicle)) then
-            FreezeEntityPosition(vehicle, false)
+            FreezeEntityPosition(vehicle, true)
         end
     end
 end)
