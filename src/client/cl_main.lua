@@ -627,7 +627,7 @@ RegisterNetEvent("bnl-housing:client:sell", function()
         local sellAmount = tonumber(data[1])
         lib.defaultNotify({
             title = locale('property'),
-            description = "This feature is not yet implemented",
+            description = locale('not_implemented'),
             status = 'error',
         })
     end
@@ -636,7 +636,7 @@ end)
 RegisterNetEvent("bnl-housing:client:rent", function()
     lib.defaultNotify({
         title = locale('property'),
-        description = "This feature is not yet implemented",
+        description = locale('not_implemented'),
         status = 'error',
     })
 end)
@@ -735,7 +735,7 @@ function OpenSafeWithCode(data)
     if (not prop.data) then prop.data = {} end
 
     if (prop.data.code) then
-        local input = lib.inputDialog("Safe is Locked", {"Enter Code"})
+        local input = lib.inputDialog(locale('safe_is_locked'), {locale('enter_code')})
         if (input) then
             local code = tonumber(input[1])
             local data = lib.callback.await("bnl-housing:server:openSafe", false, {
@@ -750,7 +750,11 @@ function OpenSafeWithCode(data)
             end
         end
     else
-        Logger.Error("No code for safe")
+        lib.defaultNotify({
+            title = locale('safe'),
+            description = locale('safe_not_locked'),
+            status = "error"
+        })
     end
 end
 
@@ -762,7 +766,7 @@ function SetSafeCode(data)
     if (not prop.data) then prop.data = {} end
 
     if (prop.data.code) then
-        local input = lib.inputDialog("Set Safe Code", {"Old Code", "New Code"})
+        local input = lib.inputDialog(locale('set_safe_code'), {locale('old_code'), locale('new_code')})
         if (input) then
             local oldCode = tonumber(input[1])
             local newCode = tonumber(input[2])
@@ -775,7 +779,7 @@ function SetSafeCode(data)
             lib.defaultNotify(data.notification)
         end
     else
-        local input = lib.inputDialog("Set Safe Code", {"Code"})
+        local input = lib.inputDialog(locale('set_safe_code'), {locale('code')})
         if (input) then
             local code = tonumber(input[1])
             local data = lib.callback.await("bnl-housing:server:setSafeCode", false, {
