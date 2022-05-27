@@ -1,8 +1,9 @@
-allPropertyLocations = nil; allPropertyPoints = nil; shellObject = nil; isInProperty = false; propertyPlayerIsIn = nil; currentPropertyPermissionLevel = nil; inPropertyPoints = nil; currentPropertyProps = nil;
+allPropertyLocations = nil; allPropertyPoints = nil; shellObject = nil; isInProperty = false; propertyPlayerIsIn = nil; currentPropertyPermissionLevel = nil; inPropertyPoints = nil; currentPropertyProps = nil; decorationPoints = nil; specialProps = nil;
 
 Citizen.CreateThread(function()
     allPropertyLocations = lib.callback.await('bnl-housing:server:getAllPropertyLocations', 1500)
     RegisterAllPropertyPoints()
+    specialProps = data('specialprops')
 end)
 
 RegisterNetEvent("bnl-housing:client:notify", function(data)
@@ -52,6 +53,8 @@ function RegisterAllPropertyPoints()
 end
 
 function SpawnPropertyDecoration(property)
+    DespawnPropertyDecoration()
+
     local decoration = json.decode(property.decoration)
     local shellCoord = GetEntityCoords(shellObject)
 
@@ -60,10 +63,51 @@ function SpawnPropertyDecoration(property)
     end
 
     for _,prop in pairs(decoration) do
-        local propCoord = vector3(prop.x, prop.y, prop.z) + shellCoord
+        local propCoord = shellCoord - vector3(prop.x, prop.y, prop.z)
+        local propModel = prop.model
 
-        local propObject = CreateObject(GetHashKey(prop.model), propCoord.x, propCoord.y, propCoord.z, true, true, true)
-        SetEntityHeading(propObject, prop.heading)
+        for spName,spData in pairs(specialProps) do
+            if (spName == propModel) then
+                local point = lib.points.new(propCoord, spData.range, {
+                    property_id = property.property_id,
+                    spData = spData,
+                })
+
+                function point:onEnter()
+                    if (spData.closeText) then
+                        lib.showTextUI(spData.closeText)
+                    end
+                end
+                
+                function point:onExit()
+                    if (spData.closeText) then
+                        lib.hideTextUI()
+                    end
+                end
+
+                function point:nearby()
+                    if (IsControlJustPressed(0, 38)) then
+                        if (spData.func ~= nil) then
+                            spData.func(spData)
+                        end
+                    end
+                    if (spData.marker) then
+                        local md = spData.marker
+                        local coords = self.coords + md.offset
+                        DrawMarker(md.sprite, coords, 0.0, 0.0, 0.0, md.rotation, md.scale, md.color[1], md.color[2], md.color[3], md.color[4], md.bob, md.faceCamera, 2, nil, nil, false)
+                    end
+                end
+
+                if (decorationPoints == nil) then
+                    decorationPoints = {}
+                end
+
+                table.insert(decorationPoints, point)
+            end
+        end
+
+        local propObject = CreateObject(GetHashKey(propModel), propCoord.x, propCoord.y, propCoord.z, true, true, true)
+        SetEntityHeading(propObject, prop.w)
         FreezeEntityPosition(propObject, true)
         SetEntityAsMissionEntity(propObject, true, true)
         table.insert(currentPropertyProps, propObject)
@@ -75,8 +119,14 @@ function DespawnPropertyDecoration()
         for _,prop in pairs(currentPropertyProps) do
             DeleteEntity(prop)
         end
-
         currentPropertyProps = nil
+    end
+
+    if decorationPoints ~= nil then
+        for _,point in pairs(decorationPoints) do
+            point:remove()
+        end
+        decorationPoints = nil
     end
 end
 
