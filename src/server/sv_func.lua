@@ -109,6 +109,26 @@ function VehicleEnterProperty(property, vehicle)
     return true
 end
 
+RegisterNetEvent("baseevents:enteredVehicle", function(_, _, _, netId)
+    local property = GetPropertyPlayerIsInside(source)
+    if (property) then
+        local vehicle = NetworkGetEntityFromNetworkId(netId)
+        if (IsVehicleEmpty(vehicle)) then
+            FreezeEntityPosition(vehicle, false)
+        end
+    end
+end)
+
+RegisterNetEvent("baseevents:leftVehicle", function(_, _, _, netId)
+    local property = GetPropertyPlayerIsInside(source)
+    if (property) then
+        local vehicle = NetworkGetEntityFromNetworkId(netId)
+        if (IsVehicleEmpty(vehicle)) then
+            FreezeEntityPosition(vehicle, false)
+        end
+    end
+end)
+
 function SpawnPropertyVehicles(property)
     if (property.playersInside == nil) then
         property.playersInside = {}
@@ -147,6 +167,8 @@ function SpawnPropertyVehicles(property)
         local newNetOwner = property.playersInside[1].serverId
         TriggerClientEvent('bnl-housing:client:setNetworkOwner', newNetOwner, vehicleNetworkId)
         TriggerClientEvent('bnl-housing:client:setVehicleProps', newNetOwner, vehicleNetworkId, vehicleInProperty)
+
+        FreezeEntityPosition(vehicle, true)
 
         table.insert(property.vehicles, {
             networkId = vehicleNetworkId,
