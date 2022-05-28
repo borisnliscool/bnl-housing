@@ -36,7 +36,8 @@ function UpdateAllPlayerBlips()
                 color = color,
                 name = locale('property'),
                 scale = 1.0,
-                category = 'bnl-housing:property'
+                category = 'bnl-housing:property',
+                short = false
             })
             
             ::continue::
@@ -57,6 +58,8 @@ function UpdateProperty(newProperty)
                     TriggerClientEvent('bnl-housing:client:updateProperty', player.serverId, property)
                 end
             end
+
+            UpdateAllPlayerBlips()
             return true
         end
     end
