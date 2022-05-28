@@ -269,6 +269,21 @@ lib.callback.register('bnl-housing:server:exit', function(source, exitWithVehicl
         vehicle = GetVehiclePedIsIn(player, false)
         VehicleExitProperty(property, GetVehicleNumberPlateText(vehicle))
         withVehicle = IsPedVehicleDriver(player, vehicle)
+
+        local playersInVehicle = GetPlayersInVehicle(vehicle)
+        for _,id in pairs(playersInVehicle) do
+            if (tonumber(id) ~= tonumber(source)) then
+                local identifier = GetIdentifier(id)
+                local playerPermissionLevel = GetPlayerPropertyPermissionLevel(identifier, property)
+                PlayerExitProperty(property, identifier)
+
+                TriggerClientEvent("bnl-housing:client:handleExit", id, {
+                    ret = true,
+                    withVehicle = false,
+                    deleteVehicle = false,
+                })
+            end
+        end
     end
 
     return {

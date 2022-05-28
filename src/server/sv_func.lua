@@ -113,9 +113,7 @@ RegisterNetEvent("baseevents:enteredVehicle", function(_, _, _, netId)
     local property = GetPropertyPlayerIsInside(source)
     if (property) then
         local vehicle = NetworkGetEntityFromNetworkId(netId)
-        if (IsVehicleEmpty(vehicle)) then
-            FreezeEntityPosition(vehicle, false)
-        end
+        FreezeEntityPosition(vehicle, false)
     end
 end)
 

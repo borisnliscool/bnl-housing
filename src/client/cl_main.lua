@@ -510,6 +510,49 @@ RegisterNetEvent("bnl-housing:client:giveKeysMenu", function()
     end
 end)
 
+function HandleExit(data)
+    local vehicle = GetVehiclePedIsIn(cache.ped, false)
+
+    if (data.deleteVehicle) then 
+        DeleteVehicle(vehicle)
+    end
+
+    if (data.withVehicle) then
+        SetEntityCoords(vehicle, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
+        SetEntityHeading(vehicle, json.decode(propertyPlayerIsIn.entrance).w)
+    else
+        SetEntityCoords(cache.ped, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
+        SetEntityHeading(cache.ped, json.decode(propertyPlayerIsIn.entrance).w)
+    end
+
+    lib.hideTextUI()
+    isInProperty = false
+    propertyPlayerIsIn = nil
+    currentPropertyPermissionLevel = nil
+    
+    if shellObject ~= nil or shellObject ~= 0 then
+        DeleteEntity(shellObject)
+    end
+    
+    if currentPropertyProps ~= nil then
+        for _,prop in pairs(currentPropertyProps) do
+            DeleteEntity(prop)
+        end
+    
+        currentPropertyProps = nil
+    end
+
+    if (decorationPoints ~= nil) then
+        for _,point in pairs(decorationPoints) do
+            point:remove()
+        end
+    
+        decorationPoints = nil
+    end
+end
+
+RegisterNetEvent("bnl-housing:client:handleExit", HandleExit)
+
 RegisterNetEvent("bnl-housing:client:exit", function()
     local vehicleExit = false
     if (IsPedInAnyVehicle(cache.ped, false)) then
@@ -528,45 +571,7 @@ RegisterNetEvent("bnl-housing:client:exit", function()
 
     local data = lib.callback.await('bnl-housing:server:exit', false, vehicleExit)
     if data.ret then
-        Logger.Info(data)
-        local vehicle = GetVehiclePedIsIn(cache.ped, false)
-
-        if (data.deleteVehicle) then 
-            DeleteVehicle(vehicle)
-        end
-
-        if (data.withVehicle) then
-            SetEntityCoords(vehicle, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
-            SetEntityHeading(vehicle, json.decode(propertyPlayerIsIn.entrance).w)
-        else
-            SetEntityCoords(cache.ped, JsonCoordToVector3(propertyPlayerIsIn.entrance) - vector3(0,0,1.0))
-            SetEntityHeading(cache.ped, json.decode(propertyPlayerIsIn.entrance).w)
-        end
-
-        lib.hideTextUI()
-        isInProperty = false
-        propertyPlayerIsIn = nil
-        currentPropertyPermissionLevel = nil
-        
-        if shellObject ~= nil or shellObject ~= 0 then
-            DeleteEntity(shellObject)
-        end
-        
-        if currentPropertyProps ~= nil then
-            for _,prop in pairs(currentPropertyProps) do
-                DeleteEntity(prop)
-            end
-        
-            currentPropertyProps = nil
-        end
-
-        if (decorationPoints ~= nil) then
-            for _,point in pairs(decorationPoints) do
-                point:remove()
-            end
-        
-            decorationPoints = nil
-        end
+        HandleExit(data)
     end
 end)
 
@@ -679,12 +684,13 @@ AddEventHandler('onResourceStop', function(resource)
             local property = propertyPlayerIsIn
             local entrance = JsonCoordToVector3(property.entrance)
 
-            local vehicle = GetVehiclePedIsIn(cache.ped, false)
-            if (vehicle and IsPedVehicleDriver(cache.ped, vehicle)) then
-                SetEntityCoords(vehicle, entrance)
-            else
-                SetEntityCoords(cache.ped, entrance)
-            end
+            SetEntityCoords(cache.ped, entrance)
+            -- local vehicle = GetVehiclePedIsIn(cache.ped, false)
+            -- if (vehicle and IsPedVehicleDriver(cache.ped, vehicle)) then
+            --     SetEntityCoords(vehicle, entrance)
+            -- else
+            --     SetEntityCoords(cache.ped, entrance)
+            -- end
 
             if (type(property.vehicles) == 'string') then property.vehicles = json.decode(property.vehicles) end
             for _,vehicle in pairs(property.vehicles) do
