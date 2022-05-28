@@ -16,7 +16,6 @@ function UpdateAllPlayerBlips()
     -- TODO: This really should be done in a better way, but I'm too lazy to do it right now
     -- Priority: High
     for _,player in pairs(GetPlayers()) do
-        Logger.Info('Updating blips for ' .. (player))
         local blips = {}
         for _,property in pairs(properties) do
             local permissionLevel = GetPlayerPropertyPermissionLevel(GetIdentifier(player), property)
