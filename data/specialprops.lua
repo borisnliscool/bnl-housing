@@ -56,4 +56,26 @@ return {
             end
         end,
     },
+    ["prop_tool_bench02_ld"] = {
+        closeText = "Press [E] to open the workbench",
+        marker = {
+            sprite = 2,
+            offset = vector3(0.0, 0.0, 1.25),
+            scale = vector3(0.25, 0.25, 0.25),
+            rotation = vector3(180.0, 0.0, 0.0),
+            color = {
+                255,
+                255,
+                255,
+                255
+            },
+            bob = false,
+            faceCamera = true
+        },
+        range = 1.5,
+        func = function(prop)
+            -- Here you can do whatever you want, for example calling a exports
+            Logger.Success(prop)
+        end
+    }
 }
