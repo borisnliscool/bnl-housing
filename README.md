@@ -25,6 +25,7 @@ This script does not use any framework, but will add easy support for them later
 
 1. ox_lib
 2. oxmysql
+3. baseevents
 
 ### Installation
 
@@ -48,6 +49,8 @@ cd bnl-housing
 ensure bnl-housing
 ```
 
+4. Load the `bnl_housing.sql` file into your database.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Roadmap
@@ -59,15 +62,16 @@ ensure bnl-housing
 - [x] Locale support
   - [x] Dutch (NL)
   - [x] English (EN)
-- [ ] Logging out in properties
+- [x] Logging out in properties
 - [ ] Decorate properties
   - [ ] Normal props
   - [ ] Special props that do things when near like a storage container or laptop
 - [ ] Park vehicles in garages or warehouses
   - [x] Enter properties with vehicles
   - [x] Save them
+  - [x] Idea: Max vehicle count per shell
+  - [x] Passengers enter property
   - [ ] Check for space before enter
-  - [ ] Idea: Max vehicle count per shell
 - [ ] Break in / lockpick
 - [ ] Code lock option
 - [ ] Police raid
