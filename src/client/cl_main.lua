@@ -15,6 +15,18 @@ RegisterNetEvent("bnl-housing:client:notify", function(data)
     lib.defaultNotify(data)
 end)
 
+function SetAllPropertyBlips(blips)
+    if (blips == nil) then return end
+
+    BlipManager.RemoveCategory('bnl-housing:property')
+
+    for _,blipData in pairs(blips) do
+        local blip = BlipManager.CreateBlip(blipData.coord, blipData.sprite, blipData.color, blipData.name, blipData.scale, blipData.category, blipData.display, blipData.short)
+    end
+end
+
+RegisterNetEvent("bnl-housing:client:setAllPropertyBlips", SetAllPropertyBlips)
+
 function RegisterAllPropertyPoints()
     Logger.Log('Registering all property points')
 

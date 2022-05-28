@@ -12,6 +12,40 @@ function PlayerName(source)
     return GetPlayerName(source)
 end
 
+function UpdateAllPlayerBlips()
+    -- TODO: This really should be done in a better way, but I'm too lazy to do it right now
+    -- Priority: High
+    for _,player in pairs(GetPlayers()) do
+        Logger.Info('Updating blips for ' .. (player))
+        local blips = {}
+        for _,property in pairs(properties) do
+            local permissionLevel = GetPlayerPropertyPermissionLevel(GetIdentifier(player), property)
+            if (permissionLevel == nil) then goto continue end
+
+            local color = 0
+            if (permissionLevel == 'key_owner') then
+                color = 3
+            end
+            if (permissionLevel == 'owner') then
+                color = 2
+            end
+
+            table.insert(blips, {
+                coord = JsonCoordToVector3(property.entrance),
+                sprite = 40,
+                color = color,
+                name = locale('property'),
+                scale = 1.0,
+                category = 'bnl-housing:property'
+            })
+            
+            ::continue::
+        end
+
+        TriggerClientEvent("bnl-housing:client:setAllPropertyBlips", player, blips)
+    end
+end
+
 function UpdateProperty(newProperty)
     local property_id = newProperty.id
     for _,property in pairs(properties) do
@@ -26,6 +60,10 @@ function UpdateProperty(newProperty)
             return true
         end
     end
+
+    -- TODO: MOVE THIS TO A BETTER SPOT
+    UpdateAllPlayerBlips()
+
     return false
 end
 
