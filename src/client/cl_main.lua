@@ -75,7 +75,7 @@ function SpawnPropertyDecoration(property)
         local propCoord = shellCoord - vector3(prop.x, prop.y, prop.z)
         local propModel = prop.model
 
-        local propObject = CreateObject(GetHashKey(propModel), propCoord.x, propCoord.y, propCoord.z, true, true, true)
+        local propObject = CreateObject(GetHashKey(propModel), propCoord.x, propCoord.y, propCoord.z, false, false, false)
         SetEntityHeading(propObject, prop.w)
         FreezeEntityPosition(propObject, true)
 
