@@ -2,7 +2,7 @@ allPropertyLocations = nil; properties = nil; shells = nil;
 
 lib.versionCheck('borisnliscool/bnl-housing')
 
-Citizen.CreateThread(function()
+CreateThread(function()
     shells = data('shells')
 
     MySQL.query('SELECT * FROM bnl_housing', function(result)
@@ -119,7 +119,7 @@ RegisterNetEvent("bnl-housing:server:invitePlayer", function(player)
             property_id = property.id,
         })
 
-        Citizen.CreateThread(function()
+        CreateThread(function()
             Wait(30000)
 
             for i=1,#propertyInvites do
@@ -162,9 +162,9 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
             }
         }
     end
-    
+
     local permissionLevel = GetPlayerPropertyPermissionLevel(source, property)
-    
+
     if (permissionLevel ~= nil) then
         if (enteringWithVehicle) then
             if (type(property.saved_vehicles) == 'string') then property.saved_vehicles = json.decode(property.saved_vehicles) end
@@ -206,7 +206,7 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
                             name = PlayerName(id),
                             permissionLevel = playerPermissionLevel,
                         })
-        
+
                         TriggerClientEvent("bnl-housing:client:handleEnter", id, {
                             property = property,
                             permissionLevel = playerPermissionLevel,
@@ -223,27 +223,27 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
             name = PlayerName(source),
             permissionLevel = permissionLevel,
         })
-        
+
         if (enteringWithVehicle) then
             VehicleEnterProperty(property, {
                 networkId = NetworkGetNetworkIdFromEntity(vehicle),
                 plate = GetVehicleNumberPlateText(vehicle),
             })
         end
-        
+
         -- TODO: MAKE THIS BETTER WORKS NOW THO
-        Citizen.CreateThread(function()
+        CreateThread(function()
             Wait(1000)
             SpawnPropertyVehicles(property)
         end)
-    
+
         return {
             ret = true,
             property = property,
             permissionLevel = permissionLevel,
             withVehicle = enteringWithVehicle,
         }
-    end 
+    end
 
     return {
         ret = false,
@@ -258,7 +258,7 @@ end)
 lib.callback.register('bnl-housing:server:exit', function(source, exitWithVehicle)
     local property = GetPropertyPlayerIsInside(source)
     if (not property) then return { ret = false } end
-    
+
     local player = GetPlayerPed(source)
     PlayerExitProperty(property, GetIdentifier(source))
 
@@ -437,7 +437,7 @@ lib.callback.register("bnl-housing:server:take_keys_menu", function(source)
 
     if (player and player.permissionLevel == 'owner') then
         local keys = json.decode(property.key_owners)
-        
+
         if (#keys == 0) then
             TriggerClientEvent("bnl-housing:client:notify", _source, {
                 title = locale('property'),
@@ -521,13 +521,13 @@ RegisterNetEvent("bnl-housing:server:playerLoaded", function()
             name = PlayerName(_source),
             permissionLevel = player.permissionLevel,
         })
-        
+
         -- TODO: MAKE THIS BETTER WORKS NOW THO
-        Citizen.CreateThread(function()
+        CreateThread(function()
             Wait(1000)
             SpawnPropertyVehicles(property)
         end)
-        
+
         TriggerClientEvent("bnl-housing:client:handleEnter", source, {
             property = property,
             permissionLevel = player.permissionLevel,
@@ -571,7 +571,7 @@ lib.callback.register("bnl-housing:server:openSafe", function(source, data)
     if (not player) then return end
 
     local prop = GetPropertyPropById(property, data.prop_id)
-    
+
     if (prop) then
         if (prop.data.code) then
             if (prop.data.code == tonumber(data.code)) then
@@ -629,7 +629,7 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
                 local new_code = tonumber(data.new_code)
                 if (#tostring(new_code) ~= 4) then
                     return {
-                        ret = false, 
+                        ret = false,
                         notification = {
                             title = locale('safe'),
                             description = locale('invalid_code'),
@@ -661,7 +661,7 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
             local new_code = tonumber(data.code)
             if (#tostring(new_code) ~= 4) then
                 return {
-                    ret = false, 
+                    ret = false,
                     notification = {
                         title = locale('safe'),
                         description = locale('invalid_code'),
