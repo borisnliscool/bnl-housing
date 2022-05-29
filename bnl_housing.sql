@@ -7,5 +7,6 @@ CREATE TABLE `bnl_housing` (
     `for_sale` LONGTEXT NOT NULL DEFAULT '{}' , 
     `decoration` LONGTEXT NOT NULL DEFAULT '{}' , 
     `vehicles` LONGTEXT NOT NULL DEFAULT '{}' , 
+    `saved_players` LONGTEXT NOT NULL DEFAULT '{}' , 
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
