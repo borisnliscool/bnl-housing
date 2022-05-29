@@ -1,6 +1,6 @@
 allPropertyLocations = nil; allPropertyPoints = nil; shellObject = nil; isInProperty = false; propertyPlayerIsIn = nil; currentPropertyPermissionLevel = nil; inPropertyPoints = nil; currentPropertyProps = nil; decorationPoints = nil; specialProps = nil;
 
-Citizen.CreateThread(function()
+CreateThread(function()
     allPropertyLocations = lib.callback.await('bnl-housing:server:getAllPropertyLocations', 1500)
     RegisterAllPropertyPoints()
     specialProps = data('specialprops')
@@ -115,7 +115,7 @@ function SpawnPropertyDecoration(property)
                         end
                     end
                 end
-                
+
                 function point:onExit()
                     if (spData.closeText) then
                         lib.hideTextUI()
@@ -191,7 +191,7 @@ function HandlePropertyMenus(property)
 
     local shellCoord = GetEntityCoords(shellObject)
     local property_id = property.id
-    
+
     local foot_entrance = shellCoord - V4ToV3(property.shell.foot_entrance)
     local foot_point = lib.points.new(foot_entrance, 5, {
         property_id = property.id,
@@ -332,9 +332,6 @@ end
 function HandleEnter(data)
     lib.hideTextUI()
 
-    DoScreenFadeOut(500)
-    Wait(500)
-
     local property = data.property
     propertyPlayerIsIn = property
     currentPropertyPermissionLevel = data.permissionLevel
@@ -353,8 +350,6 @@ function HandleEnter(data)
         SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - V4ToV3(shell.foot_entrance) - vector3(0,0,1.0))
         SetEntityHeading(cache.ped, GetEntityHeading(shellObject) + shell.foot_entrance.w)
     end
-
-    DoScreenFadeIn(500)
 end
 
 RegisterNetEvent("bnl-housing:client:handleEnter", HandleEnter)
@@ -383,7 +378,7 @@ RegisterNetEvent("bnl-housing:client:enter", function(menuData)
         end
     end
     local data = lib.callback.await('bnl-housing:server:enter', false, menuData.property_id, vehicleEnter)
-    
+
     if (data.ret == true) then
         HandleEnter(data)
     else
@@ -464,7 +459,7 @@ end)
 
 RegisterNetEvent("bnl-housing:client:takeKeysMenu", function()
     local data = lib.callback.await('bnl-housing:server:take_keys_menu', false)
-    
+
     if (data.ret) then
         local options = {}
         for _,player in pairs(data.keys) do
@@ -527,7 +522,7 @@ end)
 function HandleExit(data)
     local vehicle = GetVehiclePedIsIn(cache.ped, false)
 
-    if (data.deleteVehicle) then 
+    if (data.deleteVehicle) then
         DeleteVehicle(vehicle)
     end
 
@@ -543,16 +538,16 @@ function HandleExit(data)
     isInProperty = false
     propertyPlayerIsIn = nil
     currentPropertyPermissionLevel = nil
-    
+
     if shellObject ~= nil or shellObject ~= 0 then
         DeleteEntity(shellObject)
     end
-    
+
     if currentPropertyProps ~= nil then
         for _,prop in pairs(currentPropertyProps) do
             DeleteEntity(prop)
         end
-    
+
         currentPropertyProps = nil
     end
 
@@ -560,7 +555,7 @@ function HandleExit(data)
         for _,point in pairs(decorationPoints) do
             point:remove()
         end
-    
+
         decorationPoints = nil
     end
 end
@@ -592,7 +587,7 @@ end)
 RegisterNetEvent("bnl-housing:client:getInvite", function()
     HelpNotification(locale('invited_to_property'), 30000)
 
-    Citizen.CreateThread(function()
+    CreateThread(function()
         count = 0
         repeat
             Wait(1)

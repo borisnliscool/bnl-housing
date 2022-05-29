@@ -259,7 +259,7 @@ function SavePropertyVehicles(property)
         TriggerClientEvent('bnl-housing:client:requestVehicleData', vehicleOwner, vehicle)
 
         local timeout = false
-        Citizen.CreateThread(function()
+        CreateThread(function()
             Wait(1000)
             if (vehicleData[vehicle.networkId] == nil) then
                 timeout = true
