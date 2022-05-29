@@ -3,7 +3,7 @@
 <br />
 <div align="center">
 
-  <h1 align="center">BNL Housing</h1>
+  <h1 align="center"><img src="https://i.imgur.com/efWK1Rc.png"></h1>
 
   <p align="center">
     A player property script for FiveM
