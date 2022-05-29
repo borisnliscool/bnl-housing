@@ -1,9 +1,10 @@
-allPropertyLocations = nil; properties = nil; shells = nil;
+allPropertyLocations = nil; properties = nil; shells = nil; propertyTypes = nil;
 
 lib.versionCheck('borisnliscool/bnl-housing')
 
 CreateThread(function()
     shells = data('shells')
+    propertyTypes = data('propertyTypes')
 
     MySQL.query('SELECT * FROM bnl_housing', function(result)
         if result then
@@ -30,6 +31,16 @@ CreateThread(function()
                         property.shell = shell
                         break
                     end
+                end
+                if (property.shell ~= nil) then
+                    for propertyType, data in pairs(propertyTypes) do
+                        if (property.shell.type == propertyType) then
+                            property.type = data
+                            break
+                        end
+                    end
+                else
+                    Logger.Error('Shell not found for property #' .. property_id)
                 end
             end
 
