@@ -23,8 +23,8 @@ This script does not use any framework, but will add easy support for them later
 
 ### Dependencies
 
-1. ox_lib
-2. oxmysql
+1. [ox_lib](https://github.com/overextended/ox_lib)
+2. [oxmysql](https://github.com/overextended/oxmysql)
 3. baseevents
 
 ### Installation
