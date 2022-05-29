@@ -62,10 +62,11 @@ ensure bnl-housing
 - [x] Locale support
   - [x] Dutch (NL)
   - [x] English (EN)
+  - [x] French (FR)
 - [x] Logging out in properties
 - [ ] Decorate properties
   - [ ] Normal props
-  - [ ] Special props that do things when near like a storage container or laptop
+  - [x] Special props that do things when near like a storage container or laptop
   - [ ] Add qTarget support for special props
 - [ ] Park vehicles in garages or warehouses
   - [x] Enter properties with vehicles
@@ -80,6 +81,8 @@ ensure bnl-housing
 - [ ] Realtor job
 - [ ] Rent out property
 - [ ] Property blips
+  - [x] Working
+  - [ ] Improve performance 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
