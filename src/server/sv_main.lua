@@ -539,14 +539,6 @@ RegisterNetEvent("bnl-housing:server:playerLoaded", function()
 end)
 
 -- TEMP
-RegisterCommand("housing:test", function(source, args, rawCommand)
-    TriggerClientEvent("bnl-housing:client:handleEnter", source, {
-        property = GetPropertyById(1),
-        permissionLevel = "owner",
-        withVehicle = false
-    })
-end)
-
 RegisterCommand("housing:property", function(source, args, rawCommand)
     if (args[1]) then
         local property_id = args[1]

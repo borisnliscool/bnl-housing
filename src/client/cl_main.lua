@@ -287,40 +287,42 @@ function HandlePropertyMenus(property)
 
     table.insert(inPropertyPoints, foot_point)
 
-    local vehicle_entrance = shellCoord - V4ToV3(property.shell.vehicle_entrance)
-    local vehicle_point = lib.points.new(vehicle_entrance, 5, {
-        property_id = property.id,
-        type = 'vehicle',
-    })
+    if (property.shell.vehicle_entrance ~= nil) then
+        local vehicle_entrance = shellCoord - V4ToV3(property.shell.vehicle_entrance)
+        local vehicle_point = lib.points.new(vehicle_entrance, 5, {
+            property_id = property.id,
+            type = 'vehicle',
+        })
 
-    local vehicle_entered = true
-    function vehicle_point:nearby()
-        if (IsPedInAnyVehicle(cache.ped, true)) then
-            DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.25, 0.25, 0.25, 0, 150, 255, 155, false, true, 2, nil, nil, false)
+        local vehicle_entered = true
+        function vehicle_point:nearby()
+            if (IsPedInAnyVehicle(cache.ped, true)) then
+                DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.25, 0.25, 0.25, 0, 150, 255, 155, false, true, 2, nil, nil, false)
 
-            if self.currentDistance < 1.5 then
-                if not entered then
-                    lib.showTextUI(locale('open_menu'))
-                    entered = true
-                end
+                if self.currentDistance < 1.5 then
+                    if not entered then
+                        lib.showTextUI(locale('open_menu'))
+                        entered = true
+                    end
 
-                if IsControlJustReleased(0, 38) then
-                    lib.registerContext({
-                        id = 'property_vehicle',
-                        title = locale('property_menu'),
-                        options = {
-                            {
-                                title = locale('exit_property'),
-                                event = 'bnl-housing:client:exit',
-                            },
-                        }
-                    })
-                    lib.showContext('property_vehicle')
-                end
-            else
-                if entered then
-                    lib.hideTextUI()
-                    entered = false
+                    if IsControlJustReleased(0, 38) then
+                        lib.registerContext({
+                            id = 'property_vehicle',
+                            title = locale('property_menu'),
+                            options = {
+                                {
+                                    title = locale('exit_property'),
+                                    event = 'bnl-housing:client:exit',
+                                },
+                            }
+                        })
+                        lib.showContext('property_vehicle')
+                    end
+                else
+                    if entered then
+                        lib.hideTextUI()
+                        entered = false
+                    end
                 end
             end
         end
