@@ -290,7 +290,7 @@ lib.callback.register('bnl-housing:server:exit', function(source, exitWithVehicl
 
                 TriggerClientEvent("bnl-housing:client:handleExit", id, {
                     ret = true,
-                    withVehicle = false,
+                    withVehicle = true,
                     deleteVehicle = false,
                 })
             end
