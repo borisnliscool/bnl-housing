@@ -67,7 +67,7 @@ ensure bnl-housing
 - [ ] Decorate properties
   - [ ] Normal props
   - [x] Special props that do things when near like a storage container or laptop
-  - [ ] Add qTarget support for special props
+  - [x] Add qTarget support for special props
 - [ ] Park vehicles in garages or warehouses
   - [x] Enter properties with vehicles
   - [x] Save them
