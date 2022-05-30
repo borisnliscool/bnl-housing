@@ -77,5 +77,45 @@ return {
             -- Here you can do whatever you want, for example calling a exports
             Logger.Success(prop)
         end
+    },
+    ["example"] = {
+        qTarget = {
+            {
+			    event = "eventname",
+                icon = "fas fa-box-circle-check",
+                label = "action 1",
+                num = 1
+            },
+            {
+                event = "eventname",
+                icon = "fas fa-box-circle-check",
+                label = "action 2",
+                num = 2
+            },
+        },
+        range = 1.5,
+        marker = {
+            sprite = 2,
+            offset = vector3(0.0, 0.0, 1.25),
+            scale = vector3(0.25, 0.25, 0.25),
+            rotation = vector3(180.0, 0.0, 0.0),
+            color = {
+                255,
+                255,
+                255,
+                255
+            },
+            bob = false,
+            faceCamera = true
+        },
+        outline = {
+            color = {
+                255,
+                255,
+                255,
+                255
+            },
+            shader = 1
+        },
     }
 }

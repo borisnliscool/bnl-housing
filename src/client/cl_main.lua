@@ -102,8 +102,15 @@ function SpawnPropertyDecoration(property)
                 })
 
                 function point:onEnter()
-                    if (spData.closeText) then
-                        lib.showTextUI(spData.closeText)
+                    if (spData.qTarget) then
+                        exports.qtarget:AddTargetEntity(self.entity, {
+                            options = spData.qTarget,
+                            distance = spData.range,
+                        })
+                    else
+                        if (spData.closeText) then
+                            lib.showTextUI(spData.closeText)
+                        end
                     end
                     if (spData.outline) then
                         SetEntityDrawOutline(self.entity, true)
@@ -126,9 +133,11 @@ function SpawnPropertyDecoration(property)
                 end
 
                 function point:nearby()
-                    if (IsControlJustPressed(0, 38)) then
-                        if (spData.func ~= nil) then
-                            spData.func(prop)
+                    if (not qTarget) then
+                        if (IsControlJustPressed(0, 38)) then
+                            if (spData.func ~= nil) then
+                                spData.func(prop)
+                            end
                         end
                     end
                     if (spData.marker) then
@@ -137,13 +146,13 @@ function SpawnPropertyDecoration(property)
                         DrawMarker(md.sprite, coords, 0.0, 0.0, 0.0, md.rotation, md.scale, md.color[1], md.color[2], md.color[3], md.color[4], md.bob, md.faceCamera, 2, nil, nil, false)
                     end
                 end
-
-                if (decorationPoints == nil) then
-                    decorationPoints = {}
-                end
-
-                table.insert(decorationPoints, point)
             end
+
+            if (decorationPoints == nil) then
+                decorationPoints = {}
+            end
+
+            table.insert(decorationPoints, point)
         end
     end
 end
