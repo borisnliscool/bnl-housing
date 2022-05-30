@@ -1,63 +1,51 @@
 <div id="top"></div>
 
-<br>
+<br />
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/60477582/171033764-9b97a362-58b2-4352-a17e-64185a70e9aa.png">
 
-  <br>
-  
-  <h3 align="center">
-    A new player property system for FiveM
-    <p>
-    <a href="https://github.com/borisnliscool/bnl-housing/issues">Report Bug</a>
+  <h1 align="center"><img src="https://i.imgur.com/efWK1Rc.png"></h1>
+
+  <p align="center">
+    A player property resource for FiveM.
+    <br />
+    <a href="https://github.com/borisnliscool/bnl-housing/issues">Report a Bug</a>
     ·
-    <a href="https://github.com/borisnliscool/bnl-housing/issues">Request Feature</a>
-    · 
-    <a href="https://borisnl.nl/discord">Join the Discord</a>
-    </p>
-  </h3>
+    <a href="https://github.com/borisnliscool/bnl-housing/issues">Request a Feature</a>
+    ·
+    <a href="https://borisnl.nl/discord">Join my Discord</a>
+  </p>
 </div>
 
 ## About The Project
 
-A player property script for FiveM, more details will follow.
-This script does not use any framework, but will add easy support for them later.
+A player property resource that allows you to purchase, sell, decorate, store your vehicles, and *much* more. This script is *currently* standalone and does *not* require a framework.
 
-<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
-
-## Get Started
-### Dependencies
+## Dependencies
 
 1. [ox_lib](https://github.com/overextended/ox_lib)
 2. [oxmysql](https://github.com/overextended/oxmysql)
 3. baseevents
 
-### Installation
-To use this script follow these steps:
+## Installation
 
-1. Clone this repository into your `resources`
-
-```
-git clone https://github.com/borisnliscool/bnl-housing
-```
-
-2. Enter the directory
+### Using Git
 
 ```
-cd bnl-housing
+cd resources
+git clone https://github.com/borisnliscool/bnl-housing.git
 ```
 
-3. Add the script to the server config
+### Manually
 
+- Be sure to download the latest version of the resource, it's always good to stay up to date.
+- Place it inside the `resources` directory
+- Add the resource to your `server.cfg` after dependencies to make sure it's started correctly at server startup:
 ```
 ensure bnl-housing
 ```
-
-4. Load the `bnl_housing.sql` file into your database.
+- Lastly, insert `bnl_housing.sql` into your database.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
 ## Roadmap
 
@@ -88,17 +76,16 @@ ensure bnl-housing
 - [ ] Rent out property
 - [ ] Property blips
   - [x] Working
-  - [x] Improve performance 
+  - [x] Improve performance
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
 ## License
 
-Distributed under the GPL-3.0 License. See `LICENSE` for more information.
+Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/borisnliscool/bnl-housing/blob/main/LICENSE) for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
 
 ## Contact
 
