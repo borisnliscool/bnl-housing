@@ -3,7 +3,9 @@
 <br />
 <div align="center">
 
-  <h1 align="center"><img src="https://i.imgur.com/efWK1Rc.png"></h1>
+  <h1 align="center">
+    ![bnl-housing banner](https://user-images.githubusercontent.com/60477582/171033764-9b97a362-58b2-4352-a17e-64185a70e9aa.png)
+  </h1>
 
   <p align="center">
     A player property script for FiveM
