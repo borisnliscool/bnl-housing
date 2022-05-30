@@ -28,6 +28,11 @@ function GetVehicleProperties(vehicle)
 			end
 		end
 
+        local fuelLevel         = math.round(GetVehicleFuelLevel(vehicle), 1)
+        if (next(exports["LegacyFuel"]) ~= nil) then 
+            fuelLevel = math.round(exports["LegacyFuel"]:GetFuel(vehicle),1) 
+        end
+
 		return {
 			model             = GetEntityModel(vehicle),
 
@@ -38,7 +43,8 @@ function GetVehicleProperties(vehicle)
 			engineHealth      = math.round(GetVehicleEngineHealth(vehicle), 1),
 			tankHealth        = math.round(GetVehiclePetrolTankHealth(vehicle), 1),
 
-			fuelLevel         = math.round(exports["LegacyFuel"]:GetFuel(vehicle),1) or math.round(GetVehicleFuelLevel(vehicle), 1),
+            fuelLevel         = fuelLevel,
+
 			dirtLevel         = math.round(GetVehicleDirtLevel(vehicle), 1),
 			color1            = colorPrimary,
 			color2            = colorSecondary,
@@ -132,9 +138,11 @@ function SetVehicleProperties(vehicle, props)
 		if props.bodyHealth then SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0) end
 		if props.engineHealth then SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0) end
 		if props.tankHealth then SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0) end
-		if props.fuelLevel then 
-            if not exports["LegacyFuel"]:SetFuel(vehicle, props.fuelLevel) then
-                SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0) 
+		if props.fuelLevel then
+            if (next(exports["LegacyFuel"]) ~= nil) then 
+                exports["LegacyFuel"]:SetFuel(vehicle, props.fuelLevel)
+            else
+                SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
             end
         end
 		if props.dirtLevel then SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0) end
