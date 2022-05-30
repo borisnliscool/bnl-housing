@@ -20,6 +20,8 @@
 
 A player property resource that allows you to purchase, sell, decorate, store your vehicles, and *much* more. This script is *currently* standalone and does *not* require a framework.
 
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
+
 ## Dependencies
 
 1. [ox_lib](https://github.com/overextended/ox_lib)
@@ -46,6 +48,8 @@ ensure bnl-housing
 - Lastly, insert `bnl_housing.sql` into your database.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
 ## Roadmap
 
@@ -79,6 +83,8 @@ ensure bnl-housing
   - [x] Improve performance
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
 ## License
 
