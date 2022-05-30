@@ -1,21 +1,21 @@
 <div id="top"></div>
 
-<br />
+<br>
 <div align="center">
+  <img src="https://user-images.githubusercontent.com/60477582/171033764-9b97a362-58b2-4352-a17e-64185a70e9aa.png">
 
-  <h1 align="center">
-    <img src="https://user-images.githubusercontent.com/60477582/171033764-9b97a362-58b2-4352-a17e-64185a70e9aa.png">
-  </h1>
-
-  <p align="center">
-    A player property script for FiveM
-    <br />
+  <br>
+  
+  <h3 align="center">
+    A new player property system for FiveM
+    <p>
     <a href="https://github.com/borisnliscool/bnl-housing/issues">Report Bug</a>
     ·
     <a href="https://github.com/borisnliscool/bnl-housing/issues">Request Feature</a>
     · 
-    <a href="https://borisnl.nl/discord">Join my Discord</a>
-  </p>
+    <a href="https://borisnl.nl/discord">Join the Discord</a>
+    </p>
+  </h3>
 </div>
 
 ## About The Project
@@ -23,6 +23,9 @@
 A player property script for FiveM, more details will follow.
 This script does not use any framework, but will add easy support for them later.
 
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
+
+## Get Started
 ### Dependencies
 
 1. [ox_lib](https://github.com/overextended/ox_lib)
@@ -30,7 +33,6 @@ This script does not use any framework, but will add easy support for them later
 3. baseevents
 
 ### Installation
-
 To use this script follow these steps:
 
 1. Clone this repository into your `resources`
@@ -54,6 +56,8 @@ ensure bnl-housing
 4. Load the `bnl_housing.sql` file into your database.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
 ## Roadmap
 
@@ -88,12 +92,13 @@ ensure bnl-housing
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
+
 ## License
 
 Distributed under the GPL-3.0 License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 ## Contact
 
