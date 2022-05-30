@@ -82,7 +82,7 @@ ensure bnl-housing
 - [ ] Rent out property
 - [ ] Property blips
   - [x] Working
-  - [ ] Improve performance 
+  - [x] Improve performance 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
