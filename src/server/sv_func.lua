@@ -13,35 +13,53 @@ function PlayerName(source)
 end
 
 function UpdateAllPlayerBlips()
-    -- TODO: This really should be done in a better way, but I'm too lazy to do it right now
-    -- Priority: High
-    for _,player in pairs(GetPlayers()) do
+    local players = {}
+
+    for _,property in pairs(properties) do
         local blips = {}
-        for _,property in pairs(properties) do
-            local permissionLevel = GetPlayerPropertyPermissionLevel(GetIdentifier(player), property)
-            if (permissionLevel == nil) then goto continue end
 
-            local color = 0
-            if (permissionLevel == 'key_owner') then
-                color = 3
+        if (type(property.key_owners) == 'string') then 
+            property.key_owners = json.decode(property.key_owners) 
+        end
+        for _,key_owner in pairs(property.key_owners) do
+            local player = GetPlayerFromIdentifier(key_owner.identifier)
+            if (player) then
+                blips[player] = {
+                    coord = JsonCoordToVector3(property.entrance),
+                    sprite = 40,
+                    color = 3,
+                    name = locale('property'),
+                    scale = 1.0,
+                    category = 'bnl-housing:property',
+                    short = false
+                }
             end
-            if (permissionLevel == 'owner') then
-                color = 2
-            end
+        end 
 
-            table.insert(blips, {
-                coord = JsonCoordToVector3(property.entrance),
-                sprite = 40,
-                color = color,
-                name = locale('property'),
-                scale = 1.0,
-                category = 'bnl-housing:property',
-                short = false
-            })
-            
-            ::continue::
+        if (property.owner) then
+            local player = GetPlayerFromIdentifier(property.owner)
+            if (player) then
+                blips[player] = {
+                    coord = JsonCoordToVector3(property.entrance),
+                    sprite = 40,
+                    color = 2,
+                    name = locale('property'),
+                    scale = 1.0,
+                    category = 'bnl-housing:property',
+                    short = false
+                }
+            end
         end
 
+        for player,blip in pairs(blips) do    
+            if (not players[player]) then
+                players[player] = {}
+            end
+            table.insert(players[player], blip)
+        end
+    end
+
+    for player, blips in pairs(players) do
         TriggerClientEvent("bnl-housing:client:setAllPropertyBlips", player, blips)
     end
 end
@@ -64,7 +82,7 @@ function UpdateProperty(newProperty)
     end
 
     -- TODO: MOVE THIS TO A BETTER SPOT
-    UpdateAllPlayerBlips()
+    -- UpdateAllPlayerBlips()
 
     return false
 end
@@ -414,7 +432,10 @@ function GetPlayerPropertyPermissionLevel(player, property)
         end
     end
 
-    for _,key_owner in pairs(json.decode(property.key_owners)) do
+    if (type(property.key_owners) == 'string') then 
+        property.key_owners = json.decode(property.key_owners) 
+    end
+    for _,key_owner in pairs(property.key_owners) do
         if (playerIdentifier == key_owner.identifier) then
             if (permissionLevel == nil) then
                 permissionLevel = 'key_owner'
@@ -434,6 +455,15 @@ end
 function GetPlayerServerId(player)
     for _,id in pairs(GetPlayers()) do
         if (GetPlayerPed(id) == player) then
+            return id
+        end
+    end
+    return nil
+end
+
+function GetPlayerFromIdentifier(identifier)
+    for _,id in pairs(GetPlayers()) do
+        if (GetIdentifier(id) == identifier) then
             return id
         end
     end
