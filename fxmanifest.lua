@@ -5,40 +5,40 @@ game            'gta5'
 name            'bnl-housing'
 author          'Boris'
 version         '0.0.1'
-repository      ''
-description     'A free and open source player property script for FiveM'
+repository      'https://github.com/borisnliscool/bnl-housing'
+description     'Simple player property system'
 
 dependencies {
-    '/onesync',
-    'ox_lib',
-    'oxmysql',
+	'/onesync',
+	'ox_lib',
+	'oxmysql',
 }
 
-files {
-    'src/client/html/index.html',
-    'src/client/html/main.js',
-    'src/client/html/audio/*.mp3',
+shared_scripts {
+	'@ox_lib/init.lua',
+	'src/shared/sh_main.lua',
+}
 
-    'locales/*.json',
-    'data/*.lua',
+client_scripts {
+	'src/client/cl_main.lua',
+	'src/client/cl_functions.lua',
+	'src/client/blipmanager.lua',
+}
+
+server_scripts {
+	'@oxmysql/lib/MySQL.lua',
+
+	'src/server/sv_main.lua',
+	'src/server/sv_functions.lua',
 }
 
 ui_page 'src/client/html/index.html'
 
-client_scripts {
-    'src/client/cl_main.lua',
-    'src/client/cl_func.lua',
-    'src/client/blipmanager.lua',
-}
+files {
+	'src/client/html/index.html',
+	'src/client/html/main.js',
+	'src/client/html/audio/*.mp3',
 
-server_scripts {
-    '@oxmysql/lib/MySQL.lua',
-
-    'src/server/sv_main.lua',
-    'src/server/sv_func.lua',
-}
-
-shared_scripts {
-    '@ox_lib/init.lua',
-    'src/shared/sh_main.lua',
+	'locales/*.json',
+	'data/*.lua',
 }

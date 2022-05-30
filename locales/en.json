@@ -8,8 +8,8 @@
 	"error": "Something went wrong...",
 	"not_implemented": "This feature is not implemented yet",
 
-    "garage": "Garage",
-    "warehouse": "Warehouse",
+	"garage": "Garage",
+	"warehouse": "Warehouse",
 
 	"safe": "Safe",
 	"open_safe": "Open Safe",
