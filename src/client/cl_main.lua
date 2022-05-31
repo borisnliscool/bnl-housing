@@ -135,7 +135,15 @@ function SpawnPropertyDecoration(property)
                     if (not qTarget) then
                         if (IsControlJustPressed(0, 38)) then
                             if (spData.func ~= nil) then
-                                spData.func(prop)
+                                local newProp = {}
+
+                                for key,value in pairs(prop) do
+                                    if (key ~= 'spData') then
+                                        newProp[key] = value
+                                    end
+                                end
+
+                                spData.func(newProp)
                             end
                         end
                     end
