@@ -18,7 +18,7 @@
 
 ## About The Project
 
-A player property resource that allows you to purchase, sell, decorate, store your vehicles, and *much* more. This script is *currently* standalone and does *not* require a framework.
+A player property resource that allows you to purchase, sell, decorate, store your vehicles, and *much* more. This script is *currently* standalone and does *not* require a framework. In the future I am however planning on adding support for the major frameworks.
 
 <img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
