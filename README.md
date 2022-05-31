@@ -81,6 +81,8 @@ ensure bnl-housing
 - [ ] Property blips
   - [x] Working
   - [x] Improve performance
+    - [ ] Make it even better
+  - [x] Correct Sprite for different property types
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
