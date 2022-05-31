@@ -30,22 +30,15 @@ A player property resource that allows you to purchase, sell, decorate, store yo
 
 ## Installation
 
-### Using Git
-
-```
-cd resources
-git clone https://github.com/borisnliscool/bnl-housing.git
-```
-
-### Manually
-
-- Be sure to download the latest version of the resource, it's always good to stay up to date.
-- Place it inside the `resources` directory
+- Be sure to download the [latest release](https://github.com/borisnliscool/bnl-housing/releases) of the resource, it's always good to stay up to date.
+- Place it somewhere inside the `resources` directory
 - Add the resource to your `server.cfg` after dependencies to make sure it's started correctly at server startup:
 ```
 ensure bnl-housing
 ```
 - Lastly, insert `bnl_housing.sql` into your database.
+
+If you incounter any issues downloading, you can ask for help in [my discord](https://borisnl.nl/discord).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -76,8 +69,8 @@ ensure bnl-housing
 - [ ] Code lock option
 - [ ] Police raid
 - [ ] Property selling
+  - [ ] Rent out property
 - [ ] Realtor job
-- [ ] Rent out property
 - [ ] Property blips
   - [x] Working
   - [x] Improve performance
