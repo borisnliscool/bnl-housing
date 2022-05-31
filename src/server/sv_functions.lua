@@ -17,6 +17,8 @@ function UpdateAllPlayerBlips()
 
     for _,property in pairs(properties) do
         local blips = {}
+        local sprite = property.type.blip.normal.sprite or 1
+        local name = property.type.name or locale('property')
 
         if (type(property.key_owners) == 'string') then
             property.key_owners = json.decode(property.key_owners)
@@ -26,9 +28,9 @@ function UpdateAllPlayerBlips()
             if (player) then
                 blips[player] = {
                     coord = JsonCoordToVector3(property.entrance),
-                    sprite = 40,
+                    sprite = sprite,
                     color = 3,
-                    name = locale('property'),
+                    name = name,
                     scale = 1.0,
                     category = 'bnl-housing:property',
                     short = false
@@ -41,9 +43,9 @@ function UpdateAllPlayerBlips()
             if (player) then
                 blips[player] = {
                     coord = JsonCoordToVector3(property.entrance),
-                    sprite = 40,
+                    sprite = sprite,
                     color = 2,
-                    name = locale('property'),
+                    name = name,
                     scale = 1.0,
                     category = 'bnl-housing:property',
                     short = false
