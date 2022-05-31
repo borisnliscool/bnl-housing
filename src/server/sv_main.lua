@@ -194,7 +194,7 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
             end
 
             local plate = GetVehicleNumberPlateText(vehicle)
-            if (IsPlateInAnyProperty(plate)) then
+            if (IsPlateInProperty(plate, property)) then
                 return {
                     ret = false,
                     notification = {

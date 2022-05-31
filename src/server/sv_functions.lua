@@ -404,6 +404,15 @@ function IsPlateInAnyProperty(plate)
     return false
 end
 
+function IsPlateInProperty(plate, property)
+    for _,vehicle in pairs(property.saved_vehicles) do
+        if (vehicle.plate == plate) then
+            return true
+        end
+    end
+    return false
+end
+
 function FindSavedPlayer(identifier)
     for _,property in pairs(properties) do
         for _,player in pairs(property.saved_players) do
