@@ -55,6 +55,12 @@ return {
 				})
 			end
 		end,
+        onCreate = function(prop)
+            Logger.Success('Spawned safe prop:', prop)
+        end,
+        onDelete = function(prop)
+            Logger.Success('Deleted safe prop:', prop)
+        end
 	},
 	["prop_tool_bench02_ld"] = {
 		closeText = "Press [E] to open the workbench",

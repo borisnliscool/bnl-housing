@@ -88,10 +88,9 @@ function SpawnPropertyDecoration(property)
         local propModel = prop.model
 
         local propObject = CreateObject(GetHashKey(propModel), propCoord.x, propCoord.y, propCoord.z, false, false, false)
+        prop.entity = propObject
         SetEntityHeading(propObject, prop.w)
         FreezeEntityPosition(propObject, true)
-
-        table.insert(currentPropertyProps, propObject)
 
         for spName, spData in pairs(specialProps) do
             if (spName == propModel) then
@@ -146,6 +145,12 @@ function SpawnPropertyDecoration(property)
                         DrawMarker(md.sprite, coords, 0.0, 0.0, 0.0, md.rotation, md.scale, md.color[1], md.color[2], md.color[3], md.color[4], md.bob, md.faceCamera, 2, nil, nil, false)
                     end
                 end
+
+                if (spData.onCreate) then
+                    spData.onCreate(prop)
+                end
+
+                prop.spData = spData
             end
 
             if (decorationPoints == nil) then
@@ -154,13 +159,27 @@ function SpawnPropertyDecoration(property)
 
             table.insert(decorationPoints, point)
         end
+
+        table.insert(currentPropertyProps, prop)
     end
 end
 
 function DespawnPropertyDecoration()
-    if currentPropertyProps ~= nil then
+    if (currentPropertyProps ~= nil) then
         for _,prop in pairs(currentPropertyProps) do
-            DeleteEntity(prop)
+            if (prop.spData.onDelete) then
+                local newProp = {}
+
+                for key,value in pairs(prop) do
+                    if (key ~= 'spData') then
+                        newProp[key] = value
+                    end
+                end
+
+                prop.spData.onDelete(newProp)
+            end
+
+            DeleteEntity(prop.entity)
         end
         currentPropertyProps = nil
     end
@@ -552,21 +571,23 @@ function HandleExit(data)
         DeleteEntity(shellObject)
     end
 
-    if currentPropertyProps ~= nil then
-        for _,prop in pairs(currentPropertyProps) do
-            DeleteEntity(prop)
-        end
+    DespawnPropertyDecoration()
 
-        currentPropertyProps = nil
-    end
+    -- if currentPropertyProps ~= nil then
+    --     for _,prop in pairs(currentPropertyProps) do
+    --         DeleteEntity(prop)
+    --     end
 
-    if (decorationPoints ~= nil) then
-        for _,point in pairs(decorationPoints) do
-            point:remove()
-        end
+    --     currentPropertyProps = nil
+    -- end
 
-        decorationPoints = nil
-    end
+    -- if (decorationPoints ~= nil) then
+    --     for _,point in pairs(decorationPoints) do
+    --         point:remove()
+    --     end
+
+    --     decorationPoints = nil
+    -- end
 end
 
 RegisterNetEvent("bnl-housing:client:handleExit", HandleExit)
