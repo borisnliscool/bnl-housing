@@ -8,7 +8,7 @@ CreateThread(function()
 
     MySQL.query('SELECT * FROM bnl_housing', function(result)
         if result then
-            properties = result
+            properties = {}
 
             allPropertyLocations = {}
             for _,property in pairs(result) do
@@ -42,6 +42,8 @@ CreateThread(function()
                 else
                     Logger.Error('Shell not found for property #' .. property_id)
                 end
+
+                properties[property_id] = property
             end
 
             TriggerEvent('bnl-housing:server:onPropertiesLoaded', properties)

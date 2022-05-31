@@ -68,25 +68,19 @@ end
 
 function UpdateProperty(newProperty)
     local property_id = newProperty.id
-    for _,property in pairs(properties) do
-        if (property.id == property_id) then
-            property = newProperty
 
-            if (property.playersInside) then
-                for _,player in pairs(property.playersInside) do
-                    TriggerClientEvent('bnl-housing:client:updateProperty', player.serverId, property)
-                end
-            end
+    properties[property_id] = newProperty
+    local property = properties[property_id]
 
-            UpdateAllPlayerBlips()
-            return true
+    if (not property) then return end
+
+    if (property.playersInside) then
+        for _,player in pairs(property.playersInside) do
+            TriggerClientEvent('bnl-housing:client:updateProperty', player.serverId, property)
         end
     end
 
-    -- TODO: MOVE THIS TO A BETTER SPOT
-    -- UpdateAllPlayerBlips()
-
-    return false
+    return true
 end
 
 function GetPropertyById(property_id)
@@ -94,12 +88,7 @@ function GetPropertyById(property_id)
         property_id = tonumber(property_id)
     end
 
-    for _,property in pairs(properties) do
-        if (property.id == property_id) then
-            return property
-        end
-    end
-    return nil
+    return properties[property_id]
 end
 
 function GetPropertyPlayerIsInside(player)
