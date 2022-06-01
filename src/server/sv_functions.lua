@@ -200,30 +200,32 @@ function SpawnPropertyVehicles(property)
     Logger.Info("Spawning " .. #property.saved_vehicles .. " vehicles for property #" .. property.id)
 
     for _,vehicleInProperty in pairs(property.saved_vehicles) do
-        local v3 = vector3(vehicleInProperty.location.x, vehicleInProperty.location.y, vehicleInProperty.location.z)
-        local location = JsonCoordToVector3(property.entrance) - lowerBy + v3 + vector3(0.0, 0.0, 1.5)
+        CreateThread(function()
+            local v3 = vector3(vehicleInProperty.location.x, vehicleInProperty.location.y, vehicleInProperty.location.z)
+            local location = JsonCoordToVector3(property.entrance) - lowerBy + v3 + vector3(0.0, 0.0, 1.5)
 
-        local heading = vehicleInProperty.heading
-        local vehicle = CreateVehicle(vehicleInProperty.model, location, heading, true, false)
+            local heading = vehicleInProperty.heading
+            local vehicle = CreateVehicle(vehicleInProperty.model, location, heading, true, false)
 
-        repeat
-            Wait(10)
-        until vehicle ~= nil and DoesEntityExist(vehicle) and NetworkGetNetworkIdFromEntity(vehicle) ~= nil
+            repeat
+                Wait(10)
+            until vehicle ~= nil and DoesEntityExist(vehicle) and NetworkGetNetworkIdFromEntity(vehicle) ~= nil
 
-        local vehicleNetworkId = NetworkGetNetworkIdFromEntity(vehicle)
-        local newNetOwner = property.playersInside[1].serverId
-        TriggerClientEvent('bnl-housing:client:setNetworkOwner', newNetOwner, vehicleNetworkId)
-        TriggerClientEvent('bnl-housing:client:setVehicleProps', newNetOwner, vehicleNetworkId, vehicleInProperty)
+            local vehicleNetworkId = NetworkGetNetworkIdFromEntity(vehicle)
+            local newNetOwner = property.playersInside[1].serverId
+            TriggerClientEvent('bnl-housing:client:setNetworkOwner', newNetOwner, vehicleNetworkId)
+            TriggerClientEvent('bnl-housing:client:setVehicleProps', newNetOwner, vehicleNetworkId, vehicleInProperty)
 
-        FreezeEntityPosition(vehicle, true)
+            FreezeEntityPosition(vehicle, true)
 
-        table.insert(property.vehicles, {
-            networkId = vehicleNetworkId,
-            plate = vehicleInProperty.plate,
-        })
+            table.insert(property.vehicles, {
+                networkId = vehicleNetworkId,
+                plate = vehicleInProperty.plate,
+            })
 
         -- This is needed for some anticheats. So if you're having trouble with the vehicles, try uncommenting this.
         -- Wait(300)
+        end)
     end
 
     UpdateProperty(property)
