@@ -699,6 +699,7 @@ end)
 
 exports {
     GetIdentifier: GetIdentifier,
+    PlayerName: PlayerName,
     GetPropertyById: GetPropertyById,
     GetPropertyPlayerIsInside: GetPropertyPlayerIsInside,
     FindPlayerInProperty: FindPlayerInProperty,
