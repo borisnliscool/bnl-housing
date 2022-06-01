@@ -696,3 +696,14 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
         }
     }
 end)
+
+exports {
+    GetIdentifier: GetIdentifier,
+    GetPropertyById: GetPropertyById,
+    GetPropertyPlayerIsInside: GetPropertyPlayerIsInside,
+    FindPlayerInProperty: FindPlayerInProperty,
+    UpdatePropertyProp: UpdatePropertyProp,
+    IsPlateInAnyProperty: IsPlateInAnyProperty,
+    IsPlateInProperty: IsPlateInProperty,
+    GetPlayerPropertyPermissionLevel: GetPlayerPropertyPermissionLevel,
+}
