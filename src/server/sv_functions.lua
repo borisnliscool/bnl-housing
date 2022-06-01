@@ -222,8 +222,8 @@ function SpawnPropertyVehicles(property)
             plate = vehicleInProperty.plate,
         })
 
-        -- This is needed for some anticheats.
-        Wait(300)
+        -- This is needed for some anticheats. So if you're having trouble with the vehicles, try uncommenting this.
+        -- Wait(300)
     end
 
     UpdateProperty(property)

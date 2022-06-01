@@ -697,14 +697,12 @@ lib.callback.register("bnl-housing:server:setSafeCode", function(source, data)
     }
 end)
 
-exports {
-    GetIdentifier: GetIdentifier,
-    PlayerName: PlayerName,
-    GetPropertyById: GetPropertyById,
-    GetPropertyPlayerIsInside: GetPropertyPlayerIsInside,
-    FindPlayerInProperty: FindPlayerInProperty,
-    UpdatePropertyProp: UpdatePropertyProp,
-    IsPlateInAnyProperty: IsPlateInAnyProperty,
-    IsPlateInProperty: IsPlateInProperty,
-    GetPlayerPropertyPermissionLevel: GetPlayerPropertyPermissionLevel,
-}
+exports("GetIdentifier", GetIdentifier)
+exports("PlayerName", PlayerName)
+exports("GetPropertyById", GetPropertyById)
+exports("GetPropertyPlayerIsInside", GetPropertyPlayerIsInside)
+exports("FindPlayerInProperty", FindPlayerInProperty)
+exports("UpdatePropertyProp", UpdatePropertyProp)
+exports("IsPlateInAnyProperty", IsPlateInAnyProperty)
+exports("IsPlateInProperty", IsPlateInProperty)
+exports("GetPlayerPropertyPermissionLevel", GetPlayerPropertyPermissionLevel)
