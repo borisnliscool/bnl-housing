@@ -47,7 +47,9 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
 ## Roadmap
 
 - [x] Ownable properties
-- [x] Give out keys to the property
+- [x] Share keys
+  - [x] Give spare keys to players
+  - [x] Take spare keys from players 
 - [x] Invite players inside
 - [x] Knock on doors of properties
 - [x] Locale support
@@ -58,6 +60,8 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
 - [ ] Decorate properties
   - [ ] Normal props
   - [x] Special props that do things when near like a storage container or laptop
+    - [x] Safe with codelock
+    - [x] Example prop
   - [x] Add qTarget support for special props
 - [ ] Park vehicles in garages or warehouses
   - [x] Enter properties with vehicles
@@ -66,7 +70,7 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
   - [x] Passengers enter property
   - [ ] Check for space before enter
 - [ ] Break in / lockpick
-- [ ] Code lock option
+- [ ] Code lock option for front door
 - [ ] Police raid
 - [ ] Property selling
   - [ ] Rent out property
