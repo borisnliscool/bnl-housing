@@ -580,22 +580,6 @@ function HandleExit(data)
     end
 
     DespawnPropertyDecoration()
-
-    -- if currentPropertyProps ~= nil then
-    --     for _,prop in pairs(currentPropertyProps) do
-    --         DeleteEntity(prop)
-    --     end
-
-    --     currentPropertyProps = nil
-    -- end
-
-    -- if (decorationPoints ~= nil) then
-    --     for _,point in pairs(decorationPoints) do
-    --         point:remove()
-    --     end
-
-    --     decorationPoints = nil
-    -- end
 end
 
 RegisterNetEvent("bnl-housing:client:handleExit", HandleExit)
@@ -732,12 +716,6 @@ AddEventHandler('onResourceStop', function(resource)
             local entrance = JsonCoordToVector3(property.entrance)
 
             SetEntityCoords(cache.ped, entrance)
-            -- local vehicle = GetVehiclePedIsIn(cache.ped, false)
-            -- if (vehicle and IsPedVehicleDriver(cache.ped, vehicle)) then
-            --     SetEntityCoords(vehicle, entrance)
-            -- else
-            --     SetEntityCoords(cache.ped, entrance)
-            -- end
 
             if (type(property.vehicles) == 'string') then property.vehicles = json.decode(property.vehicles) end
             for _,vehicle in pairs(property.vehicles) do

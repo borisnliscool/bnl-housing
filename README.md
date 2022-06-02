@@ -70,6 +70,7 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
   - [x] Passengers enter property
   - [ ] Check for space before enter
 - [ ] Break in / lockpick
+- [ ] Unlock property so anyone is free to enter
 - [ ] Code lock option for front door
 - [ ] Police raid
 - [ ] Property selling
