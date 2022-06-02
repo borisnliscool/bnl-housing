@@ -62,13 +62,15 @@ local function RelativeCoord(source, args, rawCommand)
 end
 
 RegisterCommand("housing", function(source, a, rawCommand)
-    if (not IsPlayerAceAllowed(source, 'bnl-housing:admin')) then
-        TriggerClientEvent('bnl-housing:client:notify', source, {
-            title = locale('property'),
-            description = locale('no_permission'),
-            status = 'error',
-        })
-        return
+    if (source ~= 0) then
+        if (not IsPlayerAceAllowed(source, 'bnl-housing:admin')) then
+            TriggerClientEvent('bnl-housing:client:notify', source, {
+                title = locale('property'),
+                description = locale('no_permission'),
+                status = 'error',
+            })
+            return
+        end
     end
 
     local cmd = a[1]
