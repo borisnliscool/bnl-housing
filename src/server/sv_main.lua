@@ -551,22 +551,6 @@ RegisterNetEvent("bnl-housing:server:playerLoaded", function()
     end
 end)
 
--- TEMP
-RegisterCommand("housing:property", function(source, args, rawCommand)
-    if (args[1]) then
-        local property_id = args[1]
-        local property = GetPropertyById(property_id)
-        Logger.Info(property)
-        return
-    else
-        local _source = source
-        local property = GetPropertyPlayerIsInside(_source)
-        Logger.Info(property)
-        return
-    end
-end)
--- END TEMP
-
 -- SPECIAL PROPS
 lib.callback.register("bnl-housing:server:openSafe", function(source, data)
     local property = GetPropertyPlayerIsInside(source)

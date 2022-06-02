@@ -768,34 +768,6 @@ AddEventHandler('onResourceStop', function(resource)
     end
 end)
 
--- TEMP
-RegisterCommand("housing:getlocation", function(source, args, rawCommand)
-    local ped = cache.ped
-    local coords = GetEntityCoords(ped)
-    local heading = GetEntityHeading(ped)
-
-    local location = vector4(coords.x, coords.y, coords.z, heading)
-    lib.setClipboard(json.encode(location))
-end)
-
-RegisterCommand("housing:getRelativeCoord", function(source, args, rawCommand)
-    local ped = cache.ped
-    local pedcoords = GetEntityCoords(ped)
-    local heading = GetEntityHeading(ped)
-
-    local shellcoords = GetEntityCoords(shellObject)
-    lib.setClipboard(json.encode(vector4(vector3(shellcoords - pedcoords), heading)))
-end)
-
-RegisterCommand("housing:permission", function(source, args, rawCommand)
-    Logger.Info(currentPropertyPermissionLevel)
-end)
-
-RegisterCommand("housing:current", function(source, args, rawCommand)
-    Logger.Info(propertyPlayerIsIn)
-end)
--- END
-
 -- SPECIAL PROPS
 function OpenSafeWithCode(data)
     local prop = data.prop
