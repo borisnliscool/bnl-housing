@@ -30,6 +30,7 @@ server_scripts {
 
 	'src/server/sv_main.lua',
 	'src/server/sv_functions.lua',
+	'src/server/sv_commands.lua',
 }
 
 ui_page 'src/client/html/index.html'
