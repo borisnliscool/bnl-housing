@@ -98,6 +98,17 @@ local function Enter(source, args, rawCommand)
     end)
 end
 
+local function Help(source, args, rawCommand)
+    Logger.Success("Here's a list of all commands: ", {
+        {cmd = "housing current", desc = "Shows the current property you're in"},
+        {cmd = "housing property <property_id>", desc = "Shows the info about the current property"},
+        {cmd = "housing permission", desc = "Shows your permission level in the current property"},
+        {cmd = "housing coord", desc = "Shows your relative coord in the property"},
+        {cmd = "housing enter <property_id>", desc = "Enters given the property with owner permissions"},
+        {cmd = "housing help", desc = "Shows this help message"}
+    })
+end
+
 RegisterCommand("housing", function(source, a, rawCommand)
     if (source ~= 0) then
         if (not IsPlayerAceAllowed(source, 'bnl-housing:admin')) then
@@ -126,7 +137,9 @@ RegisterCommand("housing", function(source, a, rawCommand)
         RelativeCoord(source, args, rawCommand)
     elseif (cmd == 'enter') then
         Enter(source, args, rawCommand)
+    elseif (cmd == 'help') then
+        Help(source, args, rawCommand)
     else
-        Logger.Error("Invalid command")
+        Logger.Error("Unknown command")
     end
 end)
