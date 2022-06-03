@@ -61,6 +61,43 @@ local function RelativeCoord(source, args, rawCommand)
     Logger.Success("Coord", entrance - pedCoord, "Heading", pedHeading)
 end
 
+local function Enter(source, args, rawCommand)
+    local property_id = args[1]
+
+    if (property_id == nil) then
+        Logger.Error("No property id specified")
+        return
+    end
+
+    local property = GetPropertyById(property_id)
+
+    if (property == nil) then
+        Logger.Error("Property not found")
+        return
+    end
+
+    local identifier = GetIdentifier(source)
+    local playerPermissionLevel = "owner"
+
+    PlayerEnterProperty(property, {
+        identifier = identifier,
+        serverId = source,
+        name = PlayerName(source),
+        permissionLevel = playerPermissionLevel,
+    })
+
+    TriggerClientEvent("bnl-housing:client:handleEnter", source, {
+        property = property,
+        permissionLevel = playerPermissionLevel,
+        withVehicle = true
+    })
+    
+    CreateThread(function()
+        Wait(1000)
+        SpawnPropertyVehicles(property)
+    end)
+end
+
 RegisterCommand("housing", function(source, a, rawCommand)
     if (source ~= 0) then
         if (not IsPlayerAceAllowed(source, 'bnl-housing:admin')) then
@@ -87,6 +124,8 @@ RegisterCommand("housing", function(source, a, rawCommand)
         PermissionLevel(source, args, rawCommand)
     elseif (cmd == 'coord') then
         RelativeCoord(source, args, rawCommand)
+    elseif (cmd == 'enter') then
+        Enter(source, args, rawCommand)
     else
         Logger.Error("Invalid command")
     end
