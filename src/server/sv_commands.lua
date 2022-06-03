@@ -89,7 +89,7 @@ local function Enter(source, args, rawCommand)
     TriggerClientEvent("bnl-housing:client:handleEnter", source, {
         property = property,
         permissionLevel = playerPermissionLevel,
-        withVehicle = true
+        withVehicle = false
     })
     
     CreateThread(function()
