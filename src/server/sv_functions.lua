@@ -483,3 +483,13 @@ RegisterNetEvent('bnl-housing:setState', function(netid, fuel)
 		state:set('fuel', fuel > 100 and 100 or fuel, true)
 	end
 end)
+
+exports("GetIdentifier", GetIdentifier)
+exports("PlayerName", PlayerName)
+exports("GetPropertyById", GetPropertyById)
+exports("GetPropertyPlayerIsInside", GetPropertyPlayerIsInside)
+exports("FindPlayerInProperty", FindPlayerInProperty)
+exports("UpdatePropertyProp", UpdatePropertyProp)
+exports("IsPlateInAnyProperty", IsPlateInAnyProperty)
+exports("IsPlateInProperty", IsPlateInProperty)
+exports("GetPlayerPropertyPermissionLevel", GetPlayerPropertyPermissionLevel)
