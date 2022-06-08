@@ -472,6 +472,14 @@ function GetPlayerFromIdentifier(identifier)
     return nil
 end
 
+function GetPlayersInsideProperty(property)
+    local players = {}
+    for _,player in pairs(property.playersInside) do
+        table.insert(players, player.serverId)
+    end
+    return players
+end
+
 -- Taken from ox_fuel by @Overextended. All credit goes to them!
 -- I take no credit for this code. (Changed little a bit)
 -- https://overextended.github.io/docs/
@@ -488,6 +496,7 @@ exports("GetIdentifier", GetIdentifier)
 exports("PlayerName", PlayerName)
 exports("GetPropertyById", GetPropertyById)
 exports("GetPropertyPlayerIsInside", GetPropertyPlayerIsInside)
+exports("GetPlayersInsideProperty", GetPlayersInsideProperty)
 exports("FindPlayerInProperty", FindPlayerInProperty)
 exports("UpdatePropertyProp", UpdatePropertyProp)
 exports("IsPlateInAnyProperty", IsPlateInAnyProperty)
