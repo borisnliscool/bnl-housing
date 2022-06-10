@@ -45,9 +45,9 @@ CreateThread(function()
 
                 properties[property_id] = property
             end
-
-            TriggerEvent('bnl-housing:server:onPropertiesLoaded', properties)
         end
+
+        TriggerEvent('bnl-housing:event:onPropertiesLoaded', properties)
     end)
 end)
 

@@ -20,6 +20,8 @@
 
 A player property resource that allows you to purchase, sell, decorate, store your vehicles, and *much* more. This script is *currently* standalone and does *not* require a framework. In the future I am however planning on adding support for the major frameworks.
 
+If you're looking for the docs or commands you can find them [here](https://github.com/borisnliscool/bnl-housing/blob/main/DOCS.md) (for now)
+
 <img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
 ## Dependencies

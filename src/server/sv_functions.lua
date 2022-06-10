@@ -1,3 +1,6 @@
+--- Get the player's identifier used in the resource
+-- @param source The player's server-id
+-- @return a string value The player's identifier
 function GetIdentifier(source)
     for _,id in pairs(GetPlayerIdentifiers(source)) do
         if (string.match(id, 'license:')) then
@@ -83,6 +86,9 @@ function UpdateProperty(newProperty)
     return true
 end
 
+--- Get the property with the given id
+-- @param property_id The property's id
+-- @return a table value The property
 function GetPropertyById(property_id)
     if (type(property_id) == 'string') then
         property_id = tonumber(property_id)
@@ -91,6 +97,9 @@ function GetPropertyById(property_id)
     return properties[property_id]
 end
 
+--- Get the property the player is in
+-- @param source The player's server-id
+-- @return a table value The property
 function GetPropertyPlayerIsInside(player)
     for _,property in pairs(properties) do
         if (property.playersInside ~= nil) then
@@ -104,6 +113,10 @@ function GetPropertyPlayerIsInside(player)
     return nil
 end
 
+--- Get the player inside the property
+-- @param property The property
+-- @param source The player's server-id
+-- @return a table value The player
 function FindPlayerInProperty(property, player)
     if (property.playersInside == nil) then
         property.playersInside = {}
@@ -362,6 +375,10 @@ function VehicleExitProperty(property, vehiclePlate)
     return false
 end
 
+--- Function to update a specific prop in the property table.
+-- @param property The property to update.
+-- @param prop The prop to update.
+-- @return nothing.
 function UpdatePropertyProp(property, prop)
     if (property.decoration == nil) then
         property.decoration = {}
@@ -386,6 +403,9 @@ function UpdatePropertyProp(property, prop)
     UpdateProperty(property)
 end
 
+--- Check if the given plate is in any property
+-- @param plate The plate to check.
+-- @return table if the plate is in a property, false otherwise.
 function IsPlateInAnyProperty(plate)
     for _,property in pairs(properties) do
         for _,vehicle in pairs(property.saved_vehicles) do
@@ -397,6 +417,10 @@ function IsPlateInAnyProperty(plate)
     return false
 end
 
+--- Check if the given plate is in the given property
+-- @param plate The plate to check.
+-- @param property The property to check.
+-- @return table if the plate is in the property, false otherwise.
 function IsPlateInProperty(plate, property)
     for _,vehicle in pairs(property.saved_vehicles) do
         if (vehicle.plate == plate) then
@@ -421,6 +445,10 @@ function FindSavedPlayer(identifier)
     return nil
 end
 
+--- Get the player's permission level for the given property
+-- @param player The player to check.
+-- @param property The property to check.
+-- @return string The permission level.
 function GetPlayerPropertyPermissionLevel(player, property)
     local playerIdentifier = player
     local permissionLevel = nil
