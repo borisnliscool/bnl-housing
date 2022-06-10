@@ -96,6 +96,8 @@ lib.callback.register('bnl-housing:server:acceptInvite', function(source)
                     serverId = source,
                 })
 
+                TriggerEvent("bnl-housing:event:playerEnteredProperty", source, property)
+
                 return {
                     ret = true,
                     property = property,
@@ -220,6 +222,8 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
                             permissionLevel = playerPermissionLevel,
                         })
 
+                        TriggerEvent("bnl-housing:event:playerEnteredProperty", id, property)
+
                         TriggerClientEvent("bnl-housing:client:handleEnter", id, {
                             property = property,
                             permissionLevel = playerPermissionLevel,
@@ -249,6 +253,8 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
             Wait(1000)
             SpawnPropertyVehicles(property)
         end)
+
+        TriggerEvent("bnl-housing:event:playerEnteredProperty", source, property)
 
         return {
             ret = true,
@@ -290,6 +296,8 @@ lib.callback.register('bnl-housing:server:exit', function(source, exitWithVehicl
                 local playerPermissionLevel = GetPlayerPropertyPermissionLevel(identifier, property)
                 PlayerExitProperty(property, identifier)
 
+                TriggerEvent("bnl-housing:event:playerExitedProperty", id, property)
+
                 TriggerClientEvent("bnl-housing:client:handleExit", id, {
                     ret = true,
                     withVehicle = true,
@@ -298,6 +306,8 @@ lib.callback.register('bnl-housing:server:exit', function(source, exitWithVehicl
             end
         end
     end
+
+    TriggerEvent("bnl-housing:event:playerExitedProperty", source, property)
 
     return {
         ret = true,
@@ -546,6 +556,8 @@ RegisterNetEvent("bnl-housing:server:playerLoaded", function()
             permissionLevel = player.permissionLevel,
             withVehicle = false
         })
+
+        TriggerEvent("bnl-housing:event:playerLoadedInProperty", _source, property)
 
         UpdateProperty(property)
     end
