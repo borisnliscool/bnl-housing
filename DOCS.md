@@ -25,6 +25,8 @@ Note you need the permission `bnl-housing:admin` to use any of these commands.
  - /housing enter <id> | Enter the property with given id
 ```
 
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
+
 ## Exports
 
 These exports are all server side, I might add more in the future. The usage can also be found in the code. If I haven't added a description down here, it's probably because the method names should explain it enough.
@@ -73,6 +75,8 @@ exports['bnl-housing']:IsPlateInProperty(plate, property)
 exports['bnl-housing']:GetPlayerPropertyPermissionLevel(source, property)
 ```
 Get the permission level the player would have or has in the given property, will return a string with one of the following options: `visitor`, `key_owner`, `owner`.
+
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
 ## Events
 
