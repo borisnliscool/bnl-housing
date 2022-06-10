@@ -101,3 +101,84 @@ On player exit property, passes player server-id and property as first and secon
  - bnl-housing:event:playerLoadedInProperty
 ```
 Gets called when a player joins and is in a property, passes player server-id and property as first and second arguments.
+
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
+
+## Special Props
+
+This might be a bit hard to show but the idea is that you add a table to [specialprops.lua](./data/specialprops.lua) and add the configuration that you want. For examples you should check [specialprops.lua](./data/specialprops.lua) as I've made props that use every option in there.
+
+*Required* config values:
+```lua
+-- Max range that the prop functions can be used at. (Also used if you use qTarget)
+range = 1.5
+```
+
+*Optional* config values:
+```lua
+-- Text shown with lib.showTextUI
+closeText = "Press [E] to perform magic!",
+
+-- Marker that shows above the prop (or bellow if stated in the offset variable)
+marker = {
+    sprite = 2, -- Sprite of the marker (https://docs.fivem.net/docs/game-references/markers/)
+    offset = vector3(0.0, 0.0, 1.25),
+    scale = vector3(0.25, 0.25, 0.25),
+    rotation = vector3(180.0, 0.0, 0.0),
+    color = {
+        255, -- Red
+        255, -- Green
+        255, -- Blue
+        255  -- Alpha
+    },
+    bob = false, -- Make it bob up and down
+    faceCamera = true -- Make it face the camera
+},
+
+-- Outline given to the prop with the SetEntityDrawOutline native
+outline = {
+    color = {
+        255, -- Red
+        255, -- Green
+        255, -- Blue
+        255  -- Alpha
+    },
+    shader = 1 -- Shaders: (https://docs.fivem.net/natives/?_0x5261A01A)
+},
+
+-- Function executed when pressing E in the specified range.
+func = function(prop)
+    print("Wow this magic is awesome!")
+    print(string.format("Here's the prop id that we've just interacted with: %s", prop.id))
+end,
+
+-- Function called on creation of the prop.
+onCreate = function(prop)
+    print(string.format("Okay boss, I've created prop %s!", prop.id))
+    print(string.format("This is it's entity: %s", prop.entity))
+end,
+
+-- Function called on removeal of the prop.
+onDelete = function(prop)
+    print(string.format("Poof! Prop %s is now gone!", prop.id))
+end,
+
+-- qTarget support, pass the options in this table. 
+--- (I don't know much about qTarget so I hope this is good enough for you who that want to use it.)
+qTarget = {
+    {
+        event = "eventname",
+        icon = "fas fa-box-circle-check",
+        label = "action 1",
+        num = 1
+    },
+    {
+        event = "eventname",
+        icon = "fas fa-box-circle-check",
+        label = "action 2",
+        num = 2
+    },
+},
+```
+
+<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
