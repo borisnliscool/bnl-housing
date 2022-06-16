@@ -175,16 +175,18 @@ end
 function DespawnPropertyDecoration()
     if (currentPropertyProps ~= nil) then
         for _,prop in pairs(currentPropertyProps) do
-            if (prop.spData.onDelete) then
-                local newProp = {}
+            if (prop.spData) then
+                if (prop.spData.onDelete) then
+                    local newProp = {}
 
-                for key,value in pairs(prop) do
-                    if (key ~= 'spData') then
-                        newProp[key] = value
+                    for key,value in pairs(prop) do
+                        if (key ~= 'spData') then
+                            newProp[key] = value
+                        end
                     end
-                end
 
-                prop.spData.onDelete(newProp)
+                    prop.spData.onDelete(newProp)
+                end
             end
 
             DeleteEntity(prop.entity)
