@@ -711,6 +711,17 @@ RegisterNetEvent("bnl-housing:client:updateProperty", function(property)
     propertyPlayerIsIn = property
 end)
 
+RegisterNetEvent("bnl-housing:client:showCreatePropertyPromt", function(code)
+    local data = lib.inputDialog(
+        locale('create_new_property'), 
+        {
+            locale('shell_id'),
+        }
+    )
+
+    TriggerServerEvent('bnl-housing:server:createProperty', data, code)
+end)
+
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
         if isInProperty then
@@ -748,7 +759,7 @@ AddEventHandler('onResourceStop', function(resource)
     end
 end)
 
--- SPECIAL PROPS
+-- START SPECIAL PROPS
 function OpenSafeWithCode(data)
     local prop = data.prop
     if (not prop) then return end
@@ -813,3 +824,4 @@ function SetSafeCode(data)
 end
 
 RegisterNetEvent("bnl-housing:client:setSafeCode", SetSafeCode)
+-- END SPECIAL PROPS

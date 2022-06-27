@@ -98,6 +98,36 @@ local function Enter(source, args, rawCommand)
     end)
 end
 
+local codes = {}
+local function NewProperty(source, args, rawCommand)
+    local code = string.random(16)
+    codes[source] = code
+    TriggerClientEvent('bnl-housing:client:showCreatePropertyPromt', source, code)
+end
+
+RegisterNetEvent("bnl-housing:server:createProperty", function(data, code)
+    if (not codes[source] == code) then
+        Logger.Error('Incorrect code.')
+        return
+    end
+
+    local shellId = data[1]
+    if (not shellId) then return end
+
+    local ped = GetPlayerPed(source)
+    local coords = GetEntityCoords(ped)
+    local heading = GetEntityHeading(ped)
+    local entrance = vector4(coords, heading)
+    if (not entrance) then return end
+
+    local owner = GetIdentifier(source)
+    if (not owner) then return end
+
+    MySQL.insert('INSERT INTO `bnl_housing` (`owner`, `entrance`, `shell_id`) VALUES (?, ?, ?)', { owner, json.encode(entrance), shellId }, function(id)
+        print(id)
+    end)
+end)
+
 local function Help(source, args, rawCommand)
     Logger.Success("Here's a list of all commands: ", {
         {cmd = "housing current", desc = "Shows the current property you're in"},
@@ -105,7 +135,8 @@ local function Help(source, args, rawCommand)
         {cmd = "housing permission", desc = "Shows your permission level in the current property"},
         {cmd = "housing coord", desc = "Shows your relative coord in the property"},
         {cmd = "housing enter <property_id>", desc = "Enters given the property with owner permissions"},
-        {cmd = "housing help", desc = "Shows this help message"}
+        {cmd = "housing new", desc = "Prompt to create a new property"},
+        {cmd = "housing help", desc = "Shows this help message"},
     })
 end
 
@@ -137,6 +168,8 @@ RegisterCommand("housing", function(source, a, rawCommand)
         RelativeCoord(source, args, rawCommand)
     elseif (cmd == 'enter') then
         Enter(source, args, rawCommand)
+    elseif (cmd == 'new') then
+        NewProperty(source, args, rawCommand)
     elseif (cmd == 'help') then
         Help(source, args, rawCommand)
     else

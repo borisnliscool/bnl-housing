@@ -60,5 +60,8 @@
 	"sell_confirm_string": "confirm",
 	"sell_confirm_error": "You must type '%s' to confirm",
 
-	"rent_property": "Rent Out Property"
+	"rent_property": "Rent Out Property",
+
+    "create_new_property": "Create a new property",
+    "shell_id": "Shell ID"
 }
