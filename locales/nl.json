@@ -60,5 +60,8 @@
 	"sell_confirm_string": "bevestig",
 	"sell_confirm_error": "Je moet '%s' typen om te bevestigen",
 
-	"rent_property": "Eigendom verhuren"
+	"rent_property": "Eigendom verhuren",
+
+	"create_new_property": "Nieuw eigendom maken",
+	"shell_id": "Shell ID"
 }
