@@ -64,7 +64,7 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
   - [x] Special props that do things when near like a storage container or laptop
     - [x] Safe with codelock
     - [x] Example prop
-  - [x] Add qTarget support for special props
+  - [x] Add qtarget support for special props
 - [ ] Park vehicles in garages or warehouses
   - [x] Enter properties with vehicles
   - [x] Save them

@@ -101,9 +101,9 @@ function SpawnPropertyDecoration(property)
                 })
 
                 function point:onEnter()
-                    if (spData.qTarget) then
+                    if (spData.qtarget) then
                         exports.qtarget:AddTargetEntity(self.entity, {
-                            options = spData.qTarget,
+                            options = spData.qtarget,
                             distance = spData.range,
                         })
                     else
@@ -132,7 +132,7 @@ function SpawnPropertyDecoration(property)
                 end
 
                 function point:nearby()
-                    if (not qTarget) then
+                    if (not qtarget) then
                         if (IsControlJustPressed(0, 38)) then
                             if (spData.func ~= nil) then
                                 local newProp = {}

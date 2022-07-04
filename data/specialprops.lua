@@ -85,7 +85,7 @@ return {
 		end
 	},
 	["example"] = {
-		qTarget = {
+		qtarget = {
 			{
 				event = "eventname",
 				icon = "fas fa-box-circle-check",

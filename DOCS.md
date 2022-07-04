@@ -110,7 +110,7 @@ This might be a bit hard to show but the idea is that you add a table to [specia
 
 *Required* config values:
 ```lua
--- Max range that the prop functions can be used at. (Also used if you use qTarget)
+-- Max range that the prop functions can be used at. (Also used if you use qtarget)
 range = 1.5
 ```
 
@@ -163,9 +163,9 @@ onDelete = function(prop)
     print(string.format("Poof! Prop %s is now gone!", prop.id))
 end,
 
--- qTarget support, pass the options in this table. 
---- (I don't know much about qTarget so I hope this is good enough for you who that want to use it.)
-qTarget = {
+-- qtarget support, pass the options in this table. 
+--- (I don't know much about qtarget so I hope this is good enough for you who that want to use it.)
+qtarget = {
     {
         event = "eventname",
         icon = "fas fa-box-circle-check",
