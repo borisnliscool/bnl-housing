@@ -212,6 +212,8 @@ function SpawnPropertyShell(property, shell)
     entrance = json.decode(property.entrance)
     local shellSpawnLocation = vector3(entrance.x, entrance.y, entrance.z) - lowerBy
     local shellModel = GetHashKey(shell.spawn)
+    lib.requestModel(shellModel, 100)
+
     shellObject = CreateObject(shellModel, shellSpawnLocation, false, false, false)
     FreezeEntityPosition(shellObject, true)
     SetEntityAsMissionEntity(shellObject, true, true)
@@ -369,6 +371,7 @@ end
 
 function HandleEnter(data)
     lib.hideTextUI()
+    FreezeEntityPosition(cache.ped, true)
 
     local property = data.property
     propertyPlayerIsIn = property
@@ -388,6 +391,8 @@ function HandleEnter(data)
         SetEntityCoords(cache.ped, GetEntityCoords(shellObject) - V4ToV3(shell.foot_entrance) - vector3(0,0,1.0))
         SetEntityHeading(cache.ped, GetEntityHeading(shellObject) + shell.foot_entrance.w)
     end
+
+    FreezeEntityPosition(cache.ped, false)
 end
 
 RegisterNetEvent("bnl-housing:client:handleEnter", HandleEnter)
