@@ -83,6 +83,7 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
   - [x] Improve performance
     - [ ] Make it even better
   - [x] Correct Sprite for different property types
+ - [ ] Property Addresses https://github.com/borisnliscool/bnl-housing/issues/6
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
