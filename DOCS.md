@@ -23,6 +23,8 @@ Note you need the permission `bnl-housing:admin` to use any of these commands.
  - /housing coord | Shows the internally used coord system & copies to your clipboard
 
  - /housing enter <id> | Enter the property with given id
+ 
+ - /housing new | add new property
 ```
 
 <img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">

@@ -58,6 +58,7 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
   - [x] Dutch (NL)
   - [x] English (EN)
   - [x] French (FR)
+  - [x] German (DE)
 - [x] Logging out in properties
 - [ ] Decorate properties
   - [ ] Normal props
