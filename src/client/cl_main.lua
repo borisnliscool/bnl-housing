@@ -402,7 +402,7 @@ RegisterNetEvent("bnl-housing:client:setVehicleProps", function(networkId, props
     if (not DoesEntityExist(vehicle)) then
         return
     end
-    SetVehicleProperties(vehicle, props)
+    lib.setVehicleProperties(vehicle, props)
 end)
 
 RegisterNetEvent("bnl-housing:client:enter", function(menuData)
@@ -702,7 +702,7 @@ end)
 RegisterNetEvent("bnl-housing:client:requestVehicleData", function(vehicle)
     local vehicleEntity = NetworkGetEntityFromNetworkId(vehicle.networkId)
     if (vehicleEntity ~= nil) then
-        local vehicleData = GetVehicleProperties(vehicleEntity)
+        local vehicleData = lib.getVehicleProperties(vehicleEntity)
 
         TriggerServerEvent("bnl-housing:server:postVehicleData", vehicle, vehicleData)
     end

@@ -58,6 +58,9 @@ local function RelativeCoord(source, args, rawCommand)
     local pedCoord = GetEntityCoords(ped)
     local pedHeading = GetEntityHeading(ped)
 
+    local v4 = vec4(pedCoord.x, pedCoord.y, pedCoord.z, pedHeading)
+    TriggerClientEvent('bnl-housing:setClipboard', source, ('vector4(%s, %s, %s, %s)'):format(v4.x, v4.y, v4.z, v4.w))
+
     Logger.Success("Coord", entrance - pedCoord, "Heading", pedHeading)
 end
 
