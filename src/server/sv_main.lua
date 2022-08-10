@@ -1,4 +1,4 @@
-allPropertyLocations = nil; properties = nil; shells = nil; propertyTypes = nil;
+allPropertyLocations, properties, shells, propertyTypes = nil;
 
 lib.versionCheck('borisnliscool/bnl-housing')
 

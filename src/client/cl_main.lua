@@ -1,9 +1,10 @@
-allPropertyLocations = nil; allPropertyPoints = nil; shellObject = nil; isInProperty = false; propertyPlayerIsIn = nil; currentPropertyPermissionLevel = nil; inPropertyPoints = nil; currentPropertyProps = nil; decorationPoints = nil; specialProps = nil;
+allPropertyLocations, allPropertyPoints, shellObject, isInProperty, propertyPlayerIsIn, currentPropertyPermissionLevel, inPropertyPoints, currentPropertyProps, decorationPoints, specialProps, props = nil
 
 CreateThread(function()
     allPropertyLocations = lib.callback.await('bnl-housing:server:getAllPropertyLocations', 1500)
     RegisterAllPropertyPoints()
     specialProps = data('specialprops')
+    props = data('props')
 
     repeat
         Wait(0)

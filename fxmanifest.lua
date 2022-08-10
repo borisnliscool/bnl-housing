@@ -22,6 +22,7 @@ shared_scripts {
 client_scripts {
 	'src/client/cl_main.lua',
 	'src/client/cl_functions.lua',
+	'src/client/cl_decoration.lua',
 	'src/client/blipmanager.lua',
 }
 
@@ -30,6 +31,7 @@ server_scripts {
 
 	'src/server/sv_main.lua',
 	'src/server/sv_functions.lua',
+	'src/server/sv_decoration.lua',
 	'src/server/sv_commands.lua',
 }
 
