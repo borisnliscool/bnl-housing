@@ -85,6 +85,7 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
     - [ ] Make it even better
   - [x] Correct Sprite for different property types
  - [ ] Property Addresses https://github.com/borisnliscool/bnl-housing/issues/6
+ - [ ] Routing buckets
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
