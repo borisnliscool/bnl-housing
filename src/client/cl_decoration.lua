@@ -109,7 +109,6 @@ local function SetupPlayer()
 end
 
 local function InitObject(prop, coords)
-    -- lib.requestModel(prop)
     object = CreateObjectNoOffset(prop, coords, false, false, false)
     FreezeEntityPosition(object, true)
     SetEntityCollision(object, false, false)
@@ -123,6 +122,7 @@ local function GetPropCategory()
     for k,v in pairs(props) do
         table.insert(categories, k)
     end
+    table.sort(categories, function(a, b) return a < b end)
 
     lib.registerMenu({
         id = 'decoration_category',
@@ -144,6 +144,7 @@ end
 
 local function AddPropMenu()
     local category = props[GetPropCategory()]
+    if (not category) then return end
 
     local coord = GetEntityCoords(cache.ped)
     currentFocusEntity = InitObject(category[1], coord)
@@ -152,6 +153,7 @@ local function AddPropMenu()
     for k,v in pairs(category) do
         table.insert(propsList, v)
     end
+    table.sort(propsList, function(a, b) return a < b end)
 
     isDecorating = true
     isMenuOpen = true
