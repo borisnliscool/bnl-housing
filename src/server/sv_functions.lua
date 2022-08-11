@@ -456,10 +456,8 @@ function GetPlayerPropertyPermissionLevel(player, property)
     if (type(player) == 'number') then
         playerIdentifier = GetIdentifier(player)
         if (next(exports.ox_inventory) ~= nil) then
-            if (exports.ox_inventory:Search(source, 'property_key', {property_id = property_id})) then
-                if (permissionLevel == nil) then
-                    permissionLevel = 'key_owner'
-                end
+            if (exports.ox_inventory:Search(source, 'property_key', 'count',  {property_id = property_id}) > 0) then
+                permissionLevel = 'key_owner'
             end
         end
     end
@@ -469,16 +467,12 @@ function GetPlayerPropertyPermissionLevel(player, property)
     end
     for _,key_owner in pairs(property.key_owners) do
         if (playerIdentifier == key_owner.identifier) then
-            if (permissionLevel == nil) then
-                permissionLevel = 'key_owner'
-            end
+            permissionLevel = 'key_owner'
         end
     end
 
     if (playerIdentifier == property.owner) then
-        if (permissionLevel == nil) then
-            permissionLevel = 'owner'
-        end
+        permissionLevel = 'owner'
     end
 
     return permissionLevel
