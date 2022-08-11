@@ -1,6 +1,7 @@
 isDecorating = false
 currentFocusEntity = nil
 currentCamera = nil
+isMenuOpen = false
 
 local disabledKeys = {
     0, 1, 2, 3, 4, 5, 6, 7, 8,
@@ -24,17 +25,6 @@ local function StartDisableControlLoop()
     end)
 end
 
-local function InitCamera(coord)
-    local camera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-
-    SetCamActive(camera, true)
-    RenderScriptCams(true, false, 0, true, true)
-    SetCamRot(camera, 0.0, 0.0, 0.0)
-    SetCamCoord(camera, coord)
-
-    return camera
-end
-
 local function GetLocationForCameraRotation(rotation, location, offset)
     local aplha = math.rad(rotation.z - 90)
     local x = location.x + (math.cos(aplha) * offset)
@@ -46,8 +36,21 @@ local function GetLocationForCameraRotation(rotation, location, offset)
     return vec3(x, y, z)
 end
 
+local function InitCamera(coord)
+    local camera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+
+    SetCamActive(camera, true)
+    RenderScriptCams(true, false, 0, true, true)
+    SetCamRot(camera, 0.0, 0.0, 0.0)
+    SetCamCoord(camera, GetLocationForCameraRotation(vec3(0,0,0), coord + vec3(0,0,1), 2.5))
+
+    return camera
+end
+
 local function CanRotateCam()
-    return not IsPauseMenuActive()
+    return
+            not IsPauseMenuActive()
+        and not isMenuOpen
 end
 
 local function StartCameraLoop()
@@ -85,7 +88,7 @@ local function StartCameraLoop()
                 local newRotation = currentRotation + vec3(vertical, 0, horizontal)
                 newRotation = vec3(math.min(85, math.max(-85, newRotation.x)), newRotation.y, newRotation.z)
 
-                local newLocation = GetLocationForCameraRotation(newRotation, GetEntityCoords(currentFocusEntity) + vec3(0,0,1), currentDistance)
+                local newLocation = GetLocationForCameraRotation(newRotation, GetEntityCoords(currentFocusEntity), currentDistance)
                 SetCamCoord(currentCamera, newLocation)
                 SetCamRot(currentCamera, newRotation.x, 0.0, newRotation.z, 2, true)
                 
@@ -99,17 +102,112 @@ local function StartCameraLoop()
 end
 
 local function SetupPlayer()
-    local player = PlayerPedId()
-
-    SetEntityVisible(player, false)
     StartDisableControlLoop()
+    
+    SetEntityVisible(cache.ped, false)
     DisplayRadar(false)
 end
 
-local function InitObject()
-    local objectHash = GetHashKey(props["Interior"][1])
-    object = CreateObject(objectHash, GetEntityCoords(PlayerPedId()), false, true, true)
+local function InitObject(prop, coords)
+    -- lib.requestModel(prop)
+    object = CreateObjectNoOffset(prop, coords, false, false, false)
+    FreezeEntityPosition(object, true)
+    SetEntityCollision(object, false, false)
     return object
+end
+
+local function GetPropCategory()
+    local Promise = promise.new()
+
+    local categories = {}
+    for k,v in pairs(props) do
+        table.insert(categories, k)
+    end
+
+    lib.registerMenu({
+        id = 'decoration_category',
+        title = 'Choose a category',
+        onClose = function()
+            Promise:resolve('')
+        end,
+        options = {
+            { label = 'Category', values = categories },
+        }
+    }, function(selected, scrollIndex, args)
+        Promise:resolve(categories[scrollIndex])
+    end)
+    lib.showMenu('decoration_category')
+
+    local result = Citizen.Await(Promise)
+    return result
+end
+
+local function AddPropMenu()
+    local category = props[GetPropCategory()]
+
+    local coord = GetEntityCoords(cache.ped)
+    currentFocusEntity = InitObject(category[1], coord)
+
+    local propsList = {}
+    for k,v in pairs(category) do
+        table.insert(propsList, v)
+    end
+
+    isDecorating = true
+    isMenuOpen = true
+    SetupPlayer()
+
+    lib.registerMenu({
+        id = 'decoration_prop',
+        title = 'Prop Menu',
+        onSideScroll = function(selected, scrollIndex, args)
+            if (currentFocusEntity) then DeleteEntity(currentFocusEntity) end
+            currentFocusEntity = InitObject(propsList[scrollIndex], coord)
+        end,
+        onClose = function()
+            isMenuOpen = false
+            print('close')
+            if (currentFocusEntity) then DeleteEntity(currentFocusEntity) end
+        end,
+        options = {
+            { label = 'Prop', values = propsList },
+            { label = 'Change Location', icon = 'move' },
+        }
+    }, function(selected, scrollIndex, args)
+        isMenuOpen = false
+        print('selected', selected, scrollIndex, args)
+    end)
+    lib.showMenu('decoration_prop')
+
+    currentCamera = InitCamera(coord)
+    StartCameraLoop()
+end
+
+local function OpenMainMenu()
+    isMenuOpen = true
+
+    lib.registerMenu({
+        id = 'decorating_menu',
+        title = locale('decoration_menu'),
+        onClose = function()
+            isMenuOpen = false
+        end,
+        options = {
+            { label = 'Create a prop', icon = 'plus' },
+            { label = 'Edit a prop', icon = 'edit' },
+            { label = 'Remove a prop', icon = 'remove' },
+        }
+    }, function(selected, scrollIndex, args)
+        if (selected == 1) then
+            -- Add prop menu
+            AddPropMenu()
+        elseif (selected == 2) then
+            -- Edit prop menu
+        elseif (selected == 3) then
+            -- Remove prop menu
+        end
+    end)
+    lib.showMenu('decorating_menu')
 end
 
 function StartDecorating()
@@ -118,13 +216,7 @@ function StartDecorating()
         return
     end
     
-    isDecorating = true
-    SetupPlayer()
-
-    currentFocusEntity = InitObject()
-    currentCamera = InitCamera(GetEntityCoords(PlayerPedId()))
-
-    StartCameraLoop()
+    OpenMainMenu()
 end
 
 AddEventHandler('bnl-housing:client:decorate', StartDecorating)
