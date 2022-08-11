@@ -772,7 +772,9 @@ function OpenSafeWithCode(data)
     if (not prop.data) then prop.data = {} end
 
     if (prop.data.code) then
-        local input = lib.inputDialog(locale('safe_is_locked'), {locale('enter_code')})
+        local input = lib.inputDialog(locale('safe_is_locked'), {
+            { type = 'input', label = locale('enter_code'), password = true, icon = 'lock'}
+        })
         if (input) then
             local code = tonumber(input[1])
             local data = lib.callback.await("bnl-housing:server:openSafe", false, {
@@ -803,7 +805,10 @@ function SetSafeCode(data)
     if (not prop.data) then prop.data = {} end
 
     if (prop.data.code) then
-        local input = lib.inputDialog(locale('set_safe_code'), {locale('old_code'), locale('new_code')})
+        local input = lib.inputDialog(locale('set_safe_code'), {
+            { type = 'input', label = locale('old_code'), password = true, icon = 'lock'},
+            { type = 'input', label = locale('new_code'), password = true, icon = 'lock'}
+        })
         if (input) then
             local oldCode = tonumber(input[1])
             local newCode = tonumber(input[2])
