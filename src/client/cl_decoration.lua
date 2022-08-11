@@ -173,7 +173,7 @@ local function AddPropMenu()
         end,
         options = {
             { label = 'Prop', values = propsList },
-            { label = 'Change Location', icon = 'move' },
+            { label = 'Change Location', icon = 'location-crosshairs' },
         }
     }, function(selected, scrollIndex, args)
         isMenuOpen = false
