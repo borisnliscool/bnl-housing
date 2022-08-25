@@ -371,6 +371,9 @@ function HandlePropertyMenus(property)
 end
 
 function HandleEnter(data)
+    DoScreenFadeOut(500)
+    Wait(500)
+
     lib.hideTextUI()
     FreezeEntityPosition(cache.ped, true)
 
@@ -394,6 +397,8 @@ function HandleEnter(data)
     end
 
     FreezeEntityPosition(cache.ped, false)
+    Wait(250)
+    DoScreenFadeIn(500)
 end
 
 RegisterNetEvent("bnl-housing:client:handleEnter", HandleEnter)
@@ -564,6 +569,8 @@ RegisterNetEvent("bnl-housing:client:giveKeysMenu", function()
 end)
 
 function HandleExit(data)
+    DoScreenFadeOut(500)
+    Wait(500)
     local vehicle = GetVehiclePedIsIn(cache.ped, false)
 
     if (data.deleteVehicle) then
@@ -588,6 +595,8 @@ function HandleExit(data)
     end
 
     DespawnPropertyDecoration()
+    Wait(250)
+    DoScreenFadeIn(500)
 end
 
 RegisterNetEvent("bnl-housing:client:handleExit", HandleExit)
