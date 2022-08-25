@@ -42,7 +42,7 @@ local function InitCamera(coord)
     local camera = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 
     SetCamActive(camera, true)
-    RenderScriptCams(true, false, 0, true, true)
+    RenderScriptCams(true, true, 1000, true, true)
     SetCamRot(camera, 0.0, 0.0, 0.0)
     SetCamCoord(camera, GetLocationForCameraRotation(vec3(0,0,0), coord + vec3(0,0,1), 2.5))
 
@@ -96,10 +96,11 @@ local function StartCameraLoop()
                 
                 ::continue::
             end
-
         until not isDecorating
 
-        DisplayRadar(true)
+        -- reset the camera
+        SetCamActive(camera, false)
+        RenderScriptCams(false, true, 1000, true, true)
     end)
 end
 
@@ -156,6 +157,8 @@ local function ConfirmPropLocation()
         w = GetEntityHeading(currentFocusEntity),
         model = currentFocusModel
     })
+
+
 end
 
 local isMovingProp = false
@@ -173,15 +176,21 @@ function StartMovePropLoop()
             local updown = 0
             updown = updown + (GetDisabledControlNormal(0, 44) / 10) * propMoveSpeed
             updown = updown - (GetDisabledControlNormal(0, 46) / 10) * propMoveSpeed
+            local rotation = 0
+            rotation = rotation + GetControlNormal(0, 174) * propMoveSpeed
+            rotation = rotation + GetControlNormal(0, 175) * propMoveSpeed * -1
 
             location = GetEntityCoords(currentFocusEntity)
             local forwardVector, rightVector, _, position = GetEntityMatrix(currentFocusEntity)
             local newPosition = location + (forwardbackward * forwardVector) + (rightleft * rightVector) + (updown * vec3(0,0,1))
+            local newHeading = GetEntityHeading(currentFocusEntity) + rotation
 
             SetEntityCoords(currentFocusEntity, newPosition)
+            SetEntityHeading(currentFocusEntity, newHeading)
 
             if (IsControlJustReleased(0, 176)) then
                 ConfirmPropLocation()
+                isMovingProp = false
             end
 
             if (IsControlJustReleased(0, 177)) then
@@ -227,8 +236,8 @@ function AddPropMenu()
         end,
         onClose = function()
             isMenuOpen = false
-            print('close')
             if (currentFocusEntity) then DeleteEntity(currentFocusEntity) end
+            OpenMainMenu()
         end,
         options = {
             { label = 'Prop', values = propsList },
@@ -248,14 +257,14 @@ function AddPropMenu()
     StartCameraLoop()
 end
 
-local function OpenMainMenu()
+function OpenMainMenu()
     isMenuOpen = true
 
     lib.registerMenu({
         id = 'decorating_menu',
         title = locale('decoration_menu'),
         onClose = function()
-            isMenuOpen = false
+            StopDecorating()
         end,
         options = {
             { label = 'Create a prop', icon = 'plus' },
@@ -284,7 +293,15 @@ function StartDecorating()
     OpenMainMenu()
 end
 
+function StopDecorating()
+    isDecorating = false
+    
+    SetEntityVisible(cache.ped, true)
+    DisplayRadar(true)
+end
+
 AddEventHandler('bnl-housing:client:decorate', StartDecorating)
+AddEventHandler('bnl-housing:client:stopdecorate', StopDecorating)
 
 function FocusEntity(entity)
     -- set the focus to the entity
