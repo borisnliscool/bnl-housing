@@ -223,6 +223,7 @@ function SpawnPropertyVehicles(property)
             repeat
                 Wait(10)
             until vehicle ~= nil and DoesEntityExist(vehicle) and NetworkGetNetworkIdFromEntity(vehicle) ~= nil
+            SetEntityDistanceCullingRadius(vehicle, 99999) -- Remove if it lags
 
             local vehicleNetworkId = NetworkGetNetworkIdFromEntity(vehicle)
             local newNetOwner = property.playersInside[1].serverId
