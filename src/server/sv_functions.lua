@@ -378,7 +378,7 @@ end
 --- Function to update a specific prop in the property table.
 -- @param property The property to update.
 -- @param prop The prop to update.
--- @return nothing.
+-- @return nothing
 function UpdatePropertyProp(property, prop)
     if (property.decoration == nil) then
         property.decoration = {}
@@ -401,6 +401,50 @@ function UpdatePropertyProp(property, prop)
     })
 
     UpdateProperty(property)
+end
+
+-- Function to insert a prop into a property
+-- @param property The property to insert
+-- @param prop The prop to insert
+-- return nothing
+function InsertPropertyProp(property, prop)
+    if (property.decoration == nil) then
+        property.decoration = {}
+    end
+
+    if (type(property.decoration) == 'string') then
+        property.decoration = json.decode(property.decoration)
+    end
+
+    table.insert(property.decoration, prop)
+
+    MySQL.update("UPDATE `bnl_housing` SET `decoration` = @decoration WHERE `id` = @id", {
+        ['@decoration'] = json.encode(property.decoration),
+        ['@id'] = property.id
+    })
+
+    UpdateProperty(property)
+end
+
+-- Function to get the highest prop id form a decoration table
+-- @param decoration Decoration to check
+-- @return number
+function GetHighestPropId(property)
+    if (property.decoration == nil) then
+        property.decoration = {}
+    end
+
+    if (type(property.decoration) == 'string') then
+        property.decoration = json.decode(property.decoration)
+    end
+
+    local highestPropId = 0
+    for _,prop in pairs(property.decoration) do
+        if (tonumber(prop.id) > highestPropId) then
+            highestPropId = tonumber(prop.id)
+        end
+    end
+    return highestPropId
 end
 
 --- Check if the given plate is in any property

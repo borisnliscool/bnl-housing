@@ -5,22 +5,24 @@ isMenuOpen = false
 
 local disabledKeys = {
     0, 1, 2, 3, 4, 5, 6, 7, 8,
-    14, 15, 16, 17
+    14, 15, 16, 17, 21, 22, 23,
+    24, 25, 26, 30, 31, 32, 33,
+    34, 35, 36, 37, 38, 44, 46
 }
 
 local function StartDisableControlLoop()
     return CreateThread(function()
         repeat 
-            Wait(5)
+            Wait(1)
 
             for _,v in pairs(disabledKeys) do
-                DisableControlAction(0, v-1, isDecorating)
+                DisableControlAction(0, v, isDecorating)
             end
         until not isDecorating
 
         -- Reset the disabled keys
         for _,v in pairs(disabledKeys) do
-            DisableControlAction(0, v-1, isDecorating)
+            DisableControlAction(0, v, isDecorating)
         end
     end)
 end
@@ -142,7 +144,62 @@ local function GetPropCategory()
     return result
 end
 
-local function AddPropMenu()
+local function ConfirmPropLocation()
+    -- InsertPropertyProp
+    local shellCoord = GetEntityCoords(shellObject)
+    local propCoord = shellCoord - GetEntityCoords(currentFocusEntity)
+
+    TriggerServerEvent('bnl-housing:decoration:saveProp', {
+        x = propCoord.x,
+        y = propCoord.y,
+        z = propCoord.z,
+        w = GetEntityHeading(currentFocusEntity),
+        model = currentFocusModel
+    })
+end
+
+local isMovingProp = false
+local propMoveSpeed = 0.25
+function StartMovePropLoop()
+    isMovingProp = true
+
+    local location
+    CreateThread(function()
+        repeat
+            Wait(5)
+
+            local forwardbackward = (GetDisabledControlNormal(0, 31) / 10) * propMoveSpeed
+            local rightleft = (GetDisabledControlNormal(0, 30) / 10) * propMoveSpeed * -1
+            local updown = 0
+            updown = updown + (GetDisabledControlNormal(0, 44) / 10) * propMoveSpeed
+            updown = updown - (GetDisabledControlNormal(0, 46) / 10) * propMoveSpeed
+
+            location = GetEntityCoords(currentFocusEntity)
+            local forwardVector, rightVector, _, position = GetEntityMatrix(currentFocusEntity)
+            local newPosition = location + (forwardbackward * forwardVector) + (rightleft * rightVector) + (updown * vec3(0,0,1))
+
+            SetEntityCoords(currentFocusEntity, newPosition)
+
+            if (IsControlJustReleased(0, 176)) then
+                ConfirmPropLocation()
+            end
+
+            if (IsControlJustReleased(0, 177)) then
+                AddPropMenu()
+            end
+
+            if (IsDisabledControlJustReleased(0, 22)) then
+                propMoveSpeed = propMoveSpeed * 2
+                if (propMoveSpeed > 3) then
+                    propMoveSpeed = 0.02
+                end
+                print(("Set prop move speed to: %s"):format(propMoveSpeed))
+            end
+        until not isMovingProp
+    end)
+end
+
+function AddPropMenu()
     local category = props[GetPropCategory()]
     if (not category) then return end
 
@@ -164,7 +221,9 @@ local function AddPropMenu()
         title = 'Prop Menu',
         onSideScroll = function(selected, scrollIndex, args)
             if (currentFocusEntity) then DeleteEntity(currentFocusEntity) end
-            currentFocusEntity = InitObject(propsList[scrollIndex], coord)
+            local object = propsList[scrollIndex]
+            currentFocusEntity = InitObject(object, coord)
+            currentFocusModel = object
         end,
         onClose = function()
             isMenuOpen = false
@@ -177,7 +236,11 @@ local function AddPropMenu()
         }
     }, function(selected, scrollIndex, args)
         isMenuOpen = false
-        print('selected', selected, scrollIndex, args)
+        
+        -- move prop loop
+        if (selected == 2) then
+            StartMovePropLoop()
+        end
     end)
     lib.showMenu('decoration_prop')
 
