@@ -362,15 +362,19 @@ end
 function VehicleExitProperty(property, vehiclePlate)
     if (property.vehicles == nil) then
         property.vehicles = {}
-        return false
     end
 
-    for _,vehicle in pairs(property.vehicles) do
+    for index,vehicle in pairs(property.vehicles) do
         if (vehicle.plate == vehiclePlate) then
-            return table.remove(property.vehicles, i)
+            property.vehicles[index] = nil
         end
     end
-
+    for index,vehicle in pairs(property.saved_vehicles) do
+        if (vehicle.plate == vehiclePlate) then
+            property.saved_vehicles[index] = nil
+        end
+    end
+    
     UpdateProperty(property)
     return false
 end
