@@ -1,4 +1,4 @@
-RegisterNetEvent("bnl-housing:decoration:saveProp", function(_data)
+lib.callback.register("bnl-housing:decoration:saveProp", function(source, _data)
     local _source = source
     local property = GetPropertyPlayerIsInside(_source)
     local permission = GetPlayerPropertyPermissionLevel(_source, property)
@@ -8,9 +8,32 @@ RegisterNetEvent("bnl-housing:decoration:saveProp", function(_data)
         return
     end
 
-    local prop = _data
+    local modelData = props[_data.category][_data.model]
+    if (modelData) then
+        local itemName = modelData.itemRequired
+        if (itemName) then
+            local itemCount = modelData.itemCount or 1
+            local playerItemCount = exports.ox_inventory:Search(_source, 'count', itemName, modelData.itemMetadata or nil) >= itemCount
+            
+            if (playerItemCount and playerItemCount >= itemCount) then
+                exports.ox_inventory:RemoveItem(_source, itemName, itemCount, modelData.itemMetadata or nil)
+            else
+                return {ret = false} -- Player doesn't have enough of this item
+            end
+        end
+    end
+
     local id = GetHighestPropId(property) + 1
-    prop.id = id
+    local prop = {
+        x = _data.x,
+        y = _data.y,
+        z = _data.z,
+        w = _data.w,
+        model = _data.model,
+        id = id
+    }
     
     InsertPropertyProp(property, prop)
+
+    return { ret = true }
 end)

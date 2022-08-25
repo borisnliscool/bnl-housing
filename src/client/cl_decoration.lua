@@ -156,13 +156,19 @@ local function ConfirmPropLocation()
     local shellCoord = GetEntityCoords(shellObject)
     local propCoord = shellCoord - GetEntityCoords(currentFocusEntity)
 
-    TriggerServerEvent('bnl-housing:decoration:saveProp', {
+    local data = lib.callback.await('bnl-housing:decoration:saveProp', false, {
         x = propCoord.x,
         y = propCoord.y,
         z = propCoord.z,
         w = GetEntityHeading(currentFocusEntity),
-        model = currentFocusModel
+        model = currentFocusModel,
+        category = currentFocusCategory
     })
+
+    if (data.ret == false) then
+        DeleteEntity(currentFocusEntity)
+        StopDecorating()
+    end
 
     AddPropMenu()
 end
@@ -219,7 +225,8 @@ function StartMovePropLoop()
 end
 
 function AddPropMenu()
-    local category = props[GetPropCategory()]
+    local _category = GetPropCategory()
+    local category = props[_category]
     if (not category) then return OpenMainMenu() end
 
     local coord = GetEntityCoords(cache.ped)
@@ -227,7 +234,11 @@ function AddPropMenu()
 
     local propsList = {}
     for k,v in pairs(category) do
-        table.insert(propsList, v)
+        if (type(k) == 'string') then
+            table.insert(propsList, k)
+        else
+            table.insert(propsList, v)
+        end
     end
     table.sort(propsList, function(a, b) return a < b end)
 
@@ -242,6 +253,7 @@ function AddPropMenu()
             local object = propsList[scrollIndex]
             currentFocusEntity = InitObject(object, coord)
             currentFocusModel = object
+            currentFocusCategory = _category
         end,
         onClose = function()
             isMenuOpen = false

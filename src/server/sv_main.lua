@@ -1,10 +1,11 @@
-allPropertyLocations, properties, shells, propertyTypes = nil;
+allPropertyLocations, properties, shells, propertyTypes = nil, props;
 
 lib.versionCheck('borisnliscool/bnl-housing')
 
 CreateThread(function()
     shells = data('shells')
     propertyTypes = data('propertyTypes')
+    props = data('props')
 
     MySQL.query('SELECT * FROM bnl_housing', function(result)
         if result then

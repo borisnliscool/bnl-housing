@@ -41,7 +41,11 @@ Props["Bar"] = {
     "prop_beerneon",
     "prop_champ_cool",
     "prop_bar_pump_07",
-    "beerrow_local",
+    ["beerrow_local"] = {
+        itemRequired = "water",
+        itemCount = 1,
+        itemMetadata = {},
+    },
     "prop_bahammenu",
     "prop_patriotneon",
     "prop_bar_ice_01",
