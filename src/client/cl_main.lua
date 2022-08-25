@@ -243,7 +243,7 @@ function HandlePropertyMenus(property)
     function foot_point:nearby()
         if (not IsPedInAnyVehicle(cache.ped, true)) then
             if self.currentDistance < 1 then
-                if not foot_entered then
+                if not foot_entered and not isDecorating then
                     lib.registerContext({
                         id = 'property_manage_keys',
                         title = locale('manage_keys'),

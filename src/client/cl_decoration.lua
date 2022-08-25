@@ -146,7 +146,6 @@ local function GetPropCategory()
 end
 
 local function ConfirmPropLocation()
-    -- InsertPropertyProp
     local shellCoord = GetEntityCoords(shellObject)
     local propCoord = shellCoord - GetEntityCoords(currentFocusEntity)
 
@@ -158,7 +157,7 @@ local function ConfirmPropLocation()
         model = currentFocusModel
     })
 
-
+    AddPropMenu()
 end
 
 local isMovingProp = false
@@ -186,8 +185,12 @@ function StartMovePropLoop()
             local newHeading = GetEntityHeading(currentFocusEntity) + rotation
 
             SetEntityCoords(currentFocusEntity, newPosition)
+            SetEntityCoords(cache.ped, newPosition)
             SetEntityHeading(currentFocusEntity, newHeading)
 
+            local furtherPosition = location - forwardVector * propMoveSpeed
+            DrawLine(location.x, location.y, location.z, furtherPosition.x, furtherPosition.y, furtherPosition.z, 255, 0, 0, 255)
+            
             if (IsControlJustReleased(0, 176)) then
                 ConfirmPropLocation()
                 isMovingProp = false
@@ -210,7 +213,7 @@ end
 
 function AddPropMenu()
     local category = props[GetPropCategory()]
-    if (not category) then return end
+    if (not category) then return OpenMainMenu() end
 
     local coord = GetEntityCoords(cache.ped)
     currentFocusEntity = InitObject(category[1], coord)
@@ -221,7 +224,6 @@ function AddPropMenu()
     end
     table.sort(propsList, function(a, b) return a < b end)
 
-    isDecorating = true
     isMenuOpen = true
     SetupPlayer()
 
@@ -247,6 +249,12 @@ function AddPropMenu()
         isMenuOpen = false
         
         -- move prop loop
+        if (selected == 1) then
+            isMenuOpen = false
+            if (currentFocusEntity) then DeleteEntity(currentFocusEntity) end
+            OpenMainMenu()
+        end
+
         if (selected == 2) then
             StartMovePropLoop()
         end
@@ -284,18 +292,22 @@ function OpenMainMenu()
     lib.showMenu('decorating_menu')
 end
 
+local startDecoratingCoord
 function StartDecorating()
     if (propertyPlayerIsIn and propertyPlayerIsIn.shell.disable_decorate) then
         -- this property can't be decorated
         return
     end
     
+    isDecorating = true
+    startDecoratingCoord = GetEntityCoords(cache.ped) - vec3(0,0,1)
     OpenMainMenu()
 end
 
 function StopDecorating()
     isDecorating = false
-    
+
+    SetEntityCoords(cache.ped, startDecoratingCoord)
     SetEntityVisible(cache.ped, true)
     DisplayRadar(true)
 end
