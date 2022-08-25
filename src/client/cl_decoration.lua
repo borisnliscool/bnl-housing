@@ -55,7 +55,10 @@ local function CanRotateCam()
         and not isMenuOpen
 end
 
-local function StartCameraLoop()
+local function StartCameraLoop(smallRotate)
+    if (smallRotate == nil) then
+        smallRotate = false
+    end
     return CreateThread(function()
         local currentDistance = 2.5
         local minDistance = 0.5
@@ -67,12 +70,15 @@ local function StartCameraLoop()
                 local vertical = 0
                 local sensitivity = 5
 
-                if (not CanRotateCam()) then goto continue end
+                if (not smallRotate and not CanRotateCam()) then goto continue end
 
                 -- Rotation Calculation
                 if (GetDisabledControlNormal(0, 1) ~= 0) then
                     horizontal = GetDisabledControlNormal(0, 1) * -sensitivity
                 end
+                
+                if (smallRotate) then horizontal = horizontal + 0.5 end
+
                 if (GetDisabledControlNormal(0, 2) ~= 0) then
                     vertical = GetDisabledControlNormal(0, 2) * -sensitivity
                 end
@@ -91,6 +97,7 @@ local function StartCameraLoop()
                 newRotation = vec3(math.min(85, math.max(-85, newRotation.x)), newRotation.y, newRotation.z)
 
                 local newLocation = GetLocationForCameraRotation(newRotation, GetEntityCoords(currentFocusEntity), currentDistance)
+                if (smallRotate) then newLocation = newLocation + vec3(0,0,1) end
                 SetCamCoord(currentCamera, newLocation)
                 SetCamRot(currentCamera, newRotation.x, 0.0, newRotation.z, 2, true)
                 
@@ -265,6 +272,57 @@ function AddPropMenu()
     StartCameraLoop()
 end
 
+function EditPropMenu()
+    if (type(propertyPlayerIsIn.decoration) == 'string') then
+        propertyPlayerIsIn.decoration = json.decode(propertyPlayerIsIn.decoration)
+    end
+
+    local entities = {}
+    for _, prop in pairs(propertyPlayerIsIn.decoration) do
+        local worldCoords = GetEntityCoords(shellObject) - vector3(prop.x, prop.y, prop.z)
+        local entity = GetClosestObjectOfType(worldCoords, 0.5, GetHashKey(prop.model))
+        entities[entity] = prop
+
+        if (not entity) then
+            Logger.Error(('Could not find prop: #%s'):format(prop.id))
+        end
+    end
+
+    local menuItems = {}
+    for entityId, prop in pairs(entities) do
+        table.insert(menuItems, entityId)
+    end
+
+    isMenuOpen = true
+    isDecorating = true
+    SetupPlayer()
+
+    lib.registerMenu({
+        id = 'decoration_editprop',
+        title = 'Edit Prop Menu',
+        onSideScroll = function(selected, scrollIndex, args)
+            SetEntityDrawOutline(currentFocusEntity, false)
+            local entity = menuItems[scrollIndex]
+            currentFocusEntity = entity
+            SetEntityDrawOutline(currentFocusEntity, true)
+            SetEntityDrawOutlineColor(255, 192, 0, 255)
+            currentCamera = InitCamera(GetEntityCoords(entity))
+        end,
+        onClose = function()
+            isMenuOpen = false
+            SetEntityDrawOutline(currentFocusEntity, false)
+            OpenMainMenu()
+        end,
+        options = {
+            { label = 'Select Prop', values = menuItems },
+        }
+    }, function(selected, scrollIndex, args)
+    end)
+    lib.showMenu('decoration_editprop')
+    
+    StartCameraLoop(true)
+end
+
 function OpenMainMenu()
     isMenuOpen = true
 
@@ -285,6 +343,7 @@ function OpenMainMenu()
             AddPropMenu()
         elseif (selected == 2) then
             -- Edit prop menu
+            EditPropMenu()
         elseif (selected == 3) then
             -- Remove prop menu
         end
