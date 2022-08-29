@@ -1,9 +1,10 @@
-allPropertyLocations = nil; allPropertyPoints = nil; shellObject = nil; isInProperty = false; propertyPlayerIsIn = nil; currentPropertyPermissionLevel = nil; inPropertyPoints = nil; currentPropertyProps = nil; decorationPoints = nil; specialProps = nil;
+allPropertyLocations, allPropertyPoints, shellObject, isInProperty, propertyPlayerIsIn, currentPropertyPermissionLevel, inPropertyPoints, currentPropertyProps, decorationPoints, specialProps, props = nil
 
 CreateThread(function()
     allPropertyLocations = lib.callback.await('bnl-housing:server:getAllPropertyLocations', 1500)
     RegisterAllPropertyPoints()
     specialProps = data('specialprops')
+    props = data('props')
 
     repeat
         Wait(0)
@@ -242,7 +243,7 @@ function HandlePropertyMenus(property)
     function foot_point:nearby()
         if (not IsPedInAnyVehicle(cache.ped, true)) then
             if self.currentDistance < 1 then
-                if not foot_entered then
+                if not foot_entered and not isDecorating then
                     lib.registerContext({
                         id = 'property_manage_keys',
                         title = locale('manage_keys'),
@@ -370,6 +371,9 @@ function HandlePropertyMenus(property)
 end
 
 function HandleEnter(data)
+    DoScreenFadeOut(500)
+    Wait(500)
+
     lib.hideTextUI()
     FreezeEntityPosition(cache.ped, true)
 
@@ -393,6 +397,8 @@ function HandleEnter(data)
     end
 
     FreezeEntityPosition(cache.ped, false)
+    Wait(250)
+    DoScreenFadeIn(500)
 end
 
 RegisterNetEvent("bnl-housing:client:handleEnter", HandleEnter)
@@ -402,7 +408,7 @@ RegisterNetEvent("bnl-housing:client:setVehicleProps", function(networkId, props
     if (not DoesEntityExist(vehicle)) then
         return
     end
-    SetVehicleProperties(vehicle, props)
+    lib.setVehicleProperties(vehicle, props)
 end)
 
 RegisterNetEvent("bnl-housing:client:enter", function(menuData)
@@ -563,6 +569,8 @@ RegisterNetEvent("bnl-housing:client:giveKeysMenu", function()
 end)
 
 function HandleExit(data)
+    DoScreenFadeOut(500)
+    Wait(500)
     local vehicle = GetVehiclePedIsIn(cache.ped, false)
 
     if (data.deleteVehicle) then
@@ -587,6 +595,8 @@ function HandleExit(data)
     end
 
     DespawnPropertyDecoration()
+    Wait(250)
+    DoScreenFadeIn(500)
 end
 
 RegisterNetEvent("bnl-housing:client:handleExit", HandleExit)
@@ -702,7 +712,7 @@ end)
 RegisterNetEvent("bnl-housing:client:requestVehicleData", function(vehicle)
     local vehicleEntity = NetworkGetEntityFromNetworkId(vehicle.networkId)
     if (vehicleEntity ~= nil) then
-        local vehicleData = GetVehicleProperties(vehicleEntity)
+        local vehicleData = lib.getVehicleProperties(vehicleEntity)
 
         TriggerServerEvent("bnl-housing:server:postVehicleData", vehicle, vehicleData)
     end
@@ -771,7 +781,9 @@ function OpenSafeWithCode(data)
     if (not prop.data) then prop.data = {} end
 
     if (prop.data.code) then
-        local input = lib.inputDialog(locale('safe_is_locked'), {locale('enter_code')})
+        local input = lib.inputDialog(locale('safe_is_locked'), {
+            { type = 'input', label = locale('enter_code'), password = true, icon = 'lock'}
+        })
         if (input) then
             local code = tonumber(input[1])
             local data = lib.callback.await("bnl-housing:server:openSafe", false, {
@@ -802,7 +814,10 @@ function SetSafeCode(data)
     if (not prop.data) then prop.data = {} end
 
     if (prop.data.code) then
-        local input = lib.inputDialog(locale('set_safe_code'), {locale('old_code'), locale('new_code')})
+        local input = lib.inputDialog(locale('set_safe_code'), {
+            { type = 'input', label = locale('old_code'), password = true, icon = 'lock'},
+            { type = 'input', label = locale('new_code'), password = true, icon = 'lock'}
+        })
         if (input) then
             local oldCode = tonumber(input[1])
             local newCode = tonumber(input[2])

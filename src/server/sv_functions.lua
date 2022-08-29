@@ -213,32 +213,30 @@ function SpawnPropertyVehicles(property)
     Logger.Info("Spawning " .. #property.saved_vehicles .. " vehicles for property #" .. property.id)
 
     for _,vehicleInProperty in pairs(property.saved_vehicles) do
-        CreateThread(function()
-            local v3 = vector3(vehicleInProperty.location.x, vehicleInProperty.location.y, vehicleInProperty.location.z)
-            local location = JsonCoordToVector3(property.entrance) - lowerBy + v3 + vector3(0.0, 0.0, 1.5)
+        local v3 = vector3(vehicleInProperty.location.x, vehicleInProperty.location.y, vehicleInProperty.location.z)
+        local location = JsonCoordToVector3(property.entrance) - lowerBy + v3 + vector3(0.0, 0.0, 1.5)
 
-            local heading = vehicleInProperty.heading
-            local vehicle = CreateVehicle(vehicleInProperty.model, location, heading, true, false)
+        local heading = vehicleInProperty.heading
+        local vehicle = CreateVehicle(vehicleInProperty.model, location, heading, true, false)
 
-            repeat
-                Wait(10)
-            until vehicle ~= nil and DoesEntityExist(vehicle) and NetworkGetNetworkIdFromEntity(vehicle) ~= nil
+        repeat
+            Wait(10)
+        until vehicle ~= nil and DoesEntityExist(vehicle) and NetworkGetNetworkIdFromEntity(vehicle) ~= nil
+        SetEntityDistanceCullingRadius(vehicle, 99999) -- Remove if it lags
 
-            local vehicleNetworkId = NetworkGetNetworkIdFromEntity(vehicle)
-            local newNetOwner = property.playersInside[1].serverId
-            TriggerClientEvent('bnl-housing:client:setNetworkOwner', newNetOwner, vehicleNetworkId)
-            TriggerClientEvent('bnl-housing:client:setVehicleProps', newNetOwner, vehicleNetworkId, vehicleInProperty)
+        local vehicleNetworkId = NetworkGetNetworkIdFromEntity(vehicle)
+        local newNetOwner = property.playersInside[1].serverId
+        TriggerClientEvent('bnl-housing:client:setNetworkOwner', newNetOwner, vehicleNetworkId)
+        TriggerClientEvent('bnl-housing:client:setVehicleProps', newNetOwner, vehicleNetworkId, vehicleInProperty)
 
-            FreezeEntityPosition(vehicle, true)
+        FreezeEntityPosition(vehicle, true)
 
-            table.insert(property.vehicles, {
-                networkId = vehicleNetworkId,
-                plate = vehicleInProperty.plate,
-            })
+        table.insert(property.vehicles, {
+            networkId = vehicleNetworkId,
+            plate = vehicleInProperty.plate,
+        })
 
-            -- This is needed for some anticheats. So if you're having trouble with the vehicles, try uncommenting this.
-            -- Wait(300)
-        end)
+        Wait(300)
     end
 
     UpdateProperty(property)
@@ -362,15 +360,19 @@ end
 function VehicleExitProperty(property, vehiclePlate)
     if (property.vehicles == nil) then
         property.vehicles = {}
-        return false
     end
 
-    for _,vehicle in pairs(property.vehicles) do
+    for index,vehicle in pairs(property.vehicles) do
         if (vehicle.plate == vehiclePlate) then
-            return table.remove(property.vehicles, i)
+            property.vehicles[index] = nil
         end
     end
-
+    for index,vehicle in pairs(property.saved_vehicles) do
+        if (vehicle.plate == vehiclePlate) then
+            property.saved_vehicles[index] = nil
+        end
+    end
+    
     UpdateProperty(property)
     return false
 end
@@ -378,7 +380,7 @@ end
 --- Function to update a specific prop in the property table.
 -- @param property The property to update.
 -- @param prop The prop to update.
--- @return nothing.
+-- @return nothing
 function UpdatePropertyProp(property, prop)
     if (property.decoration == nil) then
         property.decoration = {}
@@ -401,6 +403,50 @@ function UpdatePropertyProp(property, prop)
     })
 
     UpdateProperty(property)
+end
+
+-- Function to insert a prop into a property
+-- @param property The property to insert
+-- @param prop The prop to insert
+-- return nothing
+function InsertPropertyProp(property, prop)
+    if (property.decoration == nil) then
+        property.decoration = {}
+    end
+
+    if (type(property.decoration) == 'string') then
+        property.decoration = json.decode(property.decoration)
+    end
+
+    table.insert(property.decoration, prop)
+
+    MySQL.update("UPDATE `bnl_housing` SET `decoration` = @decoration WHERE `id` = @id", {
+        ['@decoration'] = json.encode(property.decoration),
+        ['@id'] = property.id
+    })
+
+    UpdateProperty(property)
+end
+
+-- Function to get the highest prop id form a decoration table
+-- @param decoration Decoration to check
+-- @return number
+function GetHighestPropId(property)
+    if (property.decoration == nil) then
+        property.decoration = {}
+    end
+
+    if (type(property.decoration) == 'string') then
+        property.decoration = json.decode(property.decoration)
+    end
+
+    local highestPropId = 0
+    for _,prop in pairs(property.decoration) do
+        if (tonumber(prop.id) > highestPropId) then
+            highestPropId = tonumber(prop.id)
+        end
+    end
+    return highestPropId
 end
 
 --- Check if the given plate is in any property
@@ -456,10 +502,8 @@ function GetPlayerPropertyPermissionLevel(player, property)
     if (type(player) == 'number') then
         playerIdentifier = GetIdentifier(player)
         if (next(exports.ox_inventory) ~= nil) then
-            if (exports.ox_inventory:Search(source, 'property_key', {property_id = property_id})) then
-                if (permissionLevel == nil) then
-                    permissionLevel = 'key_owner'
-                end
+            if (exports.ox_inventory:Search(source, 'property_key', 'count',  {property_id = property_id}) > 0) then
+                permissionLevel = 'key_owner'
             end
         end
     end
@@ -469,16 +513,12 @@ function GetPlayerPropertyPermissionLevel(player, property)
     end
     for _,key_owner in pairs(property.key_owners) do
         if (playerIdentifier == key_owner.identifier) then
-            if (permissionLevel == nil) then
-                permissionLevel = 'key_owner'
-            end
+            permissionLevel = 'key_owner'
         end
     end
 
     if (playerIdentifier == property.owner) then
-        if (permissionLevel == nil) then
-            permissionLevel = 'owner'
-        end
+        permissionLevel = 'owner'
     end
 
     return permissionLevel

@@ -1,10 +1,11 @@
-allPropertyLocations = nil; properties = nil; shells = nil; propertyTypes = nil;
+allPropertyLocations, properties, shells, propertyTypes = nil, props;
 
 lib.versionCheck('borisnliscool/bnl-housing')
 
 CreateThread(function()
     shells = data('shells')
     propertyTypes = data('propertyTypes')
+    props = data('props')
 
     MySQL.query('SELECT * FROM bnl_housing', function(result)
         if result then
@@ -184,17 +185,15 @@ lib.callback.register('bnl-housing:server:enter', function(source, property_id, 
         if (enteringWithVehicle) then
             if (type(property.saved_vehicles) == 'string') then property.saved_vehicles = json.decode(property.saved_vehicles) end
 
-            if (property.shell.vehicle_limit) then
-                if (#property.saved_vehicles >= property.shell.vehicle_limit) then
-                    return {
-                        ret = false,
-                        notification = {
-                            title = 'Property',
-                            description = locale('property_full'),
-                            status = 'error',
-                        }
+            if (not property.shell.vehicle_limit or #property.saved_vehicles >= property.shell.vehicle_limit) then
+                return {
+                    ret = false,
+                    notification = {
+                        title = 'Property',
+                        description = locale('property_full'),
+                        status = 'error',
                     }
-                end
+                }
             end
 
             local plate = GetVehicleNumberPlateText(vehicle)

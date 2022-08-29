@@ -58,6 +58,14 @@ local function RelativeCoord(source, args, rawCommand)
     local pedCoord = GetEntityCoords(ped)
     local pedHeading = GetEntityHeading(ped)
 
+    -- TODO:
+    --  - GetOffsetFromEntityInWorldCoords
+    --  - GetOffsetFromEntityGivenWorldCoords
+    -- Everywhere else in the codebase instead of this way bellow
+    local relative = entrance - pedCoord
+    local v4 = vec4(relative.x, relative.y, relative.z, pedHeading)
+    TriggerClientEvent('bnl-housing:setClipboard', source, ('vector4(%s, %s, %s, %s)'):format(v4.x, v4.y, v4.z, v4.w))
+
     Logger.Success("Coord", entrance - pedCoord, "Heading", pedHeading)
 end
 
