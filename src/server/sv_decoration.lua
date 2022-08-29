@@ -37,3 +37,31 @@ lib.callback.register("bnl-housing:decoration:saveProp", function(source, _data)
 
     return { ret = true }
 end)
+
+RegisterNetEvent("bnl-housing:decoration:deleteProp", function(propId)
+    local _source = source
+    local property = GetPropertyPlayerIsInside(_source)
+    local permission = GetPlayerPropertyPermissionLevel(_source, property)
+
+    if (not (permission == 'key_owner') and not (permission == 'owner')) then
+        -- player doesn't have permission
+        return
+    end
+
+    if (type(property.decoration) == 'string') then
+        property.decoration = json.decode(property.decoration)
+    end
+
+    for id, prop in pairs(property.decoration) do
+        if (prop.id == propId) then
+            property.decoration[id] = nil
+        end
+    end
+
+    MySQL.update("UPDATE `bnl_housing` SET `decoration` = @decoration WHERE `id` = @id", {
+        ['@decoration'] = json.encode(property.decoration),
+        ['@id'] = property.id
+    })
+
+    UpdateProperty(property)
+end)

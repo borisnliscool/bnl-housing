@@ -284,7 +284,7 @@ function AddPropMenu()
     StartCameraLoop()
 end
 
-function EditPropMenu()
+function SelectProp()
     if (type(propertyPlayerIsIn.decoration) == 'string') then
         propertyPlayerIsIn.decoration = json.decode(propertyPlayerIsIn.decoration)
     end
@@ -309,6 +309,8 @@ function EditPropMenu()
     isDecorating = true
     SetupPlayer()
 
+    local Promise = promise.new()
+
     lib.registerMenu({
         id = 'decoration_editprop',
         title = 'Edit Prop Menu',
@@ -323,16 +325,25 @@ function EditPropMenu()
         onClose = function()
             isMenuOpen = false
             SetEntityDrawOutline(currentFocusEntity, false)
-            OpenMainMenu()
+            StopDecorating()
+            Promise:resolve(nil)
         end,
         options = {
             { label = 'Select Prop', values = menuItems },
         }
     }, function(selected, scrollIndex, args)
+        StopDecorating()
+        Promise:resolve({entities[menuItems[scrollIndex]], menuItems[scrollIndex]})
     end)
     lib.showMenu('decoration_editprop')
     
     StartCameraLoop(true)
+
+    return Citizen.Await(Promise)
+end
+
+function EditPropMenu()
+    local prop = SelectProp()
 end
 
 function OpenMainMenu()
@@ -358,6 +369,13 @@ function OpenMainMenu()
             EditPropMenu()
         elseif (selected == 3) then
             -- Remove prop menu
+            local data = SelectProp()
+            local prop = data[1]
+            local entity = data[2]
+            if (not prop) then return end
+
+            DeleteEntity(entity)
+            TriggerServerEvent('bnl-housing:decoration:deleteProp', prop.id)
         end
     end)
     lib.showMenu('decorating_menu')
