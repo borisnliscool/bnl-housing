@@ -61,7 +61,8 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
   - [x] German (DE)
 - [x] Logging out in properties
 - [ ] Decorate properties
-  - [ ] Normal props
+  - [x] Normal props
+    - [ ] Tooltips for controls
   - [x] Special props that do things when near like a storage container or laptop
     - [x] Safe with codelock
     - [x] Example prop
