@@ -55,7 +55,9 @@ local function CanRotateCam()
         and not isMenuOpen
 end
 
-local function StartCameraLoop(smallRotate)
+local smallRotate
+local function StartCameraLoop(_smallRotate)
+    smallRotate = _smallRotate
     if (smallRotate == nil) then
         smallRotate = false
     end
@@ -267,7 +269,6 @@ function AddPropMenu()
     }, function(selected, scrollIndex, args)
         isMenuOpen = false
         
-        -- move prop loop
         if (selected == 1) then
             isMenuOpen = false
             if (currentFocusEntity) then DeleteEntity(currentFocusEntity) end
@@ -312,7 +313,7 @@ function SelectProp()
     local Promise = promise.new()
 
     lib.registerMenu({
-        id = 'decoration_editprop',
+        id = 'decoration_selectprop',
         title = 'Edit Prop Menu',
         onSideScroll = function(selected, scrollIndex, args)
             SetEntityDrawOutline(currentFocusEntity, false)
@@ -332,18 +333,51 @@ function SelectProp()
             { label = 'Select Prop', values = menuItems },
         }
     }, function(selected, scrollIndex, args)
+        SetEntityDrawOutline(currentFocusEntity, false)
         StopDecorating()
         Promise:resolve({entities[menuItems[scrollIndex]], menuItems[scrollIndex]})
     end)
-    lib.showMenu('decoration_editprop')
+    lib.showMenu('decoration_selectprop')
     
     StartCameraLoop(true)
 
     return Citizen.Await(Promise)
 end
 
+-- TODO: Make this better
+function GetCategoryForProp(prop)
+    for category,_props in pairs(props) do
+        for _,_prop in pairs(_props) do
+            if (prop == _prop) then return category end
+        end
+    end
+    return nil
+end
+
 function EditPropMenu()
-    local prop = SelectProp()
+    local propData = SelectProp()
+    if (not propData) then return end 
+    local prop = propData[1]
+    local entity = propData[2]
+    
+    TriggerServerEvent('bnl-housing:decoration:deleteProp', prop.id)
+    
+    local coord = GetEntityCoords(entity)
+    DeleteEntity(entity)
+    
+    SetupPlayer()
+
+    currentFocusEntity = InitObject(prop.model, coord)
+    currentFocusModel = prop.model
+    currentFocusCategory = GetCategoryForProp(prop.model)
+    print(currentFocusCategory)
+    StartMovePropLoop()
+
+    isMenuOpen = false
+    isDecorating = true
+    currentCamera = InitCamera(coord - vec3(0,0,1))
+
+    StartCameraLoop()
 end
 
 function OpenMainMenu()
