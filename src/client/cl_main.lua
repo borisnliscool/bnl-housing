@@ -144,7 +144,7 @@ function SpawnPropertyDecoration(property)
                                     end
                                 end
 
-                                spData.func(newProp)
+                                spData.func(newProp, property.id)
                             end
                         end
                     end
