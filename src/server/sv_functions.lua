@@ -405,6 +405,19 @@ function UpdatePropertyProp(property, prop)
     UpdateProperty(property)
 end
 
+-- Function to update all the props in a property.
+-- @param property The property to update.
+-- @param props All the props
+-- return nothing
+function SetPropertyProps(property, props)
+    MySQL.update("UPDATE `bnl_housing` SET `decoration` = @decoration WHERE `id` = @id", {
+        ['@decoration'] = json.encode(props),
+        ['@id'] = property.id
+    })
+
+    UpdateProperty(property)
+end
+
 -- Function to insert a prop into a property
 -- @param property The property to insert
 -- @param prop The prop to insert
@@ -569,6 +582,7 @@ exports("GetPropertyPlayerIsInside", GetPropertyPlayerIsInside)
 exports("GetPlayersInsideProperty", GetPlayersInsideProperty)
 exports("FindPlayerInProperty", FindPlayerInProperty)
 exports("UpdatePropertyProp", UpdatePropertyProp)
+exports("SetPropertyProps", SetPropertyProps)
 exports("IsPlateInAnyProperty", IsPlateInAnyProperty)
 exports("IsPlateInProperty", IsPlateInProperty)
 exports("GetPlayerPropertyPermissionLevel", GetPlayerPropertyPermissionLevel)
