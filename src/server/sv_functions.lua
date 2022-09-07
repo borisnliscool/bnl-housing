@@ -410,8 +410,10 @@ end
 -- @param props All the props
 -- return nothing
 function SetPropertyProps(property, props)
+    property.decoration = props
+
     MySQL.update("UPDATE `bnl_housing` SET `decoration` = @decoration WHERE `id` = @id", {
-        ['@decoration'] = json.encode(props),
+        ['@decoration'] = json.encode(property.decoration),
         ['@id'] = property.id
     })
 
