@@ -845,3 +845,4 @@ end
 
 RegisterNetEvent("bnl-housing:client:setSafeCode", SetSafeCode)
 -- END SPECIAL PROPS
+exports("propertyPlayerIsIn", function() return propertyPlayerIsIn end)
