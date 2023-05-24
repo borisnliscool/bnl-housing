@@ -46,6 +46,15 @@ If you incounter any issues downloading, you can ask for help in [my discord](ht
 
 <img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
 
+- FAQ:
+1. Where can I get the property shells?
+https://mega.nz/file/G01QxIJL#ctLH4cz46Kqyo8V2dTCCSMYS6ii1GB85qXX1LYt34Wg
+
+2. How can I give myself admin perms?
+To give yourself "bnl-housing:admin" permission, you need to add it to your Ace permissions in the server.cfg file. Open the file and add the following line: add_principal identifier.steam:[your steam id] "bnl-housing:admin" allow, replacing [your steam id] with your actual Steam ID. 
+
+Alternatively, if you have an admin group you can add the ace to that: add_ace group.admin "bnl-housing:admin" allow
+
 ## Roadmap
 
 - [x] Ownable properties
