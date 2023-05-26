@@ -26,3 +26,48 @@ Config.entrance = {
         faceCamera = false
     }
 }
+
+Config.blips = {
+    house = {
+        owner = {
+            sprite = 40,
+            color = 2,
+        },
+        member = {
+            sprite = 40,
+            color = 3,
+        },
+        renter = {
+            sprite = 40,
+            color = 5,
+        },
+    },
+    warehouse = {
+        owner = {
+            sprite = 473,
+            color = 2,
+        },
+        member = {
+            sprite = 473,
+            color = 3,
+        },
+        renter = {
+            sprite = 473,
+            color = 5,
+        },
+    },
+    office = {
+        owner = {
+            sprite = 475,
+            color = 2,
+        },
+        member = {
+            sprite = 475,
+            color = 3,
+        },
+        renter = {
+            sprite = 475,
+            color = 5,
+        },
+    }
+}

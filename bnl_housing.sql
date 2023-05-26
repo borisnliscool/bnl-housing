@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS properties (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     model VARCHAR(16) NOT NULL,
     entrance_location JSON NOT NULL,
+    property_type ENUM("house", "warehouse", "office") NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

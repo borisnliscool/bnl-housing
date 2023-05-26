@@ -1,3 +1,5 @@
+Bridge = {}
+
 local version = IsDuplicityVersion() and "server" or "client"
 local script = ("src/bridge/%s/%s.lua"):format(Config.framework, version)
 local file = LoadResourceFile(cache.resource, script)

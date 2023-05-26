@@ -1,12 +1,5 @@
 lib.locale()
-Client = {}
 Properties = {}
-
-function Notify(message, timeSeconds)
-    AddTextEntry(message, message)
-    BeginTextCommandDisplayHelp(message)
-    EndTextCommandDisplayHelp(0, false, true, (timeSeconds or 10) * 1000)
-end
 
 function CreatePropertyPoint(data)
     local point = lib.points.new({
@@ -16,6 +9,7 @@ function CreatePropertyPoint(data)
     })
 
     local markerData = Config.entrance.marker
+
     function point:nearby()
         DrawMarker(
             markerData.type,
@@ -40,7 +34,7 @@ function CreatePropertyPoint(data)
         )
 
         if self.currentDistance < (markerData.size.x + markerData.size.y) / 2 then
-            Notify(locale("property.enter", Config.entrance.interact.name))
+            Bridge.Notify(locale("property.enter", Config.entrance.interact.name))
 
             if IsControlJustReleased(Config.entrance.interact.padIndex, Config.entrance.interact.control) then
                 -- todo
@@ -55,7 +49,21 @@ function CreatePropertyPoint(data)
 end
 
 function CreatePropertyBlip(data)
-    print(json.encode(data, { indent = true }))
+    local blipData = Config.blips[data.propertyType][data.key.permission]
+    local blip = AddBlipForCoord(data.entranceLocation.x, data.entranceLocation.y, data.entranceLocation.z)
+
+    SetBlipSprite(blip, blipData.sprite)
+    SetBlipColour(blip, blipData.color)
+    SetBlipDisplay(blip, blipData.display or 2)
+    SetBlipScale(blip, blipData.scale or 1.0)
+
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentSubstringPlayerName(
+        locale(("blip.property.%s.%s"):format(data.propertyType, data.key.permission))
+    )
+    EndTextCommandSetBlipName(blip)
+
+    return blip
 end
 
 function SetupProperties()

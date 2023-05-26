@@ -7,6 +7,7 @@ function Property.new(data)
     instance.id = data.id
     instance.model = data.model
     instance.entranceLocation = json.decode(data.entrance_location)
+    instance.propertyType = data.property_type
     instance.bucketId = 1000 + data.id
     instance.props = {}
     instance.keys = {}

@@ -1,5 +1,4 @@
 lib.locale()
-Server = {}
 Properties = {}
 
 function LoadProperties()
@@ -15,10 +14,16 @@ CreateThread(function()
 end)
 
 lib.callback.register("bnl-housing:server:getProperties", function(source)
+    local playerIdentifier = Bridge.GetPlayerIdentifier(source)
+
     return table.map(Properties, function(property)
         return {
             id = property.id,
-            entranceLocation = property.entranceLocation
+            entranceLocation = property.entranceLocation,
+            propertyType = property.propertyType,
+            key = table.findOne(property.keys, function(key)
+                return key.player == playerIdentifier
+            end)
         }
     end)
 end)

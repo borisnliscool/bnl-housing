@@ -1,3 +1,15 @@
 {
-    "property.enter": "~%s~ Property menu"
+    "property.enter": "~%s~ Property menu",
+
+    "blip.property.house.owner": "Owned house",
+    "blip.property.house.member": "Friend's house",
+    "blip.property.house.renter": "Rented house",
+
+    "blip.property.warehouse.owner": "Owned warehouse",
+    "blip.property.warehouse.member": "Friend's warehouse",
+    "blip.property.warehouse.renter": "Rented warehouse",
+
+    "blip.property.office.owner": "Owned office",
+    "blip.property.office.member": "Friend's office",
+    "blip.property.office.renter": "Rented office"
 }
