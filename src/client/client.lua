@@ -4,11 +4,11 @@ Properties = {}
 function CreatePropertyPoint(data)
     local point = lib.points.new({
         coords = data.entranceLocation,
-        distance = Config.entrance.viewDistance,
+        distance = Config.points.entrance.viewDistance,
         property_id = data.id
     })
 
-    local markerData = Config.entrance.marker
+    local markerData = Config.points.entrance.marker
 
     function point:nearby()
         DrawMarker(
@@ -34,9 +34,9 @@ function CreatePropertyPoint(data)
         )
 
         if self.currentDistance < (markerData.size.x + markerData.size.y) / 2 then
-            Bridge.Notify(locale("property.enter", Config.entrance.interact.name))
+            Bridge.Notify(locale("property.menu", Config.points.entrance.interact.name))
 
-            if IsControlJustReleased(Config.entrance.interact.padIndex, Config.entrance.interact.control) then
+            if IsControlJustReleased(Config.points.entrance.interact.padIndex, Config.points.entrance.interact.control) then
                 -- todo
                 -- logic for entering the property
 
@@ -49,6 +49,10 @@ function CreatePropertyPoint(data)
 end
 
 function CreatePropertyBlip(data)
+    -- todo
+    -- check for sale or for rent
+    if not data.key then return end
+
     local blipData = Config.blips[data.propertyType][data.key.permission]
     local blip = AddBlipForCoord(data.entranceLocation.x, data.entranceLocation.y, data.entranceLocation.z)
 

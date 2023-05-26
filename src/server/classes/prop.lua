@@ -2,7 +2,7 @@ Prop = {}
 Prop.__index = Prop
 
 function Prop.new(data, property)
-    local instance = setmetatable(Prop, {})
+    local instance = setmetatable({}, Prop)
 
     instance.property = property
     instance.id = data.id
@@ -12,7 +12,7 @@ function Prop.new(data, property)
     instance.metadata = json.decode(data.metadata)
 
     CreateThread(function()
-        Prop:spawn()
+        instance:spawn()
     end)
 
     return instance

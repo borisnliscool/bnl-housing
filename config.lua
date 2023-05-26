@@ -3,7 +3,8 @@ Config = {}
 -- Framework you're using, supported: 'esx'
 Config.framework = "esx"
 
-Config.entrance = {
+Config.points = {}
+Config.points.entrance = {
     viewDistance = 10.0,
     interact = {
         -- https://docs.fivem.net/docs/game-references/controls/

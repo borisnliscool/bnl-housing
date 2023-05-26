@@ -2,7 +2,7 @@ Property = {}
 Property.__index = Property
 
 function Property.new(data)
-    local instance = setmetatable(Property, {})
+    local instance = setmetatable({}, Property)
 
     instance.id = data.id
     instance.model = data.model
@@ -10,12 +10,11 @@ function Property.new(data)
     instance.propertyType = data.property_type
     instance.bucketId = 1000 + data.id
     instance.props = {}
-    instance.keys = {}
+    instance.keys = instance:getKeys()
 
     CreateThread(function()
         instance:spawnModel()
         instance:loadProps()
-        instance:loadKeys()
     end)
 
     return instance
@@ -59,6 +58,8 @@ end
 
 --#region Props
 function Property:destroyProps()
+    if not self.props then return end
+
     for _, prop in pairs(self.props) do
         prop:destroy()
     end
@@ -75,9 +76,9 @@ end
 
 --#endregion
 
-function Property:loadKeys()
+function Property:getKeys()
     local databaseKeys = MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
-    self.keys = databaseKeys
+    return databaseKeys
 end
 
 function Property:destroy()
