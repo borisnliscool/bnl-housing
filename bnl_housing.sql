@@ -1,12 +1,28 @@
-CREATE TABLE `bnl_housing` ( 
-    `id` INT NOT NULL AUTO_INCREMENT , 
-    `owner` VARCHAR(64) NOT NULL , 
-    `key_owners` LONGTEXT NOT NULL DEFAULT '{}' , 
-    `entrance` LONGTEXT NOT NULL DEFAULT '{}' , 
-    `shell_id` INT NOT NULL DEFAULT '1' , 
-    `for_sale` LONGTEXT NOT NULL DEFAULT '{}' , 
-    `decoration` LONGTEXT NOT NULL DEFAULT '{}' , 
-    `vehicles` LONGTEXT NOT NULL DEFAULT '{}' , 
-    `saved_players` LONGTEXT NOT NULL DEFAULT '{}' , 
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS properties (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    model VARCHAR(16) NOT NULL,
+    entrance_location JSON NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS property_key (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    property_id INT NOT NULL,
+    player VARCHAR(128) NOT NULL,
+    permission ENUM("owner", "member", "renter") NOT NULL,
+    FOREIGN KEY (property_id) REFERENCES properties(id),
+    FOREIGN KEY (player) REFERENCES users(identifier),
+    INDEX idx_property_id (property_id),
+    INDEX idx_player (player)
+);
+
+CREATE TABLE IF NOT EXISTS property_prop (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    property_id INT NOT NULL,
+    model VARCHAR(32) NOT NULL,
+    location JSON NOT NULL,
+    rotation JSON NOT NULL,
+    FOREIGN KEY (property_id) REFERENCES properties(id),
+    INDEX idx_property_id (property_id)
+);
