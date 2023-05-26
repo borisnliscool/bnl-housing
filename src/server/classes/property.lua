@@ -77,8 +77,7 @@ end
 --#endregion
 
 function Property:getKeys()
-    local databaseKeys = MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
-    return databaseKeys
+    return MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
 end
 
 function Property:destroy()
