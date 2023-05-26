@@ -16,7 +16,8 @@ dependencies {
 
 shared_scripts {
     '@ox_lib/init.lua',
-    -- 'src/shared/sh_main.lua',
+    'config.lua',
+    'src/shared/*.lua',
 }
 
 client_scripts {
@@ -27,4 +28,8 @@ server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'src/server/classes/*.lua',
     'src/server/*.lua',
+}
+
+files {
+    'locales/*.json'
 }
