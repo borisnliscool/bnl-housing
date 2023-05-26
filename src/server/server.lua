@@ -1,4 +1,5 @@
 lib.locale()
+Server = {}
 Properties = {}
 
 function LoadProperties()

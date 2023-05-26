@@ -7,12 +7,14 @@ function Property.new(data)
     instance.id = data.id
     instance.model = data.model
     instance.entranceLocation = json.decode(data.entrance_location)
-    instance.props = {}
     instance.bucketId = 1000 + data.id
+    instance.props = {}
+    instance.keys = {}
 
     CreateThread(function()
         instance:spawnModel()
         instance:loadProps()
+        instance:loadKeys()
     end)
 
     return instance
@@ -65,13 +67,17 @@ function Property:loadProps()
     self:destroyProps()
 
     local databaseProps = MySQL.query.await("SELECT * FROM property_prop WHERE property_id = ?", { self.id })
-    for _, propData in pairs(databaseProps) do
-        local prop = Prop.new(propData, self)
-        self.props[propData.id] = prop
-    end
+    self.props = table.map(databaseProps, function(propData)
+        return Prop.new(propData, self)
+    end)
 end
 
 --#endregion
+
+function Property:loadKeys()
+    local databaseKeys = MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
+    self.keys = databaseKeys
+end
 
 function Property:destroy()
     self:destroyModel()

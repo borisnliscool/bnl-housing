@@ -17,6 +17,7 @@ dependencies {
 shared_scripts {
     '@ox_lib/init.lua',
     'config.lua',
+    'src/bridge/shared.lua',
     'src/shared/*.lua',
 }
 
@@ -31,5 +32,6 @@ server_scripts {
 }
 
 files {
+    'src/bridge/**/client.lua',
     'locales/*.json'
 }

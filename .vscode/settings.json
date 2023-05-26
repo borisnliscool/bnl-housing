@@ -1,6 +1,7 @@
 {
     "Lua.diagnostics.globals": [
         "lib",
-        "locale"
+        "locale",
+        "cache"
     ]
 }

@@ -1,4 +1,5 @@
 lib.locale()
+Client = {}
 Properties = {}
 
 function Notify(message, timeSeconds)
@@ -53,15 +54,22 @@ function CreatePropertyPoint(data)
     return point
 end
 
+function CreatePropertyBlip(data)
+    print(json.encode(data, { indent = true }))
+end
+
 function SetupProperties()
-    for _, point in pairs(Properties) do
-        point:remove()
+    for _, property in pairs(Properties) do
+        property.point:remove()
     end
 
     Properties = table.map(
         lib.callback.await("bnl-housing:server:getProperties"),
         function(value)
-            return CreatePropertyPoint(value)
+            return {
+                point = CreatePropertyPoint(value),
+                blip = CreatePropertyBlip(value)
+            }
         end)
 end
 

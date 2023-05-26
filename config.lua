@@ -1,5 +1,8 @@
 Config = {}
 
+-- Framework you're using, supported: 'esx'
+Config.framework = "esx"
+
 Config.entrance = {
     viewDistance = 10.0,
     interact = {
