@@ -4,11 +4,12 @@ Prop.__index = Prop
 function Prop.new(data, property)
     local instance = setmetatable(Prop, {})
 
+    instance.property = property
     instance.id = data.id
     instance.model = data.model
     instance.location = json.decode(data.location)
     instance.rotation = json.decode(data.rotation)
-    instance.property = property
+    instance.metadata = json.decode(data.metadata)
 
     CreateThread(function()
         Prop:spawn()
