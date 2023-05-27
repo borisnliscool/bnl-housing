@@ -31,3 +31,13 @@ RegisterCommand("save", function(source, args, rawCommand)
         value:save()
     end
 end, false)
+
+RegisterCommand("enter", function(source, args, rawCommand)
+    local property = GetPropertyById(args[1] or 1)
+    property:enter(source)
+end, false)
+
+RegisterCommand("exit", function(source, args, rawCommand)
+    local property = GetPropertyById(args[1] or 1)
+    property:exit(source)
+end, false)

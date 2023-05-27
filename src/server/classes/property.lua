@@ -66,7 +66,7 @@ function Property:spawnModel()
     while not DoesEntityExist(entity) do Wait(10) end
 
     FreezeEntityPosition(entity, true)
-    -- SetEntityRoutingBucket(entity, self.bucketId)
+    SetEntityRoutingBucket(entity, self.bucketId)
 
     self.location = GetEntityCoords(entity)
     self.entity = entity
@@ -108,14 +108,12 @@ function Property:getPlayerKey(source)
 end
 
 function Property:getPlayer(source)
-    if not self.players or #self.players == 0 then
+    if not self.players or not next(self.players) then
         return
     end
 
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
-    return table.findOne(self.players, function(player)
-        return player.identifier == playerIdentifier
-    end)
+    return self.players[playerIdentifier]
 end
 
 --#endregion
@@ -130,6 +128,8 @@ function Property:enter(source)
     end
 
     local player = Player.new(source, self)
+    player:setBucket(self.bucketId)
+
     self.players[player.identifier] = player
 
     return true
@@ -142,6 +142,7 @@ function Property:exit(source)
 
     local player = self:getPlayer(source)
     if player ~= nil then
+        player:setBucket(0)
         self.players[player.identifier] = nil
     end
 

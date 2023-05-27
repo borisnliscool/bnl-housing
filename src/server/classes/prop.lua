@@ -33,7 +33,7 @@ function Prop:spawn()
     while not DoesEntityExist(entity) do Wait(10) end
 
     FreezeEntityPosition(entity, true)
-    -- SetEntityRoutingBucket(instance.entity, property.bucketId)
+    SetEntityRoutingBucket(entity, self.bucketId)
 
     SetEntityRotation(
         entity,
