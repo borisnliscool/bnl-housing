@@ -142,12 +142,13 @@ function Property:enter(source)
     end
 
     local player = Player.new(source, self)
-    player:setBucket(self.bucketId)
 
     -- tweak timings for faster enter
     player:triggerFunction("FadeOut", 500)
     player:freeze(true)
     Wait(500)
+
+    player:setBucket(self.bucketId)
 
     -- todo
     -- I'm not totally conviced of this method
