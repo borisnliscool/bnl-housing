@@ -17,6 +17,8 @@ function Property.new(data)
     instance.keys = {}
     instance.players = {}
 
+    instance.location, instance.entity = nil, nil
+
     SetRoutingBucketPopulationEnabled(instance.bucketId, false)
 
     CreateThread(function()
@@ -154,6 +156,7 @@ function Property:exit(source)
     local player = self:getPlayer(source)
     if player ~= nil then
         player:setBucket(0)
+        player:warpOutOfProperty()
         self.players[player.identifier] = nil
     end
 

@@ -43,5 +43,13 @@ RegisterCommand("exit", function(source, args, rawCommand)
 end, false)
 
 RegisterCommand("bucket", function(source, args, rawCommand)
-    SetPlayerRoutingBucket(source, args[1] or 0)
+    ---@diagnostic disable-next-line: param-type-mismatch
+    SetPlayerRoutingBucket(source, tonumber(args[1] or "0"))
+end, false)
+
+RegisterCommand("relative", function(source, args, rawCommand)
+    local property = GetPropertyById(args[1] or 1)
+    local coords = GetEntityCoords(GetPlayerPed(source))
+
+    Debug.Log(coords - property.location)
 end, false)
