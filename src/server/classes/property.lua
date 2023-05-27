@@ -12,15 +12,19 @@ function Property.new(data)
     instance.model = data.model
     instance.entranceLocation = json.decode(data.entrance_location)
     instance.propertyType = data.property_type
-    instance.bucketId = 1000 + data.id
+    instance.bucketId = 10 + data.id
     instance.props = {}
     instance.keys = {}
     instance.players = {}
 
+    SetRoutingBucketPopulationEnabled(instance.bucketId, false)
+
     CreateThread(function()
-        instance:spawnModel()
         instance:loadProps()
         instance:loadKeys()
+
+        instance:spawnModel()
+        instance:spawnProps()
     end)
 
     return instance
@@ -49,7 +53,7 @@ function Property:spawnModel()
     self:destroyModel()
 
     -- todo
-    --  think about where to place the entity, currently it's placed 25 units below
+    --  think about where to place the entity, currently it's placed 50 units below
     --  the location, but this could cause issues with water under the map
 
     local entity = CreateObject(
@@ -80,6 +84,12 @@ function Property:destroyProps()
 
     for _, prop in pairs(self.props) do
         prop:destroy()
+    end
+end
+
+function Property:spawnProps()
+    for _, prop in pairs(self.props) do
+        prop:spawn()
     end
 end
 
@@ -129,6 +139,7 @@ function Property:enter(source)
 
     local player = Player.new(source, self)
     player:setBucket(self.bucketId)
+    player:warpIntoProperty()
 
     self.players[player.identifier] = player
 

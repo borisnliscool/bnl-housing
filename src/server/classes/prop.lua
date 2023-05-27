@@ -11,10 +11,6 @@ function Prop.new(data, property)
     instance.rotation = json.decode(data.rotation)
     instance.metadata = json.decode(data.metadata)
 
-    CreateThread(function()
-        instance:spawn()
-    end)
-
     return instance
 end
 
@@ -33,7 +29,7 @@ function Prop:spawn()
     while not DoesEntityExist(entity) do Wait(10) end
 
     FreezeEntityPosition(entity, true)
-    SetEntityRoutingBucket(entity, self.bucketId)
+    SetEntityRoutingBucket(entity, self.property.bucketId)
 
     SetEntityRotation(
         entity,
