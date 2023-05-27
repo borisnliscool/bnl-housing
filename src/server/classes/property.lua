@@ -16,7 +16,7 @@ function Property.new(data)
     -- find a better way to get a new bucket id,
     -- is there even a limit to the amount of
     -- buckets that are generated?
-    instance.bucketId = data.id
+    instance.bucketId = 1000 + data.id
     instance.props = {}
     instance.keys = {}
     instance.players = {}
