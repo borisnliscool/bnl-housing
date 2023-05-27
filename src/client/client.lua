@@ -37,9 +37,7 @@ function CreatePropertyPoint(data)
             Bridge.Notify(locale("notification.property.menu", Config.points.entrance.interact.name))
 
             if IsControlJustReleased(Config.points.entrance.interact.padIndex, Config.points.entrance.interact.control) then
-                local entranceMenu = Menus.entrance(self)
-                lib.registerMenu(entranceMenu)
-                lib.showMenu(entranceMenu.id)
+                Menus.entrance(self)
             end
         end
     end

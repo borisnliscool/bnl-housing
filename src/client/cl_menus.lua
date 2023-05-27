@@ -1,5 +1,10 @@
 Menus = {}
 
+local function ShowMenu(menu, cb)
+    lib.registerMenu(menu, cb)
+    lib.showMenu(menu.id)
+end
+
 Menus.entrance = function(point)
     local data = lib.callback.await(cache.resource .. ":server:getPropertyKey", false, point.property_id)
 
@@ -9,56 +14,63 @@ Menus.entrance = function(point)
         position = 'top-left',
     }
 
-    if data and data.permission then
-        local permissionOptions = {
-            owner = {
-                {
-                    label = "Owner",
-                    onSelect = function(secondary, args)
-                        print(secondary, args)
-                    end
-                }
-            },
-            member = {
-                {
-                    label = "Member",
-                    onSelect = function(secondary, args)
-                        print(secondary, args)
-                    end
-                }
-            },
-            renter = {
-                {
-                    label = "Renter",
-                    onSelect = function(secondary, args)
-                        print(secondary, args)
-                    end
-                }
+    if not data or not data.permission then
+        main.options = {
+            {
+                label = "Knock",
             }
         }
 
-        main.options = table.merge({
-                {
-                    label = "Enter"
-                }
-            },
-            permissionOptions[data.permission],
-            true
-        )
-
-        main.onSelected = function(selected, secondary, args)
+        ShowMenu(main, function(selected, scrollIndex, args)
             if main.options[selected].onSelect then
-                main.options[selected].onSelect(secondary, args)
+                main.options[selected].onSelect(selected, scrollIndex, args)
             end
-        end
-
-        return main
+        end)
+        return
     end
 
-    main.options = {
-        {
-            label = "Knock",
+    local permissionOptions = {
+        owner = {
+            {
+                label = "Owner",
+                onSelect = function(selected, scrollIndex, args)
+                    print(selected, scrollIndex, args)
+                end
+            }
+        },
+        member = {
+            {
+                label = "Member",
+                onSelect = function(selected, scrollIndex, args)
+                    print(selected, scrollIndex, args)
+                end
+            }
+        },
+        renter = {
+            {
+                label = "Renter",
+                onSelect = function(selected, scrollIndex, args)
+                    print(selected, scrollIndex, args)
+                end
+            }
         }
     }
-    return main
+
+    main.options = table.merge({
+            {
+                label = "Enter",
+                onSelect = function()
+                    lib.callback.await(cache.resource .. ":server:entrance:enter", false, point.property_id)
+                end
+            }
+        },
+        permissionOptions[data.permission],
+        true
+    )
+
+    ShowMenu(main, function(selected, scrollIndex, args)
+        if main.options[selected].onSelect then
+            main.options[selected].onSelect(selected, scrollIndex, args)
+        end
+    end)
 end

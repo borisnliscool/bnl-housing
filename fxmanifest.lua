@@ -12,6 +12,7 @@ dependencies {
     '/onesync',
     'ox_lib',
     'oxmysql',
+    'bnl-housing-shells',
 }
 
 shared_scripts {
@@ -29,6 +30,7 @@ server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'src/server/classes/*.lua',
     'src/server/*.lua',
+    'src/server/callbacks/*.lua',
 }
 
 files {
