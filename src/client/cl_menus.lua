@@ -1,7 +1,7 @@
 Menus = {}
 
 Menus.entrance = function(point)
-    local data = lib.callback.await(cache.resource .. ":server:getPropertyPermission", false, point.property_id)
+    local data = lib.callback.await(cache.resource .. ":server:getPropertyKey", false, point.property_id)
 
     local main = {
         id = cache.resource .. "_entrance",

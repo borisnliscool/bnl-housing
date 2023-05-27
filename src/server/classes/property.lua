@@ -1,6 +1,10 @@
 Property = {}
 Property.__index = Property
 
+-- todo
+-- maybe rename this function to Property.load,
+-- and create another Property.new function that
+-- actually creates a new property in the db?
 function Property.new(data)
     local instance = setmetatable({}, Property)
 
@@ -44,7 +48,7 @@ end
 function Property:spawnModel()
     self:destroyModel()
 
-    -- todo:
+    -- todo
     --  think about where to place the entity, currently it's placed 25 units below
     --  the location, but this could cause issues with water under the map
 
@@ -96,14 +100,12 @@ function Property:loadKeys()
     self.keys = databaseKeys
 end
 
-function Property:getPlayerPermission(source)
+function Property:getPlayerKey(source)
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
     return table.findOne(self.keys, function(key)
         return key.player == playerIdentifier
     end)
 end
-
---#endregion
 
 function Property:getPlayer(source)
     if not self.players or #self.players == 0 then
@@ -116,6 +118,8 @@ function Property:getPlayer(source)
     end)
 end
 
+--#endregion
+
 function Property:isPlayerInside(source)
     return self:getPlayer(source) ~= nil
 end
@@ -125,7 +129,7 @@ function Property:enter(source)
         return
     end
 
-    local player = Player.new(source)
+    local player = Player.new(source, self)
     self.players[player.identifier] = player
 
     return true
