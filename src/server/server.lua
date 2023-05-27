@@ -27,3 +27,10 @@ lib.callback.register("bnl-housing:server:getProperties", function(source)
         }
     end)
 end)
+
+-- todo: remove this temp command
+RegisterCommand("save", function(source, args, rawCommand)
+    for key, value in pairs(Properties) do
+        value:save()
+    end
+end, false)

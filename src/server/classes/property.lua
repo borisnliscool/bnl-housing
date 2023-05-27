@@ -20,6 +20,18 @@ function Property.new(data)
     return instance
 end
 
+function Property:save()
+    -- Saving props
+    if self.props and #self.props > 0 then
+        for _, prop in pairs(self.props) do
+            MySQL.prepare.await("UPDATE property_prop SET metadata = ? WHERE id = ?", {
+                json.encode(prop.metadata),
+                prop.id
+            })
+        end
+    end
+end
+
 --#region Model
 function Property:destroyModel()
     if self.entity then
@@ -76,9 +88,12 @@ end
 
 --#endregion
 
+--#region Getters
 function Property:getKeys()
     return MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
 end
+
+--#endregion
 
 function Property:destroy()
     self:destroyModel()
