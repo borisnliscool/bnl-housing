@@ -2,10 +2,9 @@ Property = {}
 Property.__index = Property
 
 -- todo
--- maybe rename this function to Property.load,
--- and create another Property.new function that
--- actually creates a new property in the db?
-function Property.new(data)
+-- create a Property.new function that creates
+-- a new property in the db and returns that
+function Property.load(data)
     local instance = setmetatable({}, Property)
 
     instance.id = data.id

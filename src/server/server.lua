@@ -4,7 +4,7 @@ Properties = {}
 function LoadProperties()
     local databaseProperties = MySQL.query.await("SELECT * FROM properties")
     for _, propertyData in pairs(databaseProperties) do
-        Properties[propertyData.id] = Property.new(propertyData)
+        Properties[propertyData.id] = Property.load(propertyData)
     end
 end
 
