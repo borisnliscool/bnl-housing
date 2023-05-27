@@ -144,6 +144,9 @@ function Property:enter(source)
     local player = Player.new(source, self)
     player:setBucket(self.bucketId)
 
+    player:triggerFunction("FadeOut", 500)
+    Wait(500)
+
     -- todo
     -- I'm not totally conviced of this method
     -- of spawning the shell just in time
@@ -154,8 +157,10 @@ function Property:enter(source)
     end
 
     player:warpIntoProperty()
-
     self.players[player.identifier] = player
+
+    Wait(250)
+    player:triggerFunction("FadeIn", 500)
 
     return true
 end
@@ -166,11 +171,19 @@ function Property:exit(source)
     end
 
     local player = self:getPlayer(source)
-    if player ~= nil then
-        player:setBucket(0)
-        player:warpOutOfProperty()
-        self.players[player.identifier] = nil
+    if player == nil then
+        return true
     end
+
+    player:triggerFunction("FadeOut", 500)
+    Wait(500)
+
+    player:setBucket(0)
+    player:warpOutOfProperty()
+    self.players[player.identifier] = nil
+
+    Wait(250)
+    player:triggerFunction("FadeIn", 500)
 
     return true
 end

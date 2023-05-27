@@ -41,3 +41,7 @@ function Player:warpOutOfProperty()
     local coords = self.property.entranceLocation
     SetEntityCoords(self:ped(), coords.x, coords.y, coords.z - 1.0, true, false, false, false)
 end
+
+function Player:triggerFunction(name, ...)
+    return ClientFunctions[name](self.source, ...)
+end
