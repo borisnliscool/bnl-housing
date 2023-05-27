@@ -1,5 +1,3 @@
-Data = {}
-
 local function loadData(name)
     local file = ('src/data/%s.lua'):format(name)
     local datafile = LoadResourceFile(cache.resource, file)
@@ -12,7 +10,7 @@ local function loadData(name)
     return func()
 end
 
-CreateThread(function()
-    Data.Shells = loadData("shells")
-    Data.Props = loadData("props")
-end)
+Data = {
+    Shells = loadData("shells"),
+    Props = loadData("props"),
+}

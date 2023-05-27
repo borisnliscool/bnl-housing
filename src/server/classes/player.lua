@@ -27,8 +27,7 @@ function Player:warpIntoProperty()
     Debug.Log(("Warping %s into property %s"):Format(self.name, self.property.id))
 
     local data = Data.Shells[self.property.model]
-    -- todo: temp
-    if not data or not data.entrances.foot then
+    if not data then
         return Debug.Error(("No data found for %s, check %s"):Format(self.property.model, "src/data/shells.lua"))
     end
 
