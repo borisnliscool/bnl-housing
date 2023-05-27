@@ -57,6 +57,7 @@ function CreatePropertyBlip(data)
     SetBlipColour(blip, blipData.color)
     SetBlipDisplay(blip, blipData.display or 2)
     SetBlipScale(blip, blipData.scale or 1.0)
+    SetBlipAsShortRange(blip, blipData.short or false)
 
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentSubstringPlayerName(
@@ -83,3 +84,12 @@ function SetupProperties()
 end
 
 Bridge.onReady(SetupProperties)
+
+CreateThread(function()
+    Wait(500)
+    SetupProperties()
+end)
+
+RegisterNetEvent("ox_lib:setClipboard", function(value)
+    lib.setClipboard(value)
+end)

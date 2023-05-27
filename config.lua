@@ -45,6 +45,7 @@ Config.blips = {
         member = {
             sprite = 40,
             color = 3,
+            short = true
         },
         renter = {
             sprite = 40,
@@ -59,6 +60,7 @@ Config.blips = {
         member = {
             sprite = 473,
             color = 3,
+            short = true
         },
         renter = {
             sprite = 473,
@@ -73,6 +75,7 @@ Config.blips = {
         member = {
             sprite = 475,
             color = 3,
+            short = true
         },
         renter = {
             sprite = 475,
