@@ -23,9 +23,11 @@ end
 CreateThread(function()
     Wait(10)
     LoadProperties()
+
+    Debug.Log(("Started as %s"):Format(cache.resource))
 end)
 
--- todo: remove this temp command
+-- todo: remove these temp command
 RegisterCommand("save", function(source, args, rawCommand)
     for key, value in pairs(Properties) do
         value:save()
@@ -33,12 +35,12 @@ RegisterCommand("save", function(source, args, rawCommand)
 end, false)
 
 RegisterCommand("enter", function(source, args, rawCommand)
-    local property = GetPropertyById(args[1] or 1)
+    local property = GetPropertyById(tonumber(args[1]) or 1)
     property:enter(source)
 end, false)
 
 RegisterCommand("exit", function(source, args, rawCommand)
-    local property = GetPropertyById(args[1] or 1)
+    local property = GetPropertyPlayerIsIn(source)
     property:exit(source)
 end, false)
 
@@ -48,7 +50,7 @@ RegisterCommand("bucket", function(source, args, rawCommand)
 end, false)
 
 RegisterCommand("relative", function(source, args, rawCommand)
-    local property = GetPropertyById(args[1] or 1)
+    local property = GetPropertyById(tonumber(args[1]) or 1)
     local coords = GetEntityCoords(GetPlayerPed(source))
 
     Debug.Log(coords - property.location)
