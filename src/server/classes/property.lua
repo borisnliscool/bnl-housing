@@ -16,6 +16,7 @@ function Property.new(data)
     instance.props = {}
     instance.keys = {}
     instance.players = {}
+    instance.isSpawned = false
 
     instance.location, instance.entity = nil, nil
 
@@ -24,9 +25,6 @@ function Property.new(data)
     CreateThread(function()
         instance:loadProps()
         instance:loadKeys()
-
-        instance:spawnModel()
-        instance:spawnProps()
     end)
 
     return instance
@@ -141,6 +139,13 @@ function Property:enter(source)
 
     local player = Player.new(source, self)
     player:setBucket(self.bucketId)
+
+    if not self.isSpawned then
+        self:spawnModel()
+        self:spawnProps()
+        self.isSpawned = true
+    end
+
     player:warpIntoProperty()
 
     self.players[player.identifier] = player
