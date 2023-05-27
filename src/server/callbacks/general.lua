@@ -17,8 +17,3 @@ lib.callback.register(cache.resource .. ":server:getPropertyKey", function(sourc
     local property = GetPropertyById(property_id)
     return property:getPlayerKey(source)
 end)
-
-lib.callback.register(cache.resource .. ":server:entrance:enter", function(source, property_id)
-    local property = GetPropertyById(property_id)
-    return property:enter(source)
-end)
