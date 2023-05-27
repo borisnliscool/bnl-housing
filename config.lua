@@ -3,6 +3,14 @@ Config = {}
 -- Framework you're using, supported: 'esx'
 Config.framework = "esx"
 
+-- todo
+Config.modules = {
+    selling = true,
+    renting = true,
+    job = true,
+    raiding = true
+}
+
 Config.points = {}
 Config.points.entrance = {
     viewDistance = 10.0,
