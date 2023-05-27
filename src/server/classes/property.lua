@@ -11,6 +11,7 @@ function Property.new(data)
     instance.bucketId = 1000 + data.id
     instance.props = {}
     instance.keys = {}
+    instance.players = {}
 
     CreateThread(function()
         instance:spawnModel()
@@ -95,7 +96,53 @@ function Property:loadKeys()
     self.keys = databaseKeys
 end
 
+function Property:getPlayerPermission(source)
+    local playerIdentifier = Bridge.GetPlayerIdentifier(source)
+    return table.findOne(self.keys, function(key)
+        return key.player == playerIdentifier
+    end)
+end
+
 --#endregion
+
+function Property:getPlayer(source)
+    if not self.players or #self.players == 0 then
+        return
+    end
+
+    local playerIdentifier = Bridge.GetPlayerIdentifier(source)
+    return table.findOne(self.players, function(player)
+        return player.identifier == playerIdentifier
+    end)
+end
+
+function Property:isPlayerInside(source)
+    return self:getPlayer(source) ~= nil
+end
+
+function Property:enter(source)
+    if self:isPlayerInside(source) then
+        return
+    end
+
+    local player = Player.new(source)
+    self.players[player.identifier] = player
+
+    return true
+end
+
+function Property:exit(source)
+    if not self:isPlayerInside(source) then
+        return
+    end
+
+    local player = self:getPlayer(source)
+    if player ~= nil then
+        self.players[player.identifier] = nil
+    end
+
+    return true
+end
 
 function Property:destroy()
     self:destroyModel()

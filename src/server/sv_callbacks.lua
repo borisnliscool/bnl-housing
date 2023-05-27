@@ -14,13 +14,11 @@ lib.callback.register(cache.resource .. ":server:getProperties", function(source
 end)
 
 lib.callback.register(cache.resource .. ":server:getPropertyPermission", function(source, property_id)
-    local property = table.findOne(Properties, function(property)
-        return property.id == property_id
-    end)
-    if not property then return end
+    local property = GetPropertyById(property_id)
+    return property:getPlayerPermission(source)
+end)
 
-    local playerIdentifier = Bridge.GetPlayerIdentifier(source)
-    return table.findOne(property.keys, function(key)
-        return key.player == playerIdentifier
-    end)
+lib.callback.register(cache.resource .. ":server:entrance:enter", function(source, property_id)
+    local property = GetPropertyById(property_id)
+    return property:enter(source)
 end)

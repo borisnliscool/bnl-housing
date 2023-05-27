@@ -8,6 +8,18 @@ function LoadProperties()
     end
 end
 
+function GetPropertyById(id)
+    return Properties[id]
+end
+
+function GetPropertyPlayerIsIn(source)
+    for _, property in pairs(Properties) do
+        if property:isPlayerInside(source) then
+            return property
+        end
+    end
+end
+
 CreateThread(function()
     Wait(10)
     LoadProperties()
