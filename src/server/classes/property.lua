@@ -12,12 +12,15 @@ function Property.new(data)
     instance.model = data.model
     instance.entranceLocation = json.decode(data.entrance_location)
     instance.propertyType = data.property_type
-    instance.bucketId = 10 + data.id
+    -- todo
+    -- find a better way to get a new bucket id,
+    -- is there even a limit to the amount of
+    -- buckets that are generated?
+    instance.bucketId = data.id
     instance.props = {}
     instance.keys = {}
     instance.players = {}
     instance.isSpawned = false
-
     instance.location, instance.entity = nil, nil
 
     SetRoutingBucketPopulationEnabled(instance.bucketId, false)
@@ -55,7 +58,6 @@ function Property:spawnModel()
     -- todo
     --  think about where to place the entity, currently it's placed 50 units below
     --  the location, but this could cause issues with water under the map
-
     local entity = CreateObject(
         self.model,
         self.entranceLocation.x,
@@ -66,7 +68,10 @@ function Property:spawnModel()
         false
     )
 
-    -- wait for the entity to be created
+    -- todo
+    --  sometimes this infinite loops because the model doesn't exist
+    --  we need to check if it fails like 5 times, and if so
+    --  send an error message and return
     while not DoesEntityExist(entity) do Wait(10) end
 
     FreezeEntityPosition(entity, true)
@@ -140,6 +145,9 @@ function Property:enter(source)
     local player = Player.new(source, self)
     player:setBucket(self.bucketId)
 
+    -- todo
+    -- I'm not totally conviced of this method
+    -- of spawning the shell just in time
     if not self.isSpawned then
         self:spawnModel()
         self:spawnProps()
@@ -172,11 +180,3 @@ function Property:destroy()
     self:destroyModel()
     self:destroyProps()
 end
-
-AddEventHandler('onResourceStop', function(resource)
-    if GetCurrentResourceName() ~= resource then
-        return
-    end
-
-    Property:destroy()
-end)
