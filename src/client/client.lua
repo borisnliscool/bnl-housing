@@ -82,7 +82,4 @@ function SetupProperties()
         end)
 end
 
-CreateThread(function()
-    Wait(500)
-    SetupProperties()
-end)
+Bridge.onReady(SetupProperties)
