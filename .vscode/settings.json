@@ -1,3 +1,10 @@
 {
-	"Lua.diagnostics.globals": ["lib", "locale", "cache"]
+    "Lua.diagnostics.globals": [
+        "lib",
+        "locale",
+        "cache"
+    ],
+    "Lua.diagnostics.disable": [
+        "duplicate-set-field"
+    ]
 }
