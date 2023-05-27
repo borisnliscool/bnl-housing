@@ -1,6 +1,7 @@
-Props = {}
+Data = {}
+Data.Props = {}
 
-Props["Bar"] = {
+Data.Props.Bar = {
     "prop_whiskey_glasses",
     "prop_tequila_bottle",
     "prop_irish_sign_01",
@@ -41,11 +42,7 @@ Props["Bar"] = {
     "prop_beerneon",
     "prop_champ_cool",
     "prop_bar_pump_07",
-    ["beerrow_local"] = {
-        itemRequired = "water",
-        itemCount = 1,
-        itemMetadata = {},
-    },
+    "beerrow_local",
     "prop_bahammenu",
     "prop_patriotneon",
     "prop_bar_ice_01",
@@ -67,7 +64,8 @@ Props["Bar"] = {
     "prop_bar_cooler_01",
     "prop_drinkmenu"
 }
-Props["Bathroom"] = {
+
+Data.Props.Bathroom = {
     "prop_towel_01",
     "prop_toilet_soap_04",
     "v_res_mbtaps",
@@ -110,7 +108,8 @@ Props["Bathroom"] = {
     "prop_handdry_02",
     "prop_handdry_01"
 }
-Props["Bins"] = {
+
+Data.Props.Bins = {
     "prop_bin_07b",
     "prop_bin_beach_01d",
     "prop_bin_01a",
@@ -123,7 +122,8 @@ Props["Bins"] = {
     "prop_bin_12a",
     "prop_bin_05a"
 }
-Props["Construction"] = {
+
+Data.Props.Construction = {
     "prop_tool_blowtorch",
     "prop_worklight_04b",
     "prop_paint_wpaper01",
@@ -231,7 +231,8 @@ Props["Construction"] = {
     "hei_prop_cash_crate_half_full",
     "p_blueprints_01_s"
 }
-Props["Electrical"] = {
+
+Data.Props.Electrical = {
     "prop_tv_flat_03b",
     "v_res_monitorsquare",
     "v_club_roc_mscreen",
@@ -293,7 +294,8 @@ Props["Electrical"] = {
     "prop_tv_flat_03",
     "v_res_mm_audio"
 }
-Props["Equipment"] = {
+
+Data.Props.Equipment = {
     "hei_p_attache_case_shut",
     "p_cs_panties_03_s",
     "p_cs_cuffs_02_s",
@@ -306,7 +308,8 @@ Props["Equipment"] = {
     "p_s_scuba_tank_s",
     "stt_prop_c4_stack"
 }
-Props["Garage"] = {
+
+Data.Props.Garage = {
     "prop_car_seat",
     "prop_bumper_06",
     "prop_wheel_rim_03",
@@ -352,7 +355,8 @@ Props["Garage"] = {
     "prop_compressor_03",
     "prop_wheel_hub_02_lod_02"
 }
-Props["Industrial"] = {
+
+Data.Props.Industrial = {
     "prop_luggage_04a",
     "prop_byard_lifering",
     "prop_oil_guage_01",
@@ -386,7 +390,8 @@ Props["Industrial"] = {
     "hei_prop_hei_warehousetrolly",
     "hei_prop_hei_ammo_pile"
 }
-Props["Interior"] = {
+
+Data.Props.Interior = {
     "hei_heist_str_avunitl_03",
     "hei_heist_stn_benchshort",
     "hei_p_m_bag_var18_bus_s",
@@ -476,7 +481,8 @@ Props["Interior"] = {
     "w_am_fire_exting",
     "w_am_jerrycan"
 }
-Props["Kitchen"] = {
+
+Data.Props.Kitchen = {
     "v_res_mkniferack",
     "prop_pot_03",
     "v_res_foodjara",
@@ -535,7 +541,8 @@ Props["Kitchen"] = {
     "v_res_fa_chopbrd",
     "v_res_fridgemoda"
 }
-Props["Minigame"] = {
+
+Data.Props.Minigame = {
     "prop_cs_ilev_blind_01",
     "prop_amanda_note_01",
     "prop_tennis_rack_01",
@@ -661,7 +668,8 @@ Props["Minigame"] = {
     "prop_gold_cont_01b",
     "prop_sh_mr_rasp_01"
 }
-Props["Office"] = {
+
+Data.Props.Office = {
     "prop_cleaning_trolly",
     "prop_copier_01",
     "v_res_printer",
@@ -729,7 +737,8 @@ Props["Office"] = {
     "prop_tablesmall_01",
     "v_ret_gc_pen2"
 }
-Props["Outdoor"] = {
+
+Data.Props.Outdoor = {
     "hei_prop_heist_weed_pallet",
     "hei_prop_heist_weed_pallet_02",
     "hei_prop_heist_weed_block_01b",
@@ -746,9 +755,10 @@ Props["Outdoor"] = {
     "ng_proc_sodacan_03b",
     "ng_proc_tyre_dam1",
     "ng_proc_tyre_01",
-    -- "p_clothtarp_down_s"
+    "p_clothtarp_down_s"
 }
-Props["Potted"] = {
+
+Data.Props.Potted = {
     "prop_plant_interior_05a",
     "prop_pot_plant_05b",
     "prop_plant_int_01b",
@@ -788,7 +798,8 @@ Props["Potted"] = {
     "prop_pot_plant_bh1",
     "prop_pot_plant_01c"
 }
-Props["Recreational"] = {
+
+Data.Props.Recreational = {
     "prop_beach_towel_02",
     "prop_weight_15k",
     "prop_boogieboard_10",
@@ -928,7 +939,8 @@ Props["Recreational"] = {
     "prop_poolball_11",
     "prop_a_base_bars_01"
 }
-Props["Rubbish"] = {
+
+Data.Props.Rubbish = {
     "prop_rub_tyre_01",
     "prop_rub_boxpile_02",
     "prop_rub_table_02",
@@ -968,7 +980,8 @@ Props["Rubbish"] = {
     "prop_rub_bike_03",
     "prop_rub_couch03"
 }
-Props["Seating"] = {
+
+Data.Props.Seating = {
     "prop_couch_lg_07",
     "prop_yaught_sofa_01",
     "prop_couch_sm2_07",
@@ -988,7 +1001,8 @@ Props["Seating"] = {
     "prop_couch_sm_07",
     "prop_couch_sm_02"
 }
-Props["Seating Tables"] = {
+
+Data.Props.SeatingAndTables = {
     "prop_table_07",
     "prop_chair_01a",
     "prop_bench_06",
@@ -1014,7 +1028,8 @@ Props["Seating Tables"] = {
     "prop_chair_04b",
     "prop_bench_11"
 }
-Props["Storage"] = {
+
+Data.Props.Storage = {
     "prop_crate_11c",
     "prop_box_wood05a",
     "prop_drop_crate_01",
@@ -1100,9 +1115,10 @@ Props["Storage"] = {
     "prop_watercrate_01",
     "prop_shelves_03"
 }
-Props["Utility"] = {
+
+Data.Props.Utility = {
     "prop_tyre_rack_01",
-    -- "prop_phonebox_03",
+    "prop_phonebox_03",
     "prop_fire_exting_3a",
     "prop_fire_driser_3b",
     "prop_fire_driser_1b",
@@ -1135,7 +1151,8 @@ Props["Utility"] = {
     "prop_fire_hosereel_l1",
     "prop_cctv_cam_04c"
 }
-Props["Walls And Fences"] = {
+
+Data.Props.WallsAndFences = {
     "prop_fnclink_02h",
     "prop_fnclink_06gatepost",
     "prop_fnclink_08post",
@@ -1154,4 +1171,5 @@ Props["Walls And Fences"] = {
     "hei_prop_carrier_panel_4"
 }
 
-return Props
+
+return Data.Props

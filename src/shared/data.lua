@@ -14,4 +14,5 @@ end
 
 CreateThread(function()
     Data.Shells = loadData("shells")
+    Data.Props = loadData("props")
 end)
