@@ -6,12 +6,12 @@ function RegisterClientFunction(name, func)
     if IsDuplicityVersion() then
         -- server
         ClientFunctions[name] = function(source, ...)
-            TriggerClientEvent(eventName, source, table.unpack({ ... }))
+            TriggerClientEvent(eventName, source, ...)
         end
     else
         -- client
         RegisterNetEvent(eventName, function(...)
-            func(table.unpack({...}))
+            func(...)
         end)
         ClientFunctions = nil
     end

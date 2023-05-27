@@ -45,3 +45,8 @@ end
 function Player:triggerFunction(name, ...)
     return ClientFunctions[name](self.source, ...)
 end
+
+function Player:freeze(value)
+    if value == nil then value = true end
+    FreezeEntityPosition(self:ped(), value)
+end
