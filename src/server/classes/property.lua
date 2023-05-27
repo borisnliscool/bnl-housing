@@ -10,11 +10,12 @@ function Property.new(data)
     instance.propertyType = data.property_type
     instance.bucketId = 1000 + data.id
     instance.props = {}
-    instance.keys = instance:getKeys()
+    instance.keys = {}
 
     CreateThread(function()
         instance:spawnModel()
         instance:loadProps()
+        instance:loadKeys()
     end)
 
     return instance
@@ -89,8 +90,9 @@ end
 --#endregion
 
 --#region Getters
-function Property:getKeys()
-    return MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
+function Property:loadKeys()
+    local databaseKeys = MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
+    self.keys = databaseKeys
 end
 
 --#endregion

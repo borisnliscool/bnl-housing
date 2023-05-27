@@ -34,13 +34,12 @@ function CreatePropertyPoint(data)
         )
 
         if self.currentDistance < (markerData.size.x + markerData.size.y) / 2 then
-            Bridge.Notify(locale("property.menu", Config.points.entrance.interact.name))
+            Bridge.Notify(locale("notification.property.menu", Config.points.entrance.interact.name))
 
             if IsControlJustReleased(Config.points.entrance.interact.padIndex, Config.points.entrance.interact.control) then
-                -- todo
-                -- logic for entering the property
-
-                print("enter property with id:", self.property_id)
+                local entranceMenu = Menus.entrance(self)
+                lib.registerMenu(entranceMenu)
+                lib.showMenu(entranceMenu.id)
             end
         end
     end

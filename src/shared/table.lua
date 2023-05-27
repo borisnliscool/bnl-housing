@@ -33,3 +33,17 @@ function table.findOne(list, func)
         end
     end
 end
+
+function table.merge(t1, t2, ignoreKeys)
+    local ret = t1
+    if ignoreKeys then
+        for key, value in pairs(t2) do
+            table.insert(ret, value)
+        end
+    else
+        for key, value in pairs(t2) do
+            ret[key] = value
+        end
+    end
+    return ret
+end

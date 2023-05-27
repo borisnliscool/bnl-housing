@@ -1,5 +1,5 @@
 {
-    "property.menu": "~%s~ Property menu",
+    "notification.property.menu": "~%s~ Property menu",
 
     "blip.property.house.owner": "Owned house",
     "blip.property.house.member": "Friend's house",
@@ -9,5 +9,7 @@
     "blip.property.warehouse.renter": "Rented warehouse",
     "blip.property.office.owner": "Owned office",
     "blip.property.office.member": "Friend's office",
-    "blip.property.office.renter": "Rented office"
+    "blip.property.office.renter": "Rented office",
+
+    "menu.entrance.title": "Property menu"
 }
