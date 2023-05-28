@@ -1,9 +1,7 @@
 ClientFunctions = {}
-local functionCount = 0
 
 function RegisterClientFunction(func)
-    functionCount = functionCount + 1
-    local eventName = ("%s:%s"):format(cache.resource, functionCount)
+    local eventName = ("%s:%s"):format(cache.resource, table.count(ClientFunctions))
 
     if IsDuplicityVersion() then
         return function(source, ...)
@@ -13,6 +11,7 @@ function RegisterClientFunction(func)
         RegisterNetEvent(eventName, function(...)
             func(...)
         end)
+        return eventName
     end
 end
 

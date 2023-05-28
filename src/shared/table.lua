@@ -55,3 +55,11 @@ end
 function table.tovector(list)
     return vec3(list.x, list.y, list.z)
 end
+
+function table.count(list)
+    local count = 0
+    for _, _ in pairs(list) do
+        count = count + 1
+    end
+    return count
+end
