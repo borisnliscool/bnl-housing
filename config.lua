@@ -13,7 +13,7 @@ Config.modules = {
 
 -- the way for the menu to show up,
 -- either "walk" or "keypress"
-Config.interactMode = "walk"
+Config.interactMode = "keypress"
 
 Config.points = {}
 Config.points.entrance = {
