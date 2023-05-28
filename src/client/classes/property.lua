@@ -81,6 +81,10 @@ function Property:createEntrancePoint()
 end
 
 function Property:createBlip()
+    if self.blip then
+        RemoveBlip(self.blip)
+    end
+
     -- todo
     -- check for sale or for rent
     if not self.key then return end
