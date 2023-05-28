@@ -72,12 +72,45 @@ Menus.property = function(property)
         return
     end
 
+    local function notImplemented()
+        Debug.Log("This feature is ^1not yet implemented^0!")
+        lib.notify({
+            type = "error",
+            description = "This feature is not yet implemented!"
+        })
+    end
+
     main.options = table.map({
         {
             label = locale("menu.property.exit"),
             onSelect = function(_, _, _)
                 lib.callback.await(cache.resource .. ":server:property:exit", false, property.id)
             end
+        },
+        {
+            label = locale("menu.property.invite"),
+            permissions = { "member", "renter", "owner" },
+            onSelect = notImplemented
+        },
+        {
+            label = locale("menu.property.decorate"),
+            permissions = { "member", "renter", "owner" },
+            onSelect = notImplemented
+        },
+        {
+            label = locale("menu.property.manage_keys"),
+            permissions = { "owner" },
+            onSelect = notImplemented
+        },
+        {
+            label = locale("menu.property.sell"),
+            permissions = { "owner" },
+            onSelect = notImplemented
+        },
+        {
+            label = locale("menu.property.rent_out"),
+            permissions = { "owner" },
+            onSelect = notImplemented
         },
     }, function(option)
         if not option.permissions or lib.table.contains(option.permissions, property.key.permission) then

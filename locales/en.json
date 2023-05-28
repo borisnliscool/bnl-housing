@@ -16,5 +16,10 @@
 	"menu.entrance.enter": "Enter the property",
 
 	"menu.property.title": "Property menu",
-	"menu.property.exit": "Exit the property"
+	"menu.property.exit": "Exit the property",
+    "menu.property.invite": "Invite player inside",
+    "menu.property.decorate": "Decorate property",
+    "menu.property.manage_keys": "Manage keys",
+    "menu.property.sell": "Sell property",
+    "menu.property.rent_out": "Rent out property"
 }
