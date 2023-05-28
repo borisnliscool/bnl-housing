@@ -12,5 +12,9 @@
 	"blip.property.office.renter": "Rented office",
 
 	"menu.entrance.title": "Property menu",
-	"menu.property.title": "Property menu"
+	"menu.entrance.knock": "Knock on the door",
+	"menu.entrance.enter": "Enter the property",
+
+	"menu.property.title": "Property menu",
+	"menu.property.exit": "Exit the property"
 }

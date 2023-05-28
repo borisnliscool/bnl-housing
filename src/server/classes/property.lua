@@ -145,8 +145,8 @@ function Property:enter(source)
 
     -- tweak timings for faster enter
     player:triggerFunction("FadeOut", 500)
-    player:freeze(true)
     Wait(500)
+    player:freeze(true)
 
     player:setBucket(self.bucketId)
 
@@ -183,8 +183,8 @@ function Property:exit(source)
 
     -- tweak timings for faster exit
     player:triggerFunction("FadeOut", 500)
-    player:freeze(true)
     Wait(500)
+    player:freeze(true)
 
     player:setBucket(0)
     player:triggerFunction("RemoveInPropertyPoints", self.id)
@@ -192,8 +192,8 @@ function Property:exit(source)
     self.players[player.identifier] = nil
 
     -- tweak timings for faster exit
-    Wait(250)
     player:freeze(false)
+    Wait(250)
     player:triggerFunction("FadeIn", 500)
 
     return true
