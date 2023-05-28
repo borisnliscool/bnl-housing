@@ -28,7 +28,7 @@ function Player:warpIntoProperty()
 
     local data = Data.Shells[self.property.model]
     if not data then
-        return Debug.Error(("No data found for %s, check %s"):Format(self.property.model, "src/data/shells.lua"))
+        return Debug.Error(("No data found for %s, check %s"):Format(self.property.model, "data/shells.lua"))
     end
 
     local coords = self.property.location + data.entrances.foot

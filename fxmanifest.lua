@@ -35,6 +35,6 @@ server_scripts {
 
 files {
     'src/bridge/**/client.lua',
-    'src/data/*.lua',
+    'data/*.lua',
     'locales/*.json'
 }
