@@ -21,5 +21,7 @@
     "menu.property.decorate": "Decorate property",
     "menu.property.manage_keys": "Manage keys",
     "menu.property.sell": "Sell property",
-    "menu.property.rent_out": "Rent out property"
+    "menu.property.rent_out": "Rent out property",
+
+    "menu.invite.no_players": "No players outside"
 }

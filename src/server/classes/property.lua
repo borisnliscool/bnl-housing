@@ -9,7 +9,7 @@ function Property.load(data)
 
     instance.id = data.id
     instance.model = data.model
-    instance.entranceLocation = json.decode(data.entrance_location)
+    instance.entranceLocation = table.tovector(json.decode(data.entrance_location))
     instance.propertyType = data.property_type
     -- todo
     -- find a better way to get a new bucket id,

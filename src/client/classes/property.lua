@@ -165,3 +165,16 @@ end
 function Property:removeInPropertyPoints()
     self.points.property:remove()
 end
+
+function Property:getOutsidePlayers()
+    return table.map(
+        lib.getNearbyPlayers(self.entranceLocation, Config.inviteRange, true),
+        function(data)
+            local serverId = GetPlayerServerId(data.id)
+            return {
+                name = lib.callback.await(cache.resource .. ":server:getPlayerName", false, serverId),
+                id = serverId
+            }
+        end
+    )
+end

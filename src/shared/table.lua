@@ -51,3 +51,7 @@ function table.merge(t1, t2, ignoreKeys)
     end
     return ret
 end
+
+function table.tovector(list)
+    return vec3(list.x, list.y, list.z)
+end

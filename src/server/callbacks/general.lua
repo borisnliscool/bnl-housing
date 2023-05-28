@@ -15,3 +15,7 @@ lib.callback.register(cache.resource .. ":server:getPropertyKey", function(sourc
     local property = GetPropertyById(property_id)
     return property:getPlayerKey(source)
 end)
+
+lib.callback.register(cache.resource .. ":server:getPlayerName", function(source, playerId)
+    return Bridge.GetPlayerName(playerId)
+end)

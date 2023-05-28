@@ -14,6 +14,7 @@ Config.modules = {
 -- the way for the menu to show up,
 -- either "walk" or "keypress"
 Config.interactMode = "keypress"
+Config.inviteRange = 10.0
 
 Config.points = {}
 Config.points.entrance = {

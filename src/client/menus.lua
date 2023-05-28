@@ -1,7 +1,11 @@
 Menus = {}
 
-local function ShowMenu(menu, cb)
-    lib.registerMenu(menu, cb)
+local function ShowMenu(menu)
+    lib.registerMenu(menu, function(selected, scrollIndex, args)
+        if menu.options[selected].onSelect then
+            menu.options[selected].onSelect(selected, scrollIndex, args)
+        end
+    end)
     lib.showMenu(menu.id)
 end
 
@@ -20,11 +24,7 @@ Menus.entrance = function(property)
     }
 
     if not key or not key.permission then
-        ShowMenu(main, function(selected, scrollIndex, args)
-            if main.options[selected].onSelect then
-                main.options[selected].onSelect(selected, scrollIndex, args)
-            end
-        end)
+        ShowMenu(main)
         return
     end
 
@@ -41,11 +41,7 @@ Menus.entrance = function(property)
         end
     end, true)
 
-    ShowMenu(main, function(selected, scrollIndex, args)
-        if main.options[selected].onSelect then
-            main.options[selected].onSelect(selected, scrollIndex, args)
-        end
-    end)
+    ShowMenu(main)
 end
 
 Menus.property = function(property)
@@ -64,11 +60,7 @@ Menus.property = function(property)
     }
 
     if not property.key or not property.key.permission then
-        ShowMenu(main, function(selected, scrollIndex, args)
-            if main.options[selected].onSelect then
-                main.options[selected].onSelect(selected, scrollIndex, args)
-            end
-        end)
+        ShowMenu(main)
         return
     end
 
@@ -90,7 +82,9 @@ Menus.property = function(property)
         {
             label = locale("menu.property.invite"),
             permissions = { "member", "renter", "owner" },
-            onSelect = notImplemented
+            onSelect = function()
+                Menus.invite(property)
+            end
         },
         {
             label = locale("menu.property.decorate"),
@@ -118,9 +112,45 @@ Menus.property = function(property)
         end
     end, true)
 
-    ShowMenu(main, function(selected, scrollIndex, args)
-        if main.options[selected].onSelect then
-            main.options[selected].onSelect(selected, scrollIndex, args)
-        end
-    end)
+    ShowMenu(main)
+end
+
+Menus.invite = function(property)
+    local main = {
+        id = cache.resource .. "_property",
+        title = locale("menu.property.invite"),
+        position = 'top-left',
+    }
+
+    local function InvitePlayer(serverId)
+        -- todo
+        -- add logic for inviting players inside this
+        -- should give the outside player a prompt
+        -- to press a key to accept the invite
+        Debug.Log(("Inviting player #%s inside."):Format(serverId))
+    end
+
+    main.options = table.map(
+        property:getOutsidePlayers(),
+        function(player)
+            -- todo
+            -- add an option to the config to only show
+            -- the player id, player name, or both
+            return {
+                label = ("[#%s] %s"):format(player.id, player.name),
+                onSelect = function()
+                    InvitePlayer(player.id)
+                end
+            }
+        end,
+        true
+    )
+
+    if #main.options == 0 then
+        table.insert(main.options, {
+            label = locale("menu.invite.no_players")
+        })
+    end
+
+    ShowMenu(main)
 end

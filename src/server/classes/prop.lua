@@ -46,7 +46,3 @@ end
 function Prop:destroy()
     DeleteEntity(self.entity)
 end
-
--- this will later add functionality for interactive props
-function Prop:interact(source)
-end
