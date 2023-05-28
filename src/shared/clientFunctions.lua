@@ -22,5 +22,9 @@ function RegisterClientFunction(name, func)
     end
 end
 
-RegisterClientFunction("FadeIn", DoScreenFadeIn)
-RegisterClientFunction("FadeOut", DoScreenFadeOut)
+CreateThread(function()
+    RegisterClientFunction("FadeIn", DoScreenFadeIn)
+    RegisterClientFunction("FadeOut", DoScreenFadeOut)
+    RegisterClientFunction("SetupInPropertyPoints", SetupInPropertyPoints)
+    RegisterClientFunction("RemoveInPropertyPoints", RemoveInPropertyPoints)
+end)

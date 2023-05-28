@@ -16,7 +16,7 @@ local function formatString(...)
 
     for _, value in pairs(args) do
         if type(value) == "table" then
-            str = str .. "'" .. json.encode(value, { indent = true }) .. "'"
+            str = str .. " " .. json.encode(value, { indent = true })
         else
             str = str .. " " .. value
         end

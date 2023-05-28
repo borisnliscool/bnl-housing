@@ -11,5 +11,6 @@
 	"blip.property.office.member": "Friend's office",
 	"blip.property.office.renter": "Rented office",
 
-	"menu.entrance.title": "Property menu"
+	"menu.entrance.title": "Property menu",
+	"menu.property.title": "Property menu"
 }

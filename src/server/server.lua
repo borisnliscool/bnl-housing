@@ -35,7 +35,7 @@ end)
 
 Bridge.onReady(LoadProperties)
 
--- todo: remove these temp command
+-- todo: temp
 RegisterCommand("save", function(source, args, rawCommand)
     for key, value in pairs(Properties) do
         value:save()

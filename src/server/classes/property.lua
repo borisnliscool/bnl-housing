@@ -160,6 +160,7 @@ function Property:enter(source)
     end
 
     player:warpIntoProperty()
+    player:triggerFunction("SetupInPropertyPoints", self.id)
     self.players[player.identifier] = player
 
     -- tweak timings for faster enter
@@ -186,6 +187,7 @@ function Property:exit(source)
     Wait(500)
 
     player:setBucket(0)
+    player:triggerFunction("RemoveInPropertyPoints", self.id)
     player:warpOutOfProperty()
     self.players[player.identifier] = nil
 
@@ -200,4 +202,15 @@ end
 function Property:destroy()
     self:destroyModel()
     self:destroyProps()
+end
+
+function Property:getData()
+    return {
+        id = self.id,
+        entranceLocation = self.entranceLocation,
+        location = self.location,
+        propertyType = self.propertyType,
+        model = self.model,
+        keys = self.keys
+    }
 end

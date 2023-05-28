@@ -2,14 +2,12 @@ lib.callback.register(cache.resource .. ":server:getProperties", function(source
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
 
     return table.map(Properties, function(property)
-        return {
-            id = property.id,
-            entranceLocation = property.entranceLocation,
-            propertyType = property.propertyType,
-            key = table.findOne(property.keys, function(key)
-                return key.player == playerIdentifier
-            end)
-        }
+        local data = property:getData()
+        data.key = table.findOne(data.keys, function(key)
+            return key.player == playerIdentifier
+        end)
+        data.keys = nil
+        return data
     end)
 end)
 

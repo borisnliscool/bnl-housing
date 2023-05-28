@@ -5,8 +5,8 @@ local function ShowMenu(menu, cb)
     lib.showMenu(menu.id)
 end
 
-Menus.entrance = function(point)
-    local data = lib.callback.await(cache.resource .. ":server:getPropertyKey", false, point.property_id)
+Menus.entrance = function(property)
+    local key = lib.callback.await(cache.resource .. ":server:getPropertyKey", false, property.id)
 
     local main = {
         id = cache.resource .. "_entrance",
@@ -14,7 +14,7 @@ Menus.entrance = function(point)
         position = 'top-left',
     }
 
-    if not data or not data.permission then
+    if not key or not key.permission then
         main.options = {
             {
                 label = "Knock",
@@ -60,11 +60,11 @@ Menus.entrance = function(point)
             {
                 label = "Enter",
                 onSelect = function()
-                    lib.callback.await(cache.resource .. ":server:entrance:enter", false, point.property_id)
+                    lib.callback.await(cache.resource .. ":server:entrance:enter", false, property.id)
                 end
             }
         },
-        permissionOptions[data.permission],
+        permissionOptions[key.permission],
         true
     )
 
@@ -73,4 +73,31 @@ Menus.entrance = function(point)
             main.options[selected].onSelect(selected, scrollIndex, args)
         end
     end)
+end
+
+Menus.property = function(property)
+    local main = {
+        id = cache.resource .. "_property",
+        title = locale("menu.property.title"),
+        position = 'top-left',
+    }
+
+    main.options = {
+        {
+            label = "Exit",
+            onSelect = function(selected, scrollIndex, args)
+                lib.callback.await(cache.resource .. ":server:property:exit", false, property.id)
+            end
+        }
+    }
+
+    ShowMenu(main, function(selected, scrollIndex, args)
+        if main.options[selected].onSelect then
+            main.options[selected].onSelect(selected, scrollIndex, args)
+        end
+    end)
+
+    -- if not property.key or not property.key.permission then
+    --     return
+    -- end
 end

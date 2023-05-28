@@ -39,6 +39,10 @@ Config.points.entrance = {
         faceCamera = false
     }
 }
+-- the in-property point is set as the same
+-- as the entrance point, if you'd like to
+-- customize this you can do that
+Config.points.property = Config.points.entrance
 
 Config.blips = {
     house = {
