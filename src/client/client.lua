@@ -34,11 +34,20 @@ function CreatePropertyPoint(data)
         )
 
         if self.currentDistance < (markerData.size.x + markerData.size.y) / 2 then
-            Bridge.Notify(locale("notification.property.menu", Config.points.entrance.interact.name))
-
-            if IsControlJustReleased(Config.points.entrance.interact.padIndex, Config.points.entrance.interact.control) then
+            if Config.interactMode == "walk" and not self.interacted then
+                self.interacted = true
                 Menus.entrance(self)
+            elseif Config.interactMode == "keypress" and not self.interacted then
+                Bridge.Notify(locale("notification.property.menu", Config.points.entrance.interact.name))
+
+                if IsControlJustReleased(Config.points.entrance.interact.padIndex, Config.points.entrance.interact.control) then
+                    self.interacted = true
+                    Menus.entrance(self)
+                end
             end
+        elseif self.interacted then
+            self.interacted = false
+            lib.hideMenu(true)
         end
     end
 

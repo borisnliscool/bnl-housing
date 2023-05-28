@@ -11,6 +11,10 @@ Config.modules = {
     raiding = true
 }
 
+-- the way for the menu to show up,
+-- either "walk" or "keypress"
+Config.interactMode = "walk"
+
 Config.points = {}
 Config.points.entrance = {
     viewDistance = 10.0,

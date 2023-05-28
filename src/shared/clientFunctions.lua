@@ -1,3 +1,8 @@
+-- todo
+-- could make this work like: ClientFunctions.<name> = RegisterClientFunction
+-- wouldn't have the logical event names anymore though
+-- we would need to keep a count or something
+
 ClientFunctions = {}
 
 function RegisterClientFunction(name, func)
