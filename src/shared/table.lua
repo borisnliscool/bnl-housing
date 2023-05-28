@@ -1,10 +1,14 @@
-function table.map(table, func)
+function table.map(list, func, noIndex)
     local ret = {}
 
-    for key, value in pairs(table) do
+    for key, value in pairs(list) do
         local data = func(value, key)
-        if data then
-            ret[key] = data
+        if data ~= nil then
+            if noIndex then
+                table.insert(ret, data)
+            else
+                ret[key] = data
+            end
         end
     end
 

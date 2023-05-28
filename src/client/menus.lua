@@ -36,8 +36,10 @@ Menus.entrance = function(property)
             end
         }
     }, function(option)
-        return (not option.permission or lib.table.contains(option.permission, property.key.permission)) and option
-    end)
+        if not option.permissions or lib.table.contains(option.permissions, property.key.permission) then
+            return option
+        end
+    end, true)
 
     ShowMenu(main, function(selected, scrollIndex, args)
         if main.options[selected].onSelect then
@@ -77,16 +79,11 @@ Menus.property = function(property)
                 lib.callback.await(cache.resource .. ":server:property:exit", false, property.id)
             end
         },
-        {
-            label = "test",
-            onSelect = function(_, _, _)
-                print("test")
-            end,
-            permissions = { "owner" }
-        }
     }, function(option)
-        return (not option.permissions or lib.table.contains(option.permissions, property.key.permission)) and option
-    end)
+        if not option.permissions or lib.table.contains(option.permissions, property.key.permission) then
+            return option
+        end
+    end, true)
 
     ShowMenu(main, function(selected, scrollIndex, args)
         if main.options[selected].onSelect then
