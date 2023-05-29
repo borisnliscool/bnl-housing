@@ -34,13 +34,3 @@ function RemoveInPropertyPoints(property_id)
 end
 
 Bridge.onReady(SetupProperties)
-
--- todo: temp
-CreateThread(function()
-    Wait(500)
-    SetupProperties()
-end)
-
-RegisterNetEvent("ox_lib:setClipboard", function(value)
-    lib.setClipboard(value)
-end)

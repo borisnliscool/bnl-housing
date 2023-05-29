@@ -63,5 +63,5 @@ RegisterCommand("relative", function(source, args, rawCommand)
     local coords = GetEntityCoords(GetPlayerPed(source))
 
     Debug.Log(coords - property.location)
-    TriggerClientEvent("ox_lib:setClipboard", source, tostring(coords - property.location))
+    ClientFunctions.SetClipboard(source, tostring(coords - property.location))
 end, false)

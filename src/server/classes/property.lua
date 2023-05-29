@@ -19,6 +19,7 @@ function Property.load(data)
     instance.props = {}
     instance.keys = {}
     instance.players = {}
+    instance.isSpawning = false
     instance.isSpawned = false
     instance.location, instance.entity = nil, nil
 
@@ -153,7 +154,8 @@ function Property:enter(source)
     -- todo
     -- I'm not totally conviced of this method
     -- of spawning the shell just in time
-    if not self.isSpawned then
+    if not self.isSpawned and not self.isSpawning then
+        self.isSpawning = true
         self:spawnModel()
         self:spawnProps()
         self.isSpawned = true
