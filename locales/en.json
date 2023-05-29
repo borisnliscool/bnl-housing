@@ -1,4 +1,8 @@
 {
+	"permission.member": "Member",
+	"permission.renter": "Renter",
+	"permission.owner": "Owner",
+
 	"notification.property.menu": "~%s~ Property menu",
 
 	"blip.property.house.owner": "Owned house",
@@ -17,11 +21,14 @@
 
 	"menu.property.title": "Property menu",
 	"menu.property.exit": "Exit the property",
-    "menu.property.invite": "Invite player inside",
-    "menu.property.decorate": "Decorate property",
-    "menu.property.manage_keys": "Manage keys",
-    "menu.property.sell": "Sell property",
-    "menu.property.rent_out": "Rent out property",
+	"menu.property.invite": "Invite player inside",
+	"menu.property.decorate": "Decorate property",
+	"menu.property.manage_keys": "Manage keys",
+	"menu.property.sell": "Sell property",
+	"menu.property.rent_out": "Rent out property",
 
-    "menu.invite.no_players": "No players outside"
+	"menu.invite.no_players": "No players outside",
+	"menu.manage_keys.give": "Give player keys",
+	"menu.manage_keys.take": "Take player keys",
+	"menu.manage_keys.no_players": "No players nearby"
 }

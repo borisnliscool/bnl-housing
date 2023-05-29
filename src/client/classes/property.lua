@@ -178,3 +178,7 @@ function Property:getOutsidePlayers()
         end
     )
 end
+
+function Property:getKeys()
+    return lib.callback.await(cache.resource .. ":server:property:getKeys", false, self.id)
+end

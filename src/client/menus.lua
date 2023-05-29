@@ -94,7 +94,9 @@ Menus.property = function(property)
         {
             label = locale("menu.property.manage_keys"),
             permissions = { "owner" },
-            onSelect = notImplemented
+            onSelect = function()
+                Menus.manage_keys(property)
+            end
         },
         {
             label = locale("menu.property.sell"),
@@ -117,7 +119,7 @@ end
 
 Menus.invite = function(property)
     local main = {
-        id = cache.resource .. "_property",
+        id = cache.resource .. "_invite",
         title = locale("menu.property.invite"),
         position = 'top-left',
     }
@@ -151,6 +153,90 @@ Menus.invite = function(property)
             label = locale("menu.invite.no_players")
         })
     end
+
+    ShowMenu(main)
+end
+
+Menus.manage_keys = function(property)
+    local main = {
+        id = cache.resource .. "_manage_keys",
+        title = locale("menu.property.manage_keys"),
+        position = 'top-left',
+    }
+
+    main.options = {
+        {
+            label = locale("menu.manage_keys.give"),
+            onSelect = function()
+                Menus.keys_give(property)
+            end
+        },
+        {
+            label = locale("menu.manage_keys.take"),
+            onSelect = function()
+                Menus.keys_take(property)
+            end
+        }
+    }
+
+    ShowMenu(main)
+end
+
+Menus.keys_give = function(property)
+    local main = {
+        id = cache.resource .. "_manage_keys_give",
+        title = locale("menu.property.manage_keys"),
+        position = 'top-left',
+    }
+
+    main.options = table.map(
+        lib.getNearbyPlayers(GetEntityCoords(cache.ped), Config.inviteRange, false),
+        function(data)
+            -- todo
+            -- check if the player has a key
+            local serverId = GetPlayerServerId(data.id)
+            local playerName = lib.callback.await(cache.resource .. ":server:getPlayerName", false, serverId)
+
+            -- todo
+            -- add an option to the config to only show
+            -- the player id, player name, or both
+            return {
+                label = ("[#%s] %s"):format(serverId, playerName),
+                onSelect = function()
+                    -- todo
+                    -- give the selected player a member key
+                end
+            }
+        end,
+        true
+    )
+
+    if #main.options == 0 then
+        table.insert(main.options, {
+            label = locale("menu.manage_keys.no_players")
+        })
+    end
+
+    ShowMenu(main)
+end
+
+Menus.keys_take = function(property)
+    local keys = property:getKeys()
+
+    local main = {
+        id = cache.resource .. "_manage_keys_take",
+        title = locale("menu.property.manage_keys"),
+        position = 'top-left',
+    }
+
+    main.options = table.map(keys, function(key)
+        return {
+            label = ("%s - %s"):format(key.player, locale(("permission.%s"):format(key.permission))),
+            onSelect = function()
+                Debug.Log(key)
+            end
+        }
+    end)
 
     ShowMenu(main)
 end
