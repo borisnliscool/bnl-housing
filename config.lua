@@ -3,14 +3,6 @@ Config = {}
 -- Framework you're using, supported: 'esx'
 Config.framework = "esx"
 
--- todo
-Config.modules = {
-    selling = true,
-    renting = true,
-    job = true,
-    raiding = true
-}
-
 -- the way for the menu to show up,
 -- either "walk" or "keypress"
 Config.interactMode = "keypress"

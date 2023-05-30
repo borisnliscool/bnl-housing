@@ -230,13 +230,22 @@ Menus.keys_take = function(property)
     }
 
     main.options = table.map(keys, function(key)
+        if key.permission ~= "member" then
+            return
+        end
         return {
             label = ("%s - %s"):format(key.player, locale(("permission.%s"):format(key.permission))),
             onSelect = function()
                 Debug.Log(key)
             end
         }
-    end)
+    end, true)
+
+    if #main.options == 0 then
+        table.insert(main.options, {
+            label = locale("menu.manage_keys.no_keys")
+        })
+    end
 
     ShowMenu(main)
 end

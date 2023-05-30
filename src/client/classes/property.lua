@@ -166,6 +166,11 @@ function Property:removeInPropertyPoints()
     self.points.property:remove()
 end
 
+-- todo
+-- this function doesn't work as it only works
+-- with the players in the current bucket,
+-- we'll need to ask the server for the players
+-- that are outside.
 function Property:getOutsidePlayers()
     return table.map(
         lib.getNearbyPlayers(self.entranceLocation, Config.inviteRange, true),
