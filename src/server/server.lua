@@ -19,6 +19,7 @@ function GetPropertyPlayerIsIn(source)
         end
     end
 end
+exports("GetPropertyPlayerIsIn", GetPropertyPlayerIsIn)
 
 AddEventHandler('onResourceStop', function(resource)
     if GetCurrentResourceName() ~= resource then

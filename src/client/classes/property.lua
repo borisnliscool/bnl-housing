@@ -18,7 +18,7 @@ function Property.new(data)
 end
 
 function Property:getLocation()
-    self.location = lib.callback.await(cache.resource .. ":server:property:getLocation", false, self.id)
+    self.location = lib.callback.await("bnl-housing:server:property:getLocation", false, self.id)
     return self.location
 end
 
@@ -172,7 +172,7 @@ function Property:getOutsidePlayers()
         function(data)
             local serverId = GetPlayerServerId(data.id)
             return {
-                name = lib.callback.await(cache.resource .. ":server:getPlayerName", false, serverId),
+                name = lib.callback.await("bnl-housing:server:getPlayerName", false, serverId),
                 id = serverId
             }
         end
@@ -180,5 +180,5 @@ function Property:getOutsidePlayers()
 end
 
 function Property:getKeys()
-    return lib.callback.await(cache.resource .. ":server:property:getKeys", false, self.id)
+    return lib.callback.await("bnl-housing:server:property:getKeys", false, self.id)
 end

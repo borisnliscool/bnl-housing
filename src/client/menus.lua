@@ -10,10 +10,10 @@ local function ShowMenu(menu)
 end
 
 Menus.entrance = function(property)
-    local key = lib.callback.await(cache.resource .. ":server:getPropertyKey", false, property.id)
+    local key = lib.callback.await("bnl-housing:server:getPropertyKey", false, property.id)
 
     local main = {
-        id = cache.resource .. "_entrance",
+        id = "bnl-housing_entrance",
         title = locale("menu.entrance.title"),
         position = 'top-left',
         options = {
@@ -32,7 +32,7 @@ Menus.entrance = function(property)
         {
             label = locale("menu.entrance.enter"),
             onSelect = function()
-                lib.callback.await(cache.resource .. ":server:entrance:enter", false, property.id)
+                lib.callback.await("bnl-housing:server:entrance:enter", false, property.id)
             end
         }
     }, function(option)
@@ -46,14 +46,14 @@ end
 
 Menus.property = function(property)
     local main = {
-        id = cache.resource .. "_property",
+        id = "bnl-housing_property",
         title = locale("menu.property.title"),
         position = 'top-left',
         options = {
             {
                 label = locale("menu.property.exit"),
                 onSelect = function(_, _, _)
-                    lib.callback.await(cache.resource .. ":server:property:exit", false, property.id)
+                    lib.callback.await("bnl-housing:server:property:exit", false, property.id)
                 end
             }
         }
@@ -76,7 +76,7 @@ Menus.property = function(property)
         {
             label = locale("menu.property.exit"),
             onSelect = function(_, _, _)
-                lib.callback.await(cache.resource .. ":server:property:exit", false, property.id)
+                lib.callback.await("bnl-housing:server:property:exit", false, property.id)
             end
         },
         {
@@ -119,7 +119,7 @@ end
 
 Menus.invite = function(property)
     local main = {
-        id = cache.resource .. "_invite",
+        id = "bnl-housing_invite",
         title = locale("menu.property.invite"),
         position = 'top-left',
     }
@@ -159,7 +159,7 @@ end
 
 Menus.manage_keys = function(property)
     local main = {
-        id = cache.resource .. "_manage_keys",
+        id = "bnl-housing_manage_keys",
         title = locale("menu.property.manage_keys"),
         position = 'top-left',
     }
@@ -184,7 +184,7 @@ end
 
 Menus.keys_give = function(property)
     local main = {
-        id = cache.resource .. "_manage_keys_give",
+        id = "bnl-housing_manage_keys_give",
         title = locale("menu.property.manage_keys"),
         position = 'top-left',
     }
@@ -195,7 +195,7 @@ Menus.keys_give = function(property)
             -- todo
             -- check if the player has a key
             local serverId = GetPlayerServerId(data.id)
-            local playerName = lib.callback.await(cache.resource .. ":server:getPlayerName", false, serverId)
+            local playerName = lib.callback.await("bnl-housing:server:getPlayerName", false, serverId)
 
             -- todo
             -- add an option to the config to only show
@@ -224,7 +224,7 @@ Menus.keys_take = function(property)
     local keys = property:getKeys()
 
     local main = {
-        id = cache.resource .. "_manage_keys_take",
+        id = "bnl-housing_manage_keys_take",
         title = locale("menu.property.manage_keys"),
         position = 'top-left',
     }

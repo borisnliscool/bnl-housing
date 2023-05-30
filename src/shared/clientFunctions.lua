@@ -1,7 +1,7 @@
 ClientFunctions = {}
 
 function RegisterClientFunction(func)
-    local eventName = ("%s:%s"):format(cache.resource, table.count(ClientFunctions))
+    local eventName = ("bnl-housing:%s"):format(table.count(ClientFunctions))
 
     if IsDuplicityVersion() then
         return function(source, ...)

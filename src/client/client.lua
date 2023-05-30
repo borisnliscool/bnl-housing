@@ -7,7 +7,7 @@ function SetupProperties()
     end
 
     Properties = table.map(
-        lib.callback.await(cache.resource .. ":server:getProperties"),
+        lib.callback.await("bnl-housing:server:getProperties"),
         function(data)
             local property = Property.new(data)
             property:createEntrancePoint()
