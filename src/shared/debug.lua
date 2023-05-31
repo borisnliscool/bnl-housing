@@ -1,13 +1,13 @@
 Debug = {}
 
-function string:Format(...)
+function Format(str, ...)
     local args = { ... }
     for key, value in pairs(args) do
         args[key] = "^3" .. tostring(value) .. "^0"
     end
 
     ---@diagnostic disable-next-line: param-type-mismatch
-    return string.format(self, table.unpack(args))
+    return string.format(str, table.unpack(args))
 end
 
 local function formatString(...)

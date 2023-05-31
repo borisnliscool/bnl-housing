@@ -22,6 +22,7 @@ function SetupInPropertyPoints(property_id)
     local property = table.findOne(Properties, function(property)
         return property.id == property_id
     end)
+    if not property then return end
 
     property:createInPropertyPoints()
 end
@@ -31,6 +32,7 @@ function RemoveInPropertyPoints(property_id)
     local property = table.findOne(Properties, function(property)
         return property.id == property_id
     end)
+    if not property then return end
 
     property:removeInPropertyPoints()
 end

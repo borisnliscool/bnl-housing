@@ -129,7 +129,7 @@ Menus.invite = function(property)
         -- add logic for inviting players inside this
         -- should give the outside player a prompt
         -- to press a key to accept the invite
-        Debug.Log(("Inviting player #%s inside."):Format(serverId))
+        Debug.Log(Format("Inviting player #%s inside.", serverId))
     end
 
     main.options = table.map(

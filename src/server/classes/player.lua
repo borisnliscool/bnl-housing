@@ -15,7 +15,7 @@ end
 
 ---@param bucketId number
 function Player:setBucket(bucketId)
-    Debug.Log(("Setting %s's routing bucket to %s"):Format(self.name, bucketId))
+    Debug.Log(Format("Setting %s's routing bucket to %s", self.name, bucketId))
 
     SetPlayerRoutingBucket(self.source, bucketId)
 end
@@ -25,11 +25,11 @@ function Player:ped()
 end
 
 function Player:warpIntoProperty()
-    Debug.Log(("Warping %s into property %s"):Format(self.name, self.property.id))
+    Debug.Log(Format("Warping %s into property %s", self.name, self.property.id))
 
     local data = Data.Shells[self.property.model]
     if not data then
-        return Debug.Error(("No data found for %s, check %s"):Format(self.property.model, "data/shells.lua"))
+        return Debug.Error(Format("No data found for %s, check %s", self.property.model, "data/shells.lua"))
     end
 
     local coords = self.property.location + data.entrances.foot
@@ -37,7 +37,7 @@ function Player:warpIntoProperty()
 end
 
 function Player:warpOutOfProperty()
-    Debug.Log(("Warping %s out of property %s"):Format(self.name, self.property.id))
+    Debug.Log(Format("Warping %s out of property %s", self.name, self.property.id))
 
     local coords = self.property.entranceLocation
     SetEntityCoords(self:ped(), coords.x, coords.y, coords.z - 1.0, true, false, false, false)
