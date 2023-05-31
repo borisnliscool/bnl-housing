@@ -33,4 +33,13 @@ function RemoveInPropertyPoints(property_id)
     property:removeInPropertyPoints()
 end
 
+function FormatPlayerTag(name, id)
+    local options = {
+        name = ("#%s"):format(name),
+        id = ("#%s"):format(id),
+        both = ("[#%s] %s"):format(id, name),
+    }
+    return options[Config.playerTag]
+end
+
 Bridge.onReady(SetupProperties)

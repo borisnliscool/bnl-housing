@@ -1,16 +1,21 @@
 Config = {}
 
--- Framework you're using, supported: 'esx'
+-- Framework you're using
+-- options: "esx"
 Config.framework = "esx"
 
--- the way for the menu to show up,
--- either "walk" or "keypress"
-Config.interactMode = "keypress"
 Config.inviteRange = 10.0
+-- the way for the menu to show up,
+-- options: "walk", "keypress"
+Config.interactMode = "keypress"
+-- the way players get listed in menus
+-- options: "name", "id", "both"
+Config.playerTag = "both"
 
 Config.points = {}
 Config.points.entrance = {
     viewDistance = 10.0,
+    -- this is only used if Config.interactMode is set to "keypress"
     interact = {
         -- https://docs.fivem.net/docs/game-references/controls/
         padIndex = 0,

@@ -135,11 +135,8 @@ Menus.invite = function(property)
     main.options = table.map(
         property:getOutsidePlayers(),
         function(player)
-            -- todo
-            -- add an option to the config to only show
-            -- the player id, player name, or both
             return {
-                label = ("[#%s] %s"):format(player.id, player.name),
+                label = FormatPlayerTag(player.name, player.id),
                 onSelect = function()
                     InvitePlayer(player.id)
                 end
@@ -197,11 +194,8 @@ Menus.keys_give = function(property)
             local serverId = GetPlayerServerId(data.id)
             local playerName = lib.callback.await("bnl-housing:server:getPlayerName", false, serverId)
 
-            -- todo
-            -- add an option to the config to only show
-            -- the player id, player name, or both
             return {
-                label = ("[#%s] %s"):format(serverId, playerName),
+                label = FormatPlayerTag(playerName, serverId),
                 onSelect = function()
                     -- todo
                     -- give the selected player a member key
