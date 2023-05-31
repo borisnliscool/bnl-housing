@@ -1,0 +1,35 @@
+{
+	"permission.member": "Lid",
+	"permission.renter": "Huurder",
+	"permission.owner": "Eigenaar",
+
+	"notification.property.menu": "~%s~ Eigendom menu",
+
+	"blip.property.house.owner": "Eigen huis",
+	"blip.property.house.member": "Vriend's huis",
+	"blip.property.house.renter": "Gehuurd huis",
+	"blip.property.warehouse.owner": "Eigen warenhuis",
+	"blip.property.warehouse.member": "Vriend's warenhuis",
+	"blip.property.warehouse.renter": "Gehuurd warenhuis",
+	"blip.property.office.owner": "Eigen kantoor",
+	"blip.property.office.member": "Vriend's kantoor",
+	"blip.property.office.renter": "Gehuurd kantoor",
+
+	"menu.entrance.title": "Eigendom menu",
+	"menu.entrance.knock": "Aankloppen",
+	"menu.entrance.enter": "Eigendom betreden",
+
+	"menu.property.title": "Eigendom menu",
+	"menu.property.exit": "Eigendom verlaten",
+	"menu.property.invite": "Naar binnen uitnodigen",
+	"menu.property.decorate": "Eigendom decoreren",
+	"menu.property.manage_keys": "Sleutels beheren",
+	"menu.property.sell": "Eigendom verkopen",
+	"menu.property.rent_out": "Eigendom verhuren",
+
+	"menu.invite.no_players": "Geen spelers buiten",
+	"menu.manage_keys.give": "Geef sleutels",
+	"menu.manage_keys.take": "Pak sleutels af",
+	"menu.manage_keys.no_players": "Geen spelers in de buurt",
+	"menu.manage_keys.no_keys": "Geen sleutels gevonden"
+}
