@@ -26,3 +26,7 @@ end
 function Bridge.GetServerIdFromIdentifier(identifier)
     return ESX.GetPlayerFromIdentifier(identifier)?.source or nil
 end
+
+function Bridge.GetAllPlayers()
+    return table.map(ESX.GetPlayers(), function(p) return p.source end)
+end

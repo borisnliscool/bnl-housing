@@ -21,3 +21,18 @@ lib.callback.register("bnl-housing:server:property:getKeys", function(_, propert
         }
     end)
 end)
+
+-- todo: permissions
+lib.callback.register("bnl-housing:server:getOutsidePlayers", function(_, property_id)
+    local property = GetPropertyById(property_id)
+    local players = property:getOutsidePlayers()
+    return table.map(
+        players,
+        function(player)
+            return {
+                name = Bridge.GetPlayerName(player),
+                id = player
+            }
+        end
+    )
+end)

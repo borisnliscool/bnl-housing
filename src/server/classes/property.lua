@@ -221,3 +221,7 @@ function Property:getData()
         keys = self.keys
     }
 end
+
+function Property:getOutsidePlayers()
+    return GetPlayersNearCoords(self.entranceLocation, Config.inviteRange)
+end
