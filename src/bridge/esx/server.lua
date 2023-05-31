@@ -22,3 +22,7 @@ function Bridge.GetPlayerNameFromIdentifier(identifier)
     local data = MySQL.single.await("SELECT firstname, lastname FROM users WHERE identifier = ?", { identifier })
     return ("%s %s"):format(data.firstname, data.lastname)
 end
+
+function Bridge.GetServerIdFromIdentifier(identifier)
+    return ESX.GetPlayerFromIdentifier(identifier)?.source or nil
+end

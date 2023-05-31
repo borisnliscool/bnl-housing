@@ -16,7 +16,8 @@ lib.callback.register("bnl-housing:server:property:getKeys", function(source, pr
             id = key.id,
             property_id = key.property_id,
             permission = key.permission,
-            player = Bridge.GetPlayerNameFromIdentifier(key.player)
+            player = Bridge.GetPlayerNameFromIdentifier(key.player),
+            serverId = Bridge.GetServerIdFromIdentifier(key.player),
         }
     end)
 end)

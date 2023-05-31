@@ -186,13 +186,17 @@ Menus.keys_give = function(property)
         position = 'top-left',
     }
 
+    local keys = property:getKeys()
+
     main.options = table.map(
-        lib.getNearbyPlayers(GetEntityCoords(cache.ped), Config.inviteRange, false),
+        lib.getNearbyPlayers(GetEntityCoords(cache.ped), Config.inviteRange, true),
         function(data)
-            -- todo
-            -- check if the player has a key
             local serverId = GetPlayerServerId(data.id)
             local playerName = lib.callback.await("bnl-housing:server:getPlayerName", false, serverId)
+
+            if table.findOne(keys, function(key) return key.serverId == serverId end) then
+                return
+            end
 
             return {
                 label = FormatPlayerTag(playerName, serverId),
