@@ -115,13 +115,15 @@ function Property:loadKeys()
     self.keys = databaseKeys
 end
 
+---@param source number
 function Property:getPlayerKey(source)
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
     return table.findOne(self.keys, function(key)
         return key.player == playerIdentifier
-    end)
+    end) or nil
 end
 
+---@param source number
 function Property:getPlayer(source)
     if not self.players or not next(self.players) then
         return
@@ -133,10 +135,12 @@ end
 
 --#endregion
 
+---@param source number
 function Property:isPlayerInside(source)
     return self:getPlayer(source) ~= nil
 end
 
+---@param source number
 function Property:enter(source)
     if self:isPlayerInside(source) then
         return
@@ -173,6 +177,7 @@ function Property:enter(source)
     return true
 end
 
+---@param source number
 function Property:exit(source)
     if not self:isPlayerInside(source) then
         return

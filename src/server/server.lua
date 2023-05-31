@@ -8,10 +8,12 @@ function LoadProperties()
     end
 end
 
+---@param id number
 function GetPropertyById(id)
     return Properties[id]
 end
 
+---@param source number
 function GetPropertyPlayerIsIn(source)
     for _, property in pairs(Properties) do
         if property:isPlayerInside(source) then

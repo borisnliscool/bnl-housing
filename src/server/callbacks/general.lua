@@ -16,6 +16,6 @@ lib.callback.register("bnl-housing:server:getPropertyKey", function(source, prop
     return property:getPlayerKey(source)
 end)
 
-lib.callback.register("bnl-housing:server:getPlayerName", function(source, playerId)
+lib.callback.register("bnl-housing:server:getPlayerName", function(_, playerId)
     return Bridge.GetPlayerName(playerId)
 end)

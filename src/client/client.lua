@@ -17,6 +17,7 @@ function SetupProperties()
         end)
 end
 
+---@param property_id number
 function SetupInPropertyPoints(property_id)
     local property = table.findOne(Properties, function(property)
         return property.id == property_id
@@ -25,6 +26,7 @@ function SetupInPropertyPoints(property_id)
     property:createInPropertyPoints()
 end
 
+---@param property_id number
 function RemoveInPropertyPoints(property_id)
     local property = table.findOne(Properties, function(property)
         return property.id == property_id
@@ -33,6 +35,9 @@ function RemoveInPropertyPoints(property_id)
     property:removeInPropertyPoints()
 end
 
+---@param name string
+---@param id number
+---@return string
 function FormatPlayerTag(name, id)
     local options = {
         name = ("#%s"):format(name),

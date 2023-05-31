@@ -1,3 +1,4 @@
+---@param name string
 local function loadData(name)
     local file = ('data/%s.lua'):format(name)
     local datafile = LoadResourceFile("bnl-housing", file)

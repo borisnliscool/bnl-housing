@@ -1,5 +1,6 @@
 ClientFunctions = {}
 
+---@param func function
 function RegisterClientFunction(func)
     local eventName = ("bnl-housing:%s"):format(table.count(ClientFunctions))
 

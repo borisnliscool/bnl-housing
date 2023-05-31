@@ -13,6 +13,7 @@ function Player.new(source, property)
     return instance
 end
 
+---@param bucketId number
 function Player:setBucket(bucketId)
     Debug.Log(("Setting %s's routing bucket to %s"):Format(self.name, bucketId))
 
@@ -42,10 +43,14 @@ function Player:warpOutOfProperty()
     SetEntityCoords(self:ped(), coords.x, coords.y, coords.z - 1.0, true, false, false, false)
 end
 
+---@param name string
+---@param ... unknown
+---@return unknown
 function Player:triggerFunction(name, ...)
     return ClientFunctions[name](self.source, ...)
 end
 
+---@param value boolean
 function Player:freeze(value)
     if value == nil then value = true end
     FreezeEntityPosition(self:ped(), value)

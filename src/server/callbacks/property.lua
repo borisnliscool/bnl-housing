@@ -9,7 +9,7 @@ lib.callback.register("bnl-housing:server:property:getLocation", function(_, pro
 end)
 
 -- todo: permissions
-lib.callback.register("bnl-housing:server:property:getKeys", function(source, property_id)
+lib.callback.register("bnl-housing:server:property:getKeys", function(_, property_id)
     local property = GetPropertyById(property_id)
     return table.map(property.keys, function(key)
         return {
