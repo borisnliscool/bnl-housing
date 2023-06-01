@@ -6,11 +6,11 @@ function RegisterClientFunction(func)
 
     if IsDuplicityVersion() then
         return function(source, ...)
-            TriggerClientEvent(eventName, source, ...)
+            return lib.callback.await(eventName, source, ...)
         end
     else
-        RegisterNetEvent(eventName, function(...)
-            func(...)
+        lib.callback.register(eventName, function(...)
+            return func(...)
         end)
         return eventName
     end
