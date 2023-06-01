@@ -17,6 +17,7 @@ function SetupProperties()
         end)
 end
 
+---This function is callable from the server.
 ---@param property_id number
 function SetupInPropertyPoints(property_id)
     local property = table.findOne(Properties, function(property)
@@ -27,6 +28,7 @@ function SetupInPropertyPoints(property_id)
     property:createInPropertyPoints()
 end
 
+---This function is callable from the server.
 ---@param property_id number
 function RemoveInPropertyPoints(property_id)
     local property = table.findOne(Properties, function(property)

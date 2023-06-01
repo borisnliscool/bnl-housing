@@ -43,6 +43,9 @@ function Property:save()
             })
         end
     end
+
+    -- todo
+    -- key saving
 end
 
 --#region Model
