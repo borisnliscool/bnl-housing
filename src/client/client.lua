@@ -51,4 +51,12 @@ function FormatPlayerTag(name, id)
     return options[Config.playerTag]
 end
 
+---This function is callable from the server.
+---@param text string
+function StartBusySpinner(text)
+    BeginTextCommandBusyspinnerOn('STRING')
+    AddTextComponentSubstringPlayerName(text)
+    EndTextCommandBusyspinnerOn(5)
+end
+
 Bridge.onReady(SetupProperties)

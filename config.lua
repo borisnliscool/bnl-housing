@@ -5,6 +5,7 @@ Config = {}
 Config.framework = "esx"
 
 Config.inviteRange = 10.0
+Config.entranceTransition = 500
 -- the way for the menu to show up,
 -- options: "walk", "keypress"
 Config.interactMode = "keypress"

@@ -151,11 +151,12 @@ function Property:enter(source)
 
     local player = Player.new(source, self)
 
-    -- tweak timings for faster enter
-    player:triggerFunction("FadeOut", 500)
-    Wait(500)
-    player:freeze(true)
+    player:triggerFunction("StartBusySpinner", "Loading property...")
+    player:triggerFunction("FadeOut", Config.entranceTransition)
 
+    Wait(Config.entranceTransition / 2)
+
+    player:freeze(true)
     player:setBucket(self.bucketId)
 
     -- todo
@@ -172,10 +173,11 @@ function Property:enter(source)
     player:triggerFunction("SetupInPropertyPoints", self.id)
     self.players[player.identifier] = player
 
-    -- tweak timings for faster enter
-    Wait(250)
+    Wait(Config.entranceTransition / 2)
+
     player:freeze(false)
-    player:triggerFunction("FadeIn", 500)
+    player:triggerFunction("FadeIn", Config.entranceTransition)
+    player:triggerFunction("BusyspinnerOff")
 
     return true
 end
@@ -191,20 +193,22 @@ function Property:exit(source)
         return true
     end
 
-    -- tweak timings for faster exit
-    player:triggerFunction("FadeOut", 500)
-    Wait(500)
+    player:triggerFunction("StartBusySpinner", "Exiting property...")
+    player:triggerFunction("FadeOut", Config.entranceTransition)
     player:freeze(true)
+
+    Wait(Config.entranceTransition / 2)
 
     player:setBucket(0)
     player:triggerFunction("RemoveInPropertyPoints", self.id)
     player:warpOutOfProperty()
     self.players[player.identifier] = nil
 
-    -- tweak timings for faster exit
+    Wait(Config.entranceTransition / 2)
+
     player:freeze(false)
-    Wait(250)
-    player:triggerFunction("FadeIn", 500)
+    player:triggerFunction("FadeIn", Config.entranceTransition)
+    player:triggerFunction("BusyspinnerOff")
 
     return true
 end
