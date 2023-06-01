@@ -1,9 +1,11 @@
 local ESX = exports['es_extended']:getSharedObject()
+local onReadyCallback
 
 function Bridge.onReady(cb)
+    onReadyCallback = cb
     CreateThread(function()
         Wait(10)
-        cb()
+        onReadyCallback()
     end)
 end
 
