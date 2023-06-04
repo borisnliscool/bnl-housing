@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS property_key (
     FOREIGN KEY (property_id) REFERENCES properties(id),
     FOREIGN KEY (player) REFERENCES users(identifier),
     INDEX idx_property_id (property_id),
-    INDEX idx_player (player)
+    INDEX idx_player (player),
+    CONSTRAINT uk_property_key UNIQUE (property_id, player)
 );
 
 CREATE TABLE IF NOT EXISTS property_prop (
