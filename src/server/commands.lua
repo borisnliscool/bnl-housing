@@ -28,3 +28,9 @@ RegisterCommand("relative", function(source, args, rawCommand)
     Debug.Log(coords - property.location)
     ClientFunctions.SetClipboard(source, tostring(coords - property.location))
 end, false)
+
+RegisterCommand("knock", function(source, args, rawCommand)
+    local property = GetPropertyPlayerIsIn(source) or GetPropertyById(tonumber(args[1]) or 1)
+    if not property then return end
+    property:knock(source)
+end, false)

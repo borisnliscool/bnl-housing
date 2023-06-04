@@ -19,6 +19,9 @@ Menus.entrance = function(property)
         options = {
             {
                 label = locale("menu.entrance.knock"),
+                onSelect = function()
+                    lib.callback.await("bnl-housing:server:entrance:knock", false, property.id)
+                end
             }
         },
     }

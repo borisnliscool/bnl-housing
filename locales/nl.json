@@ -4,6 +4,7 @@
 	"permission.owner": "Eigenaar",
 
 	"notification.property.menu": "~%s~ Eigendom menu",
+	"notification.property.knock": "Er klopt iemand op de deur.",
 
 	"blip.property.house.owner": "Eigen huis",
 	"blip.property.house.member": "Vriend's huis",

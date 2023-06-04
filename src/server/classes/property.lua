@@ -232,3 +232,13 @@ end
 function Property:getOutsidePlayers()
     return GetPlayersNearCoords(self.entranceLocation, Config.inviteRange)
 end
+
+function Property:knock(source)
+    Debug.Log(Format("%s knocked on the door of property %s", Bridge.GetPlayerName(source), self.id))
+
+    for _, player in pairs(self.players) do
+        if player.key.permission ~= "visitor" then
+            player:triggerFunction("HelpNotification", locale("notification.property.knock"))
+        end
+    end
+end
