@@ -15,11 +15,10 @@ dependencies {
     'bnl-housing-shells',
 }
 
-shared_scripts {
-    '@ox_lib/init.lua',
-    'config.lua',
-    'src/bridge/shared.lua',
-    'src/shared/*.lua',
+files {
+    'src/bridge/**/client.lua',
+    'data/*.lua',
+    'locales/*.json'
 }
 
 client_scripts {
@@ -33,8 +32,9 @@ server_scripts {
     'src/server/callbacks/*.lua',
 }
 
-files {
-    'src/bridge/**/client.lua',
-    'data/*.lua',
-    'locales/*.json'
+shared_scripts {
+    '@ox_lib/init.lua',
+    'config.lua',
+    'src/bridge/shared.lua',
+    'src/shared/*.lua',
 }
