@@ -9,6 +9,7 @@ function Property.new(data)
     instance.location = data.location
     instance.model = data.model
     instance.propertyType = data.propertyType
+    instance.address = data.address
     instance.key = data.key
     instance.points = {}
 
@@ -25,7 +26,7 @@ end
 function Property:createEntrancePoint()
     -- todo
     -- when we enter the property, this point
-    -- always opens the menu when in walk mode, 
+    -- always opens the menu when in walk mode,
     -- which we don't want so we need to add
     -- a check for first enter or something
     local point = lib.points.new({

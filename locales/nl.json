@@ -16,11 +16,11 @@
 	"blip.property.office.member": "Vriend's kantoor",
 	"blip.property.office.renter": "Gehuurd kantoor",
 
-	"menu.entrance.title": "Eigendom menu",
+	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Aankloppen",
 	"menu.entrance.enter": "Eigendom betreden",
 
-	"menu.property.title": "Eigendom menu",
+	"menu.property.title": "%s %s Menu",
 	"menu.property.exit": "Eigendom verlaten",
 	"menu.property.invite": "Naar binnen uitnodigen",
 	"menu.property.decorate": "Eigendom decoreren",

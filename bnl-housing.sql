@@ -3,8 +3,12 @@ CREATE TABLE IF NOT EXISTS properties (
     model VARCHAR(16) NOT NULL,
     entrance_location JSON NOT NULL,
     property_type ENUM("house", "warehouse", "office") NOT NULL,
+    zipcode VARCHAR(128),
+    street_name VARCHAR(128),
+    building_number FLOAT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT uk_property_address UNIQUE (zipcode, street_name, building_number)
 );
 
 CREATE TABLE IF NOT EXISTS property_key (

@@ -11,6 +11,11 @@ function Property.load(data)
     instance.model = data.model
     instance.entranceLocation = table.tovector(json.decode(data.entrance_location))
     instance.propertyType = data.property_type
+    instance.address = {
+        zipcode = data.zipcode,
+        streetName = data.street_name,
+        buildingNumber = data.building_number
+    }
     -- todo
     -- find a better way to get a new bucket id,
     -- is there even a limit to the amount of
@@ -214,6 +219,7 @@ function Property:exit(source)
 end
 
 function Property:destroy()
+    Debug.Log(Format("Destroying property %s", self.id))
     self:destroyModel()
     self:destroyProps()
 end
@@ -224,8 +230,9 @@ function Property:getData()
         entranceLocation = self.entranceLocation,
         location = self.location,
         propertyType = self.propertyType,
+        address = self.address,
         model = self.model,
-        keys = self.keys
+        keys = self.keys,
     }
 end
 

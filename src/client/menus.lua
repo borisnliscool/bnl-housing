@@ -14,7 +14,7 @@ Menus.entrance = function(property)
 
     local main = {
         id = "bnl-housing_entrance",
-        title = locale("menu.entrance.title"),
+        title = locale("menu.entrance.title", property.address.streetName, property.address.buildingNumber),
         position = 'top-left',
         options = {
             {
@@ -50,7 +50,7 @@ end
 Menus.property = function(property)
     local main = {
         id = "bnl-housing_property",
-        title = locale("menu.property.title"),
+        title = locale("menu.property.title", property.address.streetName, property.address.buildingNumber),
         position = 'top-left',
         options = {
             {
