@@ -1,11 +1,25 @@
 local ESX = exports['es_extended']:getSharedObject()
-local onReadyCallback
+local onReadyCallback, onPlayerLoadCallback, onPlayerUnloadCallback
 
 function Bridge.onReady(cb)
     onReadyCallback = cb
     CreateThread(function()
         Wait(10)
         onReadyCallback()
+    end)
+end
+
+function Bridge.onPlayerLoad(cb)
+    onPlayerLoadCallback = cb
+    RegisterNetEvent("esx:playerLoaded", function (player)
+        onPlayerLoadCallback(player)
+    end)
+end
+
+function Bridge.onPlayerUnload(cb)
+    onPlayerUnloadCallback = cb
+    RegisterNetEvent("esx:playerDropped", function (player)
+        onPlayerUnloadCallback(player)
     end)
 end
 
@@ -31,4 +45,8 @@ end
 
 function Bridge.GetAllPlayers()
     return table.map(ESX.GetPlayers(), function(p) return p.source end)
+end
+
+function Bridge.SetPlayerCoords(player, coords)
+    ESX.GetPlayerFromId(player)?.setCoords(coords)
 end
