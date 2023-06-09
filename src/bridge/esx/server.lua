@@ -46,7 +46,3 @@ end
 function Bridge.GetAllPlayers()
     return table.map(ESX.GetPlayers(), function(p) return p.source end)
 end
-
-function Bridge.SetPlayerCoords(player, coords)
-    ESX.GetPlayerFromId(player)?.setCoords(coords)
-end

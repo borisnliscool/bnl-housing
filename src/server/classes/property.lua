@@ -149,7 +149,7 @@ function Property:isPlayerInside(source)
 end
 
 ---@param source number
-function Property:enter(source, settings)
+function Property:enter(source)
     if self:isPlayerInside(source) then
         return
     end
@@ -174,9 +174,7 @@ function Property:enter(source, settings)
         self.isSpawned = true
     end
 
-    if not settings or not settings.disableWarp then
-        player:warpIntoProperty()
-    end
+    player:warpIntoProperty()
     player:triggerFunction("SetupInPropertyPoints", self.id)
     self.players[player.identifier] = player
 
@@ -190,7 +188,7 @@ function Property:enter(source, settings)
 end
 
 ---@param source number
-function Property:exit(source, settings)
+function Property:exit(source)
     if not self:isPlayerInside(source) then
         return
     end
@@ -208,9 +206,7 @@ function Property:exit(source, settings)
 
     player:setBucket(0)
     player:triggerFunction("RemoveInPropertyPoints", self.id)
-    if not settings or not settings.disableWarp then
-        player:warpOutOfProperty()
-    end
+    player:warpOutOfProperty()
     self.players[player.identifier] = nil
 
     Wait(Config.entranceTransition / 2)

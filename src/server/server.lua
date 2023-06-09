@@ -51,26 +51,25 @@ local function onPlayerLoad(player)
 
     Wait(250)
 
-    if property:enter(player, {
-        disableWarp = true
-    }) then
+    if property:enter(player) then
         Debug.Log(Format("Loaded player %s in property %s", Bridge.GetPlayerName(player), propertyId))
         MySQL.query.await("DELETE FROM property_player WHERE player = ?", { playerIdentifier })
         return
     end
 
-    Debug.Error("Failed to make %s enter property %s", Bridge.GetPlayerName(player), propertyId)
+    Debug.Error(Format("Failed to make %s enter property %s", Bridge.GetPlayerName(player), propertyId))
 end
 
 local function onPlayerUnload(player)
     local property = GetPropertyPlayerIsIn(player)
     if not property then return end
 
-    Bridge.SetPlayerCoords(player, property.entranceLocation)
+    local playerIdentifier = Bridge.GetPlayerIdentifier(player)
+    property.players[playerIdentifier] = nil
 
     MySQL.insert.await(
         "INSERT INTO property_player (property_id, player) VALUES (?, ?)",
-        { property.id, Bridge.GetPlayerIdentifier(player) }
+        { property.id, playerIdentifier }
     )
 end
 
