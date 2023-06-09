@@ -17,7 +17,7 @@ dependencies {
 
 files {
     'src/bridge/**/client.lua',
-    'data/*.lua',
+    'data/**/*.lua',
     'locales/*.json'
 }
 

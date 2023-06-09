@@ -40,11 +40,12 @@ local function onPlayerLoad(player)
     local playerIdentifier = Bridge.GetPlayerIdentifier(player)
     Debug.Log(Format("Loading player %s", Bridge.GetPlayerName(player)))
 
-    local propertyId = MySQL.single.await(
+    local data = MySQL.single.await(
         "SELECT property_id FROM property_player WHERE player = ?",
         { playerIdentifier }
-    ).property_id
-    if not propertyId then return end
+    )
+    if not data or not data.property_id then return end
+    local propertyId = data.property_id
 
     local property = GetPropertyById(propertyId)
     if not property then return end
