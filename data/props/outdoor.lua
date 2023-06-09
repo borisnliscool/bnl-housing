@@ -1,0 +1,19 @@
+return {
+    "hei_prop_heist_weed_pallet",
+    "hei_prop_heist_weed_pallet_02",
+    "hei_prop_heist_weed_block_01b",
+    "ind_prop_firework_01",
+    "ind_prop_firework_03",
+    "ind_prop_firework_02",
+    "ind_prop_firework_04",
+    "ng_proc_binbag_01a",
+    "ng_proc_box_02a",
+    "ng_proc_coffee_02a",
+    "ng_proc_litter_plasbot3",
+    "ng_proc_sodacan_02a",
+    "ng_proc_sodacan_02c",
+    "ng_proc_sodacan_03b",
+    "ng_proc_tyre_dam1",
+    "ng_proc_tyre_01",
+    "p_clothtarp_down_s"
+}
