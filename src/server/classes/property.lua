@@ -126,9 +126,16 @@ end
 ---@param source number
 function Property:getPlayerKey(source)
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
-    return table.findOne(self.keys, function(key)
+    local foundKey = table.findOne(self.keys, function(key)
         return key.player == playerIdentifier
-    end) or nil
+    end)
+    if foundKey then return foundKey end
+
+    return {
+        property_id = self.id,
+        permission = "visitor",
+        player = playerIdentifier,
+    }
 end
 
 ---@param source number

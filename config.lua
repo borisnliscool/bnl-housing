@@ -5,6 +5,14 @@ Config = {}
 Config.framework = "esx"
 
 Config.inviteRange = 10.0
+-- time in seconds for the invite to expire
+Config.inviteExpire = 15
+Config.inviteKeybind = {
+    padIndex = 0,
+    control = 58,
+    name = "INPUT_THROW_GRENADE"
+}
+
 Config.entranceTransition = 500
 -- the way for the menu to show up,
 -- options: "walk", "keypress"

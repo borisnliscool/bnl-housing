@@ -36,3 +36,12 @@ lib.callback.register("bnl-housing:server:getOutsidePlayers", function(_, proper
         end
     )
 end)
+
+-- todo: permissions
+lib.callback.register("bnl-housing:server:property:invite", function(source, playerId)
+    local property = GetPropertyPlayerIsIn(source)
+    local accepted = lib.callback.await("bnl-housing:client:handleInvite", playerId, property:getData().address)
+    if not accepted then return end
+
+    property:enter(source)
+end)

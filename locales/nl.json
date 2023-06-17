@@ -2,9 +2,11 @@
 	"permission.member": "Lid",
 	"permission.renter": "Huurder",
 	"permission.owner": "Eigenaar",
+	"permission.visitor": "Bezoeker",
 
 	"notification.property.menu": "~%s~ Eigendom menu",
 	"notification.property.knock": "Er klopt iemand op de deur.",
+	"notification.invite": "Je bent uitgenodigd naar ~y~%s~s~. \nKlik op ~%s~ om te accepteren.",
 
 	"blip.property.house.owner": "Eigen huis",
 	"blip.property.house.member": "Vriend's huis",

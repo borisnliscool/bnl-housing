@@ -2,9 +2,11 @@
 	"permission.member": "Member",
 	"permission.renter": "Renter",
 	"permission.owner": "Owner",
+	"permission.visitor": "Visitor",
 
 	"notification.property.menu": "~%s~ Property menu",
 	"notification.property.knock": "Someone is knocking on the door.",
+	"notification.invite": "You were invited to ~y~%s~s~. \nPress ~%s~ to accept.",
 
 	"blip.property.house.owner": "Owned house",
 	"blip.property.house.member": "Friend's house",

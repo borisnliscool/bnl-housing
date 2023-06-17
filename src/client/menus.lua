@@ -26,7 +26,7 @@ Menus.entrance = function(property)
         },
     }
 
-    if not key or not key.permission then
+    if not key or not key.permission or key.permission == "visitor" then
         ShowMenu(main)
         return
     end
@@ -48,25 +48,6 @@ Menus.entrance = function(property)
 end
 
 Menus.property = function(property)
-    local main = {
-        id = "bnl-housing_property",
-        title = locale("menu.property.title", property.address.streetName, property.address.buildingNumber),
-        position = 'top-left',
-        options = {
-            {
-                label = locale("menu.property.exit"),
-                onSelect = function(_, _, _)
-                    lib.callback.await("bnl-housing:server:property:exit", false, property.id)
-                end
-            }
-        }
-    }
-
-    if not property.key or not property.key.permission then
-        ShowMenu(main)
-        return
-    end
-
     local function notImplemented()
         Debug.Log("This feature is ^1not yet implemented^0!")
         lib.notify({
@@ -74,6 +55,13 @@ Menus.property = function(property)
             description = "This feature is not yet implemented!"
         })
     end
+
+    local main = {
+        id = "bnl-housing_property",
+        title = locale("menu.property.title", property.address.streetName, property.address.buildingNumber),
+        position = 'top-left',
+        options = {}
+    }
 
     main.options = table.map({
         {
@@ -133,6 +121,8 @@ Menus.invite = function(property)
         -- should give the outside player a prompt
         -- to press a key to accept the invite
         Debug.Log(Format("Inviting player #%s inside.", serverId))
+
+        lib.callback("bnl-housing:server:property:invite", false, serverId)
     end
 
     main.options = table.map(
