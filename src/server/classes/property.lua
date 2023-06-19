@@ -141,7 +141,7 @@ end
 ---@param source number
 function Property:givePlayerKey(source)
     -- check if the player already has a key
-    if Property:getPlayerKey(source)?.permission ~= Permission.VISITOR then
+    if self:getPlayerKey(source).permission ~= Permission.VISITOR then
         return
     end
 
@@ -160,9 +160,28 @@ function Property:givePlayerKey(source)
 
     table.insert(self.keys, key)
 
-    -- todo: 
-    -- refresh the properties on the player side
+    Debug.Log(Format("Gave key to %s for property %s", key.player, self.id))
+
+    -- todo:
+    -- refresh the properties on the client side
     -- to fix the blips for the reciever
+end
+
+---@param keyId number
+function Property:removePlayerKey(keyId)
+    -- if the player has no key, there's nothing to remove
+    local key, id = table.findOne(self.keys, function(v, k)
+        return v.id == keyId
+    end)
+    if not key or not id then return end
+
+    MySQL.query.await("DELETE FROM property_key WHERE id = ?", { key.id })
+    table.remove(self.keys, id)
+
+    Debug.Log(Format("Removed key %s from property %s", key.id, self.id))
+
+    -- todo:
+    -- refresh the properties on the client side
 end
 
 --#endregion

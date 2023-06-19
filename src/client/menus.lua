@@ -66,7 +66,7 @@ Menus.property = function(property)
     main.options = table.map({
         {
             label = locale("menu.property.exit"),
-            onSelect = function(_, _, _)
+            onSelect = function()
                 lib.callback.await("bnl-housing:server:property:exit", false, property.id)
             end
         },
@@ -84,7 +84,7 @@ Menus.property = function(property)
         },
         {
             label = locale("menu.property.manage_keys"),
-            permissions = { Permission.OWNER },
+            permissions = { Permission.RENTER, Permission.OWNER },
             onSelect = function()
                 Menus.manage_keys(property)
             end
@@ -220,7 +220,7 @@ Menus.keys_take = function(property)
         return {
             label = ("%s - %s"):format(key.player, locale(("permission.%s"):format(key.permission))),
             onSelect = function()
-                Debug.Log(key)
+                lib.callback.await("bnl-housing:server:property:removeKey", false, key.id)
             end
         }
     end, true)

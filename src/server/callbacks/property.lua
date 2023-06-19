@@ -51,3 +51,9 @@ lib.callback.register("bnl-housing:server:property:giveKey", function(source, pl
     local property = GetPropertyPlayerIsIn(source)
     property:givePlayerKey(playerId)
 end)
+
+-- todo: permissions
+lib.callback.register("bnl-housing:server:property:removeKey", function(source, keyId)
+    local property = GetPropertyPlayerIsIn(source)
+    property:removePlayerKey(keyId)
+end)

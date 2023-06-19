@@ -41,7 +41,7 @@ end
 
 function Bridge.GetServerIdFromIdentifier(identifier)
     local player = ESX.GetPlayerFromIdentifier(identifier)
-    return player.source or nil
+    return player and player.source or nil
 end
 
 function Bridge.GetAllPlayers()
