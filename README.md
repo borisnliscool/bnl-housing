@@ -16,6 +16,11 @@
   </p>
 </div>
 
+> **Warning** <br>
+> The project is not finished, and should not be used in production.<br>
+> No support will be given until release.
+
+
 ## About The Project
 
 A player property resource that allows you to purchase, sell, decorate, store your vehicles, and more. This script is currently standalone and does not require a framework. However in the future I'm planning on adding support for the major frameworks.
