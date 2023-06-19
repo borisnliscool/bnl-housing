@@ -9,7 +9,7 @@ local function ShowMenu(menu)
     lib.showMenu(menu.id)
 end
 
-Menus.entrance = function(property)
+function Menus.entrance(property)
     local key = lib.callback.await("bnl-housing:server:getPropertyKey", false, property.id)
 
     local main = {
@@ -47,7 +47,7 @@ Menus.entrance = function(property)
     ShowMenu(main)
 end
 
-Menus.property = function(property)
+function Menus.property(property)
     local function notImplemented()
         Debug.Log("This feature is ^1not yet implemented^0!")
         lib.notify({
@@ -108,7 +108,7 @@ Menus.property = function(property)
     ShowMenu(main)
 end
 
-Menus.invite = function(property)
+function Menus.invite(property)
     local main = {
         id = "bnl-housing_invite",
         title = locale("menu.property.invite"),
@@ -141,7 +141,7 @@ Menus.invite = function(property)
     ShowMenu(main)
 end
 
-Menus.manage_keys = function(property)
+function Menus.manage_keys(property)
     local main = {
         id = "bnl-housing_manage_keys",
         title = locale("menu.property.manage_keys"),
@@ -166,7 +166,7 @@ Menus.manage_keys = function(property)
     ShowMenu(main)
 end
 
-Menus.keys_give = function(property)
+function Menus.keys_give(property)
     local main = {
         id = "bnl-housing_manage_keys_give",
         title = locale("menu.property.manage_keys"),
@@ -204,7 +204,7 @@ Menus.keys_give = function(property)
     ShowMenu(main)
 end
 
-Menus.keys_take = function(property)
+function Menus.keys_take(property)
     local keys = property:getKeys()
 
     local main = {

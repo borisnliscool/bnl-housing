@@ -25,13 +25,13 @@ local function formatString(...)
     return str
 end
 
-Debug.Log = function(...)
+function Debug.Log(...)
     if GetConvar("bnl:debug", 'false') == 'true' then
         return print("[^4DEBUG^0]" .. formatString(...))
     end
 end
 
-Debug.Error = function(...)
+function Debug.Error(...)
     if GetConvar("bnl:debug", 'false') == 'true' then
         return print("[^1ERROR^0]" .. formatString(...))
     end
