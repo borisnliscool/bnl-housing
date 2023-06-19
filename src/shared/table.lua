@@ -43,6 +43,7 @@ end
 ---@return unknown?
 ---@return unknown?
 function table.findOne(list, func)
+    if not list then return nil end
     for key, value in pairs(list) do
         if func(value, key) then
             return value, key

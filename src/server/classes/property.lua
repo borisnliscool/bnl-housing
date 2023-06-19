@@ -117,7 +117,7 @@ end
 
 --#endregion
 
---#region Getters
+--#region Keys
 function Property:loadKeys()
     local databaseKeys = MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
     self.keys = databaseKeys
@@ -133,10 +133,39 @@ function Property:getPlayerKey(source)
 
     return {
         property_id = self.id,
-        permission = "visitor",
+        permission = Permission.VISITOR,
         player = playerIdentifier,
     }
 end
+
+---@param source number
+function Property:givePlayerKey(source)
+    -- check if the player already has a key
+    if Property:getPlayerKey(source)?.permission ~= Permission.VISITOR then
+        return
+    end
+
+    local key = {
+        property_id = self.id,
+        player = Bridge.GetPlayerIdentifier(source),
+        permission = Permission.MEMBER
+    }
+
+    local id = MySQL.insert.await("INSERT INTO property_key (property_id, player, permission) VALUES (?, ?, ?)", {
+        key.property_id,
+        key.player,
+        key.permission
+    })
+    key.id = id
+
+    table.insert(self.keys, key)
+
+    -- todo: 
+    -- refresh the properties on the player side
+    -- to fix the blips for the reciever
+end
+
+--#endregion
 
 ---@param source number
 function Property:getPlayer(source)
@@ -147,8 +176,6 @@ function Property:getPlayer(source)
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
     return self.players[playerIdentifier]
 end
-
---#endregion
 
 ---@param source number
 function Property:isPlayerInside(source)
@@ -251,7 +278,7 @@ function Property:knock(source)
     Debug.Log(Format("%s knocked on the door of property %s", Bridge.GetPlayerName(source), self.id))
 
     for _, player in pairs(self.players) do
-        if player.key.permission ~= "visitor" then
+        if player.key.permission ~= Permission.VISITOR then
             player:triggerFunction("HelpNotification", locale("notification.property.knock"))
         end
     end

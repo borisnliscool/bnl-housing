@@ -72,31 +72,31 @@ Menus.property = function(property)
         },
         {
             label = locale("menu.property.invite"),
-            permissions = { "member", "renter", "owner" },
+            permissions = { Permission.MEMBER, Permission.RENTER, Permission.OWNER },
             onSelect = function()
                 Menus.invite(property)
             end
         },
         {
             label = locale("menu.property.decorate"),
-            permissions = { "member", "renter", "owner" },
+            permissions = { Permission.MEMBER, Permission.RENTER, Permission.OWNER },
             onSelect = notImplemented
         },
         {
             label = locale("menu.property.manage_keys"),
-            permissions = { "owner" },
+            permissions = { Permission.OWNER },
             onSelect = function()
                 Menus.manage_keys(property)
             end
         },
         {
             label = locale("menu.property.sell"),
-            permissions = { "owner" },
+            permissions = { Permission.OWNER },
             onSelect = notImplemented
         },
         {
             label = locale("menu.property.rent_out"),
-            permissions = { "owner" },
+            permissions = { Permission.OWNER },
             onSelect = notImplemented
         },
     }, function(option)
@@ -116,12 +116,6 @@ Menus.invite = function(property)
     }
 
     local function InvitePlayer(serverId)
-        -- todo
-        -- add logic for inviting players inside this
-        -- should give the outside player a prompt
-        -- to press a key to accept the invite
-        Debug.Log(Format("Inviting player #%s inside.", serverId))
-
         lib.callback("bnl-housing:server:property:invite", false, serverId)
     end
 
@@ -194,8 +188,7 @@ Menus.keys_give = function(property)
             return {
                 label = FormatPlayerTag(playerName, serverId),
                 onSelect = function()
-                    -- todo
-                    -- give the selected player a member key
+                    lib.callback.await("bnl-housing:server:property:giveKey", false, serverId)
                 end
             }
         end,
@@ -221,7 +214,7 @@ Menus.keys_take = function(property)
     }
 
     main.options = table.map(keys, function(key)
-        if key.permission ~= "member" then
+        if key.permission ~= Permission.MEMBER then
             return
         end
         return {

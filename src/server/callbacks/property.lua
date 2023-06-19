@@ -45,3 +45,9 @@ lib.callback.register("bnl-housing:server:property:invite", function(source, pla
 
     property:enter(source)
 end)
+
+-- todo: permissions
+lib.callback.register("bnl-housing:server:property:giveKey", function(source, playerId)
+    local property = GetPropertyPlayerIsIn(source)
+    property:givePlayerKey(playerId)
+end)
