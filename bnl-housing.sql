@@ -40,3 +40,13 @@ CREATE TABLE IF NOT EXISTS property_player (
     INDEX idx_property_id (property_id),
     INDEX idx_player (player)
 );
+
+CREATE TABLE IF NOT EXISTS property_link (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    property_id INT NOT NULL,
+    linked_property_id INT NOT NULL,
+    FOREIGN KEY (property_id) REFERENCES properties(id),
+    FOREIGN KEY (linked_property_id) REFERENCES properties(id),
+    INDEX idx_property_id (property_id),
+    INDEX idx_linked_property_id (linked_property_id)
+);

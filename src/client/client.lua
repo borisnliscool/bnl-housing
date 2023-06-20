@@ -6,15 +6,13 @@ function SetupProperties()
         property.point:remove()
     end
 
-    Properties = table.map(
-        lib.callback.await("bnl-housing:server:getProperties"),
-        function(data)
-            local property = Property.new(data)
-            property:createEntrancePoint()
-            property:createBlip()
+    for _, data in pairs(lib.callback.await("bnl-housing:server:getProperties")) do
+        local property = Property.new(data)
+        property:createEntrancePoint()
+        property:createBlip()
 
-            return property
-        end)
+        Properties[property.id] = property
+    end
 end
 
 ---This function is callable from the server.

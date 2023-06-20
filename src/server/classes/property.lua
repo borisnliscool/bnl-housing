@@ -23,6 +23,7 @@ function Property.load(data)
     instance.bucketId = 1000 + data.id
     instance.props = {}
     instance.keys = {}
+    instance.links = {}
     instance.players = {}
     instance.isSpawning = false
     instance.isSpawned = false
@@ -33,6 +34,7 @@ function Property.load(data)
     CreateThread(function()
         instance:loadProps()
         instance:loadKeys()
+        instance:loadLinks()
     end)
 
     return instance
@@ -186,6 +188,19 @@ end
 
 --#endregion
 
+function Property:loadLinks()
+    local query =
+        "SELECT linked_property_id AS property_id FROM property_link WHERE property_id = ? " ..
+        "UNION " ..
+        "SELECT property_id AS property_id FROM property_link WHERE linked_property_id = ?"
+
+    local queryResult = MySQL.query.await(query, { self.id, self.id })
+
+    self.links = table.map(queryResult, function(row)
+        return row.property_id
+    end)
+end
+
 ---@param source number
 function Property:getPlayer(source)
     if not self.players or not next(self.players) then
@@ -207,8 +222,15 @@ function Property:enter(source)
         return
     end
 
-    local player = Player.new(source, self)
+    local propertyPlayerIsIn = GetPropertyPlayerIsIn(source)
+    if propertyPlayerIsIn ~= nil then
+        -- todo:
+        -- make the transition smoother, currently its doing two
+        -- transitions and you see the outside for a split second
+        propertyPlayerIsIn:exit(source)
+    end
 
+    local player = Player.new(source, self)
     player:triggerFunction("StartBusySpinner", "Loading property...")
     player:triggerFunction("FadeOut", Config.entranceTransition)
 
@@ -286,6 +308,7 @@ function Property:getData()
         address = self.address,
         model = self.model,
         keys = self.keys,
+        links = self.links
     }
 end
 
@@ -293,6 +316,7 @@ function Property:getOutsidePlayers()
     return GetPlayersNearCoords(self.entranceLocation, Config.inviteRange)
 end
 
+---@param source number
 function Property:knock(source)
     Debug.Log(Format("%s knocked on the door of property %s", Bridge.GetPlayerName(source), self.id))
 

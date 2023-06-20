@@ -10,6 +10,7 @@ function Property.new(data)
     instance.model = data.model
     instance.propertyType = data.propertyType
     instance.address = data.address
+    instance.links = data.links
     instance.key = data.key
     instance.points = {}
 

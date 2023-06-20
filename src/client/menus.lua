@@ -63,11 +63,20 @@ function Menus.property(property)
         options = {}
     }
 
-    main.options = table.map({
+    local options = {
         {
             label = locale("menu.property.exit"),
             onSelect = function()
                 lib.callback.await("bnl-housing:server:property:exit", false, property.id)
+            end
+        },
+        {
+            label = locale("menu.property.links"),
+            onSelect = function()
+                Menus.links(property)
+            end,
+            active = function()
+                return #property.links > 0
             end
         },
         {
@@ -99,10 +108,14 @@ function Menus.property(property)
             permissions = { Permission.OWNER },
             onSelect = notImplemented
         },
-    }, function(option)
-        if not option.permissions or lib.table.contains(option.permissions, property.key.permission) then
-            return option
+    }
+
+    main.options = table.map(options, function(option)
+        if option.active and not option.active() then return end
+        if option.permissions and (not property.key or not lib.table.contains(option.permissions, property.key.permission)) then
+            return
         end
+        return option
     end, true)
 
     ShowMenu(main)
@@ -230,6 +243,27 @@ function Menus.keys_take(property)
             label = locale("menu.manage_keys.no_keys")
         })
     end
+
+    ShowMenu(main)
+end
+
+function Menus.links(property)
+    local main = {
+        id = "bnl-housing_links",
+        title = locale("menu.property.links"),
+        position = 'top-left',
+    }
+
+    main.options = table.map(property.links, function(id)
+        local linkedProperty = Properties[id]
+
+        return {
+            label = linkedProperty.address.streetName .. " " .. linkedProperty.address.buildingNumber,
+            onSelect = function()
+                lib.callback.await("bnl-housing:server:entrance:enter", false, linkedProperty.id)
+            end
+        }
+    end)
 
     ShowMenu(main)
 end

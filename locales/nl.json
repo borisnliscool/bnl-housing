@@ -24,6 +24,7 @@
 
 	"menu.property.title": "%s %s Menu",
 	"menu.property.exit": "Eigendom verlaten",
+	"menu.property.links": "Gelinkte eigendommen",
 	"menu.property.invite": "Naar binnen uitnodigen",
 	"menu.property.decorate": "Eigendom decoreren",
 	"menu.property.manage_keys": "Sleutels beheren",

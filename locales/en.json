@@ -24,6 +24,7 @@
 
 	"menu.property.title": "%s %s Menu",
 	"menu.property.exit": "Exit the property",
+	"menu.property.links": "Linked properties",
 	"menu.property.invite": "Invite player inside",
 	"menu.property.decorate": "Decorate property",
 	"menu.property.manage_keys": "Manage keys",
