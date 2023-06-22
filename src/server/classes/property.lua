@@ -436,7 +436,7 @@ function Property:exit(source)
     player:triggerFunction("FadeOut", Config.entranceTransition)
     player:freeze(true)
 
-    Wait(Config.entranceTransition / 2)
+    Wait(Config.entranceTransition)
 
     player:setBucket(0)
     player:triggerFunction("RemoveInPropertyPoints", self.id)
@@ -481,7 +481,7 @@ function Property:exit(source)
 
     self.players[player.identifier] = nil
 
-    Wait(Config.entranceTransition / 2)
+    Wait(Config.entranceTransition)
 
     player:freeze(false)
     player:triggerFunction("FadeIn", Config.entranceTransition)
