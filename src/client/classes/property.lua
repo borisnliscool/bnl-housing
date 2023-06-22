@@ -26,10 +26,10 @@ end
 
 function Property:createEntrancePoint()
     -- todo
-    -- when we enter the property, this point
-    -- always opens the menu when in walk mode,
-    -- which we don't want so we need to add
-    -- a check for first enter or something
+    --  when we enter the property, this point
+    --  always opens the menu when in walk mode,
+    --  which we don't want so we need to add
+    --  a check for first enter or something
     local point = lib.points.new({
         coords = self.entranceLocation,
         distance = Config.points.entrance.viewDistance,
@@ -88,7 +88,7 @@ function Property:createBlip()
     end
 
     -- todo
-    -- check for sale or for rent
+    --  check for sale or for rent
     if not self.key then return end
 
     local blipData = Config.blips[self.propertyType][self.key.permission]

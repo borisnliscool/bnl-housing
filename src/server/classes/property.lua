@@ -2,8 +2,8 @@ Property = {}
 Property.__index = Property
 
 -- todo
--- create a Property.new function that creates
--- a new property in the db and returns that
+--  create a Property.new function that creates
+--  a new property in the db and returns that
 function Property.load(data)
     local instance = setmetatable({}, Property)
 
@@ -58,9 +58,6 @@ function Property:save()
             })
         end
     end
-
-    -- todo
-    -- key saving
 end
 
 --#region Model
@@ -172,9 +169,9 @@ function Property:givePlayerKey(source)
 
     Debug.Log(Format("Gave key to %s for property %s", key.player, self.id))
 
-    -- todo:
-    -- refresh the properties on the client side
-    -- to fix the blips for the reciever
+    -- todo
+    --  refresh the properties on the client side
+    --  to fix the blips for the reciever
 end
 
 ---@param keyId number
@@ -190,8 +187,8 @@ function Property:removePlayerKey(keyId)
 
     Debug.Log(Format("Removed key %s from property %s", key.id, self.id))
 
-    -- todo:
-    -- refresh the properties on the client side
+    -- todo
+    --  refresh the properties on the client side
 end
 
 --#endregion
@@ -327,9 +324,9 @@ function Property:enter(source)
 
     local propertyPlayerIsIn = GetPropertyPlayerIsIn(source)
     if propertyPlayerIsIn ~= nil then
-        -- todo:
-        -- make the transition smoother, currently its doing two
-        -- transitions and you see the outside for a split second
+        -- todo
+        --  make the transition smoother, currently its doing two
+        --  transitions and you see the outside for a split second
         propertyPlayerIsIn:exit(source)
     end
 
@@ -355,8 +352,8 @@ function Property:enter(source)
     player:setBucket(self.bucketId)
 
     -- todo
-    -- I'm not totally conviced of this method
-    -- of spawning the shell just in time
+    --  I'm not totally conviced of this method
+    --  of spawning the shell just in time
     if not self.isSpawned and not self.isSpawning then
         self.isSpawning = true
         self:spawnModel()
@@ -370,8 +367,8 @@ function Property:enter(source)
         self.vehiclesSpawned = true
     end
 
-    -- todo:
-    -- handle passenger entering when driver enters the property
+    -- todo
+    --  handle passenger entering when driver enters the property
     if handleVehicle then
         local vehicleProps = lib.callback.await(
             "bnl-housing:client:getVehicleProps",
@@ -451,8 +448,8 @@ function Property:exit(source)
     local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver and vehicleState ~= nil
     local spawnedVehicle = nil
 
-    -- todo:
-    -- handle all the passenger
+    -- todo
+    --  handle all the passengers
     if handleVehicle then
         local vehicleData, index = table.findOne(self.vehicles, function(veh)
             return veh.slot.id == vehicleState.slot.id
