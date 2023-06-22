@@ -9,6 +9,14 @@ function Property.load(data)
 
     instance.id = data.id
     instance.model = data.model
+    instance.shellData = Data.Shells[instance.model]
+    if instance.shellData.vehicleSlots then
+        instance.shellData.vehicleSlots = table.map(instance.shellData.vehicleSlots, function(slot, id)
+            slot.id = id
+            return slot
+        end)
+    end
+
     instance.entranceLocation = table.tovector(json.decode(data.entrance_location))
     instance.propertyType = data.property_type
     instance.address = {
@@ -16,16 +24,13 @@ function Property.load(data)
         streetName = data.street_name,
         buildingNumber = data.building_number
     }
-    -- todo
-    -- find a better way to get a new bucket id,
-    -- is there even a limit to the amount of
-    -- buckets that are generated?
     instance.bucketId = 1000 + data.id
     instance.props = {}
     instance.keys = {}
     instance.links = {}
     instance.players = {}
     instance.vehicles = {}
+    instance.vehicleData = {}
     instance.isSpawning = false
     instance.isSpawned = false
     instance.isSpawningVehicles = false
@@ -38,6 +43,7 @@ function Property.load(data)
         instance:loadProps()
         instance:loadKeys()
         instance:loadLinks()
+        instance:loadVehicleData()
     end)
 
     return instance
@@ -192,51 +198,76 @@ end
 --#endregion
 
 --#region Vehicles
-function Property:spawnVehicles()
-    local shellData = Data.Shells[self.model]
-    local dbVehicles = table.map(
+function Property:loadVehicleData()
+    self.vehicleData = table.map(
         MySQL.query.await("SELECT * FROM property_vehicle WHERE property_id = ?", { self.id }),
         function(d)
-            d.slot = shellData.vehicleSlots[d.slot]
+            d.slot = self.shellData.vehicleSlots[d.slot]
             d.props = json.decode(d.props)
             return d
         end
     )
+end
 
+function Property:spawnVehicle(data)
+    local coords = self.location + vec3(data.slot.location.x, data.slot.location.y, data.slot.location.z)
+    local vehicle = CreateVehicle(data.props.model, coords.x, coords.y, coords.z, data.slot.location.w, true, true)
+
+    while not DoesEntityExist(vehicle) do
+        Wait(10)
+    end
+
+    SetEntityRoutingBucket(vehicle, self.bucketId)
+    FreezeEntityPosition(vehicle, true)
+
+    Entity(vehicle).state["propertyVehicle"] = {
+        property = self.id,
+        slot = data.slot
+    }
+
+    lib.callback.await(
+        "bnl-housing:client:setVehicleProps",
+        NetworkGetEntityOwner(vehicle),
+        NetworkGetNetworkIdFromEntity(vehicle),
+        data.props
+    )
+
+    return vehicle
+end
+
+function Property:spawnVehicles()
+    self:destroyVehicles()
     local vehicles = {}
 
-    for _, data in pairs(dbVehicles) do
+    for _, data in pairs(self.vehicleData) do
         if not data.slot then goto skip end
 
-        local coords = self.location + vec3(data.slot.location.x, data.slot.location.y, data.slot.location.z)
-        local vehicle = CreateVehicle(data.props.model, coords.x, coords.y, coords.z, data.slot.location.w, true, true)
-
-        while not DoesEntityExist(vehicle) do
-            Wait(10)
-        end
-
-        SetEntityRoutingBucket(vehicle, self.bucketId)
-        FreezeEntityPosition(vehicle, true)
-
-        lib.callback.await(
-            "bnl-housing:client:setVehicleProps",
-            NetworkGetEntityOwner(vehicle),
-            NetworkGetNetworkIdFromEntity(vehicle),
-            data.props
-        )
-
+        local vehicle = self:spawnVehicle(data)
         table.insert(vehicles, vehicle)
 
         ::skip::
     end
 
-    Debug.Log(vehicles)
     self.vehicles = vehicles
 end
 
 function Property:destroyVehicles()
     for _, vehicle in pairs(self.vehicles) do
         DeleteEntity(vehicle)
+    end
+end
+
+function Property:getFirstFreeVehicleSlot()
+    local slots = self.shellData.vehicleSlots
+
+    for _, slot in pairs(slots) do
+        local vehicle = table.find(self.vehicleData, function(veh)
+            return veh.slot.id == slot.id
+        end)
+
+        if #vehicle == 0 then
+            return slot
+        end
     end
 end
 
@@ -285,10 +316,22 @@ function Property:enter(source)
     end
 
     local player = Player.new(source, self)
+
+    local vehicle = GetVehiclePedIsIn(player:ped(), false)
+    local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
+    local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver
+    local spawnedVehicle = nil
+
+    if handleVehicle and #self.shellData.vehicleSlots == #self.vehicleData then
+        -- this garage is full
+        player:triggerFunction("HelpNotification", locale("notification.property.noVehicleSpace"))
+        return false
+    end
+
     player:triggerFunction("StartBusySpinner", "Loading property...")
     player:triggerFunction("FadeOut", Config.entranceTransition)
 
-    Wait(Config.entranceTransition / 2)
+    Wait(Config.entranceTransition)
 
     player:freeze(true)
     player:setBucket(self.bucketId)
@@ -309,15 +352,58 @@ function Property:enter(source)
         self.vehiclesSpawned = true
     end
 
-    player:warpIntoProperty()
+    -- todo:
+    -- handle passenger entering when driver enters the property
+    if handleVehicle then
+        local vehicleProps = lib.callback.await(
+            "bnl-housing:client:getVehicleProps",
+            source,
+            NetworkGetNetworkIdFromEntity(vehicle)
+        )
+        local slot = self:getFirstFreeVehicleSlot()
+
+        local vehicleData = {
+            props = vehicleProps,
+            slot = slot
+        }
+
+        spawnedVehicle = self:spawnVehicle(vehicleData)
+
+        -- todo:
+        -- insert into database
+        table.insert(self.vehicleData, vehicleData)
+        table.insert(self.vehicles, spawnedVehicle)
+
+        CreateThread(function()
+            MySQL.query.await("INSERT INTO property_vehicle (property_id, slot, props) VALUES (?, ?, ?)", {
+                self.id,
+                slot.id,
+                json.encode(vehicleProps)
+            })
+        end)
+
+        -- I don't know why, but this needs to be down here
+        -- otherwise the vehicleProps don't work propperly
+        DeleteEntity(vehicle)
+        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, -1)
+    end
+
+    if not handleVehicle then
+        player:warpIntoProperty()
+    end
+
     player:triggerFunction("SetupInPropertyPoints", self.id)
     self.players[player.identifier] = player
 
-    Wait(Config.entranceTransition / 2)
+    Wait(Config.entranceTransition)
 
     player:freeze(false)
     player:triggerFunction("FadeIn", Config.entranceTransition)
     player:triggerFunction("BusyspinnerOff")
+
+    if handleVehicle then
+        TaskLeaveVehicle(player:ped(), spawnedVehicle, 0)
+    end
 
     return true
 end

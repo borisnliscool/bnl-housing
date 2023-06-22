@@ -6,6 +6,8 @@
 
 	"notification.property.menu": "~%s~ Property menu",
 	"notification.property.knock": "Someone is knocking on the door.",
+	"notification.property.exitWithVehicle": "Press ~%s~ to exit the property with this vehicle.",
+	"notification.property.noVehicleSpace": "There is no space in the property for this vehicle.",
 	"notification.invite": "You were invited to ~y~%s~s~. \nPress ~%s~ to accept.",
 
 	"blip.property.house.owner": "Owned house",
