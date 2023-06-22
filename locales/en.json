@@ -17,6 +17,9 @@
 	"blip.property.office.owner": "Owned office",
 	"blip.property.office.member": "Friend's office",
 	"blip.property.office.renter": "Rented office",
+	"blip.property.garage.owner": "Owned garage",
+	"blip.property.garage.member": "Friend's garage",
+	"blip.property.garage.renter": "Rented garage",
 
 	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Knock on the door",

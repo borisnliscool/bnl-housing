@@ -96,5 +96,20 @@ Config.blips = {
             sprite = 475,
             color = 5,
         },
-    }
+    },
+    garage = {
+        owner = {
+            sprite = 357,
+            color = 2,
+        },
+        member = {
+            sprite = 357,
+            color = 3,
+            short = true
+        },
+        renter = {
+            sprite = 357,
+            color = 5,
+        },
+    },
 }

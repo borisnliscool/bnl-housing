@@ -25,8 +25,11 @@ function Property.load(data)
     instance.keys = {}
     instance.links = {}
     instance.players = {}
+    instance.vehicles = {}
     instance.isSpawning = false
     instance.isSpawned = false
+    instance.isSpawningVehicles = false
+    instance.vehiclesSpawned = false
     instance.location, instance.entity = nil, nil
 
     SetRoutingBucketPopulationEnabled(instance.bucketId, false)
@@ -188,6 +191,57 @@ end
 
 --#endregion
 
+--#region Vehicles
+function Property:spawnVehicles()
+    local shellData = Data.Shells[self.model]
+    local dbVehicles = table.map(
+        MySQL.query.await("SELECT * FROM property_vehicle WHERE property_id = ?", { self.id }),
+        function(d)
+            d.slot = shellData.vehicleSlots[d.slot]
+            d.props = json.decode(d.props)
+            return d
+        end
+    )
+
+    local vehicles = {}
+
+    for _, data in pairs(dbVehicles) do
+        if not data.slot then goto skip end
+
+        local coords = self.location + vec3(data.slot.location.x, data.slot.location.y, data.slot.location.z)
+        local vehicle = CreateVehicle(data.props.model, coords.x, coords.y, coords.z, data.slot.location.w, true, true)
+
+        while not DoesEntityExist(vehicle) do
+            Wait(10)
+        end
+
+        SetEntityRoutingBucket(vehicle, self.bucketId)
+        FreezeEntityPosition(vehicle, true)
+
+        lib.callback.await(
+            "bnl-housing:client:setVehicleProps",
+            NetworkGetEntityOwner(vehicle),
+            NetworkGetNetworkIdFromEntity(vehicle),
+            data.props
+        )
+
+        table.insert(vehicles, vehicle)
+
+        ::skip::
+    end
+
+    Debug.Log(vehicles)
+    self.vehicles = vehicles
+end
+
+function Property:destroyVehicles()
+    for _, vehicle in pairs(self.vehicles) do
+        DeleteEntity(vehicle)
+    end
+end
+
+--#endregion
+
 function Property:loadLinks()
     local query =
         "SELECT linked_property_id AS property_id FROM property_link WHERE property_id = ? " ..
@@ -249,6 +303,12 @@ function Property:enter(source)
         self.isSpawned = true
     end
 
+    if not self.vehiclesSpawned and not self.isSpawningVehicles then
+        self.isSpawningVehicles = true
+        self:spawnVehicles()
+        self.vehiclesSpawned = true
+    end
+
     player:warpIntoProperty()
     player:triggerFunction("SetupInPropertyPoints", self.id)
     self.players[player.identifier] = player
@@ -297,6 +357,7 @@ function Property:destroy()
     Debug.Log(Format("Destroying property %s", self.id))
     self:destroyModel()
     self:destroyProps()
+    self:destroyVehicles()
 end
 
 function Property:getData()

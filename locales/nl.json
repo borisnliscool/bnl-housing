@@ -17,6 +17,9 @@
 	"blip.property.office.owner": "Eigen kantoor",
 	"blip.property.office.member": "Vriend's kantoor",
 	"blip.property.office.renter": "Gehuurd kantoor",
+	"blip.property.garage.owner": "Eigen garage",
+	"blip.property.garage.member": "Vriend's garage",
+	"blip.property.garage.renter": "Gehuurd garage",
 
 	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Aankloppen",
