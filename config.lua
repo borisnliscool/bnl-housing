@@ -7,10 +7,22 @@ Config.framework = "esx"
 Config.inviteRange = 10.0
 -- time in seconds for the invite to expire
 Config.inviteExpire = 15
-Config.inviteKeybind = {
+
+Config.Keybinds = {}
+Config.Keybinds.invite = {
     padIndex = 0,
     control = 58,
     name = "INPUT_THROW_GRENADE"
+}
+Config.Keybinds.exitGarage = {
+    padIndex = 0,
+    control = 87,
+    name = "INPUT_VEH_FLY_THROTTLE_UP"
+}
+Config.Keybinds.interact = {
+    padIndex = 0,
+    control = 38,
+    name = "INPUT_PICKUP"
 }
 
 Config.entranceTransition = 500
@@ -25,12 +37,7 @@ Config.points = {}
 Config.points.entrance = {
     viewDistance = 10.0,
     -- this is only used if Config.interactMode is set to "keypress"
-    interact = {
-        -- https://docs.fivem.net/docs/game-references/controls/
-        padIndex = 0,
-        control = 38,
-        name = "INPUT_PICKUP"
-    },
+    interact = Config.Keybinds.interact,
     marker = {
         type = 1,
         size = vec3(.8, .8, 1.0),
