@@ -207,14 +207,13 @@ end
 
 function Property:spawnVehicle(data)
     local coords = self.location + vec3(data.slot.location.x, data.slot.location.y, data.slot.location.z)
-    local vehicle = CreateVehicle(data.props.model, coords.x, coords.y, coords.z, data.slot.location.w, true, true)
+    local vehicle = CreateVehicle(data.props.model, coords.x, coords.y, coords.z, data.slot.location.w, true, false)
 
     while not DoesEntityExist(vehicle) do
         Wait(10)
     end
 
     SetEntityRoutingBucket(vehicle, self.bucketId)
-    FreezeEntityPosition(vehicle, true)
 
     Entity(vehicle).state["propertyVehicle"] = {
         property = self.id,
@@ -246,15 +245,13 @@ end
 
 function Property:spawnOutsideVehicle(props)
     local vehicle = CreateVehicle(props.model, self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z,
-        self.entranceLocation.w, true, true)
+        self.entranceLocation.w, true, false)
 
     while not DoesEntityExist(vehicle) do
         Wait(10)
     end
 
     SetEntityRoutingBucket(vehicle, 0)
-
-    Debug.Log("Setting new vehicle props", NetworkGetEntityOwner(vehicle), NetworkGetNetworkIdFromEntity(vehicle))
 
     lib.callback.await(
         "bnl-housing:client:setVehicleProps",
@@ -335,12 +332,20 @@ function Property:enter(source)
     local vehicle = GetVehiclePedIsIn(player:ped(), false)
     local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
     local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver
-    local spawnedVehicle = nil
+    local spawnedVehicle, vehicleProps = nil, nil
 
-    if handleVehicle and #self.shellData.vehicleSlots == #self.vehicles then
-        -- this garage is full
-        player:triggerFunction("HelpNotification", locale("notification.property.noVehicleSpace"))
-        return false
+    if handleVehicle then
+        if #self.shellData.vehicleSlots == #self.vehicles then
+            -- this garage is full
+            player:triggerFunction("HelpNotification", locale("notification.property.noVehicleSpace"))
+            return false
+        end
+
+        vehicleProps = lib.callback.await(
+            "bnl-housing:client:getVehicleProps",
+            source,
+            NetworkGetNetworkIdFromEntity(vehicle)
+        )
     end
 
     player:triggerFunction("StartBusySpinner", "Loading property...")
@@ -370,11 +375,6 @@ function Property:enter(source)
     -- todo
     --  handle passenger entering when driver enters the property
     if handleVehicle then
-        local vehicleProps = lib.callback.await(
-            "bnl-housing:client:getVehicleProps",
-            source,
-            NetworkGetNetworkIdFromEntity(vehicle)
-        )
         local slot = self:getFirstFreeVehicleSlot()
 
         local vehicleData = {
