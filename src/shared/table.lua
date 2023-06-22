@@ -72,7 +72,7 @@ end
 ---@param list table
 ---@return vector3
 function table.tovector(list)
-    return vec3(list.x, list.y, list.z)
+    return vec4(list.x, list.y, list.z, list.w)
 end
 
 ---@param list table

@@ -30,7 +30,6 @@ function Property.load(data)
     instance.links = {}
     instance.players = {}
     instance.vehicles = {}
-    instance.vehicleData = {}
     instance.isSpawning = false
     instance.isSpawned = false
     instance.isSpawningVehicles = false
@@ -199,7 +198,7 @@ end
 
 --#region Vehicles
 function Property:loadVehicleData()
-    self.vehicleData = table.map(
+    self.vehicles = table.map(
         MySQL.query.await("SELECT * FROM property_vehicle WHERE property_id = ?", { self.id }),
         function(d)
             d.slot = self.shellData.vehicleSlots[d.slot]
@@ -237,23 +236,42 @@ end
 
 function Property:spawnVehicles()
     self:destroyVehicles()
-    local vehicles = {}
 
-    for _, data in pairs(self.vehicleData) do
+    for _, data in pairs(self.vehicles) do
         if not data.slot then goto skip end
 
         local vehicle = self:spawnVehicle(data)
-        table.insert(vehicles, vehicle)
+        data.entity = vehicle
 
         ::skip::
     end
+end
 
-    self.vehicles = vehicles
+function Property:spawnOutsideVehicle(props)
+    local vehicle = CreateVehicle(props.model, self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z,
+        self.entranceLocation.w, true, true)
+
+    while not DoesEntityExist(vehicle) do
+        Wait(10)
+    end
+
+    SetEntityRoutingBucket(vehicle, 0)
+
+    Debug.Log("Setting new vehicle props", NetworkGetEntityOwner(vehicle), NetworkGetNetworkIdFromEntity(vehicle))
+
+    lib.callback.await(
+        "bnl-housing:client:setVehicleProps",
+        NetworkGetEntityOwner(vehicle),
+        NetworkGetNetworkIdFromEntity(vehicle),
+        props
+    )
+
+    return vehicle
 end
 
 function Property:destroyVehicles()
     for _, vehicle in pairs(self.vehicles) do
-        DeleteEntity(vehicle)
+        DeleteEntity(vehicle.entity)
     end
 end
 
@@ -261,7 +279,7 @@ function Property:getFirstFreeVehicleSlot()
     local slots = self.shellData.vehicleSlots
 
     for _, slot in pairs(slots) do
-        local vehicle = table.find(self.vehicleData, function(veh)
+        local vehicle = table.find(self.vehicles, function(veh)
             return veh.slot.id == slot.id
         end)
 
@@ -322,7 +340,7 @@ function Property:enter(source)
     local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver
     local spawnedVehicle = nil
 
-    if handleVehicle and #self.shellData.vehicleSlots == #self.vehicleData then
+    if handleVehicle and #self.shellData.vehicleSlots == #self.vehicles then
         -- this garage is full
         player:triggerFunction("HelpNotification", locale("notification.property.noVehicleSpace"))
         return false
@@ -364,15 +382,13 @@ function Property:enter(source)
 
         local vehicleData = {
             props = vehicleProps,
-            slot = slot
+            slot = slot,
         }
 
         spawnedVehicle = self:spawnVehicle(vehicleData)
+        vehicleData.entity = spawnedVehicle
 
-        -- todo:
-        -- insert into database
-        table.insert(self.vehicleData, vehicleData)
-        table.insert(self.vehicles, spawnedVehicle)
+        table.insert(self.vehicles, vehicleData)
 
         CreateThread(function()
             MySQL.query.await("INSERT INTO property_vehicle (property_id, slot, props) VALUES (?, ?, ?)", {
@@ -427,7 +443,45 @@ function Property:exit(source)
 
     player:setBucket(0)
     player:triggerFunction("RemoveInPropertyPoints", self.id)
-    player:warpOutOfProperty()
+
+    -- Handleing vehicle stuff
+    local vehicle = GetVehiclePedIsIn(player:ped(), false)
+    local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
+    local vehicleState = Entity(vehicle).state["propertyVehicle"]
+    local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver and vehicleState ~= nil
+    local spawnedVehicle = nil
+
+    -- todo:
+    -- handle all the passenger
+    if handleVehicle then
+        local vehicleData, index = table.findOne(self.vehicles, function(veh)
+            return veh.slot.id == vehicleState.slot.id
+        end)
+        table.remove(self.vehicles, index)
+
+        if vehicleData == nil then
+            Debug.Error("Couldn't find vehicleData for vehicle", vehicle)
+            return false
+        end
+
+        DeleteEntity(vehicleData.entity)
+
+        spawnedVehicle = self:spawnOutsideVehicle(vehicleData.props)
+
+        CreateThread(function()
+            MySQL.query.await("DELETE FROM property_vehicle WHERE property_id = ? AND slot = ?", {
+                self.id,
+                vehicleData.slot.id
+            })
+        end)
+
+        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, -1)
+    end
+
+    if not handleVehicle then
+        player:warpOutOfProperty()
+    end
+
     self.players[player.identifier] = nil
 
     Wait(Config.entranceTransition / 2)
