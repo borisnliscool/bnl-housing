@@ -19,7 +19,7 @@ end
 CreateThread(function()
     Wait(100)
 
-    if GetConvar("bnl:debug", 'false') == 'true' and ESX.IsPlayerLoaded() and onReadyCallback then
+    if ESX.IsPlayerLoaded() and onReadyCallback then
         Debug.Log("Loading properties")
         onReadyCallback()
     end
