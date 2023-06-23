@@ -202,6 +202,8 @@ function Property:spawnVehicle(data)
     end
 
     SetEntityRoutingBucket(vehicle, self.bucketId)
+    -- todo
+    --  make the vehicle invincible / unchangeable
 
     Entity(vehicle).state["propertyVehicle"] = {
         property = self.id,
@@ -454,6 +456,7 @@ end
 
 --#endregion
 
+--#region Misc
 function Property:loadLinks()
     local query =
         "SELECT linked_property_id AS property_id FROM property_link WHERE property_id = ? " ..
@@ -528,3 +531,5 @@ function Property:knock(source)
         end
     end
 end
+
+--#endregion

@@ -34,6 +34,9 @@ Config.interactMode = "keypress"
 Config.playerTag = "both"
 
 Config.points = {}
+-- todo:
+--  maybe consider an overrides setting?
+--  to add logic to markers
 Config.points.entrance = {
     viewDistance = 10.0,
     -- this is only used if Config.interactMode is set to "keypress"
@@ -41,6 +44,7 @@ Config.points.entrance = {
     marker = {
         type = 1,
         size = vec3(.8, .8, 1.0),
+        vehicleSize = 3,
         offset = vec3(0, 0, -1),
         rotation = vec3(0, 0, 0),
         color = {

@@ -24,6 +24,20 @@ function Property:getLocation()
     return self.location
 end
 
+function Property:getMarker(markerType)
+    local marker = lib.table.deepclone(Config.points[markerType].marker)
+
+    if
+        markerType == "entrance" and
+        self.propertyType == "garage" and
+        (cache.vehicle and cache.vehicle ~= 0)
+    then
+        marker.size = vec3(marker.size.x * marker.vehicleSize, marker.size.y * marker.vehicleSize, marker.size.z)
+    end
+
+    return marker
+end
+
 function Property:createEntrancePoint()
     -- todo
     --  when we enter the property, this point
@@ -36,9 +50,13 @@ function Property:createEntrancePoint()
         property = self,
     })
 
-    local markerData = Config.points.entrance.marker
+    local getMarker = function(type)
+        return self:getMarker(type)
+    end
 
     function point:nearby()
+        local markerData = getMarker("entrance")
+
         DrawMarker(
             markerData.type,
             self.coords.x + markerData.offset.x,
@@ -118,9 +136,13 @@ function Property:createInPropertyPoints()
         property = self
     })
 
-    local markerData = Config.points.property.marker
+    local getMarker = function(type)
+        return self:getMarker(type)
+    end
 
     function point:nearby()
+        local markerData = getMarker("property")
+
         DrawMarker(
             markerData.type,
             self.coords.x + markerData.offset.x,
