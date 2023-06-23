@@ -202,13 +202,17 @@ function Property:spawnVehicle(data)
     end
 
     SetEntityRoutingBucket(vehicle, self.bucketId)
-    -- todo
-    --  make the vehicle invincible / unchangeable
 
     Entity(vehicle).state["propertyVehicle"] = {
         property = self.id,
         slot = data.slot
     }
+
+    lib.callback.await("bnl-housing:client:setVehicleUndriveable",
+        NetworkGetEntityOwner(vehicle),
+        NetworkGetNetworkIdFromEntity(vehicle),
+        true
+    )
 
     lib.callback.await(
         "bnl-housing:client:setVehicleProps",
@@ -370,6 +374,11 @@ function Property:enter(source)
     end
 
     player:triggerFunction("SetupInPropertyPoints", self.id)
+
+    if self.shellData.minimap then
+        player:triggerFunction("StartMinimapOverlay", self.shellData.minimap, self.location, 1)
+    end
+
     self.players[player.identifier] = player
 
     Wait(Config.entranceTransition)
@@ -402,15 +411,16 @@ function Property:exit(source)
 
     Wait(Config.entranceTransition)
 
-    player:setBucket(0)
-    player:triggerFunction("RemoveInPropertyPoints", self.id)
-
-    -- Handleing vehicle stuff
-    local vehicle = GetVehiclePedIsIn(player:ped(), false)
-    local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
+    -- Handling vehicle stuff
+    local vehicle = player:vehicle()
     local vehicleState = Entity(vehicle).state["propertyVehicle"]
+    local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
     local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver and vehicleState ~= nil
     local spawnedVehicle = nil
+
+    player:setBucket(0)
+    player:triggerFunction("RemoveInPropertyPoints", self.id)
+    player:triggerFunction("StopMinimapOverlay")
 
     -- todo
     --  handle all the passengers
@@ -426,7 +436,6 @@ function Property:exit(source)
         end
 
         DeleteEntity(vehicleData.entity)
-
         spawnedVehicle = self:spawnOutsideVehicle(vehicleData.props)
 
         CreateThread(function()

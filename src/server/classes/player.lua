@@ -24,6 +24,10 @@ function Player:ped()
     return GetPlayerPed(self.source)
 end
 
+function Player:vehicle()
+    return GetVehiclePedIsIn(self:ped(), false)
+end
+
 function Player:warpIntoProperty()
     Debug.Log(Format("Warping %s into property %s", self.name, self.property.id))
 
