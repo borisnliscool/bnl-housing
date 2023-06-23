@@ -1,5 +1,13 @@
 local isInPropertyVehicle = false
 
+---@param entity number
+---@return boolean
+function IsVehicleBlacklisted(entity)
+    return
+        lib.table.contains(Config.VehicleBlacklist.classes, GetVehicleClass(entity)) or
+        lib.table.contains(Config.VehicleBlacklist.models, GetEntityModel(entity))
+end
+
 lib.onCache('vehicle', function(vehicle)
     if not vehicle then
         isInPropertyVehicle = false

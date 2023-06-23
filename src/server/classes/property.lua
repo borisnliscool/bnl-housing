@@ -507,7 +507,6 @@ function Property:save()
 end
 
 function Property:destroy()
-    Debug.Log(Format("Destroying property %s", self.id))
     self:destroyModel()
     self:destroyProps()
     self:destroyVehicles()

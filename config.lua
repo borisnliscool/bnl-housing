@@ -25,6 +25,20 @@ Config.Keybinds.interact = {
     name = "INPUT_PICKUP"
 }
 
+Config.VehicleBlacklist = {
+    classes = {
+        10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21
+    },
+    models = {
+        -- Put any vehicle hash in here, make sure it is a string, and an output
+        -- of GetEntityModel (https://docs.fivem.net/natives/?_0x9F47B058362C84B5)
+
+        -- For example:
+        2069146067, -- Oppressor MK2
+        -845961253, -- Liberator
+    }
+}
+
 Config.entranceTransition = 500
 -- the way for the menu to show up,
 -- options: "walk", "keypress"
