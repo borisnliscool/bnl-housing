@@ -48,18 +48,6 @@ function Property.load(data)
     return instance
 end
 
-function Property:save()
-    -- Saving props
-    if self.props and #self.props > 0 then
-        for _, prop in pairs(self.props) do
-            MySQL.prepare.await("UPDATE property_prop SET metadata = ? WHERE id = ?", {
-                json.encode(prop.metadata),
-                prop.id
-            })
-        end
-    end
-end
-
 --#region Model
 function Property:destroyModel()
     if self.entity then
@@ -285,33 +273,7 @@ end
 
 --#endregion
 
-function Property:loadLinks()
-    local query =
-        "SELECT linked_property_id AS property_id FROM property_link WHERE property_id = ? " ..
-        "UNION " ..
-        "SELECT property_id AS property_id FROM property_link WHERE linked_property_id = ?"
-
-    local queryResult = MySQL.query.await(query, { self.id, self.id })
-
-    self.links = table.map(queryResult, function(row)
-        return row.property_id
-    end)
-end
-
----@param source number
-function Property:getPlayer(source)
-    if not self.players or not next(self.players) then
-        return
-    end
-
-    local playerIdentifier = Bridge.GetPlayerIdentifier(source)
-    return self.players[playerIdentifier]
-end
-
----@param source number
-function Property:isPlayerInside(source)
-    return self:getPlayer(source) ~= nil
-end
+--#region Player Entry and Exiting
 
 ---@param source number
 function Property:enter(source)
@@ -488,6 +450,48 @@ function Property:exit(source)
     player:triggerFunction("BusyspinnerOff")
 
     return true
+end
+
+--#endregion
+
+function Property:loadLinks()
+    local query =
+        "SELECT linked_property_id AS property_id FROM property_link WHERE property_id = ? " ..
+        "UNION " ..
+        "SELECT property_id AS property_id FROM property_link WHERE linked_property_id = ?"
+
+    local queryResult = MySQL.query.await(query, { self.id, self.id })
+
+    self.links = table.map(queryResult, function(row)
+        return row.property_id
+    end)
+end
+
+---@param source number
+function Property:getPlayer(source)
+    if not self.players or not next(self.players) then
+        return
+    end
+
+    local playerIdentifier = Bridge.GetPlayerIdentifier(source)
+    return self.players[playerIdentifier]
+end
+
+---@param source number
+function Property:isPlayerInside(source)
+    return self:getPlayer(source) ~= nil
+end
+
+function Property:save()
+    -- Saving props
+    if self.props and #self.props > 0 then
+        for _, prop in pairs(self.props) do
+            MySQL.prepare.await("UPDATE property_prop SET metadata = ? WHERE id = ?", {
+                json.encode(prop.metadata),
+                prop.id
+            })
+        end
+    end
 end
 
 function Property:destroy()
