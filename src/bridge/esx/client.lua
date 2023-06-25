@@ -12,6 +12,10 @@ function Bridge.HelpNotification(message, time)
     ESX.ShowHelpNotification(message, true, true, (time or 5) * 1000)
 end
 
+function Bridge.Notification(message, type, time)
+    ESX.ShowNotification(message, (type or "info"), (time or 5) * 1000)
+end
+
 -- This code is only really used for development.
 -- It makes sure the script gets loaded correctly
 -- on restart, as the playerLoaded event doesn't

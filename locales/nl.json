@@ -8,6 +8,7 @@
 	"notification.property.knock": "Er klopt iemand op de deur.",
 	"notification.property.exitWithVehicle": "Klik op ~%s~ om het eigendom te verlaten met dit voertuig.",
 	"notification.property.noVehicleSpace": "Er is geen ruimte in dit eigendom voor dit voertuig.",
+	"notification.property.blacklistedVehicle": "Je kan dit voertuig niet parkeren in dit eigendom.",
 	"notification.invite": "Je bent uitgenodigd naar ~y~%s~s~. \nKlik op ~%s~ om te accepteren.",
 
 	"blip.property.house.owner": "Eigen huis",

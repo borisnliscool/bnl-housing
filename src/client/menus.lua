@@ -36,9 +36,7 @@ function Menus.entrance(property)
             label = locale("menu.entrance.enter"),
             onSelect = function()
                 if cache.vehicle and IsVehicleBlacklisted(cache.vehicle) then
-                    -- todo
-                    --  send a feed message or something saying
-                    --  that this is a blacklisted vehicle
+                    Bridge.Notification(locale("notification.property.blacklistedVehicle"), "error")
                     return
                 end
                 lib.callback.await("bnl-housing:server:entrance:enter", false, property.id)
