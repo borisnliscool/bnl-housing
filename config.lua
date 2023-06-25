@@ -48,9 +48,6 @@ Config.interactMode = "keypress"
 Config.playerTag = "both"
 
 Config.points = {}
--- todo:
---  maybe consider an overrides setting?
---  to add logic to markers
 Config.points.entrance = {
     viewDistance = 10.0,
     -- this is only used if Config.interactMode is set to "keypress"
