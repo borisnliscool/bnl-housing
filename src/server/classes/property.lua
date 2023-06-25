@@ -282,7 +282,7 @@ end
 --#region Player Entry and Exiting
 
 ---@param source number
-function Property:enter(source)
+function Property:enter(source, settings)
     if self:isPlayerInside(source) then
         return
     end
@@ -292,7 +292,9 @@ function Property:enter(source)
         -- todo
         --  make the transition smoother, currently its doing two
         --  transitions and you see the outside for a split second
-        propertyPlayerIsIn:exit(source)
+        propertyPlayerIsIn:exit(source, {
+            transitionIn = false,
+        })
     end
 
     local player = Player.new(source, self)
@@ -384,7 +386,9 @@ function Property:enter(source)
     Wait(Config.entranceTransition)
 
     player:freeze(false)
-    player:triggerFunction("FadeIn", Config.entranceTransition)
+    if not settings or settings.transitionIn ~= false then
+        player:triggerFunction("FadeIn", Config.entranceTransition)
+    end
     player:triggerFunction("BusyspinnerOff")
 
     if handleVehicle then
@@ -395,7 +399,7 @@ function Property:enter(source)
 end
 
 ---@param source number
-function Property:exit(source)
+function Property:exit(source, settings)
     if not self:isPlayerInside(source) then
         return
     end
@@ -457,7 +461,9 @@ function Property:exit(source)
     Wait(Config.entranceTransition)
 
     player:freeze(false)
-    player:triggerFunction("FadeIn", Config.entranceTransition)
+    if not settings or settings.transitionIn ~= false then
+        player:triggerFunction("FadeIn", Config.entranceTransition)
+    end
     player:triggerFunction("BusyspinnerOff")
 
     return true
