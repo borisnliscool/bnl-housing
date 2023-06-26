@@ -1,16 +1,16 @@
-lib.callback.register("bnl-housing:server:property:exit", function(source, property_id)
-    local property = GetPropertyById(property_id)
+lib.callback.register("bnl-housing:server:property:exit", function(source, propertyId)
+    local property = GetPropertyById(propertyId)
     return property:exit(source)
 end)
 
-lib.callback.register("bnl-housing:server:property:getLocation", function(_, property_id)
-    local property = GetPropertyById(property_id)
+lib.callback.register("bnl-housing:server:property:getLocation", function(_, propertyId)
+    local property = GetPropertyById(propertyId)
     return property.location
 end)
 
 -- todo: permissions
-lib.callback.register("bnl-housing:server:property:getKeys", function(_, property_id)
-    local property = GetPropertyById(property_id)
+lib.callback.register("bnl-housing:server:property:getKeys", function(_, propertyId)
+    local property = GetPropertyById(propertyId)
     return table.map(property.keys, function(key)
         return {
             id = key.id,
@@ -23,8 +23,8 @@ lib.callback.register("bnl-housing:server:property:getKeys", function(_, propert
 end)
 
 -- todo: permissions
-lib.callback.register("bnl-housing:server:getOutsidePlayers", function(_, property_id)
-    local property = GetPropertyById(property_id)
+lib.callback.register("bnl-housing:server:getOutsidePlayers", function(_, propertyId)
+    local property = GetPropertyById(propertyId)
     local players = property:getOutsidePlayers()
     return table.map(
         players,

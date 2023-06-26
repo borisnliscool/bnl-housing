@@ -16,10 +16,10 @@ function SetupProperties()
 end
 
 ---This function is callable from the server.
----@param property_id number
-function SetupInPropertyPoints(property_id)
+---@param propertyId number
+function SetupInPropertyPoints(propertyId)
     local property = table.findOne(Properties, function(property)
-        return property.id == property_id
+        return property.id == propertyId
     end)
     if not property then return end
 
@@ -27,10 +27,10 @@ function SetupInPropertyPoints(property_id)
 end
 
 ---This function is callable from the server.
----@param property_id number
-function RemoveInPropertyPoints(property_id)
+---@param propertyId number
+function RemoveInPropertyPoints(propertyId)
     local property = table.findOne(Properties, function(property)
-        return property.id == property_id
+        return property.id == propertyId
     end)
     if not property then return end
 

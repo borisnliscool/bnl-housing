@@ -11,8 +11,8 @@ lib.callback.register("bnl-housing:server:getProperties", function(source)
     end)
 end)
 
-lib.callback.register("bnl-housing:server:getPropertyKey", function(source, property_id)
-    local property = GetPropertyById(property_id)
+lib.callback.register("bnl-housing:server:getPropertyKey", function(source, propertyId)
+    local property = GetPropertyById(propertyId)
     return property:getPlayerKey(source)
 end)
 
