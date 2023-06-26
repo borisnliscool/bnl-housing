@@ -1,5 +1,5 @@
 ---@param name string
-local function loadData(name)
+function LoadData(name)
     local file = ('data/%s.lua'):format(name)
     local datafile = LoadResourceFile("bnl-housing", file)
     local func, err = load(datafile, ('@%s/%s'):format("bnl-housing", file))
@@ -12,6 +12,6 @@ local function loadData(name)
 end
 
 Data = {
-    Shells = loadData("shells"),
-    Props = loadData("props"),
+    Shells = LoadData("shells"),
+    Props = LoadData("props"),
 }
