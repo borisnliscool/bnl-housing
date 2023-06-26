@@ -1,12 +1,20 @@
 Config = {}
 
--- Framework you're using
--- options: "esx"
+---Framework you're using
+---@type "esx"
 Config.framework = "esx"
-
-Config.inviteRange = 10.0
--- time in seconds for the invite to expire
+---The way for the menu to show up,
+---@type "walk" | "keypress"
+Config.interactMode = "keypress"
+---The way players get listed in menus
+---@type "name" | "id" | "both"
+Config.playerTag = "both"
+---Time in seconds for invites to expire
+---@type number
 Config.inviteExpire = 15
+---Range for being able to invite players
+---@type number
+Config.inviteRange = 10.0
 
 Config.Keybinds = {}
 Config.Keybinds.invite = {
@@ -40,12 +48,6 @@ Config.VehicleBlacklist = {
 }
 
 Config.entranceTransition = 500
--- the way for the menu to show up,
--- options: "walk", "keypress"
-Config.interactMode = "keypress"
--- the way players get listed in menus
--- options: "name", "id", "both"
-Config.playerTag = "both"
 
 Config.points = {}
 Config.points.entrance = {
