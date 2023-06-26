@@ -1,6 +1,9 @@
 Prop = {}
 Prop.__index = Prop
 
+---@param data table
+---@param property table
+---@return table
 function Prop.new(data, property)
     local instance = setmetatable({}, Prop)
 
@@ -14,6 +17,7 @@ function Prop.new(data, property)
     return instance
 end
 
+---Spawn the prop
 function Prop:spawn()
     local entity = CreateObject(
         self.model,
@@ -43,6 +47,7 @@ function Prop:spawn()
     self.entity = entity
 end
 
+---Delete the entity
 function Prop:destroy()
     DeleteEntity(self.entity)
 end

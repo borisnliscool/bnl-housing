@@ -1,6 +1,7 @@
 lib.locale()
 Properties = {}
 
+---Load all properties
 function LoadProperties()
     local databaseProperties = MySQL.query.await("SELECT * FROM properties")
     for _, propertyData in pairs(databaseProperties) do
@@ -8,12 +9,16 @@ function LoadProperties()
     end
 end
 
+---Get a property by it's id
 ---@param id number
+---@return table | nil
 function GetPropertyById(id)
     return Properties[id]
 end
 
+---Get the property a player is in
 ---@param source number
+---@return table | nil
 function GetPropertyPlayerIsIn(source)
     for _, property in pairs(Properties) do
         if property:isPlayerInside(source) then
@@ -36,6 +41,8 @@ function GetPlayersNearCoords(coords, radius)
     return players
 end
 
+---Function that execute when a player loads
+---@param player number
 local function onPlayerLoad(player)
     local playerIdentifier = Bridge.GetPlayerIdentifier(player)
     Debug.Log(Format("Loading player %s", Bridge.GetPlayerName(player)))
@@ -61,6 +68,8 @@ local function onPlayerLoad(player)
     Debug.Error(Format("Failed to make %s enter property %s", Bridge.GetPlayerName(player), propertyId))
 end
 
+---Function that execute when a player unloads
+---@param player number
 local function onPlayerUnload(player)
     local property = GetPropertyPlayerIsIn(player)
     if not property then return end

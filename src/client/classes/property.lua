@@ -19,11 +19,15 @@ function Property.new(data)
     return instance
 end
 
+---@return vector3
 function Property:getLocation()
     self.location = lib.callback.await("bnl-housing:server:property:getLocation", false, self.id)
     return self.location
 end
 
+---Get the marker data for a given marker type
+---@param markerType string
+---@return table
 function Property:getMarker(markerType)
     local marker = lib.table.deepclone(Config.points[markerType].marker)
 
@@ -38,6 +42,7 @@ function Property:getMarker(markerType)
     return marker
 end
 
+---Create the property entrance point
 function Property:createEntrancePoint()
     -- todo
     --  when we enter the property, this point
@@ -100,6 +105,7 @@ function Property:createEntrancePoint()
     self.points.entrance = point
 end
 
+---Create/update the property blip
 function Property:createBlip()
     if self.blip then
         RemoveBlip(self.blip)
@@ -127,6 +133,7 @@ function Property:createBlip()
     self.blip = blip
 end
 
+---Create in property points
 function Property:createInPropertyPoints()
     local data = Data.Shells[self.model]
 
@@ -186,14 +193,19 @@ function Property:createInPropertyPoints()
     self.points.property = point
 end
 
+---Remove all in property points
 function Property:removeInPropertyPoints()
     self.points.property:remove()
 end
 
+---Get all the players outside the property
+---@return table
 function Property:getOutsidePlayers()
     return lib.callback.await("bnl-housing:server:getOutsidePlayers", false, self.id)
 end
 
+---Get all the property keys
+---@return table
 function Property:getKeys()
     return lib.callback.await("bnl-housing:server:property:getKeys", false, self.id)
 end

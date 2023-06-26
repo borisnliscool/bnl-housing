@@ -4,6 +4,9 @@ Property.__index = Property
 -- todo
 --  create a Property.new function that creates
 --  a new property in the db and returns that
+
+---@param data table
+---@return table
 function Property.load(data)
     local instance = setmetatable({}, Property)
 
@@ -49,12 +52,14 @@ function Property.load(data)
 end
 
 --#region Model
+---Destroys the property shell entity
 function Property:destroyModel()
     if self.entity then
         DeleteEntity(self.entity)
     end
 end
 
+---Spawns the property shell entity
 function Property:spawnModel()
     self:destroyModel()
 
@@ -113,12 +118,15 @@ end
 --#endregion
 
 --#region Keys
+---Load the property keys
 function Property:loadKeys()
     local databaseKeys = MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
     self.keys = databaseKeys
 end
 
+---Get the property key for the given player
 ---@param source number
+---@return table
 function Property:getPlayerKey(source)
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
     local foundKey = table.findOne(self.keys, function(key)
@@ -133,6 +141,7 @@ function Property:getPlayerKey(source)
     }
 end
 
+---Give the player a key to the property
 ---@param source number
 function Property:givePlayerKey(source)
     -- check if the player already has a key
@@ -162,6 +171,7 @@ function Property:givePlayerKey(source)
     --  to fix the blips for the reciever
 end
 
+---Remove the key for the player
 ---@param keyId number
 function Property:removePlayerKey(keyId)
     -- if the player has no key, there's nothing to remove
@@ -182,6 +192,7 @@ end
 --#endregion
 
 --#region Vehicles
+---Load the data for all the vehicles
 function Property:loadVehicleData()
     self.vehicles = table.map(
         MySQL.query.await("SELECT * FROM property_vehicle WHERE property_id = ?", { self.id }),
@@ -193,6 +204,9 @@ function Property:loadVehicleData()
     )
 end
 
+---Spawn a vehicle inside the property
+---@param data table
+---@return number
 function Property:spawnVehicle(data)
     local coords = self.location + vec3(data.slot.location.x, data.slot.location.y, data.slot.location.z)
     local vehicle = CreateVehicle(data.props.model, coords.x, coords.y, coords.z, data.slot.location.w, true, false)
@@ -224,19 +238,21 @@ function Property:spawnVehicle(data)
     return vehicle
 end
 
+---Spawn all the property vehicles
 function Property:spawnVehicles()
     self:destroyVehicles()
 
     for _, data in pairs(self.vehicles) do
-        if not data.slot then goto skip end
-
-        local vehicle = self:spawnVehicle(data)
-        data.entity = vehicle
-
-        ::skip::
+        if data.slot then
+            local vehicle = self:spawnVehicle(data)
+            data.entity = vehicle
+        end
     end
 end
 
+---Spawn a vehicle outside the property
+---@param props table
+---@return number
 function Property:spawnOutsideVehicle(props)
     local vehicle = CreateVehicle(props.model, self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z,
         self.entranceLocation.w, true, false)
@@ -257,12 +273,15 @@ function Property:spawnOutsideVehicle(props)
     return vehicle
 end
 
+---Destroy all the vehicles in the property
 function Property:destroyVehicles()
     for _, vehicle in pairs(self.vehicles) do
         DeleteEntity(vehicle.entity)
     end
 end
 
+---Get the first free vehicle slot in the property
+---@return table|nil
 function Property:getFirstFreeVehicleSlot()
     local slots = self.shellData.vehicleSlots
 
@@ -281,10 +300,13 @@ end
 
 --#region Player Entry and Exiting
 
+---Make the player enter the property
 ---@param source number
+---@param settings table
+---@return boolean
 function Property:enter(source, settings)
     if self:isPlayerInside(source) then
-        return
+        return false
     end
 
     local propertyPlayerIsIn = GetPropertyPlayerIsIn(source)
@@ -346,6 +368,10 @@ function Property:enter(source, settings)
     --  handle passenger entering when driver enters the property
     if handleVehicle then
         local slot = self:getFirstFreeVehicleSlot()
+        if not slot then
+            Debug.Error("Could not find a slot for the vehicle, this shouldn't happen!")
+            return false
+        end
 
         local vehicleData = {
             props = vehicleProps,
@@ -398,10 +424,13 @@ function Property:enter(source, settings)
     return true
 end
 
+---Make the player leave the property
 ---@param source number
+---@param settings table
+---@return boolean
 function Property:exit(source, settings)
     if not self:isPlayerInside(source) then
-        return
+        return false
     end
 
     local player = self:getPlayer(source)
@@ -472,6 +501,7 @@ end
 --#endregion
 
 --#region Misc
+---Load the linked properties data
 function Property:loadLinks()
     local query =
         "SELECT linked_property_id AS property_id FROM property_link WHERE property_id = ? " ..
@@ -485,7 +515,9 @@ function Property:loadLinks()
     end)
 end
 
+---Get a player by source
 ---@param source number
+---@return table | nil
 function Property:getPlayer(source)
     if not self.players or not next(self.players) then
         return
@@ -495,11 +527,14 @@ function Property:getPlayer(source)
     return self.players[playerIdentifier]
 end
 
+---Check if player is inside the property
 ---@param source number
+---@return boolean
 function Property:isPlayerInside(source)
     return self:getPlayer(source) ~= nil
 end
 
+---Save the property
 function Property:save()
     -- Saving props
     if self.props and #self.props > 0 then
@@ -512,12 +547,15 @@ function Property:save()
     end
 end
 
+---Destroy the property
 function Property:destroy()
     self:destroyModel()
     self:destroyProps()
     self:destroyVehicles()
 end
 
+---Get the property data
+---@return table
 function Property:getData()
     return {
         id = self.id,
@@ -531,10 +569,13 @@ function Property:getData()
     }
 end
 
+---Get the players outside the property
+---@return table
 function Property:getOutsidePlayers()
     return GetPlayersNearCoords(self.entranceLocation, Config.inviteRange)
 end
 
+---Make the player knock on the door
 ---@param source number
 function Property:knock(source)
     Debug.Log(Format("%s knocked on the door of property %s", Bridge.GetPlayerName(source), self.id))

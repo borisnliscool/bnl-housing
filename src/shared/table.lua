@@ -1,3 +1,4 @@
+---Map table values like in javascript
 ---@param list table
 ---@param func function
 ---@param noIndex boolean?
@@ -19,6 +20,7 @@ function table.map(list, func, noIndex)
     return ret
 end
 
+---Find all values in the table by function
 ---@param list table
 ---@param func function
 ---@param keepIndex boolean?
@@ -38,6 +40,7 @@ function table.find(list, func, keepIndex)
     return ret
 end
 
+---Find a value in the table by function
 ---@param list table
 ---@param func function
 ---@return unknown?
@@ -51,6 +54,7 @@ function table.findOne(list, func)
     end
 end
 
+---Merge two tables
 ---@param t1 table
 ---@param t2 table
 ---@param ignoreKeys boolean?
@@ -69,12 +73,14 @@ function table.merge(t1, t2, ignoreKeys)
     return ret
 end
 
+---Convert a table to a vec4
 ---@param list table
 ---@return vector3
 function table.tovector(list)
     return vec4(list.x, list.y, list.z, list.w)
 end
 
+---Get the amount of values in a table.
 ---@param list table
 ---@return number
 function table.count(list)

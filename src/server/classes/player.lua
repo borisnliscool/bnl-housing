@@ -1,6 +1,9 @@
 Player = {}
 Player.__index = Player
 
+---@param source number
+---@param property table
+---@return table
 function Player.new(source, property)
     local instance = setmetatable({}, Player)
 
@@ -20,14 +23,18 @@ function Player:setBucket(bucketId)
     SetPlayerRoutingBucket(self.source, bucketId)
 end
 
+---@return number
 function Player:ped()
     return GetPlayerPed(self.source)
 end
 
+---Get the vehicle the player is in
+---@return number
 function Player:vehicle()
     return GetVehiclePedIsIn(self:ped(), false)
 end
 
+---Teleports the player into the property
 function Player:warpIntoProperty()
     Debug.Log(Format("Warping %s into property %s", self.name, self.property.id))
 
@@ -40,6 +47,7 @@ function Player:warpIntoProperty()
     SetEntityCoords(self:ped(), coords.x, coords.y, coords.z - 1.0, true, false, false, false)
 end
 
+---Teleports the player outside of the property
 function Player:warpOutOfProperty()
     Debug.Log(Format("Warping %s out of property %s", self.name, self.property.id))
 
