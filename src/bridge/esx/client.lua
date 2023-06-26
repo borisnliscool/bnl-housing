@@ -1,6 +1,8 @@
 local ESX = exports['es_extended']:getSharedObject()
 local onReadyCallback
 
+---Register the ready callback.
+---@param cb function
 function Bridge.onReady(cb)
     onReadyCallback = cb
     RegisterNetEvent("esx:playerLoaded", function()
@@ -8,10 +10,17 @@ function Bridge.onReady(cb)
     end)
 end
 
+---Show a help notification to the player
+---@param message string
+---@param time number
 function Bridge.HelpNotification(message, time)
     ESX.ShowHelpNotification(message, true, true, (time or 5) * 1000)
 end
 
+---Show a regular notification to the player
+---@param message string
+---@param type "info"|"success"|"error"
+---@param time number
 function Bridge.Notification(message, type, time)
     ESX.ShowNotification(message, (type or "info"), (time or 5) * 1000)
 end
