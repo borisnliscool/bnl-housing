@@ -7,17 +7,16 @@ end, false)
 
 RegisterCommand("enter", function(source, args, rawCommand)
     local property = GetPropertyById(tonumber(args[1]) or 1)
-    property:enter(source)
+    return property and property:enter(source)
 end, false)
 
 RegisterCommand("exit", function(source, args, rawCommand)
     local property = GetPropertyPlayerIsIn(source)
-    property:exit(source)
+    return property and property:exit(source)
 end, false)
 
 RegisterCommand("bucket", function(source, args, rawCommand)
-    ---@diagnostic disable-next-line: param-type-mismatch
-    SetPlayerRoutingBucket(source, tonumber(args[1] or "0"))
+    SetPlayerRoutingBucket(source, tonumber(args[1] or "0") --[[@as number]])
 end, false)
 
 RegisterCommand("relative", function(source, args, rawCommand)
@@ -31,6 +30,5 @@ end, false)
 
 RegisterCommand("knock", function(source, args, rawCommand)
     local property = GetPropertyPlayerIsIn(source) or GetPropertyById(tonumber(args[1]) or 1)
-    if not property then return end
-    property:knock(source)
+    return property and property:knock(source)
 end, false)

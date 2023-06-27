@@ -46,7 +46,5 @@ end
 ---@param ... unknown
 ---@return nil
 function Debug.Error(...)
-    if GetConvar("bnl:debug", 'false') == 'true' then
-        return error("[^1ERROR^0]" .. formatString(...))
-    end
+    return error("[^1ERROR^0]" .. formatString(...))
 end
