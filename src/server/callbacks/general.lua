@@ -1,4 +1,4 @@
-lib.callback.register("bnl-housing:server:getProperties", function(source)
+RegisterMiddlewareCallback("bnl-housing:server:getProperties", function(source)
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
 
     return table.map(Properties, function(property)
@@ -11,11 +11,11 @@ lib.callback.register("bnl-housing:server:getProperties", function(source)
     end)
 end)
 
-lib.callback.register("bnl-housing:server:getPropertyKey", function(source, propertyId)
+RegisterMiddlewareCallback("bnl-housing:server:getPropertyKey", function(source, propertyId)
     local property = GetPropertyById(propertyId)
-    return property:getPlayerKey(source)
+    return property and property:getPlayerKey(source)
 end)
 
-lib.callback.register("bnl-housing:server:getPlayerName", function(_, playerId)
+RegisterMiddlewareCallback("bnl-housing:server:getPlayerName", function(_, playerId)
     return Bridge.GetPlayerName(playerId)
 end)

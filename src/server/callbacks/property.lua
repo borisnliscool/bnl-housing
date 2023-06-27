@@ -1,59 +1,77 @@
-lib.callback.register("bnl-housing:server:property:exit", function(source, propertyId)
+RegisterMiddlewareCallback("bnl-housing:server:property:exit", function(source, propertyId)
     local property = GetPropertyById(propertyId)
-    return property:exit(source)
+    return property and property:exit(source)
 end)
 
-lib.callback.register("bnl-housing:server:property:getLocation", function(_, propertyId)
+RegisterMiddlewareCallback("bnl-housing:server:property:getLocation", function(_, propertyId)
     local property = GetPropertyById(propertyId)
-    return property.location
+    return property and property.location
 end)
 
--- todo: permissions
-lib.callback.register("bnl-housing:server:property:getKeys", function(_, propertyId)
-    local property = GetPropertyById(propertyId)
-    return table.map(property.keys, function(key)
-        return {
-            id = key.id,
-            property_id = key.property_id,
-            permission = key.permission,
-            player = Bridge.GetPlayerNameFromIdentifier(key.player),
-            serverId = Bridge.GetServerIdFromIdentifier(key.player),
-        }
-    end)
-end)
+RegisterMiddlewareCallback("bnl-housing:server:property:getKeys",
+    CheckPermission[PERMISSION.RENTER],
+    function(_, propertyId)
+        local property = GetPropertyById(propertyId)
+        if not property then return end
 
--- todo: permissions
-lib.callback.register("bnl-housing:server:getOutsidePlayers", function(_, propertyId)
-    local property = GetPropertyById(propertyId)
-    local players = property:getOutsidePlayers()
-    return table.map(
-        players,
-        function(player)
+        return table.map(property.keys, function(key)
             return {
-                name = Bridge.GetPlayerName(player),
-                id = player
+                id = key.id,
+                property_id = key.property_id,
+                permission = key.permission,
+                player = Bridge.GetPlayerNameFromIdentifier(key.player),
+                serverId = Bridge.GetServerIdFromIdentifier(key.player),
             }
-        end
-    )
-end)
+        end)
+    end
+)
 
--- todo: permissions
-lib.callback.register("bnl-housing:server:property:invite", function(source, playerId)
-    local property = GetPropertyPlayerIsIn(source)
-    local accepted = lib.callback.await("bnl-housing:client:handleInvite", playerId, property:getData().address)
-    if not accepted then return end
+RegisterMiddlewareCallback("bnl-housing:server:getOutsidePlayers",
+    CheckPermission[PERMISSION.MEMBER],
+    function(_, propertyId)
+        local property = GetPropertyById(propertyId)
+        if not property then return end
 
-    property:enter(source)
-end)
+        local players = property:getOutsidePlayers()
+        return table.map(
+            players,
+            function(player)
+                return {
+                    name = Bridge.GetPlayerName(player),
+                    id = player
+                }
+            end
+        )
+    end
+)
 
--- todo: permissions
-lib.callback.register("bnl-housing:server:property:giveKey", function(source, playerId)
-    local property = GetPropertyPlayerIsIn(source)
-    property:givePlayerKey(playerId)
-end)
+RegisterMiddlewareCallback("bnl-housing:server:property:invite",
+    CheckPermission[PERMISSION.MEMBER],
+    function(source, playerId)
+        local property = GetPropertyPlayerIsIn(source)
+        if not property then return end
 
--- todo: permissions
-lib.callback.register("bnl-housing:server:property:removeKey", function(source, keyId)
-    local property = GetPropertyPlayerIsIn(source)
-    property:removePlayerKey(keyId)
-end)
+        local accepted = lib.callback.await("bnl-housing:client:handleInvite", playerId, property:getData().address)
+        if not accepted then return end
+
+        property:enter(source)
+    end
+)
+
+RegisterMiddlewareCallback("bnl-housing:server:property:giveKey",
+    CheckPermission[PERMISSION.RENTER],
+    function(source, playerId)
+        local property = GetPropertyPlayerIsIn(source)
+        if not property then return end
+
+        property:givePlayerKey(playerId)
+    end
+)
+
+RegisterMiddlewareCallback("bnl-housing:server:property:removeKey",
+    CheckPermission[PERMISSION.RENTER],
+    function(source, keyId)
+        local property = GetPropertyPlayerIsIn(source)
+        return property and property:removePlayerKey(keyId)
+    end
+)
