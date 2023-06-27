@@ -19,8 +19,8 @@ end
 
 ---Show a regular notification to the player
 ---@param message string
----@param type "info"|"success"|"error"
----@param time number
+---@param type "info" | "success" | "error"
+---@param time number | nil
 function Bridge.Notification(message, type, time)
     ESX.ShowNotification(message, (type or "info"), (time or 5) * 1000)
 end

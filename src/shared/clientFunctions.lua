@@ -2,7 +2,7 @@ ClientFunctions = {}
 
 ---Register a client function
 ---@param func function
----@return string|function
+---@return string | function
 function RegisterClientFunction(func)
     local eventName = ("bnl-housing:%s"):format(table.count(ClientFunctions))
 

@@ -5,6 +5,7 @@ FRAMEWORKS = {
     auto = "auto",
     esx = "esx",
 }
+
 ---Framework you're using (automatic should be fine)
 ---@type Framework
 Config.framework = FRAMEWORKS.auto
@@ -21,11 +22,6 @@ Config.inviteExpire = 15
 ---Range for being able to invite players
 ---@type number
 Config.inviteRange = 10.0
-
----@class Keybind
----@field padIndex number
----@field control number
----@field name string
 
 ---@type table
 Config.Keybinds = {}
@@ -66,21 +62,6 @@ Config.VehicleBlacklist = {
 ---@type number
 Config.entranceTransition = 500
 
----@class Point
----@field viewDistance number
----@field interact Keybind
----@field marker Marker
-
----@class Marker
----@field type number
----@field size vector3
----@field vehicleSize number
----@field offset vector3
----@field rotation vector3
----@field color table
----@field bob boolean
----@field faceCamera boolean
-
 ---@type table
 Config.points = {}
 
@@ -110,18 +91,6 @@ Config.points.entrance = {
 -- customize this you can do that
 ---@type Point
 Config.points.property = Config.points.entrance
-
----@class Blip
----@field sprite number
----@field color number
----@field short boolean | nil
----@field display number | nil
----@field scale number | nil
-
----@class PropertyBlips
----@field owner Blip
----@field member Blip
----@field renter Blip
 
 ---@type table
 Config.blips = {

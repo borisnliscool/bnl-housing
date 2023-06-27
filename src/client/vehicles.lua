@@ -1,6 +1,6 @@
 local isInPropertyVehicle = false
 
----@param entity number
+---@param entity Entity
 ---@return boolean
 function IsVehicleBlacklisted(entity)
     return

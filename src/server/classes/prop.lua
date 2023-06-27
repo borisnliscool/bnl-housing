@@ -2,16 +2,18 @@ Prop = {}
 Prop.__index = Prop
 
 ---@param data table
----@param property table
----@return table
+---@param property Property
+---@return Prop
 function Prop.new(data, property)
     local instance = setmetatable({}, Prop)
 
     instance.property = property
     instance.id = data.id
     instance.model = data.model
-    instance.location = json.decode(data.location)
-    instance.rotation = json.decode(data.rotation)
+    local location = json.decode(data.location)
+    instance.location = vector3(location.x, location.y, location.z)
+    local rotation = json.decode(data.rotation)
+    instance.rotation = vector3(rotation.x, rotation.y, rotation.z)
     instance.metadata = json.decode(data.metadata)
 
     return instance

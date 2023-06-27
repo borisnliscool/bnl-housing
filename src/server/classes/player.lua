@@ -3,7 +3,7 @@ Player.__index = Player
 
 ---@param source number
 ---@param property table
----@return table
+---@return Player
 function Player.new(source, property)
     local instance = setmetatable({}, Player)
 
@@ -23,13 +23,13 @@ function Player:setBucket(bucketId)
     SetPlayerRoutingBucket(self.source, bucketId)
 end
 
----@return number
+---@return Entity
 function Player:ped()
     return GetPlayerPed(self.source)
 end
 
 ---Get the vehicle the player is in
----@return number
+---@return Entity
 function Player:vehicle()
     return GetVehiclePedIsIn(self:ped(), false)
 end

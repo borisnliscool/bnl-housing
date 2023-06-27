@@ -1,6 +1,8 @@
 Property = {}
 Property.__index = Property
 
+---@param data table
+---@return table
 function Property.new(data)
     local instance = setmetatable({}, Property)
 
@@ -27,7 +29,7 @@ end
 
 ---Get the marker data for a given marker type
 ---@param markerType string
----@return table
+---@return Marker
 function Property:getMarker(markerType)
     local marker = lib.table.deepclone(Config.points[markerType].marker)
 

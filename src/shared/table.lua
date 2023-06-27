@@ -75,7 +75,7 @@ end
 
 ---Convert a table to a vec4
 ---@param list table
----@return vector3
+---@return vector4
 function table.tovector(list)
     return vec4(list.x, list.y, list.z, list.w)
 end

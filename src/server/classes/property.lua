@@ -6,7 +6,7 @@ Property.__index = Property
 --  a new property in the db and returns that
 
 ---@param data table
----@return table
+---@return Property
 function Property.load(data)
     local instance = setmetatable({}, Property)
 
@@ -126,7 +126,7 @@ end
 
 ---Get the property key for the given player
 ---@param source number
----@return table
+---@return Key
 function Property:getPlayerKey(source)
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
     local foundKey = table.findOne(self.keys, function(key)
@@ -136,7 +136,7 @@ function Property:getPlayerKey(source)
 
     return {
         property_id = self.id,
-        permission = Permission.VISITOR,
+        permission = PERMISSION.VISITOR,
         player = playerIdentifier,
     }
 end
@@ -145,14 +145,14 @@ end
 ---@param source number
 function Property:givePlayerKey(source)
     -- check if the player already has a key
-    if self:getPlayerKey(source).permission ~= Permission.VISITOR then
+    if self:getPlayerKey(source).permission ~= PERMISSION.VISITOR then
         return
     end
 
     local key = {
         property_id = self.id,
         player = Bridge.GetPlayerIdentifier(source),
-        permission = Permission.MEMBER
+        permission = PERMISSION.MEMBER
     }
 
     local id = MySQL.insert.await("INSERT INTO property_key (property_id, player, permission) VALUES (?, ?, ?)", {
@@ -206,7 +206,7 @@ end
 
 ---Spawn a vehicle inside the property
 ---@param data table
----@return number
+---@return Entity
 function Property:spawnVehicle(data)
     local coords = self.location + vec3(data.slot.location.x, data.slot.location.y, data.slot.location.z)
     local vehicle = CreateVehicle(data.props.model, coords.x, coords.y, coords.z, data.slot.location.w, true, false)
@@ -252,7 +252,7 @@ end
 
 ---Spawn a vehicle outside the property
 ---@param props table
----@return number
+---@return Entity
 function Property:spawnOutsideVehicle(props)
     local vehicle = CreateVehicle(props.model, self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z,
         self.entranceLocation.w, true, false)
@@ -281,7 +281,7 @@ function Property:destroyVehicles()
 end
 
 ---Get the first free vehicle slot in the property
----@return table|nil
+---@return VehicleSlot | nil
 function Property:getFirstFreeVehicleSlot()
     local slots = self.shellData.vehicleSlots
 
@@ -517,7 +517,7 @@ end
 
 ---Get a player by source
 ---@param source number
----@return table | nil
+---@return Player | nil
 function Property:getPlayer(source)
     if not self.players or not next(self.players) then
         return
@@ -555,9 +555,10 @@ function Property:destroy()
 end
 
 ---Get the property data
----@return table
+---@return PropertyData
 function Property:getData()
-    return {
+    ---@type PropertyData
+    local data = {
         id = self.id,
         entranceLocation = self.entranceLocation,
         location = self.location,
@@ -567,6 +568,7 @@ function Property:getData()
         keys = self.keys,
         links = self.links
     }
+    return data
 end
 
 ---Get the players outside the property
@@ -581,7 +583,7 @@ function Property:knock(source)
     Debug.Log(Format("%s knocked on the door of property %s", Bridge.GetPlayerName(source), self.id))
 
     for _, player in pairs(self.players) do
-        if player.key.permission ~= Permission.VISITOR then
+        if player.key.permission ~= PERMISSION.VISITOR then
             player:triggerFunction("HelpNotification", locale("notification.property.knock"))
         end
     end

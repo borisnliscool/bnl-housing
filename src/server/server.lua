@@ -11,14 +11,14 @@ end
 
 ---Get a property by it's id
 ---@param id number
----@return table | nil
+---@return Property | nil
 function GetPropertyById(id)
     return Properties[id]
 end
 
 ---Get the property a player is in
 ---@param source number
----@return table | nil
+---@return Property | nil
 function GetPropertyPlayerIsIn(source)
     for _, property in pairs(Properties) do
         if property:isPlayerInside(source) then
@@ -86,6 +86,3 @@ end
 Bridge.onReady(LoadProperties)
 Bridge.onPlayerLoad(onPlayerLoad)
 Bridge.onPlayerUnload(onPlayerUnload)
-
-exports("GetPropertyById", GetPropertyById)
-exports("GetPropertyPlayerIsIn", GetPropertyPlayerIsIn)
