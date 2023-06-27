@@ -20,6 +20,8 @@ local function DetectFramework()
 
     if lib.table.contains(resources, "es_extended") then
         return FRAMEWORKS.esx
+    elseif lib.table.contains(resources, "ox_core") then
+        return FRAMEWORKS.ox
     end
 
     Debug.Error("Unable to auto detect framework.")
