@@ -15,8 +15,8 @@ end
 ---@param cb function
 function Bridge.onPlayerLoad(cb)
     onPlayerLoadCallback = cb
-    RegisterNetEvent("esx:playerLoaded", function(player)
-        onPlayerLoadCallback(player)
+    RegisterNetEvent("esx:playerLoaded", function(source)
+        onPlayerLoadCallback(source)
     end)
 end
 
@@ -24,8 +24,8 @@ end
 ---@param cb function
 function Bridge.onPlayerUnload(cb)
     onPlayerUnloadCallback = cb
-    RegisterNetEvent("esx:playerDropped", function(player)
-        onPlayerUnloadCallback(player)
+    RegisterNetEvent("esx:playerDropped", function(source)
+        onPlayerUnloadCallback(source)
     end)
 end
 
