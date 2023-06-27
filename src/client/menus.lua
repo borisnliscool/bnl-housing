@@ -11,6 +11,7 @@ local function ShowMenu(menu)
 end
 
 function Menus.entrance(property)
+    ---@type Key
     local key = lib.callback.await("bnl-housing:server:getPropertyKey", false, property.id)
 
     local main = {
@@ -27,7 +28,7 @@ function Menus.entrance(property)
         },
     }
 
-    if not key or not key.permission or key.permission == "visitor" then
+    if not key or not key.permission or key.permission == PERMISSION.VISITOR then
         ShowMenu(main)
         return
     end

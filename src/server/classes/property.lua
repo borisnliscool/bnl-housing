@@ -149,6 +149,7 @@ function Property:givePlayerKey(source)
         return
     end
 
+    ---@type Key
     local key = {
         property_id = self.id,
         player = Bridge.GetPlayerIdentifier(source),
@@ -163,7 +164,6 @@ function Property:givePlayerKey(source)
     key.id = id
 
     table.insert(self.keys, key)
-
     Debug.Log(Format("Gave key to %s for property %s", key.player, self.id))
 
     -- todo
@@ -175,6 +175,7 @@ end
 ---@param keyId number
 function Property:removePlayerKey(keyId)
     -- if the player has no key, there's nothing to remove
+    ---@type Key | nil
     local key, id = table.findOne(self.keys, function(v, k)
         return v.id == keyId
     end)
@@ -341,9 +342,9 @@ function Property:enter(source, settings)
     end
 
     player:triggerFunction("StartBusySpinner", "Loading property...")
-    player:triggerFunction("FadeOut", Config.entranceTransition)
+    player:triggerFunction("FadeOut", 500)
 
-    Wait(Config.entranceTransition)
+    Wait(500)
 
     player:freeze(true)
     player:setBucket(self.bucketId)
@@ -409,11 +410,11 @@ function Property:enter(source, settings)
 
     self.players[player.identifier] = player
 
-    Wait(Config.entranceTransition)
+    Wait(500)
 
     player:freeze(false)
     if not settings or settings.transitionIn ~= false then
-        player:triggerFunction("FadeIn", Config.entranceTransition)
+        player:triggerFunction("FadeIn", 500)
     end
     player:triggerFunction("BusyspinnerOff")
 
@@ -439,10 +440,10 @@ function Property:exit(source, settings)
     end
 
     player:triggerFunction("StartBusySpinner", "Exiting property...")
-    player:triggerFunction("FadeOut", Config.entranceTransition)
+    player:triggerFunction("FadeOut", 500)
     player:freeze(true)
 
-    Wait(Config.entranceTransition)
+    Wait(500)
 
     -- Handling vehicle stuff
     local vehicle = player:vehicle()
@@ -487,11 +488,11 @@ function Property:exit(source, settings)
 
     self.players[player.identifier] = nil
 
-    Wait(Config.entranceTransition)
+    Wait(500)
 
     player:freeze(false)
     if not settings or settings.transitionIn ~= false then
-        player:triggerFunction("FadeIn", Config.entranceTransition)
+        player:triggerFunction("FadeIn", 500)
     end
     player:triggerFunction("BusyspinnerOff")
 

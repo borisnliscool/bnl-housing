@@ -74,6 +74,7 @@
 ---@field destroy function
 
 ---@class Key
+---@field id number | nil
 ---@field propery_id number
 ---@field permission Permissions
 ---@field player string

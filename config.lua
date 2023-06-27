@@ -59,9 +59,6 @@ Config.VehicleBlacklist = {
     }
 }
 
----@type number
-Config.entranceTransition = 500
-
 ---@type table
 Config.points = {}
 
