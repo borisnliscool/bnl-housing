@@ -1,5 +1,6 @@
 Menus = {}
 
+---@param menu table
 local function ShowMenu(menu)
     lib.registerMenu(menu, function(selected, scrollIndex, args)
         if menu.options[selected].onSelect then
@@ -85,31 +86,31 @@ function Menus.property(property)
         },
         {
             label = locale("menu.property.invite"),
-            permissions = { Permission.MEMBER, Permission.RENTER, Permission.OWNER },
+            permissions = { PERMISSION.MEMBER, PERMISSION.RENTER, PERMISSION.OWNER },
             onSelect = function()
                 Menus.invite(property)
             end
         },
         {
             label = locale("menu.property.decorate"),
-            permissions = { Permission.MEMBER, Permission.RENTER, Permission.OWNER },
+            permissions = { PERMISSION.MEMBER, PERMISSION.RENTER, PERMISSION.OWNER },
             onSelect = notImplemented
         },
         {
             label = locale("menu.property.manage_keys"),
-            permissions = { Permission.RENTER, Permission.OWNER },
+            permissions = { PERMISSION.RENTER, PERMISSION.OWNER },
             onSelect = function()
                 Menus.manage_keys(property)
             end
         },
         {
             label = locale("menu.property.sell"),
-            permissions = { Permission.OWNER },
+            permissions = { PERMISSION.OWNER },
             onSelect = notImplemented
         },
         {
             label = locale("menu.property.rent_out"),
-            permissions = { Permission.OWNER },
+            permissions = { PERMISSION.OWNER },
             onSelect = notImplemented
         },
     }
@@ -231,7 +232,7 @@ function Menus.keys_take(property)
     }
 
     main.options = table.map(keys, function(key)
-        if key.permission ~= Permission.MEMBER then
+        if key.permission ~= PERMISSION.MEMBER then
             return
         end
         return {
