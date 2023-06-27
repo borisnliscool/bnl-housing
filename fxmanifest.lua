@@ -1,5 +1,3 @@
----@diagnostic disable: undefined-global
-
 fx_version 'cerulean'
 lua54 'yes'
 game 'gta5'
@@ -8,7 +6,7 @@ name 'bnl-housing'
 author 'Boris'
 version '0.0.1'
 repository 'https://github.com/borisnliscool/bnl-housing'
-description 'Simple player property system'
+description 'Simple player property system for FiveM'
 
 dependencies {
     '/onesync',
