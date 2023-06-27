@@ -22,6 +22,8 @@ local function DetectFramework()
         return FRAMEWORKS.esx
     elseif lib.table.contains(resources, "ox_core") then
         return FRAMEWORKS.ox
+    elseif lib.table.contains(resources, "qb-core") then
+        return FRAMEWORKS.qb
     end
 
     Debug.Error("Unable to auto detect framework.")
