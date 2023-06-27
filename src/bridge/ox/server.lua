@@ -67,7 +67,7 @@ end
 
 --- Get a player's server id (source) from their identifier
 ---@param identifier string
----@return number | nil
+---@return number?
 function Bridge.GetServerIdFromIdentifier(identifier)
     ---@diagnostic disable-next-line: undefined-global
     local player = table.findOne(Ox.GetPlayers(), function(p)

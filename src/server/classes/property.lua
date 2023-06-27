@@ -175,7 +175,7 @@ end
 ---@param keyId number
 function Property:removePlayerKey(keyId)
     -- if the player has no key, there's nothing to remove
-    ---@type Key | nil
+    ---@type Key?
     local key, id = table.findOne(self.keys, function(v, k)
         return v.id == keyId
     end)
@@ -282,7 +282,7 @@ function Property:destroyVehicles()
 end
 
 ---Get the first free vehicle slot in the property
----@return VehicleSlot | nil
+---@return VehicleSlot?
 function Property:getFirstFreeVehicleSlot()
     local slots = self.shellData.vehicleSlots
 
@@ -518,7 +518,7 @@ end
 
 ---Get a player by source
 ---@param source number
----@return Player | nil
+---@return Player?
 function Property:getPlayer(source)
     if not self.players or not next(self.players) then
         return

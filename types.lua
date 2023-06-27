@@ -74,7 +74,7 @@
 ---@field destroy function
 
 ---@class Key
----@field id number | nil
+---@field id number?
 ---@field propery_id number
 ---@field permission Permissions
 ---@field player string
@@ -116,9 +116,9 @@
 ---@class Blip
 ---@field sprite number
 ---@field color number
----@field short boolean | nil
----@field display number | nil
----@field scale number | nil
+---@field short boolean?
+---@field display number?
+---@field scale number?
 
 ---@class PropertyBlips
 ---@field owner Blip

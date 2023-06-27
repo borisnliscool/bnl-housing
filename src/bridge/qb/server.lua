@@ -64,7 +64,7 @@ end
 
 --- Get a player's server id (source) from their identifier
 ---@param identifier string
----@return number | nil
+---@return number?
 function Bridge.GetServerIdFromIdentifier(identifier)
     local player = table.findOne(QBCore.Functions.GetPlayers(), function(p)
         return p.PlayerData.citizenid == identifier

@@ -14,7 +14,7 @@ local function GetAllResources()
     return resources
 end
 
----@return Framework | nil
+---@return Framework?
 local function DetectFramework()
     local resources = GetAllResources()
 
@@ -29,7 +29,7 @@ local function DetectFramework()
     Debug.Error("Unable to auto detect framework.")
 end
 
----@type Framework | nil
+---@type Framework?
 local framework = Config.framework ~= FRAMEWORKS.auto and Config.framework or DetectFramework()
 
 local version = IsDuplicityVersion() and "server" or "client"

@@ -27,7 +27,7 @@ Config.inviteExpire = 15
 ---@type number
 Config.inviteRange = 10.0
 
----@type table
+---@type table<Keybind>
 Config.Keybinds = {}
 ---@type Keybind
 Config.Keybinds.invite = {
@@ -50,9 +50,11 @@ Config.Keybinds.interact = {
 
 ---@type table
 Config.VehicleBlacklist = {
+    ---@type number[]
     classes = {
         10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21
     },
+    ---@type number[]
     models = {
         -- Put any vehicle hash in here, make sure it is a string, and an output
         -- of GetEntityModel (https://docs.fivem.net/natives/?_0x9F47B058362C84B5)
@@ -93,9 +95,8 @@ Config.points.entrance = {
 ---@type Point
 Config.points.property = Config.points.entrance
 
----@type table
+---@type table<PropertyBlips>
 Config.blips = {
-    ---@type PropertyBlips
     house = {
         owner = {
             sprite = 40,
@@ -111,7 +112,6 @@ Config.blips = {
             color = 5,
         },
     },
-    ---@type PropertyBlips
     warehouse = {
         owner = {
             sprite = 473,
@@ -127,7 +127,6 @@ Config.blips = {
             color = 5,
         },
     },
-    ---@type PropertyBlips
     office = {
         owner = {
             sprite = 475,
@@ -143,7 +142,6 @@ Config.blips = {
             color = 5,
         },
     },
-    ---@type PropertyBlips
     garage = {
         owner = {
             sprite = 357,
