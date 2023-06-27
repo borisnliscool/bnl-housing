@@ -8,7 +8,7 @@ lib.callback.register("bnl-housing:client:handleInvite", function(address)
         end
     end)
 
-    Bridge.HelpNotification(
+    ShowHelpNotification(
         locale("notification.invite", address.streetName .. " " .. address.buildingNumber,
             Config.Keybinds.invite.name),
         Config.inviteExpire
@@ -17,7 +17,7 @@ lib.callback.register("bnl-housing:client:handleInvite", function(address)
     while time < Config.inviteExpire do
         Wait(0)
         if IsControlJustReleased(Config.Keybinds.invite.padIndex, Config.Keybinds.invite.control) then
-            Bridge.HelpNotification(" ", 0.001)
+            ShowHelpNotification(" ", 0.001)
             return true
         end
     end

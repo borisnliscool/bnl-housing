@@ -91,7 +91,7 @@ function Property:createEntrancePoint()
                 self.interacted = true
                 Menus.entrance(self.property)
             elseif Config.interactMode == "keypress" then
-                Bridge.HelpNotification(locale("notification.property.menu", Config.points.entrance.interact.name))
+                ShowHelpNotification(locale("notification.property.menu", Config.points.entrance.interact.name))
 
                 if IsControlJustReleased(Config.points.entrance.interact.padIndex, Config.points.entrance.interact.control) then
                     self.interacted = true
@@ -179,7 +179,7 @@ function Property:createInPropertyPoints()
                 self.interacted = true
                 Menus.property(self.property)
             elseif Config.interactMode == "keypress" then
-                Bridge.HelpNotification(locale("notification.property.menu", Config.points.entrance.interact.name))
+                ShowHelpNotification(locale("notification.property.menu", Config.points.entrance.interact.name))
 
                 if IsControlJustReleased(Config.points.entrance.interact.padIndex, Config.points.entrance.interact.control) then
                     self.interacted = true

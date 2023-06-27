@@ -22,7 +22,7 @@ lib.onCache('vehicle', function(vehicle)
         Wait(0)
 
         if cache.seat == -1 then
-            Bridge.HelpNotification(locale("notification.property.exitWithVehicle", Config.Keybinds.exitGarage.name))
+            ShowHelpNotification(locale("notification.property.exitWithVehicle", Config.Keybinds.exitGarage.name))
 
             if IsControlJustPressed(Config.Keybinds.exitGarage.padIndex, Config.Keybinds.exitGarage.control) then
                 lib.callback.await("bnl-housing:server:property:exit", false, propertyVehicle.property)
