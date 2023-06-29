@@ -65,7 +65,7 @@ Config.VehicleBlacklist = {
     }
 }
 
----@type table
+---@type Point[]
 Config.points = {}
 
 ---@type Point
