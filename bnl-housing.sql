@@ -60,3 +60,16 @@ CREATE TABLE IF NOT EXISTS property_vehicle (
     INDEX idx_property_id (property_id),
     CONSTRAINT uk_property_vehicle UNIQUE (property_id, slot)
 );
+
+CREATE TABLE IF NOT EXISTS property_transaction (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    property_id INT NOT NULL,
+    transaction_type ENUM("sale", "rental") NOT NULL,
+    customer VARCHAR(128),
+    price INT NOT NULL,
+    start_date TIMESTAMP,
+    status ENUM("completed", "uncompleted") DEFAULT 'uncompleted' NOT NULL,
+    FOREIGN KEY (property_id) REFERENCES properties(id),
+    INDEX idx_property_id (property_id),
+    INDEX idx_customer (customer)
+);

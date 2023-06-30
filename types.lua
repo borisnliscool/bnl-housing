@@ -22,6 +22,8 @@
 ---@field vehiclesSpawned boolean
 ---@field location vector3
 ---@field entity number
+---@field saleData table?
+---@field rentData table?
 ---@field destroyModel function
 ---@field spawnModel function
 ---@field destroyProps function
@@ -47,6 +49,9 @@
 ---@field getData function
 ---@field getOutsidePlayers function
 ---@field knock function
+---@field loadTransactions function
+---@field isForSale function
+---@field isForRent function
 
 ---@class Address
 ---@field zipcode string
@@ -62,6 +67,10 @@
 ---@field model string
 ---@field keys table
 ---@field links table
+---@field saleData table
+---@field isForSale boolean
+---@field rentData table
+---@field isForRent boolean
 
 ---@class Prop
 ---@field id number
@@ -124,8 +133,10 @@
 ---@field owner Blip
 ---@field member Blip
 ---@field renter Blip
+---@field sale Blip
 
 ---@class VehicleSlot
+---@field id? number
 ---@field location vector4
 
 ---@alias Entity number

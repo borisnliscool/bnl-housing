@@ -1,3 +1,5 @@
+local MySQL = MySQL
+
 Property = {}
 Property.__index = Property
 
@@ -38,6 +40,7 @@ function Property.load(data)
     instance.isSpawningVehicles = false
     instance.vehiclesSpawned = false
     instance.location, instance.entity = nil, nil
+    instance.saleData, instance.rentData = nil, nil
 
     SetRoutingBucketPopulationEnabled(instance.bucketId, false)
 
@@ -46,6 +49,7 @@ function Property.load(data)
         instance:loadKeys()
         instance:loadLinks()
         instance:loadVehicleData()
+        instance:loadTransactions()
     end)
 
     return instance
@@ -567,7 +571,11 @@ function Property:getData()
         address = self.address,
         model = self.model,
         keys = self.keys,
-        links = self.links
+        links = self.links,
+        saleData = self.saleData,
+        isForSale = self:isForSale(),
+        rentData = self.rentData,
+        isForRent = self:isForRent(),
     }
     return data
 end
@@ -588,6 +596,31 @@ function Property:knock(source)
             player:triggerFunction("HelpNotification", locale("notification.property.knock"))
         end
     end
+end
+
+---Load the property transition data
+function Property:loadTransactions()
+    local databaseTransactions = MySQL.query.await(
+        "SELECT * FROM property_transaction WHERE property_id = ? AND transaction_type IN ('rental', 'sale') ORDER BY start_date DESC LIMIT 2;",
+        { self.id }
+    )
+
+    self.rentData = table.findOne(databaseTransactions, function(d)
+        return d.transaction_type == "rental"
+    end)
+    self.saleData = table.findOne(databaseTransactions, function(d)
+        return d.transaction_type == "sale"
+    end)
+end
+
+---@return boolean
+function Property:isForSale()
+    return self.saleData and not self.saleData.customer or false
+end
+
+---@return boolean
+function Property:isForRent()
+    return self.rentData and not self.rentData.customer or false
 end
 
 --#endregion

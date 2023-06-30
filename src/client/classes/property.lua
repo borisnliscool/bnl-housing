@@ -15,7 +15,12 @@ function Property.new(data)
     instance.links = data.links
     instance.key = data.key
     instance.points = {}
-
+    instance.saleData = data.saleData
+    ---@type boolean
+    instance.isForSale = data.isForSale
+    instance.rentData = data.rentData
+    ---@type boolean
+    instance.isForRent = data.isForRent
     instance.blip = nil
 
     return instance
@@ -115,9 +120,9 @@ function Property:createBlip()
 
     -- todo
     --  check for sale or for rent
-    if not self.key then return end
+    if not self.key and not self.isForSale and not self.isForRent then return end
 
-    local blipData = Config.blips[self.propertyType][self.key.permission]
+    local blipData = Config.blips[self.propertyType][self.key?.permission or "sale"]
     local blip = AddBlipForCoord(self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z)
 
     SetBlipSprite(blip, blipData.sprite)
@@ -126,10 +131,9 @@ function Property:createBlip()
     SetBlipScale(blip, blipData.scale or 1.0)
     SetBlipAsShortRange(blip, blipData.short or false)
 
+    local name = locale(("blip.property.%s.%s"):format(self.propertyType, self.key?.permission or "forSale"))
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName(
-        locale(("blip.property.%s.%s"):format(self.propertyType, self.key.permission))
-    )
+    AddTextComponentSubstringPlayerName(name)
     EndTextCommandSetBlipName(blip)
 
     self.blip = blip

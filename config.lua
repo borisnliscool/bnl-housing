@@ -27,7 +27,7 @@ Config.inviteExpire = 15
 ---@type number
 Config.inviteRange = 10.0
 
----@type table<Keybind>
+---@type Keybind[]
 Config.Keybinds = {}
 ---@type Keybind
 Config.Keybinds.invite = {
@@ -95,7 +95,7 @@ Config.points.entrance = {
 ---@type Point
 Config.points.property = Config.points.entrance
 
----@type table<PropertyBlips>
+---@type PropertyBlips[]
 Config.blips = {
     house = {
         owner = {
@@ -110,6 +110,10 @@ Config.blips = {
         renter = {
             sprite = 40,
             color = 5,
+        },
+        sale = {
+            sprite = 350,
+            color = 0,
         },
     },
     warehouse = {
@@ -126,6 +130,10 @@ Config.blips = {
             sprite = 473,
             color = 5,
         },
+        sale = {
+            sprite = 474,
+            color = 0,
+        },
     },
     office = {
         owner = {
@@ -141,6 +149,10 @@ Config.blips = {
             sprite = 475,
             color = 5,
         },
+        sale = {
+            sprite = 476,
+            color = 0,
+        },
     },
     garage = {
         owner = {
@@ -155,6 +167,10 @@ Config.blips = {
         renter = {
             sprite = 357,
             color = 5,
+        },
+        sale = {
+            sprite = 357,
+            color = 0,
         },
     },
 }
