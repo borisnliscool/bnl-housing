@@ -341,7 +341,7 @@ function Property:enter(source, settings)
     if handleVehicle then
         if #self.shellData.vehicleSlots == #self.vehicles then
             -- this garage is full
-            player:triggerFunction("HelpNotification", locale("notification.property.noVehicleSpace"))
+            player:triggerFunction("Notification", locale("notification.property.noVehicleSpace"), "error")
             return false
         end
 
