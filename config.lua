@@ -114,6 +114,7 @@ Config.blips = {
         sale = {
             sprite = 350,
             color = 0,
+            short = true
         },
     },
     warehouse = {
@@ -133,6 +134,7 @@ Config.blips = {
         sale = {
             sprite = 474,
             color = 0,
+            short = true
         },
     },
     office = {
@@ -152,6 +154,7 @@ Config.blips = {
         sale = {
             sprite = 476,
             color = 0,
+            short = true
         },
     },
     garage = {
@@ -171,6 +174,7 @@ Config.blips = {
         sale = {
             sprite = 357,
             color = 0,
+            short = true
         },
     },
 }
