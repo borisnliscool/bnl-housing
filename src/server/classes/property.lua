@@ -615,12 +615,12 @@ end
 
 ---@return boolean
 function Property:isForSale()
-    return self.saleData and not self.saleData.customer or false
+    return self.saleData and not self.saleData.status == COMPLETION_STATUS.COMPLETED or false
 end
 
 ---@return boolean
 function Property:isForRent()
-    return self.rentData and not self.rentData.customer or false
+    return self.rentData and not self.rentData.status == COMPLETION_STATUS.COMPLETED or false
 end
 
 ---@param source number
@@ -628,7 +628,7 @@ function Property:buy(source)
     if not self:isForSale() then return end
 
     -- todo
-    --  implement logic for renting
+    --  implement logic for buying
 end
 
 ---@param source number

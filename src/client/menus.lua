@@ -55,7 +55,7 @@ function Menus.entrance(property)
         return
     end
 
-    main.options = table.map({
+    table.insert(main.options, {
         {
             label = locale("menu.entrance.enter"),
             onSelect = function()
@@ -66,7 +66,9 @@ function Menus.entrance(property)
                 lib.callback.await("bnl-housing:server:entrance:enter", false, property.id)
             end
         }
-    }, function(option)
+    })
+
+    main.options = table.map(main.options, function(option)
         if not option.permissions or lib.table.contains(option.permissions, property.key.permission) then
             return option
         end

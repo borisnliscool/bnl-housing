@@ -15,7 +15,13 @@ PROPERTY_TYPE = {
 }
 
 ---@enum TransactionType
-TRANSACTION_TYPE {
+TRANSACTION_TYPE = {
     RENTAL = "rental",
     SALE = "sale"
+}
+
+---@enum CompletionStatus
+COMPLETION_STATUS = {
+    UNCOMPLETED = "completed",
+    COMPLETED = "completed",
 }
