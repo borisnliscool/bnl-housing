@@ -35,8 +35,8 @@
 	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Knock on the door",
 	"menu.entrance.enter": "Enter the property",
-    "menu.entrance.buy": "Buy property for $%s",
-    "menu.entrance.rent": "Rent property for $%s",
+	"menu.entrance.buy": "Buy property for $%s",
+	"menu.entrance.rent": "Rent property for $%s",
 
 	"menu.property.title": "%s %s Menu",
 	"menu.property.exit": "Exit the property",

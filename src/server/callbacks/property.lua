@@ -75,3 +75,17 @@ RegisterMiddlewareCallback("bnl-housing:server:property:removeKey",
         return property and property:removePlayerKey(keyId)
     end
 )
+
+RegisterMiddlewareCallback("bnl-housing:server:property:buyProperty",
+    function(source, propertyId)
+        local property = GetPropertyById(propertyId)
+        return property and property:buy(source)
+    end
+)
+
+RegisterMiddlewareCallback("bnl-housing:server:property:rentProperty",
+    function(source, propertyId)
+        local property = GetPropertyById(propertyId)
+        return property and property:rent(source)
+    end
+)

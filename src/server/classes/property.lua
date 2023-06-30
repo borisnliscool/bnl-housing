@@ -606,10 +606,10 @@ function Property:loadTransactions()
     )
 
     self.rentData = table.findOne(databaseTransactions, function(d)
-        return d.transaction_type == "rental"
+        return d.transaction_type == TRANSACTION_TYPE.RENTAL
     end)
     self.saleData = table.findOne(databaseTransactions, function(d)
-        return d.transaction_type == "sale"
+        return d.transaction_type == TRANSACTION_TYPE.SALE
     end)
 end
 
@@ -621,6 +621,22 @@ end
 ---@return boolean
 function Property:isForRent()
     return self.rentData and not self.rentData.customer or false
+end
+
+---@param source number
+function Property:buy(source)
+    if not self:isForSale() then return end
+
+    -- todo
+    --  implement logic for renting
+end
+
+---@param source number
+function Property:rent(source)
+    if not self:isForRent() then return end
+
+    -- todo
+    --  implement logic for renting
 end
 
 --#endregion

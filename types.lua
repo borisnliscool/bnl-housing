@@ -52,6 +52,8 @@
 ---@field loadTransactions function
 ---@field isForSale function
 ---@field isForRent function
+---@field buy function
+---@field rent function
 
 ---@class Address
 ---@field zipcode string

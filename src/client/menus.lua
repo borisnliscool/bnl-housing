@@ -32,7 +32,9 @@ function Menus.entrance(property)
         table.insert(main.options, {
             label = locale("menu.entrance.buy", property.saleData.price),
             onSelect = function()
-                Debug.Log("Buying property")
+                -- todo
+                --  add some sort of confirmation
+                lib.callback.await("bnl-housing:server:property:buyProperty", false, property.id)
             end
         })
     end
@@ -41,7 +43,9 @@ function Menus.entrance(property)
         table.insert(main.options, {
             label = locale("menu.entrance.rent", property.rentData.price),
             onSelect = function()
-                Debug.Log("Renting property")
+                -- todo
+                --  add some sort of confirmation
+                lib.callback.await("bnl-housing:server:property:rentProperty", false, property.id)
             end
         })
     end

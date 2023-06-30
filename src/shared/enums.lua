@@ -13,3 +13,9 @@ PROPERTY_TYPE = {
     OFFICE = "office",
     GARAGE = "garage",
 }
+
+---@enum TransactionType
+TRANSACTION_TYPE {
+    RENTAL = "rental",
+    SALE = "sale"
+}

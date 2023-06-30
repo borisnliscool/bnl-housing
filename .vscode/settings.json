@@ -1,4 +1,12 @@
 {
-	"Lua.diagnostics.globals": ["lib", "locale", "cache", "MySQL"],
+	"Lua.diagnostics.globals": [
+		"lib",
+		"locale",
+		"cache",
+		"MySQL",
+		"PERMISSION",
+		"PROPERTY_TYPE",
+		"TRANSACTION_TYPE"
+	],
 	"Lua.diagnostics.disable": ["duplicate-set-field"]
 }

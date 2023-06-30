@@ -35,8 +35,8 @@
 	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Aankloppen",
 	"menu.entrance.enter": "Eigendom betreden",
-    "menu.entrance.buy": "Koop eigendom voor €%s",
-    "menu.entrance.rent": "Huur eigendom voor €%s",
+	"menu.entrance.buy": "Koop eigendom voor €%s",
+	"menu.entrance.rent": "Huur eigendom voor €%s",
 
 	"menu.property.title": "%s %s Menu",
 	"menu.property.exit": "Eigendom verlaten",
