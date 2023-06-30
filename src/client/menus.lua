@@ -28,6 +28,24 @@ function Menus.entrance(property)
         },
     }
 
+    if property.isForSale then
+        table.insert(main.options, {
+            label = locale("menu.entrance.buy", property.saleData.price),
+            onSelect = function()
+                Debug.Log("Buying property")
+            end
+        })
+    end
+
+    if property.isForRent then
+        table.insert(main.options, {
+            label = locale("menu.entrance.rent", property.rentData.price),
+            onSelect = function()
+                Debug.Log("Renting property")
+            end
+        })
+    end
+
     if not key or not key.permission or key.permission == PERMISSION.VISITOR then
         ShowMenu(main)
         return
