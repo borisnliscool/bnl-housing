@@ -147,9 +147,16 @@ end
 
 ---Give the player a key to the property
 ---@param source number
-function Property:givePlayerKey(source)
+---@param permission Permissions
+function Property:givePlayerKey(source, permission)
+    if not permission then
+        permission = PERMISSION.MEMBER
+    end
+
     -- check if the player already has a key
-    if self:getPlayerKey(source).permission ~= PERMISSION.VISITOR then
+    local playerKey = self:getPlayerKey(source)
+    if playerKey.permission ~= PERMISSION.VISITOR then
+        self:removePlayerKey(playerKey.id)
         return
     end
 
@@ -157,7 +164,7 @@ function Property:givePlayerKey(source)
     local key = {
         property_id = self.id,
         player = Bridge.GetPlayerIdentifier(source),
-        permission = PERMISSION.MEMBER
+        permission = permission
     }
 
     local id = MySQL.insert.await("INSERT INTO property_key (property_id, player, permission) VALUES (?, ?, ?)", {
