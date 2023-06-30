@@ -47,8 +47,8 @@ RegisterMiddlewareCallback("bnl-housing:server:getOutsidePlayers",
 
 RegisterMiddlewareCallback("bnl-housing:server:property:invite",
     CheckPermission[PERMISSION.MEMBER],
-    function(source, playerId)
-        local property = GetPropertyPlayerIsIn(source)
+    function(_, propertyId, playerId)
+        local property = GetPropertyById(propertyId)
         if not property then return end
 
         local accepted = lib.callback.await("bnl-housing:client:handleInvite", playerId, property:getData().address)
@@ -60,8 +60,8 @@ RegisterMiddlewareCallback("bnl-housing:server:property:invite",
 
 RegisterMiddlewareCallback("bnl-housing:server:property:giveKey",
     CheckPermission[PERMISSION.RENTER],
-    function(source, playerId)
-        local property = GetPropertyPlayerIsIn(source)
+    function(_, propertyId, playerId)
+        local property = GetPropertyById(propertyId)
         if not property then return end
 
         property:givePlayerKey(playerId)
@@ -70,8 +70,8 @@ RegisterMiddlewareCallback("bnl-housing:server:property:giveKey",
 
 RegisterMiddlewareCallback("bnl-housing:server:property:removeKey",
     CheckPermission[PERMISSION.RENTER],
-    function(source, keyId)
-        local property = GetPropertyPlayerIsIn(source)
+    function(_, propertyId, keyId)
+        local property = GetPropertyById(propertyId)
         return property and property:removePlayerKey(keyId)
     end
 )

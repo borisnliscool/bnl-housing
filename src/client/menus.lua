@@ -153,7 +153,7 @@ function Menus.invite(property)
     }
 
     local function InvitePlayer(serverId)
-        lib.callback("bnl-housing:server:property:invite", false, serverId)
+        lib.callback("bnl-housing:server:property:invite", false, property.id, serverId)
     end
 
     main.options = table.map(
@@ -225,7 +225,7 @@ function Menus.keys_give(property)
             return {
                 label = FormatPlayerTag(playerName, serverId),
                 onSelect = function()
-                    lib.callback.await("bnl-housing:server:property:giveKey", false, serverId)
+                    lib.callback.await("bnl-housing:server:property:giveKey", false, property.id, serverId)
                 end
             }
         end,
@@ -257,7 +257,7 @@ function Menus.keys_take(property)
         return {
             label = ("%s - %s"):format(key.player, locale(("permission.%s"):format(key.permission))),
             onSelect = function()
-                lib.callback.await("bnl-housing:server:property:removeKey", false, key.id)
+                lib.callback.await("bnl-housing:server:property:removeKey", false, property.id, key.id)
             end
         }
     end, true)
