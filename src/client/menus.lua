@@ -18,14 +18,7 @@ function Menus.entrance(property)
         id = "bnl-housing_entrance",
         title = locale("menu.entrance.title", property.address.streetName, property.address.buildingNumber),
         position = 'top-left',
-        options = {
-            {
-                label = locale("menu.entrance.knock"),
-                onSelect = function()
-                    lib.callback.await("bnl-housing:server:entrance:knock", false, property.id)
-                end
-            }
-        },
+        options = {},
     }
 
     if property.isForSale then
@@ -51,21 +44,25 @@ function Menus.entrance(property)
     end
 
     if not key or not key.permission or key.permission == PERMISSION.VISITOR then
+        table.insert(main.options, {
+            label = locale("menu.entrance.knock"),
+            onSelect = function()
+                lib.callback.await("bnl-housing:server:entrance:knock", false, property.id)
+            end
+        })
         ShowMenu(main)
         return
     end
 
     table.insert(main.options, {
-        {
-            label = locale("menu.entrance.enter"),
-            onSelect = function()
-                if cache.vehicle and IsVehicleBlacklisted(cache.vehicle) then
-                    Bridge.Notification(locale("notification.property.blacklistedVehicle"), "error")
-                    return
-                end
-                lib.callback.await("bnl-housing:server:entrance:enter", false, property.id)
+        label = locale("menu.entrance.enter"),
+        onSelect = function()
+            if cache.vehicle and IsVehicleBlacklisted(cache.vehicle) then
+                Bridge.Notification(locale("notification.property.blacklistedVehicle"), "error")
+                return
             end
-        }
+            lib.callback.await("bnl-housing:server:entrance:enter", false, property.id)
+        end
     })
 
     main.options = table.map(main.options, function(option)
