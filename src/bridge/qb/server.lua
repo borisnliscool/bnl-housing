@@ -77,3 +77,16 @@ end
 function Bridge.GetAllPlayers()
     return table.map(QBCore.Functions.GetPlayers(), function(p) return p.PlayerData.source end)
 end
+
+---Get a player's money
+---@param source number
+---@return number
+function Bridge.GetMoney(source)
+    -- todo: implement
+end
+
+---Remove money from a player
+---@param source any
+function Bridge.RemoveMoney(source, amount)
+    -- todo: implement
+end

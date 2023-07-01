@@ -9,6 +9,10 @@
 	"notification.property.exitWithVehicle": "Klik op ~%s~ om het eigendom te verlaten met dit voertuig.",
 	"notification.property.noVehicleSpace": "Er is geen ruimte in dit eigendom voor dit voertuig.",
 	"notification.property.blacklistedVehicle": "Je kan dit voertuig niet parkeren in dit eigendom.",
+	"notification.buy.noMoney": "Je hebt niet genoeg geld om dit eigendom te kopen.",
+	"notification.buy.success": "Je hebt %s %s gekocht voor €%s.",
+	"notification.rent.noMoney": "Je hebt niet genoeg geld om dit eigendom te huren.",
+	"notification.rent.success": "Je hebt %s %s gehuurd voor €%s.",
 	"notification.invite": "Je bent uitgenodigd naar ~y~%s~s~. \nKlik op ~%s~ om te accepteren.",
 
 	"blip.property.house.owner": "Eigen huis",

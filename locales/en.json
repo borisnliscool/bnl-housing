@@ -9,6 +9,10 @@
 	"notification.property.exitWithVehicle": "Press ~%s~ to exit the property with this vehicle.",
 	"notification.property.noVehicleSpace": "There is no space in the property for this vehicle.",
 	"notification.property.blacklistedVehicle": "You cannot park this vehicle in this property.",
+	"notification.buy.noMoney": "You don't have enough money to buy this property.",
+	"notification.buy.success": "You bought %s %s for $%s.",
+	"notification.rent.noMoney": "You don't have enough money to rent this property.",
+	"notification.rent.success": "You rented %s %s for $%s.",
 	"notification.invite": "You were invited to ~y~%s~s~. \nPress ~%s~ to accept.",
 
 	"blip.property.house.owner": "Owned house",

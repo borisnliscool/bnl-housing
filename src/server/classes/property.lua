@@ -122,6 +122,7 @@ end
 --#endregion
 
 --#region Keys
+
 ---Load the property keys
 function Property:loadKeys()
     local databaseKeys = MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
@@ -196,6 +197,15 @@ function Property:removePlayerKey(keyId)
     table.remove(self.keys, id)
 
     Debug.Log(Format("Removed key %s from property %s", key.id, self.id))
+
+    -- todo
+    --  refresh the properties on the client side
+end
+
+---Function to remove all keys from property
+function Property:removeAllKeys()
+    MySQL.query.await("DELETE FROM property_key WHERE property_id = ?", { self.id })
+    self.keys = {}
 
     -- todo
     --  refresh the properties on the client side
@@ -622,28 +632,61 @@ end
 
 ---@return boolean
 function Property:isForSale()
-    return self.saleData and not self.saleData.status == COMPLETION_STATUS.COMPLETED or false
+    return self.saleData and self.saleData.status == COMPLETION_STATUS.UNCOMPLETED or false
 end
 
 ---@return boolean
 function Property:isForRent()
-    return self.rentData and not self.rentData.status == COMPLETION_STATUS.COMPLETED or false
+    return self.rentData and self.rentData.status == COMPLETION_STATUS.UNCOMPLETED or false
 end
 
 ---@param source number
 function Property:buy(source)
     if not self:isForSale() then return end
 
+    local price = self.saleData.price
+    if Bridge.GetMoney(source) < price then
+        ClientFunctions["Notification"](source, locale("notification.buy.noMoney"), "error")
+        return
+    end
+
+    Bridge.RemoveMoney(source, price)
+    self:removeAllKeys()
+    self:givePlayerKey(source, PERMISSION.OWNER)
+
+    ClientFunctions["Notification"](source, locale(
+        "notification.buy.success", self.address.streetName, self.address.buildingNumber, price
+    ), "success")
+
     -- todo
-    --  implement logic for buying
+    --  add a row to property_payments
+    --  set saleData to completed
+
+    self:loadTransactions()
 end
 
 ---@param source number
 function Property:rent(source)
     if not self:isForRent() then return end
 
+    local price = self.saleData.price
+    if Bridge.GetMoney(source) < price then
+        ClientFunctions["Notification"](source, locale("notification.rent.noMoney"), "error")
+        return
+    end
+
+    Bridge.RemoveMoney(source, price)
+    self:givePlayerKey(source, PERMISSION.RENTER)
+
+    ClientFunctions["Notification"](source, locale(
+        "notification.rent.success", self.address.streetName, self.address.buildingNumber, price
+    ), "success")
+
     -- todo
-    --  implement logic for renting
+    --  add a row to property_payments
+    --  set saleData to completed
+
+    self:loadTransactions()
 end
 
 --#endregion

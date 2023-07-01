@@ -82,3 +82,16 @@ function Bridge.GetAllPlayers()
     ---@diagnostic disable-next-line: undefined-global
     return table.map(Ox.GetPlayers(), function(p) return p.source end)
 end
+
+---Get a player's money
+---@param source number
+---@return number
+function Bridge.GetMoney(source)
+    -- todo: implement
+end
+
+---Remove money from a player
+---@param source any
+function Bridge.RemoveMoney(source, amount)
+    -- todo: implement
+end

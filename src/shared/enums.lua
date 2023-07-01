@@ -22,6 +22,6 @@ TRANSACTION_TYPE = {
 
 ---@enum CompletionStatus
 COMPLETION_STATUS = {
-    UNCOMPLETED = "completed",
+    UNCOMPLETED = "uncompleted",
     COMPLETED = "completed",
 }

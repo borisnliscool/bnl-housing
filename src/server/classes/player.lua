@@ -67,3 +67,14 @@ function Player:freeze(value)
     if value == nil then value = true end
     FreezeEntityPosition(self:ped(), value)
 end
+
+---@return number
+function Player:getMoney()
+    return Bridge.GetMoney(self.source)
+end
+
+---@param amount number
+---@return unknown
+function Player:removeMoney(amount)
+    return Bridge.RemoveMoney(self.source, amount)
+end

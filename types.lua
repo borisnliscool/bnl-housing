@@ -33,6 +33,7 @@
 ---@field getPlayerKey function
 ---@field givePlayerKey function
 ---@field removePlayerKey function
+---@field removeAllKeys function
 ---@field loadVehicleData function
 ---@field spawnVehicle function
 ---@field spawnVehicles function
@@ -103,6 +104,8 @@
 ---@field warpOutOfProperty function
 ---@field triggerFunction function
 ---@field freeze function
+---@field getMoney function
+---@field removeMoney function
 
 ---@class Keybind
 ---@field padIndex number
