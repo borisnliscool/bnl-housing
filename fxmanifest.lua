@@ -15,10 +15,14 @@ dependencies {
     'bnl-housing-shells',
 }
 
+ui_page 'src/web/build/index.html'
+
 files {
     'src/bridge/**/client.lua',
     'data/**/*.lua',
-    'locales/*.json'
+    'locales/*.json',
+    'src/web/build/index.html',
+    'src/web/build/**/*'
 }
 
 client_scripts {
