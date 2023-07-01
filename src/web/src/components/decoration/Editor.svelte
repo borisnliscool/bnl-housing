@@ -4,36 +4,52 @@
 	import * as Three from "three";
 	import * as Utils from "three/src/math/MathUtils";
 	import { editorMode } from "../../store/stores";
+	import { fetchNui } from "../../utils/fetchNui";
+	import { isEnvBrowser, type modeType } from "../../utils/misc";
 
-	let position = new Three.Vector3(10, 10, 10);
-	let rotation = new Three.Euler();
+	let propPosition = new Three.Vector3(10, 10, 10);
+	let propRotation = new Three.Euler();
 	let offset: Three.Vector3;
-	let cameraPosition = new Three.Vector3().addVectors(
-		position,
-		new Three.Vector3(10, 10, 10)
+	let cameraPosition = new Three.Vector3(
+		propPosition.x + 10,
+		propPosition.y + 10,
+		propPosition.z + 10
 	);
-
-	let camera: any;
+	let mode: modeType = "translate";
+	let camera: Three.PerspectiveCamera;
 	let mesh: any;
 
 	const updatePositions = () => {
 		const data = {
 			prop: {
-				position: position,
+				position: propPosition,
 				rotation: {
-					x: Utils.RAD2DEG * rotation.x,
-					y: Utils.RAD2DEG * rotation.y,
-					z: Utils.RAD2DEG * rotation.z,
+					x: Utils.RAD2DEG * propRotation.x,
+					y: Utils.RAD2DEG * propRotation.y,
+					z: Utils.RAD2DEG * propRotation.z,
 				},
 			},
+			camera: {},
 		};
-		console.log(data.prop);
+
+		if (camera) {
+			data.camera = {
+				position: cameraPosition,
+				rotation: {
+					x: Utils.RAD2DEG * camera.rotation.x,
+					y: Utils.RAD2DEG * camera.rotation.y,
+					z: Utils.RAD2DEG * camera.rotation.z,
+				},
+			};
+		}
+
+		!isEnvBrowser() && fetchNui("update", data);
 	};
 
-	$: (position || rotation) && updatePositions();
+	$: (propPosition || propRotation) && updatePositions();
 
 	useNuiEvent<Three.Vector3>("setPosition", (data) => {
-		position = data;
+		propPosition = data;
 	});
 
 	const mouseDown = () => {
@@ -45,22 +61,20 @@
 	};
 
 	const mouseUp = () => {
-		position = mesh.position;
-		rotation = mesh.rotation;
+		propPosition = mesh.position;
+		propRotation = mesh.rotation;
 		cameraPosition = new Three.Vector3().addVectors(offset, mesh.position);
-		camera.lookAt(position);
+		camera.lookAt(propPosition);
 	};
 
-    type modeType = "translate" | "rotate";
-    let mode: modeType = "translate";
-    editorMode.subscribe((_mode) => {
-        mode = _mode as modeType;
-    })
+	editorMode.subscribe((_mode) => {
+		mode = _mode as modeType;
+	});
 </script>
 
 <Threlte.Canvas>
 	<Threlte.PerspectiveCamera position={cameraPosition} fov={50} bind:camera>
-		<Threlte.OrbitControls target={position} />
+		<Threlte.OrbitControls target={propPosition} />
 	</Threlte.PerspectiveCamera>
 
 	<Threlte.AmbientLight intensity={0.5} />
@@ -72,9 +86,10 @@
 			color: "white",
 			side: Three.DoubleSide,
 		})}
-		{position}
+		position={propPosition}
 		rotation={{ x: Utils.DEG2RAD * 90 }}
 	>
+		<!-- Todo: use on:objectChange, currently doesn't work because of position={propPosition} -->
 		<Threlte.TransformControls
 			{mode}
 			size={0.75}
