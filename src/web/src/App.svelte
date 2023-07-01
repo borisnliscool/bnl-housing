@@ -16,15 +16,15 @@
 			data: "decoration",
 		},
 	]);
+	debugData([
+		{
+			action: "setPosition",
+			data: {x: 15, y: 5, z: -10},
+		},
+	]);
 </script>
 
 <VisibilityProvider>
 	<AdminMenu />
 	<DecorationMenu />
 </VisibilityProvider>
-
-<style global>
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
-</style>

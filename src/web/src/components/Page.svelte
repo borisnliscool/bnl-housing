@@ -14,6 +14,8 @@
 	});
 </script>
 
-<section class="{isVisible ? 'block' : 'hidden'}">
-    <slot />
-</section>
+{#if isVisible}
+	<section class="w-full h-screen relative">
+		<slot />
+	</section>
+{/if}
