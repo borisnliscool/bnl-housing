@@ -2,16 +2,20 @@ local camera
 local entity
 
 RegisterNUICallback("update", function(data, cb)
-    cb()
-
     local propCoords = vec(data.prop.position.z, data.prop.position.x, data.prop.position.y) + cache.coords
-    SetEntityCoords(entity, propCoords.x, propCoords.y, propCoords.z, false, false, false, false)
-    SetEntityRotation(entity, data.prop.rotation.x, data.prop.rotation.y, data.prop.rotation.z, 2, false)
+
+    ---@diagnostic disable-next-line: missing-parameter
+    SetEntityCoords(entity, propCoords.x, propCoords.y, propCoords.z)
+    ---@diagnostic disable-next-line: missing-parameter
+    SetEntityRotation(entity, data.prop.rotation.x, data.prop.rotation.y, data.prop.rotation.z)
 
     if data.camera then
         local camCoords = vec(data.camera.position.z, data.camera.position.x, data.camera.position.y) + cache.coords
         SetCamCoord(camera, camCoords.x, camCoords.y, camCoords.z)
+        PointCamAtCoord(camera, propCoords.x, propCoords.y, propCoords.z)
     end
+
+    cb({})
 end)
 
 RegisterCommand("housing:test", function(source, args, rawCommand)
@@ -28,8 +32,9 @@ RegisterCommand("housing:test", function(source, args, rawCommand)
 
     -- Creating the camera
     camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
-    SetCamCoord(camera, coords.x, coords.y, coords.z)
-    PointCamAtEntity(camera, entity, 0, 0, 0, false)
+    SetCamCoord(camera, coords.x + 1, coords.y + 1, coords.z + 1)
+    SetCamFov(camera, 70.0)
+    PointCamAtCoord(camera, coords.x, coords.y, coords.z)
     RenderScriptCams(true, true, 500, true, false)
 
     SendNUIMessage({
@@ -51,14 +56,39 @@ RegisterCommand("housing:test", function(source, args, rawCommand)
     SetNuiFocus(true, true)
 end, false)
 
-RegisterCommand("housing:ui", function(source, args, rawCommand)
+local function ExitUI(save)
+    RenderScriptCams(false, true, 500, true, false)
+
+    if save then
+        SetEntityCollision(entity, true, true)
+        FreezeEntityPosition(entity, true)
+
+        Debug.Log({
+            coords = GetEntityCoords(entity),
+            rotation = GetEntityRotation(entity)
+        })
+    else
+        DeleteEntity(entity)
+    end
+
     SendNUIMessage({
         action = 'setVisible',
-        data = true
+        data = false
     })
-    SendNUIMessage({
-        action = 'setPage',
-        data = "decoration"
-    })
-    SetNuiFocus(true, true)
+    SetNuiFocus(false, false)
+
+    entity, camera = nil, nil
+end
+
+RegisterNUICallback("cancelPlacement", function(data, cb)
+    cb({})
+    ExitUI(false)
+end)
+RegisterNUICallback("savePlacement", function(data, cb)
+    cb({})
+    ExitUI(true)
+end)
+
+RegisterCommand("housing:exit", function(source, args, rawCommand)
+    ExitUI()
 end, false)

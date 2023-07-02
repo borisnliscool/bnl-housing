@@ -22,6 +22,5 @@ export async function fetchNui<T = any>(
 		: "nui-frame-app";
 
 	const resp = await fetch(`https://${resourceName}/${eventName}`, options);
-
 	return await resp.json();
 }

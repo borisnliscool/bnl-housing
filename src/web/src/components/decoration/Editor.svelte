@@ -3,13 +3,17 @@
 	import { useNuiEvent } from "../../utils/useNuiEvent";
 	import * as Three from "three";
 	import * as Utils from "three/src/math/MathUtils";
-	import { editorMode } from "../../store/stores";
+	import { editorMode, editorSpace } from "../../store/stores";
 	import { fetchNui } from "../../utils/fetchNui";
-	import { isEnvBrowser, type modeType } from "../../utils/misc";
+	import {
+		isEnvBrowser,
+		type modeType,
+		type spaceType,
+	} from "../../utils/misc";
 
 	let entity: number;
 	let propPosition = new Three.Vector3(0, 0, 0);
-	let propRotation = new Three.Euler(Utils.DEG2RAD * 90, 0, 0);
+	let propRotation = new Three.Euler(Utils.degToRad(-90), 0, 0);
 
 	let offset: Three.Vector3;
 	let cameraPosition = new Three.Vector3(
@@ -18,11 +22,12 @@
 		propPosition.z + 1
 	);
 	let mode: modeType = "translate";
+	let space: spaceType = "world";
 	let camera: Three.PerspectiveCamera;
 	let mesh: any;
 
-	const updatePositions = () => {
-		const data = {
+	const updatePositions = (updateCamera = true) => {
+		const data: { prop: {}; camera?: {} } = {
 			prop: {
 				entity: entity,
 				position: propPosition,
@@ -32,18 +37,15 @@
 					z: Utils.radToDeg(propRotation.z),
 				},
 			},
-			camera: {},
 		};
 
-		if (camera) {
+		if (updateCamera && camera) {
 			data.camera = {
 				position: camera.position,
 			};
 		}
 
-		try {
-			!isEnvBrowser() && fetchNui("update", data);
-		} catch (err) {}
+		!isEnvBrowser() && fetchNui("update", data);
 	};
 
 	$: (propPosition || propRotation) && updatePositions();
@@ -72,11 +74,18 @@
 	editorMode.subscribe((_mode) => {
 		mode = _mode as modeType;
 	});
+
+	editorSpace.subscribe((_space) => {
+		space = _space as spaceType;
+	});
 </script>
 
 <Threlte.Canvas>
-	<Threlte.PerspectiveCamera position={cameraPosition} fov={50} bind:camera>
-		<Threlte.OrbitControls target={propPosition} on:change={updatePositions} />
+	<Threlte.PerspectiveCamera position={cameraPosition} fov={70} bind:camera>
+		<Threlte.OrbitControls
+			target={propPosition}
+			on:change={() => updatePositions(true)}
+		/>
 	</Threlte.PerspectiveCamera>
 
 	<Threlte.AmbientLight intensity={0.5} />
@@ -91,12 +100,13 @@
 		position={propPosition}
 		rotation={propRotation}
 	>
-		<!-- Todo: use on:objectChange, currently doesn't work because of position={propPosition} -->
 		<Threlte.TransformControls
 			{mode}
 			size={0.75}
 			on:mouseDown={mouseDown}
 			on:mouseUp={mouseUp}
+			on:objectChange={() => updatePositions(false)}
+			{space}
 		/>
 	</Threlte.Mesh>
 </Threlte.Canvas>
