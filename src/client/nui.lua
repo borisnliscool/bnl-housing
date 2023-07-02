@@ -1,5 +1,5 @@
-local camera
-local entity
+local camera, entity, model
+local props = {}
 
 RegisterNUICallback("update", function(data, cb)
     local propCoords = vec(data.prop.position.z, data.prop.position.x, data.prop.position.y) + cache.coords
@@ -18,9 +18,44 @@ RegisterNUICallback("update", function(data, cb)
     cb({})
 end)
 
+local function ExitUI(save)
+    RenderScriptCams(false, true, 500, true, false)
+
+    if save then
+        SetEntityCollision(entity, true, true)
+        FreezeEntityPosition(entity, true)
+
+        table.insert(props, {
+            model = model,
+            coords = GetEntityCoords(entity),
+            rotation = GetEntityRotation(entity)
+        })
+    else
+        DeleteEntity(entity)
+    end
+
+    SendNUIMessage({
+        action = 'setVisible',
+        data = false
+    })
+    SetNuiFocus(false, false)
+
+    camera, entity, model = nil, nil, nil
+end
+
+RegisterNUICallback("cancelPlacement", function(data, cb)
+    cb({})
+    ExitUI(false)
+end)
+
+RegisterNUICallback("savePlacement", function(data, cb)
+    cb({})
+    ExitUI(true)
+end)
+
 RegisterCommand("housing:test", function(source, args, rawCommand)
     -- Creating the entity
-    local model = args[1] or "prop_bench_01a"
+    model = args[1] or "prop_bench_01a"
     lib.requestModel(model)
 
     local hash = joaat(model)
@@ -46,49 +81,21 @@ RegisterCommand("housing:test", function(source, args, rawCommand)
         }
     })
     SendNUIMessage({
-        action = 'setVisible',
+        action = "setVisible",
         data = true
     })
     SendNUIMessage({
-        action = 'setPage',
+        action = "setPage",
         data = "decoration"
     })
     SetNuiFocus(true, true)
 end, false)
 
-local function ExitUI(save)
-    RenderScriptCams(false, true, 500, true, false)
-
-    if save then
-        SetEntityCollision(entity, true, true)
-        FreezeEntityPosition(entity, true)
-
-        Debug.Log({
-            coords = GetEntityCoords(entity),
-            rotation = GetEntityRotation(entity)
-        })
-    else
-        DeleteEntity(entity)
-    end
-
-    SendNUIMessage({
-        action = 'setVisible',
-        data = false
-    })
-    SetNuiFocus(false, false)
-
-    entity, camera = nil, nil
-end
-
-RegisterNUICallback("cancelPlacement", function(data, cb)
-    cb({})
-    ExitUI(false)
-end)
-RegisterNUICallback("savePlacement", function(data, cb)
-    cb({})
-    ExitUI(true)
-end)
-
 RegisterCommand("housing:exit", function(source, args, rawCommand)
     ExitUI()
+end, false)
+
+RegisterCommand("housing:print", function(source, args, rawCommand)
+    Debug.Log(props)
+    lib.setClipboard(json.encode(props))
 end, false)
