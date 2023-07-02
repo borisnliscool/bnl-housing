@@ -18,12 +18,26 @@ RegisterNUICallback("update", function(data, cb)
     cb({})
 end)
 
+RegisterNUICallback("setOutline", function(outline, cb)
+    SetEntityDrawOutline(entity, outline)
+    cb({})
+end)
+
+RegisterNUICallback("setTransparent", function(transparent, cb)
+    SetEntityAlpha(entity, transparent and 204 or 255, false)
+    SetEntityDrawOutlineColor(0, 192, 255, 255)
+    SetEntityDrawOutlineShader(1)
+    cb({})
+end)
+
 local function ExitUI(save)
     RenderScriptCams(false, true, 500, true, false)
 
     if save then
         SetEntityCollision(entity, true, true)
         FreezeEntityPosition(entity, true)
+        SetEntityDrawOutline(entity, false)
+        ResetEntityAlpha(entity)
 
         table.insert(props, {
             model = model,
@@ -62,22 +76,24 @@ RegisterCommand("housing:test", function(source, args, rawCommand)
     lib.requestModel(hash, 5000)
 
     local coords = cache.coords
-    entity = CreateObject(hash, coords.x, coords.y, coords.z, false, true, false)
-    SetEntityCollision(entity, false, false)
+    local _entity = CreateObject(hash, coords.x, coords.y, coords.z, false, true, false)
+    SetEntityCollision(_entity, false, false)
 
     -- Creating the camera
-    camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
-    SetCamCoord(camera, coords.x + 1, coords.y + 1, coords.z + 1)
-    SetCamFov(camera, 70.0)
-    PointCamAtCoord(camera, coords.x, coords.y, coords.z)
+    local _camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
+    SetCamCoord(_camera, coords.x + 1, coords.y + 1, coords.z + 1)
+    SetCamFov(_camera, 70.0)
+    PointCamAtCoord(_camera, coords.x, coords.y, coords.z)
     RenderScriptCams(true, true, 500, true, false)
 
+    -- todo:
+    --  send entity bounds and handle that on the ui
     SendNUIMessage({
         action = "setup",
         data = {
-            entity = entity,
+            entity = _entity,
             position = coords,
-            rotation = GetEntityRotation(entity)
+            rotation = GetEntityRotation(_entity)
         }
     })
     SendNUIMessage({
@@ -89,6 +105,9 @@ RegisterCommand("housing:test", function(source, args, rawCommand)
         data = "decoration"
     })
     SetNuiFocus(true, true)
+
+    entity = _entity
+    camera = _camera
 end, false)
 
 RegisterCommand("housing:exit", function(source, args, rawCommand)

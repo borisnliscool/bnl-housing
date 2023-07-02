@@ -5,6 +5,7 @@
 	import Editor from "./Editor.svelte";
 	import type { modeType, spaceType } from "src/utils/misc";
 	import { fetchNui } from "../../utils/fetchNui";
+	import Toggle from "../elements/Toggle.svelte";
 
 	let mode: modeType;
 	let space: spaceType;
@@ -54,7 +55,7 @@
 	<Editor />
 
 	<div
-		class="absolute bottom-0 left-0 px-6 py-4 w-full bg-gray-200/75 flex items-end justify-between gap-4"
+		class="absolute bottom-0 left-0 px-6 py-4 w-full bg-gray-200/90 flex items-end justify-between gap-4"
 	>
 		<div class="flex gap-4">
 			<div>
@@ -89,6 +90,22 @@
 				>
 					Local <span class="font-mono">(2)</span>
 				</button>
+			</div>
+
+			<div>
+				<p>Settings</p>
+				<div class="flex flex-col">
+					<Toggle
+						label="Transparency"
+						toggled={false}
+						on:toggled={(e) => fetchNui("setTransparent", e.detail.toggled)}
+					/>
+					<Toggle
+						label="Outline"
+						toggled={true}
+						on:toggled={(e) => fetchNui("setOutline", e.detail.toggled)}
+					/>
+				</div>
 			</div>
 		</div>
 
