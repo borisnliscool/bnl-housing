@@ -16,7 +16,7 @@
 	});
 </script>
 
-<button class="flex gap-2 items-center" on:click={toggle}>
+<button class="flex gap-2 items-center outline-none" on:click={toggle}>
 	<div
 		class="w-9 h-5 rounded-full overflow-hidden p-0.5 transition-colors {!toggled
 			? 'bg-gray-400'

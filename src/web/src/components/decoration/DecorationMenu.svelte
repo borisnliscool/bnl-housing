@@ -60,36 +60,46 @@
 		<div class="flex gap-4">
 			<div>
 				<p>Mode</p>
-				<button
-					class="modeButton {mode == 'translate'
-						? 'bg-blue-700'
-						: 'bg-gray-500'}"
-					on:click={() => setMode("translate")}
-				>
-					Move <span class="font-mono">(w)</span>
-				</button>
-				<button
-					class="modeButton {mode == 'rotate' ? 'bg-blue-700' : 'bg-gray-500'}"
-					on:click={() => setMode("rotate")}
-				>
-					Rotate <span class="font-mono">(r)</span>
-				</button>
+				<div class="flex rounded-md overflow-hidden">
+					<button
+						class="switchButton {mode == 'translate'
+							? 'bg-blue-700'
+							: 'bg-gray-500'}"
+						on:click={() => setMode("translate")}
+					>
+						Move <span class="font-mono">(w)</span>
+					</button>
+					<button
+						class="switchButton {mode == 'rotate'
+							? 'bg-blue-700'
+							: 'bg-gray-500'}"
+						on:click={() => setMode("rotate")}
+					>
+						Rotate <span class="font-mono">(r)</span>
+					</button>
+				</div>
 			</div>
 
 			<div>
 				<p>Space</p>
-				<button
-					class="modeButton {space == 'world' ? 'bg-blue-700' : 'bg-gray-500'}"
-					on:click={() => setSpace("world")}
-				>
-					World <span class="font-mono">(1)</span>
-				</button>
-				<button
-					class="modeButton {space == 'local' ? 'bg-blue-700' : 'bg-gray-500'}"
-					on:click={() => setSpace("local")}
-				>
-					Local <span class="font-mono">(2)</span>
-				</button>
+				<div class="flex rounded-md overflow-hidden">
+					<button
+						class="switchButton {space == 'world'
+							? 'bg-blue-700'
+							: 'bg-gray-500'}"
+						on:click={() => setSpace("world")}
+					>
+						World <span class="font-mono">(1)</span>
+					</button>
+					<button
+						class="switchButton {space == 'local'
+							? 'bg-blue-700'
+							: 'bg-gray-500'}"
+						on:click={() => setSpace("local")}
+					>
+						Local <span class="font-mono">(2)</span>
+					</button>
+				</div>
 			</div>
 
 			<div>
@@ -109,15 +119,15 @@
 			</div>
 		</div>
 
-		<div>
+		<div class="flex gap-2">
 			<button
-				class="modeButton bg-gray-500"
+				class="button bg-gray-500"
 				on:click={() => fetchNui("cancelPlacement")}
 			>
 				Cancel
 			</button>
 			<button
-				class="modeButton bg-blue-700"
+				class="button bg-blue-700"
 				on:click={() => fetchNui("savePlacement")}
 			>
 				Save
@@ -127,8 +137,13 @@
 </Page>
 
 <style lang="scss">
-	.modeButton {
+	.button {
 		@apply p-3 px-6 text-white rounded-md text-sm;
+		min-width: 6rem;
+	}
+
+	.switchButton {
+		@apply p-3 px-6 text-white text-sm outline-none;
 		min-width: 6rem;
 	}
 </style>
