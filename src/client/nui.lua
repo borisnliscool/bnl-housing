@@ -96,6 +96,16 @@ RegisterCommand("housing:exit", function(source, args, rawCommand)
 end, false)
 
 RegisterCommand("housing:print", function(source, args, rawCommand)
-    Debug.Log(props)
-    lib.setClipboard(json.encode(props))
+    local property = lib.callback.await("bnl-housing:server:property:inside", false)
+    local currentPropertyLocation =
+        property and lib.callback.await("bnl-housing:server:property:getLocation", false, property.id)
+
+    local _props = table.map(props, function(prop)
+        if not currentPropertyLocation then return prop end
+        prop.coords = prop.coords - currentPropertyLocation
+        return prop
+    end)
+
+    Debug.Log(_props)
+    lib.setClipboard(json.encode(_props))
 end, false)

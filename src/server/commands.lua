@@ -32,3 +32,20 @@ RegisterCommand("knock", function(source, args, rawCommand)
     local property = GetPropertyPlayerIsIn(source) or GetPropertyById(tonumber(args[1]) or 1)
     return property and property:knock(source)
 end, false)
+
+RegisterCommand("housing:insert", function(source, args, rawCommand)
+    local data = json.decode(args[1])
+    if not data then return end
+
+    local property = GetPropertyPlayerIsIn(source)
+    if not property then return end
+
+    for _, prop in pairs(data) do
+        MySQL.query.await("INSERT INTO property_prop (property_id, model, location, rotation) VALUES (?, ?, ?, ?)", {
+            property.id,
+            prop.model,
+            json.encode(prop.coords),
+            json.encode(prop.rotation),
+        })
+    end
+end, false)

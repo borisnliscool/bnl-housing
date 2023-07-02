@@ -1,3 +1,7 @@
+RegisterMiddlewareCallback("bnl-housing:server:property:inside", function(source)
+    return GetPropertyPlayerIsIn(source):getData()
+end)
+
 RegisterMiddlewareCallback("bnl-housing:server:property:exit", function(source, propertyId)
     local property = GetPropertyById(propertyId)
     return property and property:exit(source)
