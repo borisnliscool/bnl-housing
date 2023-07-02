@@ -7,13 +7,15 @@
 	import { fetchNui } from "../../utils/fetchNui";
 	import { isEnvBrowser, type modeType } from "../../utils/misc";
 
-	let propPosition = new Three.Vector3(10, 10, 10);
-	let propRotation = new Three.Euler();
+	let entity: number;
+	let propPosition = new Three.Vector3(0, 0, 0);
+	let propRotation = new Three.Euler(Utils.DEG2RAD * 90, 0, 0);
+
 	let offset: Three.Vector3;
 	let cameraPosition = new Three.Vector3(
-		propPosition.x + 10,
-		propPosition.y + 10,
-		propPosition.z + 10
+		propPosition.x + 1,
+		propPosition.y + 1,
+		propPosition.z + 1
 	);
 	let mode: modeType = "translate";
 	let camera: Three.PerspectiveCamera;
@@ -22,11 +24,12 @@
 	const updatePositions = () => {
 		const data = {
 			prop: {
+				entity: entity,
 				position: propPosition,
 				rotation: {
-					x: Utils.RAD2DEG * propRotation.x,
-					y: Utils.RAD2DEG * propRotation.y,
-					z: Utils.RAD2DEG * propRotation.z,
+					x: Utils.radToDeg(propRotation.x),
+					y: Utils.radToDeg(propRotation.y),
+					z: Utils.radToDeg(propRotation.z),
 				},
 			},
 			camera: {},
@@ -34,22 +37,21 @@
 
 		if (camera) {
 			data.camera = {
-				position: cameraPosition,
-				rotation: {
-					x: Utils.RAD2DEG * camera.rotation.x,
-					y: Utils.RAD2DEG * camera.rotation.y,
-					z: Utils.RAD2DEG * camera.rotation.z,
-				},
+				position: camera.position,
 			};
 		}
 
-		!isEnvBrowser() && fetchNui("update", data);
+		try {
+			!isEnvBrowser() && fetchNui("update", data);
+		} catch (err) {}
 	};
 
 	$: (propPosition || propRotation) && updatePositions();
 
-	useNuiEvent<Three.Vector3>("setPosition", (data) => {
-		propPosition = data;
+	useNuiEvent<any>("setup", (data) => {
+		entity = data.entity;
+		propPosition = data.position;
+		propRotation = data.rotation;
 	});
 
 	const mouseDown = () => {
@@ -74,20 +76,20 @@
 
 <Threlte.Canvas>
 	<Threlte.PerspectiveCamera position={cameraPosition} fov={50} bind:camera>
-		<Threlte.OrbitControls target={propPosition} />
+		<Threlte.OrbitControls target={propPosition} on:change={updatePositions} />
 	</Threlte.PerspectiveCamera>
 
 	<Threlte.AmbientLight intensity={0.5} />
 
 	<Threlte.Mesh
 		bind:mesh
-		geometry={new Three.PlaneGeometry(20, 20)}
+		geometry={new Three.PlaneGeometry(0, 0)}
 		material={new Three.MeshStandardMaterial({
 			color: "white",
 			side: Three.DoubleSide,
 		})}
 		position={propPosition}
-		rotation={{ x: Utils.DEG2RAD * 90 }}
+		rotation={propRotation}
 	>
 		<!-- Todo: use on:objectChange, currently doesn't work because of position={propPosition} -->
 		<Threlte.TransformControls

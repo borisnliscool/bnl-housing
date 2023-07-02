@@ -15,7 +15,7 @@
 				case "r":
 					setMode("rotate");
 					break;
-				case "g":
+				case "w":
 					setMode("translate");
 					break;
 				default:
@@ -35,7 +35,7 @@
 		class="absolute bottom-0 left-0 w-full h-24 bg-gray-200/75 flex items-center justify-center gap-4"
 	>
 		<button class="modeButton" on:click={() => setMode("translate")}>
-			Move (g)
+			Move (w)
 		</button>
 		<button class="modeButton" on:click={() => setMode("rotate")}>
 			Rotate (r)
