@@ -11,6 +11,10 @@
 		type spaceType,
 	} from "../../utils/misc";
 
+	const planeSize = isEnvBrowser()
+		? new Three.PlaneGeometry(2, 2)
+		: new Three.PlaneGeometry(0, 0);
+
 	let entity: number;
 	let propPosition = new Three.Vector3(0, 0, 0);
 	let propRotation = new Three.Euler(Utils.degToRad(-90), 0, 0);
@@ -92,7 +96,7 @@
 
 	<Threlte.Mesh
 		bind:mesh
-		geometry={new Three.PlaneGeometry(0, 0)}
+		geometry={planeSize}
 		material={new Three.MeshStandardMaterial({
 			color: "white",
 			side: Three.DoubleSide,
