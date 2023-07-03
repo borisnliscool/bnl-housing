@@ -109,7 +109,7 @@
 	>
 		<div class="w-[14rem]">
 			<p>Category</p>
-			<Select items={categories} bind:value={category} />
+			<Select items={categories} bind:value={category} placement="bottom" cols={5} />
 		</div>
 
 		<div class="props">

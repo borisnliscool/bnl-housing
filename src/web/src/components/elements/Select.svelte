@@ -1,11 +1,39 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import Icon from "@iconify/svelte";
-	import type { SelectOptionType } from "../../utils/interfaces";
+	import type { SelectOptionType, placement } from "../../utils/interfaces";
 
 	export let items: SelectOptionType[];
 	export let value: any = undefined;
 	export let shown = false;
+
+	export let placement: placement = "top";
+	export let cols = 10;
+	let style = "";
+
+	const generateClasses = (_placement: placement, _cols: number) => {
+		let _style = "";
+
+		const invertedPlacement = {
+			bottom: "top",
+			top: "bottom",
+			left: "right",
+			right: "left",
+		}[_placement] as placement;
+
+		_style += `${invertedPlacement}: 100%;`;
+		_style += `grid-template-columns: repeat(${Math.floor(
+			items.length / _cols
+		)}, 1fr);`;
+
+		if (_placement == "left" || _placement == "right") {
+			_style += "top: 0;";
+		}
+
+		return _style;
+	};
+
+	$: style = generateClasses(placement, cols);
 
 	onMount(() => {
 		if (!value) value = items[0];
@@ -16,12 +44,12 @@
 	<button class="active" on:click={() => (shown = !shown)}>
 		{#if value}
 			{value.name}
-        {:else}
-            <span class="text-gray-300">
-                Select
-            </span>
-        {/if}
-		<span class="text-gray-500 transition-transform {shown ? "rotate-180" : ""}">
+		{:else}
+			<span class="text-gray-300"> Select </span>
+		{/if}
+		<span
+			class="text-gray-500 transition-transform {shown ? 'rotate-180' : ''}"
+		>
 			<Icon icon="fa6-solid:angle-down" />
 		</span>
 	</button>
@@ -33,10 +61,7 @@
 		on:click={() => (shown = !shown)}
 	/>
 
-	<div
-		class="options {!shown ? 'hidden' : 'grid'}"
-		style="grid-template-columns: repeat({Math.floor(items.length / 10)}, 1fr);"
-	>
+	<div class="options {!shown ? 'hidden' : 'grid'}" {style}>
 		{#each items as item}
 			<button
 				class="option {value == item
@@ -60,7 +85,7 @@
 	}
 
 	.options {
-		@apply absolute bottom-[100%] mb-1 z-10 flex-col rounded-md overflow-hidden bg-white shadow-md;
+		@apply absolute m-1 z-10 flex-col rounded-md overflow-hidden bg-white shadow-md;
 	}
 
 	.option {
