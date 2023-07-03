@@ -1,7 +1,7 @@
 ---@type number, number, string, vector3
 local camera, entity, model, coords
 local props = {}
-local showBoundingBox = false
+local showBoundingBox, showOutline, showTransparancy = false, false, false
 
 RegisterNUICallback("close", function(data, cb)
     cb({})
@@ -37,30 +37,45 @@ RegisterNUICallback("update", function(data, cb)
     cb({})
 end)
 
+local function setTransparency()
+    SetEntityAlpha(entity, showTransparancy and 204 or 255, false)
+end
+
+local function setOutline()
+    SetEntityDrawOutline(entity, showOutline)
+    SetEntityDrawOutlineColor(0, 0, 200, 255)
+    SetEntityDrawOutlineShader(1)
+end
+
+local function setBoundingBox()
+    CreateThread(function()
+        while showBoundingBox and entity ~= nil do
+            Wait(0)
+            DrawEntityBoundingBox(entity)
+        end
+    end)
+end
+
 RegisterNUICallback("setBoundingBox", function(show, cb)
-    cb({})
     showBoundingBox = show
-    while showBoundingBox do
-        Wait(0)
-        showBoundingBox = showBoundingBox and entity ~= 0
-        DrawEntityBoundingBox(entity)
-    end
+    setBoundingBox()
+    cb({})
 end)
 
 RegisterNUICallback("setOutline", function(outline, cb)
-    SetEntityDrawOutline(entity, outline)
-    SetEntityDrawOutlineColor(0, 0, 200, 255)
-    SetEntityDrawOutlineShader(1)
+    showOutline = outline
+    setOutline()
     cb({})
 end)
 
 RegisterNUICallback("setTransparent", function(transparent, cb)
-    SetEntityAlpha(entity, transparent and 204 or 255, false)
+    showTransparancy = transparent
+    setTransparency()
     cb({})
 end)
 
 ---@param _model string
-local function StartEditor(_model)
+local function startEditor(_model)
     model = _model
 
     -- Creating the entity
@@ -102,10 +117,14 @@ local function StartEditor(_model)
 
     entity = _entity
     camera = _camera
+
+    setTransparency()
+    setOutline()
+    setBoundingBox()
 end
 
 ---@param save boolean
-local function ExitEditor(save)
+local function exitEditor(save)
     RenderScriptCams(false, false, 0, true, false)
 
     if save then
@@ -128,12 +147,12 @@ end
 
 RegisterNUICallback("selectProp", function(model, cb)
     cb({})
-    StartEditor(model)
+    startEditor(model)
 end)
 
 RegisterNUICallback("cancelPlacement", function(data, cb)
     cb({})
-    ExitEditor(false)
+    exitEditor(false)
 
     SendNUIMessage({
         action = "setPage",
@@ -143,7 +162,7 @@ end)
 
 RegisterNUICallback("savePlacement", function(data, cb)
     cb({})
-    ExitEditor(true)
+    exitEditor(true)
 
     SendNUIMessage({
         action = "setPage",
@@ -161,11 +180,11 @@ RegisterNUICallback("getProps", function(category, cb)
 end)
 
 RegisterCommand("housing:test", function(source, args, rawCommand)
-    StartEditor(args[1] or "prop_bench_01a")
+    startEditor(args[1] or "prop_bench_01a")
 end, false)
 
 RegisterCommand("housing:exit", function(source, args, rawCommand)
-    ExitEditor(false)
+    exitEditor(false)
 end, false)
 
 RegisterCommand("housing:print", function(source, args, rawCommand)

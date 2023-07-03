@@ -5,12 +5,9 @@
 	import type { modeType, spaceType } from "src/utils/misc";
 	import { fetchNui } from "../../utils/fetchNui";
 	import { useKeyPress } from "../../utils/useKeyPress";
-	import Toggle from "../elements/Toggle.svelte";
+	import IconCheckbox from "../elements/IconCheckbox.svelte";
 
 	let isVisible: boolean;
-	let mode: modeType;
-	let space: spaceType;
-
 	let transparency: boolean = false;
 	let outline: boolean = false;
 	let boundingbox: boolean = false;
@@ -19,106 +16,90 @@
 	$: fetchNui("setOutline", outline);
 	$: fetchNui("setBoundingBox", boundingbox);
 
-	editorMode.subscribe((_mode) => {
-		mode = _mode as modeType;
-	});
-
-	editorSpace.subscribe((_space) => {
-		space = _space as spaceType;
-	});
-
-	const setMode = (mode: modeType) => {
-		editorMode.set(mode);
-	};
-
-	const setSpace = (space: spaceType) => {
-		editorSpace.set(space);
-	};
+	const setMode = (mode: modeType) => editorMode.set(mode);
+	const setSpace = (space: spaceType) => editorSpace.set(space);
 
 	useKeyPress("r", () => isVisible && setMode("rotate"));
 	useKeyPress("w", () => isVisible && setMode("translate"));
 	useKeyPress("1", () => isVisible && setSpace("world"));
 	useKeyPress("2", () => isVisible && setSpace("local"));
 	useKeyPress("Escape", () => isVisible && fetchNui("cancelPlacement"));
-	useKeyPress("t", () => (transparency = !transparency));
-	useKeyPress("o", () => (outline = !outline));
-	useKeyPress("b", () => (boundingbox = !boundingbox));
+	useKeyPress("t", () => {
+		if (isVisible) transparency = !transparency;
+	});
+	useKeyPress("o", () => {
+		if (isVisible) outline = !outline;
+	});
+	useKeyPress("b", () => {
+		if (isVisible) boundingbox = !boundingbox;
+	});
 </script>
 
 <Page id="decoration" bind:isVisible>
 	<Editor />
 
-	<div
-		class="absolute bottom-0 left-0 px-6 py-4 w-full bg-gray-200/90 flex items-end justify-between gap-4"
-	>
-		<div class="flex gap-4">
-			<div>
-				<p>Mode</p>
-				<div class="flex rounded-md overflow-hidden">
-					<button
-						class="switchButton {mode == 'translate'
-							? 'bg-blue-700'
-							: 'bg-gray-500'}"
-						on:click={() => setMode("translate")}
-					>
-						Move <kbd>(w)</kbd>
-					</button>
-					<button
-						class="switchButton {mode == 'rotate'
-							? 'bg-blue-700'
-							: 'bg-gray-500'}"
-						on:click={() => setMode("rotate")}
-					>
-						Rotate <kbd>(r)</kbd>
-					</button>
-				</div>
-			</div>
-
-			<div>
-				<p>Space</p>
-				<div class="flex rounded-md overflow-hidden">
-					<button
-						class="switchButton {space == 'world'
-							? 'bg-blue-700'
-							: 'bg-gray-500'}"
-						on:click={() => setSpace("world")}
-					>
-						World <kbd>(1)</kbd>
-					</button>
-					<button
-						class="switchButton {space == 'local'
-							? 'bg-blue-700'
-							: 'bg-gray-500'}"
-						on:click={() => setSpace("local")}
-					>
-						Local <kbd>(2)</kbd>
-					</button>
-				</div>
-			</div>
-
-			<div>
-				<p>Settings</p>
-				<div class="flex gap-4">
-					<div>
-						<Toggle
-							label="Transparency <kbd>(t)</kbd>"
-							toggled={transparency}
-						/>
-						<Toggle label="Outline <kbd>(o)</kbd>" toggled={outline} />
-					</div>
-					<div>
-						<Toggle label="Bounding box <kbd>(b)</kbd>" toggled={boundingbox} />
-					</div>
-				</div>
-			</div>
+	<div class="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+		<div class="menu">
+			<IconCheckbox
+				icon="mdi:cursor-move"
+				tooltip="Move <kbd>(w)</kbd>"
+				toggled={$editorMode == "translate"}
+				on:toggled={(e) => (e.detail.toggled ? setMode("translate") : null)}
+			/>
+			<IconCheckbox
+				icon="mdi:rotate-orbit"
+				tooltip="Rotate <kbd>(r)</kbd>"
+				toggled={$editorMode == "rotate"}
+				on:toggled={(e) => (e.detail.toggled ? setMode("rotate") : null)}
+			/>
 		</div>
 
+		<div class="menu">
+			<IconCheckbox
+				icon="mdi:cube-outline"
+				tooltip="Bounding Box <kbd>(b)</kbd>"
+				toggled={boundingbox}
+                on:toggled={(e) => boundingbox = e.detail.toggled}
+			/>
+			<IconCheckbox
+				icon="mdi:crop-square"
+				tooltip="Outline <kbd>(o)</kbd>"
+				toggled={outline}
+                on:toggled={(e) => outline = e.detail.toggled}
+			/>
+			<IconCheckbox
+				icon="mdi:opacity"
+				tooltip="Transparency <kbd>(t)</kbd>"
+				toggled={transparency}
+                on:toggled={(e) => transparency = e.detail.toggled}
+			/>
+		</div>
+
+		<div class="menu">
+			<IconCheckbox
+				icon="mdi:web"
+				tooltip="World space <kbd>(1)</kbd>"
+				toggled={$editorSpace == "world"}
+				on:toggled={(e) => (e.detail.toggled ? setSpace("world") : null)}
+			/>
+			<IconCheckbox
+				icon="mdi:map-marker"
+				tooltip="Local space <kbd>(2)</kbd>"
+				toggled={$editorSpace == "local"}
+				on:toggled={(e) => (e.detail.toggled ? setSpace("local") : null)}
+			/>
+		</div>
+	</div>
+
+	<div
+		class="absolute bottom-0 right-0 p-4 rounded-tl-lg bg-gray-200/90 flex items-end justify-between gap-4"
+	>
 		<div class="flex gap-2">
 			<button
 				class="button bg-gray-500"
 				on:click={() => fetchNui("cancelPlacement")}
 			>
-				Cancel <kbd>(ESC)</kbd>
+				Back <kbd>(ESC)</kbd>
 			</button>
 			<button
 				class="button bg-blue-700"
@@ -131,13 +112,12 @@
 </Page>
 
 <style lang="scss">
-	.button {
-		@apply p-3 px-6 text-white rounded-md text-sm;
-		min-width: 6rem;
+	.menu {
+		@apply bg-gray-200/95 shadow-lg w-14 p-2 rounded-lg flex flex-col gap-2;
 	}
 
-	.switchButton {
-		@apply p-3 px-6 text-white text-sm outline-none;
+	.button {
+		@apply p-3 px-6 text-white rounded-md text-sm;
 		min-width: 6rem;
 	}
 </style>
