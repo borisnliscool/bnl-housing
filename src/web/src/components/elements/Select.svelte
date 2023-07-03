@@ -44,7 +44,7 @@
 		{#if value}
 			{value.name}
 		{:else}
-			<span class="text-gray-300"> Select </span>
+			<span class="text-gray-300">Select</span>
 		{/if}
 		<span
 			class="text-gray-500 transition-transform {shown ? 'rotate-180' : ''}"
@@ -87,7 +87,7 @@
 	}
 
 	.options {
-		@apply absolute z-10 flex-col rounded-md overflow-hidden bg-white shadow-lg;
+		@apply absolute z-10 flex-col rounded-md overflow-hidden bg-white shadow-lg p-1;
 	}
 
 	.option {
