@@ -59,19 +59,19 @@
 				icon="mdi:cube-outline"
 				tooltip="Bounding Box <kbd>(b)</kbd>"
 				toggled={boundingbox}
-                on:toggled={(e) => boundingbox = e.detail.toggled}
+				on:toggled={(e) => (boundingbox = e.detail.toggled)}
 			/>
 			<IconCheckbox
 				icon="mdi:crop-square"
 				tooltip="Outline <kbd>(o)</kbd>"
 				toggled={outline}
-                on:toggled={(e) => outline = e.detail.toggled}
+				on:toggled={(e) => (outline = e.detail.toggled)}
 			/>
 			<IconCheckbox
 				icon="mdi:opacity"
 				tooltip="Transparency <kbd>(t)</kbd>"
 				toggled={transparency}
-                on:toggled={(e) => transparency = e.detail.toggled}
+				on:toggled={(e) => (transparency = e.detail.toggled)}
 			/>
 		</div>
 
