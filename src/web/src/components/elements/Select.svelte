@@ -67,7 +67,10 @@
 				class="option {value == item
 					? 'bg-blue-600 text-white'
 					: 'hover:bg-blue-100'}"
-				on:click={() => (value = item)}
+				on:click={() => {
+					value = item;
+					shown = !shown;
+				}}
 			>
 				{item.name}
 			</button>

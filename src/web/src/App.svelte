@@ -23,7 +23,7 @@
 {#if isEnvBrowser()}
 	<div
 		class="fixed top-0 left-0 h-full w-full bg-center bg-cover"
-		style="background-image: url(http://zip.boris.foo/u/FiveM_b2802_GTAProcess-BYuZzuJT.jpg?compress=false);"
+		style="background-image: url(https://zip.boris.foo/r/FiveM_b2802_GTAProcess-BYuZzuJT.jpg?compress=false);"
 	/>
 {/if}
 
