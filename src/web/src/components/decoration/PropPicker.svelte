@@ -109,7 +109,12 @@
 	>
 		<div class="w-[14rem]">
 			<p>Category</p>
-			<Select items={categories} bind:value={category} placement="bottom" cols={5} />
+			<Select
+				items={categories}
+				bind:value={category}
+				placement="bottom"
+				cols={Math.floor(categories.length / 5)}
+			/>
 		</div>
 
 		<div class="props">
@@ -122,6 +127,6 @@
 
 <style lang="scss">
 	.props {
-		@apply w-full h-72 grid grid-cols-4 gap-1 p-3 overflow-y-auto md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 bg-gray-100/50 rounded-lg overflow-hidden;
+		@apply w-full h-72 grid grid-cols-4 gap-1 p-3 overflow-y-auto md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 bg-gray-100/50 rounded-lg overflow-hidden shadow-sm;
 	}
 </style>
