@@ -23,6 +23,7 @@
 
 		_style += `${invertedPlacement}: 100%;`;
 		_style += `grid-template-columns: repeat(${_cols}, 1fr);`;
+        _style += `margin-${invertedPlacement}: 0.25rem;`;
 
 		if (_placement == "left" || _placement == "right") {
 			_style += "top: 0;";
@@ -86,7 +87,7 @@
 	}
 
 	.options {
-		@apply absolute m-1 z-10 flex-col rounded-md overflow-hidden bg-white shadow-lg;
+		@apply absolute z-10 flex-col rounded-md overflow-hidden bg-white shadow-lg;
 	}
 
 	.option {
