@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { editorMode, editorSpace } from "../../store/stores";
-	import Page from "../Page.svelte";
+	import Page from "../elements/Page.svelte";
 	import Editor from "./Editor.svelte";
 	import type { modeType, spaceType } from "src/utils/misc";
 	import { fetchNui } from "../../utils/fetchNui";

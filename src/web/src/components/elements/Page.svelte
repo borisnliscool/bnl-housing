@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { pageStore } from "../../src/store/stores";
-	import { useNuiEvent } from "../../src/utils/useNuiEvent";
+	import { pageStore } from "../../store/stores";
+	import { useNuiEvent } from "../../utils/useNuiEvent";
 
 	export let id: string;
 	export let isVisible: boolean = false;

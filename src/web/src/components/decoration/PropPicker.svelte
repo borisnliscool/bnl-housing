@@ -2,7 +2,7 @@
 	import { useKeyPress } from "../../utils/useKeyPress";
 	import { fetchNui } from "../../utils/fetchNui";
 	import type { PropType } from "../../utils/interfaces";
-	import Page from "../Page.svelte";
+	import Page from "../elements/Page.svelte";
 	import Select from "../elements/Select.svelte";
 	import Prop from "./Prop.svelte";
 
