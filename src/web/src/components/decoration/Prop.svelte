@@ -16,7 +16,7 @@
 
 <style lang="scss">
 	.prop {
-		@apply relative w-full aspect-square p-1 rounded-lg border bg-white border-gray-300 shadow-md bg-center bg-cover hover:scale-[1.05] transition-transform;
+		@apply relative w-full aspect-square rounded-lg border border-gray-300 shadow-md bg-center bg-cover hover:scale-[1.05] transition-all bg-white;
 		background-image: var(--url);
 	}
 </style>

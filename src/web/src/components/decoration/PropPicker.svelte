@@ -98,9 +98,9 @@
 
 	$: fetchProps(category?.value);
 
-    const selectProp = async (model: string) => {
-        await fetchNui("selectProp", model);
-    }
+	const selectProp = async (model: string) => {
+		await fetchNui("selectProp", model);
+	};
 </script>
 
 <Page id="propPicker">
@@ -122,6 +122,6 @@
 
 <style lang="scss">
 	.props {
-		@apply w-full max-h-72 grid grid-cols-4 gap-1 p-2 overflow-y-auto md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12;
+		@apply w-full h-72 grid grid-cols-4 gap-1 p-3 overflow-y-auto md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 bg-gray-100/50 rounded-lg overflow-hidden;
 	}
 </style>
