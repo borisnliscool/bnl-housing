@@ -7,9 +7,17 @@
 	import { useKeyPress } from "../../utils/useKeyPress";
 	import Toggle from "../elements/Toggle.svelte";
 
-    let isVisible: boolean;
+	let isVisible: boolean;
 	let mode: modeType;
 	let space: spaceType;
+
+	let transparency: boolean = false;
+	let outline: boolean = false;
+	let boundingbox: boolean = false;
+
+	$: fetchNui("setTransparent", transparency);
+	$: fetchNui("setOutline", outline);
+	$: fetchNui("setBoundingBox", boundingbox);
 
 	editorMode.subscribe((_mode) => {
 		mode = _mode as modeType;
@@ -27,11 +35,14 @@
 		editorSpace.set(space);
 	};
 
-    useKeyPress("r", () => isVisible && setMode("rotate"));
-    useKeyPress("w", () => isVisible && setMode("translate"));
-    useKeyPress("1", () => isVisible && setSpace("world"));
-    useKeyPress("2", () => isVisible && setSpace("local"));
-    useKeyPress("Escape", () => isVisible && fetchNui("cancelPlacement"));
+	useKeyPress("r", () => isVisible && setMode("rotate"));
+	useKeyPress("w", () => isVisible && setMode("translate"));
+	useKeyPress("1", () => isVisible && setSpace("world"));
+	useKeyPress("2", () => isVisible && setSpace("local"));
+	useKeyPress("Escape", () => isVisible && fetchNui("cancelPlacement"));
+	useKeyPress("t", () => (transparency = !transparency));
+	useKeyPress("o", () => (outline = !outline));
+	useKeyPress("b", () => (boundingbox = !boundingbox));
 </script>
 
 <Page id="decoration" bind:isVisible>
@@ -90,19 +101,13 @@
 				<div class="flex gap-4">
 					<div>
 						<Toggle
-							label="Transparency"
-							on:toggled={(e) => fetchNui("setTransparent", e.detail.toggled)}
+							label="Transparency <kbd>(t)</kbd>"
+							toggled={transparency}
 						/>
-						<Toggle
-							label="Outline"
-							on:toggled={(e) => fetchNui("setOutline", e.detail.toggled)}
-						/>
+						<Toggle label="Outline <kbd>(o)</kbd>" toggled={outline} />
 					</div>
 					<div>
-						<Toggle
-							label="Bounding box"
-							on:toggled={(e) => fetchNui("setBoundingBox", e.detail.toggled)}
-						/>
+						<Toggle label="Bounding box <kbd>(b)</kbd>" toggled={boundingbox} />
 					</div>
 				</div>
 			</div>

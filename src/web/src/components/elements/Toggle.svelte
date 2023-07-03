@@ -30,6 +30,6 @@
 	</div>
 
 	{#if label}
-		<p>{label}</p>
+		<p>{@html label}</p>
 	{/if}
 </button>
