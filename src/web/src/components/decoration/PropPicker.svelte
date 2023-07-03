@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { useKeyPress } from "../../utils/useKeyPress";
 	import { fetchNui } from "../../utils/fetchNui";
 	import type { PropType } from "../../utils/interfaces";
 	import Page from "../Page.svelte";
@@ -90,6 +91,7 @@
 
 	let props: PropType[] = [];
 	let category: any;
+	let isVisible: boolean;
 
 	const fetchProps = async (category: string) => {
 		if (!category) return;
@@ -101,20 +103,30 @@
 	const selectProp = async (model: string) => {
 		await fetchNui("selectProp", model);
 	};
+
+	useKeyPress("Escape", () => isVisible && fetchNui("close"));
 </script>
 
-<Page id="propPicker">
+<Page id="propPicker" bind:isVisible>
 	<div
 		class="absolute bottom-0 left-0 px-6 py-4 w-full bg-gray-200/90 flex justify-between gap-4"
 	>
-		<div class="w-[14rem]">
-			<p>Category</p>
-			<Select
-				items={categories}
-				bind:value={category}
-				placement="bottom"
-				cols={Math.floor(categories.length / 5)}
-			/>
+		<div class="w-[14rem] flex flex-col justify-between">
+			<div>
+				<p>Category</p>
+				<Select
+					items={categories}
+					bind:value={category}
+					placement="bottom"
+					cols={Math.floor(categories.length / 5)}
+				/>
+			</div>
+			<button
+				class="p-3 px-6 text-white rounded-md text-sm bg-gray-500"
+				on:click={() => fetchNui("close")}
+			>
+				Close <kbd>(ESC)</kbd>
+			</button>
 		</div>
 
 		<div class="props">

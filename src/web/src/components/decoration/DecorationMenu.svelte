@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import { editorMode, editorSpace } from "../../store/stores";
 	import Page from "../Page.svelte";
 	import Editor from "./Editor.svelte";
 	import type { modeType, spaceType } from "src/utils/misc";
 	import { fetchNui } from "../../utils/fetchNui";
+	import { useKeyPress } from "../../utils/useKeyPress";
 	import Toggle from "../elements/Toggle.svelte";
 
+    let isVisible: boolean;
 	let mode: modeType;
 	let space: spaceType;
 
@@ -26,32 +27,14 @@
 		editorSpace.set(space);
 	};
 
-	onMount(() => {
-		const keyHandler = (e: KeyboardEvent) => {
-			switch (e.key) {
-				case "r":
-					setMode("rotate");
-					break;
-				case "w":
-					setMode("translate");
-					break;
-				case "1":
-					setSpace("world");
-					break;
-				case "2":
-					setSpace("local");
-					break;
-				default:
-					break;
-			}
-		};
-
-		document.addEventListener("keydown", keyHandler);
-		return () => document.removeEventListener("keydown", keyHandler);
-	});
+    useKeyPress("r", () => isVisible && setMode("rotate"));
+    useKeyPress("w", () => isVisible && setMode("translate"));
+    useKeyPress("1", () => isVisible && setSpace("world"));
+    useKeyPress("2", () => isVisible && setSpace("local"));
+    useKeyPress("Escape", () => isVisible && fetchNui("cancelPlacement"));
 </script>
 
-<Page id="decoration">
+<Page id="decoration" bind:isVisible>
 	<Editor />
 
 	<div
@@ -67,7 +50,7 @@
 							: 'bg-gray-500'}"
 						on:click={() => setMode("translate")}
 					>
-						Move <span class="font-mono">(w)</span>
+						Move <kbd>(w)</kbd>
 					</button>
 					<button
 						class="switchButton {mode == 'rotate'
@@ -75,7 +58,7 @@
 							: 'bg-gray-500'}"
 						on:click={() => setMode("rotate")}
 					>
-						Rotate <span class="font-mono">(r)</span>
+						Rotate <kbd>(r)</kbd>
 					</button>
 				</div>
 			</div>
@@ -89,7 +72,7 @@
 							: 'bg-gray-500'}"
 						on:click={() => setSpace("world")}
 					>
-						World <span class="font-mono">(1)</span>
+						World <kbd>(1)</kbd>
 					</button>
 					<button
 						class="switchButton {space == 'local'
@@ -97,24 +80,30 @@
 							: 'bg-gray-500'}"
 						on:click={() => setSpace("local")}
 					>
-						Local <span class="font-mono">(2)</span>
+						Local <kbd>(2)</kbd>
 					</button>
 				</div>
 			</div>
 
 			<div>
 				<p>Settings</p>
-				<div class="flex flex-col">
-					<Toggle
-						label="Transparency"
-						toggled={false}
-						on:toggled={(e) => fetchNui("setTransparent", e.detail.toggled)}
-					/>
-					<Toggle
-						label="Outline"
-						toggled={true}
-						on:toggled={(e) => fetchNui("setOutline", e.detail.toggled)}
-					/>
+				<div class="flex gap-4">
+					<div>
+						<Toggle
+							label="Transparency"
+							on:toggled={(e) => fetchNui("setTransparent", e.detail.toggled)}
+						/>
+						<Toggle
+							label="Outline"
+							on:toggled={(e) => fetchNui("setOutline", e.detail.toggled)}
+						/>
+					</div>
+					<div>
+						<Toggle
+							label="Bounding box"
+							on:toggled={(e) => fetchNui("setBoundingBox", e.detail.toggled)}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -124,7 +113,7 @@
 				class="button bg-gray-500"
 				on:click={() => fetchNui("cancelPlacement")}
 			>
-				Cancel
+				Cancel <kbd>(ESC)</kbd>
 			</button>
 			<button
 				class="button bg-blue-700"

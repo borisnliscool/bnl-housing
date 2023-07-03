@@ -3,7 +3,7 @@
 	import { useNuiEvent } from "../../src/utils/useNuiEvent";
 
 	export let id: string;
-	let isVisible: boolean;
+	export let isVisible: boolean = false;
 
 	pageStore.subscribe((page) => {
 		isVisible = page == id;
