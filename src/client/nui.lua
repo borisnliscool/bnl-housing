@@ -1,8 +1,27 @@
-local camera, entity, model
+---@type number, number, string, vector3
+local camera, entity, model, coords
 local props = {}
+local showBoundingBox = false
+
+RegisterNUICallback("close", function(data, cb)
+    cb({})
+    SendNUIMessage({
+        action = "setVisible",
+        data = false
+    })
+    SetNuiFocus(false, false)
+end)
+
+RegisterNUICallback("navigate", function(page, cb)
+    cb({})
+    SendNUIMessage({
+        action = "setPage",
+        data = page
+    })
+end)
 
 RegisterNUICallback("update", function(data, cb)
-    local propCoords = vec(data.prop.position.z, data.prop.position.x, data.prop.position.y) + cache.coords
+    local propCoords = vec(data.prop.position.z, data.prop.position.x, data.prop.position.y) + coords
 
     ---@diagnostic disable-next-line: missing-parameter
     SetEntityCoords(entity, propCoords.x, propCoords.y, propCoords.z)
@@ -10,7 +29,7 @@ RegisterNUICallback("update", function(data, cb)
     SetEntityRotation(entity, data.prop.rotation.x, data.prop.rotation.y, data.prop.rotation.z)
 
     if data.camera then
-        local camCoords = vec(data.camera.position.z, data.camera.position.x, data.camera.position.y) + cache.coords
+        local camCoords = vec(data.camera.position.z, data.camera.position.x, data.camera.position.y) + coords
         SetCamCoord(camera, camCoords.x, camCoords.y, camCoords.z)
         PointCamAtCoord(camera, propCoords.x, propCoords.y, propCoords.z)
     end
@@ -18,15 +37,25 @@ RegisterNUICallback("update", function(data, cb)
     cb({})
 end)
 
+RegisterNUICallback("setBoundingBox", function(show, cb)
+    cb({})
+    showBoundingBox = show
+    while showBoundingBox do
+        Wait(0)
+        showBoundingBox = showBoundingBox and entity ~= 0
+        DrawEntityBoundingBox(entity)
+    end
+end)
+
 RegisterNUICallback("setOutline", function(outline, cb)
     SetEntityDrawOutline(entity, outline)
+    SetEntityDrawOutlineColor(0, 0, 200, 255)
+    SetEntityDrawOutlineShader(1)
     cb({})
 end)
 
 RegisterNUICallback("setTransparent", function(transparent, cb)
     SetEntityAlpha(entity, transparent and 204 or 255, false)
-    SetEntityDrawOutlineColor(0, 192, 255, 255)
-    SetEntityDrawOutlineShader(1)
     cb({})
 end)
 
@@ -40,7 +69,7 @@ local function StartEditor(_model)
     local hash = joaat(model)
     lib.requestModel(hash, 5000)
 
-    local coords = cache.coords
+    coords = GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 2.0, 0.0)
     local _entity = CreateObject(hash, coords.x, coords.y, coords.z, false, true, false)
     SetEntityCollision(_entity, false, false)
 
@@ -49,7 +78,7 @@ local function StartEditor(_model)
     SetCamCoord(_camera, coords.x + 1, coords.y + 1, coords.z + 1)
     SetCamFov(_camera, 70.0)
     PointCamAtCoord(_camera, coords.x, coords.y, coords.z)
-    RenderScriptCams(true, true, 500, true, false)
+    RenderScriptCams(true, false, 0, true, false)
 
     -- todo:
     --  send entity bounds and handle that on the ui
@@ -77,7 +106,7 @@ end
 
 ---@param save boolean
 local function ExitEditor(save)
-    RenderScriptCams(false, true, 500, true, false)
+    RenderScriptCams(false, false, 0, true, false)
 
     if save then
         SetEntityCollision(entity, true, true)
@@ -94,13 +123,7 @@ local function ExitEditor(save)
         DeleteEntity(entity)
     end
 
-    SendNUIMessage({
-        action = 'setVisible',
-        data = false
-    })
-    SetNuiFocus(false, false)
-
-    camera, entity, model = nil, nil, nil
+    camera, entity, model = 0, 0, ""
 end
 
 RegisterNUICallback("selectProp", function(model, cb)
@@ -111,11 +134,21 @@ end)
 RegisterNUICallback("cancelPlacement", function(data, cb)
     cb({})
     ExitEditor(false)
+
+    SendNUIMessage({
+        action = "setPage",
+        data = "propPicker"
+    })
 end)
 
 RegisterNUICallback("savePlacement", function(data, cb)
     cb({})
     ExitEditor(true)
+
+    SendNUIMessage({
+        action = "setPage",
+        data = "propPicker"
+    })
 end)
 
 RegisterNUICallback("getProps", function(category, cb)
