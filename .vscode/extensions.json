@@ -1,0 +1,7 @@
+{
+	"recommendations": [
+		"overextended.cfxlua-vscode",
+		"sumneko.lua",
+		"koihik.vscode-lua-format"
+	]
+}
