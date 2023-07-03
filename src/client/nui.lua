@@ -30,46 +30,11 @@ RegisterNUICallback("setTransparent", function(transparent, cb)
     cb({})
 end)
 
-local function ExitUI(save)
-    RenderScriptCams(false, true, 500, true, false)
+---@param _model string
+local function StartEditor(_model)
+    model = _model
 
-    if save then
-        SetEntityCollision(entity, true, true)
-        FreezeEntityPosition(entity, true)
-        SetEntityDrawOutline(entity, false)
-        ResetEntityAlpha(entity)
-
-        table.insert(props, {
-            model = model,
-            coords = GetEntityCoords(entity),
-            rotation = GetEntityRotation(entity)
-        })
-    else
-        DeleteEntity(entity)
-    end
-
-    SendNUIMessage({
-        action = 'setVisible',
-        data = false
-    })
-    SetNuiFocus(false, false)
-
-    camera, entity, model = nil, nil, nil
-end
-
-RegisterNUICallback("cancelPlacement", function(data, cb)
-    cb({})
-    ExitUI(false)
-end)
-
-RegisterNUICallback("savePlacement", function(data, cb)
-    cb({})
-    ExitUI(true)
-end)
-
-RegisterCommand("housing:test", function(source, args, rawCommand)
     -- Creating the entity
-    model = args[1] or "prop_bench_01a"
     lib.requestModel(model)
 
     local hash = joaat(model)
@@ -108,10 +73,66 @@ RegisterCommand("housing:test", function(source, args, rawCommand)
 
     entity = _entity
     camera = _camera
+end
+
+---@param save boolean
+local function ExitEditor(save)
+    RenderScriptCams(false, true, 500, true, false)
+
+    if save then
+        SetEntityCollision(entity, true, true)
+        FreezeEntityPosition(entity, true)
+        SetEntityDrawOutline(entity, false)
+        ResetEntityAlpha(entity)
+
+        table.insert(props, {
+            model = model,
+            coords = GetEntityCoords(entity),
+            rotation = GetEntityRotation(entity)
+        })
+    else
+        DeleteEntity(entity)
+    end
+
+    SendNUIMessage({
+        action = 'setVisible',
+        data = false
+    })
+    SetNuiFocus(false, false)
+
+    camera, entity, model = nil, nil, nil
+end
+
+RegisterNUICallback("selectProp", function(model, cb)
+    cb({})
+    StartEditor(model)
+end)
+
+RegisterNUICallback("cancelPlacement", function(data, cb)
+    cb({})
+    ExitEditor(false)
+end)
+
+RegisterNUICallback("savePlacement", function(data, cb)
+    cb({})
+    ExitEditor(true)
+end)
+
+RegisterNUICallback("getProps", function(category, cb)
+    cb(table.map(Data.Props[category], function(name)
+        return {
+            name = name,
+            category = category,
+        }
+    end))
+end)
+
+RegisterCommand("housing:test", function(source, args, rawCommand)
+    StartEditor(args[1] or "prop_bench_01a")
 end, false)
 
 RegisterCommand("housing:exit", function(source, args, rawCommand)
-    ExitUI()
+    ExitEditor(false)
 end, false)
 
 RegisterCommand("housing:print", function(source, args, rawCommand)
@@ -127,4 +148,16 @@ RegisterCommand("housing:print", function(source, args, rawCommand)
 
     Debug.Log(_props)
     lib.setClipboard(json.encode(_props))
+end, false)
+
+RegisterCommand("housing:menu", function(source, args, rawCommand)
+    SendNUIMessage({
+        action = "setVisible",
+        data = true
+    })
+    SendNUIMessage({
+        action = "setPage",
+        data = "propPicker"
+    })
+    SetNuiFocus(true, true)
 end, false)

@@ -26,6 +26,7 @@
 		"vite": "^3.2.7"
 	},
 	"dependencies": {
+		"@iconify/svelte": "^3.1.4",
 		"@threlte/core": "^5.0.9",
 		"@threlte/extras": "^4.9.3",
 		"three": "^0.154.0"
