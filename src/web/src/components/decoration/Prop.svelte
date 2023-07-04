@@ -13,7 +13,7 @@
 		class="image"
 		loading="lazy"
 		alt={data.name}
-		src="/images/{data.name}.webp"
+		src="images/{data.name}.webp"
 	/>
 </button>
 

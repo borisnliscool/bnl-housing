@@ -22,7 +22,8 @@ files {
     'data/**/*.lua',
     'locales/*.json',
     'src/web/build/index.html',
-    'src/web/build/**/*'
+    'src/web/build/**/*',
+    'src/web/public/**/*'
 }
 
 client_scripts {
