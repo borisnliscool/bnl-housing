@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
 	import type { PropType } from "../../utils/interfaces";
+	import { scale } from "svelte/transition";
 
 	const dispatch = createEventDispatcher();
 	const click = () => dispatch("click");
 
 	export let data: PropType;
+	export let animationDelay: number = 0;
 </script>
 
-<button on:click={click} class="prop">
+<button on:click={click} class="prop" in:scale={{ delay: animationDelay }}>
 	<img
 		class="image"
 		loading="lazy"

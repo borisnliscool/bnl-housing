@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import Icon from "@iconify/svelte";
 	import type { SelectOptionType, placement } from "../../utils/interfaces";
+	import { fade } from "svelte/transition";
 
 	export let items: SelectOptionType[];
 	export let value: any = undefined;
@@ -23,7 +24,7 @@
 
 		_style += `${invertedPlacement}: 100%;`;
 		_style += `grid-template-columns: repeat(${_cols}, 1fr);`;
-        _style += `margin-${invertedPlacement}: 0.25rem;`;
+		_style += `margin-${invertedPlacement}: 0.25rem;`;
 
 		if (_placement == "left" || _placement == "right") {
 			_style += "top: 0;";
@@ -33,10 +34,7 @@
 	};
 
 	$: style = generateClasses(placement, cols);
-
-	onMount(() => {
-		if (!value) value = items[0];
-	});
+	onMount(() => (value = value ? value : items[0]));
 </script>
 
 <div class="select">
@@ -46,35 +44,34 @@
 		{:else}
 			<span class="text-gray-300">Select</span>
 		{/if}
-		<span
-			class="text-gray-500 transition-transform {shown ? 'rotate-180' : ''}"
-		>
+
+		<span class="text-gray-500 transition-transform" class:rotate-180={shown}>
 			<Icon icon="fa6-solid:angle-down" />
 		</span>
 	</button>
 
-	<button
-		class="{!shown
-			? 'hidden'
-			: 'block'} fixed top-0 left-0 w-full h-full cursor-default"
-		on:click={() => (shown = !shown)}
-	/>
+	{#if shown}
+		<button
+			class="fixed top-0 left-0 w-full h-full cursor-default"
+			on:click={() => (shown = false)}
+		/>
 
-	<div class="options {!shown ? 'hidden' : 'grid'}" {style}>
-		{#each items as item}
-			<button
-				class="option {value == item
-					? 'bg-blue-600 text-white'
-					: 'hover:bg-blue-100'}"
-				on:click={() => {
-					value = item;
-					shown = !shown;
-				}}
-			>
-				{item.name}
-			</button>
-		{/each}
-	</div>
+		<div class="options" {style} transition:fade={{ duration: 200 }}>
+			{#each items as item}
+				<button
+					class="option {value == item
+						? 'bg-blue-600 text-white'
+						: 'hover:bg-blue-100'}"
+					on:click={() => {
+						value = item;
+						shown = !shown;
+					}}
+				>
+					{item.name}
+				</button>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -87,10 +84,11 @@
 	}
 
 	.options {
-		@apply absolute z-10 flex-col rounded-md overflow-hidden bg-white shadow-lg p-1;
+		@apply absolute grid z-10 flex-col rounded-md overflow-hidden bg-white shadow-lg p-1;
 	}
 
 	.option {
 		@apply text-left p-2 px-4 rounded-sm whitespace-pre;
+		transition: background-color 100ms;
 	}
 </style>
