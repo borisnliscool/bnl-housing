@@ -164,5 +164,6 @@
 <style lang="scss">
 	.props {
 		@apply w-full h-full grid grid-cols-4 gap-1 p-3 overflow-y-auto md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12;
+		transform-style: preserve-3d;
 	}
 </style>

@@ -21,15 +21,20 @@
 
 <style lang="scss">
 	.prop {
-		@apply relative w-full aspect-square rounded-lg border border-gray-300 shadow-md hover:scale-[1.05] transition-all grid place-items-center;
+		@apply relative w-full aspect-square rounded-lg border border-gray-300 shadow-md hover:shadow-xl hover:scale-[1.05] transition-all grid place-items-center;
 		background: linear-gradient(white 60%, #dfdfdf);
-	}
 
-	.image {
-		@apply w-[80%] aspect-square object-contain;
-	}
+		.image {
+			@apply w-[80%] aspect-square object-contain;
+		}
 
-	.prop:hover .image {
-		filter: drop-shadow(0 0 1rem #00c0ff80);
+		&:hover {
+            @apply z-10;
+			transform: scale(1.1) perspective(100rem) rotateX(10deg);
+
+			.image {
+				filter: drop-shadow(0 0 1rem #00c0ff80);
+			}
+		}
 	}
 </style>
