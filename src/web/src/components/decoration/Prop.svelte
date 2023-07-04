@@ -8,15 +8,22 @@
 	export let data: PropType;
 </script>
 
-<button
-	on:click={click}
-	class="prop"
-	style="--url: url('https://gtahash.ru/files/{data.category}/{data.name}.jpg');"
-/>
+<button on:click={click} class="prop">
+	<img
+		class="image"
+		loading="lazy"
+		alt={data.name}
+		src="/images/{data.name}.webp"
+	/>
+</button>
 
 <style lang="scss">
 	.prop {
-		@apply relative w-full aspect-square rounded-lg border border-gray-300 shadow-md bg-center bg-cover hover:scale-[1.05] transition-all bg-white;
-		background-image: var(--url);
+		@apply relative w-full aspect-square rounded-lg border border-gray-300 shadow-md hover:scale-[1.05] transition-all grid place-items-center;
+		background: linear-gradient(white 60%, #dfdfdf);
+	}
+
+	.image {
+		@apply w-[80%] aspect-square object-contain;
 	}
 </style>
