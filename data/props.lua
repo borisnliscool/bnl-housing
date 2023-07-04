@@ -19,7 +19,7 @@ Data.Props = {
     seating = LoadData("props/seating"),
     storage = LoadData("props/storage"),
     utility = LoadData("props/utility"),
-    wallsAndFences = LoadData("props/wallsAndFences"),
+    walls = LoadData("props/walls"),
 }
 
 return Data.Props
