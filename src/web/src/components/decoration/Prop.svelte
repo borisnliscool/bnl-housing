@@ -26,4 +26,8 @@
 	.image {
 		@apply w-[80%] aspect-square object-contain;
 	}
+
+	.prop:hover .image {
+		filter: drop-shadow(0 0 1rem #00c0ff80);
+	}
 </style>
