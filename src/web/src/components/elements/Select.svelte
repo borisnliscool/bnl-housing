@@ -35,10 +35,21 @@
 
 	$: style = generateClasses(placement, cols);
 	onMount(() => (value = value ? value : items[0]));
+
+	let sound: HTMLAudioElement;
+	const playSoundEffect = () => sound.play();
 </script>
 
+<audio src="sounds/click.ogg" preload="auto" bind:this={sound} />
+
 <div class="select">
-	<button class="active" on:click={() => (shown = !shown)}>
+	<button
+		class="active"
+		on:click={() => {
+			shown = !shown;
+			playSoundEffect();
+		}}
+	>
 		{#if value}
 			{value.name}
 		{:else}
@@ -65,6 +76,7 @@
 					on:click={() => {
 						value = item;
 						shown = !shown;
+						playSoundEffect();
 					}}
 				>
 					{item.name}
