@@ -8,9 +8,19 @@
 
 	export let data: PropType;
 	export let animationDelay: number = 0;
+
+	let sound: HTMLAudioElement;
+	const playSoundEffect = () => sound.play();
 </script>
 
-<button on:click={click} class="prop" in:scale={{ delay: animationDelay }}>
+<audio src="sounds/hover.ogg" preload="auto" bind:this={sound} />
+
+<button
+	on:click={click}
+	class="prop"
+	in:scale={{ delay: animationDelay }}
+	on:mouseenter={playSoundEffect}
+>
 	<img
 		class="image"
 		loading="lazy"
@@ -29,7 +39,7 @@
 		}
 
 		&:hover {
-            @apply z-10;
+			@apply z-10;
 			transform: scale(1.1) perspective(100rem) rotateX(10deg);
 
 			.image {

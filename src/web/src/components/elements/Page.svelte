@@ -17,7 +17,12 @@
 </script>
 
 {#if isVisible}
-	<section class="w-full h-screen relative" transition:transition>
-		<slot />
+	<section
+		class="fixed top-0 left-0 w-full h-screen"
+		transition:transition={{ duration: 150 }}
+	>
+		<div class="h-full relative">
+			<slot />
+		</div>
 	</section>
 {/if}
