@@ -6,6 +6,7 @@
 	import Select from "../elements/Select.svelte";
 	import Prop from "./Prop.svelte";
 	import { isEnvBrowser } from "../../utils/misc";
+	import Spinner from "../elements/Spinner.svelte";
 
 	const categories = [
 		{
@@ -145,11 +146,20 @@
 			class="w-full h-72 bg-gray-100/50 rounded-lg overflow-hidden shadow-sm"
 		>
 			{#await props}
-				<div class="h-full grid place-items-center">Loading...</div>
+				<div class="h-full grid place-items-center">
+					<div class="flex items-center gap-5">
+						<Spinner class="w-8" />
+						<p>Loading...</p>
+					</div>
+				</div>
 			{:then _props}
 				<div class="props">
 					{#each _props as prop, index}
-						<Prop data={prop} on:click={() => selectProp(prop.name)} animationDelay={index * 10} />
+						<Prop
+							data={prop}
+							on:click={() => selectProp(prop.name)}
+							animationDelay={index * 10}
+						/>
 					{/each}
 				</div>
 			{:catch}
