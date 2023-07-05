@@ -52,7 +52,7 @@
 
 	{#if shown}
 		<button
-			class="fixed top-0 left-0 w-full h-full cursor-default"
+			class="fixed top-0 left-0 w-full h-full cursor-default z-40"
 			on:click={() => (shown = false)}
 		/>
 
@@ -84,7 +84,7 @@
 	}
 
 	.options {
-		@apply absolute grid z-10 flex-col rounded-md overflow-hidden bg-white shadow-lg p-1;
+		@apply absolute grid z-50 flex-col rounded-md overflow-hidden bg-white shadow-lg p-1;
 	}
 
 	.option {
