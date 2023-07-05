@@ -6,6 +6,7 @@
 	import { fetchNui } from "../../utils/fetchNui";
 	import { useKeyPress } from "../../utils/useKeyPress";
 	import IconCheckbox from "../elements/IconCheckbox.svelte";
+	import { slide } from "svelte/transition";
 
 	let isVisible: boolean;
 	let transparency: boolean = false;
@@ -38,7 +39,10 @@
 <Page id="decoration" bind:isVisible>
 	<Editor />
 
-	<div class="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+	<div
+		class="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2"
+		transition:slide={{ axis: "x" }}
+	>
 		<div class="menu">
 			<IconCheckbox
 				icon="mdi:cursor-move"
