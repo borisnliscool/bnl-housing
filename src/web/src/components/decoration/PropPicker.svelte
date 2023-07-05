@@ -87,7 +87,7 @@
 		},
 		{
 			name: "Walls and fences",
-			value: "wallsAndFences",
+			value: "walls",
 		},
 	];
 
@@ -163,7 +163,7 @@
 					{/each}
 				</div>
 			{:catch}
-				<div class="h-full grid place-items-center">
+				<div class="h-full grid place-items-center text-red-700">
 					Something went wrong whilst trying to fetch props.
 				</div>
 			{/await}
