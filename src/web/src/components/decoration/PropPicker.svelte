@@ -98,12 +98,7 @@
 	const fetchProps = async (category: string) => {
 		if (isEnvBrowser()) {
 			return new Promise((r) => {
-				r([
-					{
-						category: "",
-						name: "v_ret_gc_chair03",
-					},
-				]);
+				r([{ category: "", name: "v_ret_gc_chair03" }]);
 			});
 		}
 
@@ -143,10 +138,10 @@
 		</div>
 
 		<div
-			class="w-full h-72 bg-gray-100/50 rounded-lg overflow-hidden shadow-sm"
+			class="w-full h-72 bg-gray-100/50 overflow-hidden shadow-sm rounded-tl-lg rounded-bl-lg"
 		>
 			{#await props}
-				<div class="h-full grid place-items-center">
+				<div class="h-full grid place-items-center rounded-lg">
 					<div class="flex items-center gap-5">
 						<Spinner class="w-8" />
 						<p>Loading...</p>
@@ -163,7 +158,7 @@
 					{/each}
 				</div>
 			{:catch}
-				<div class="h-full grid place-items-center text-red-700">
+				<div class="h-full grid place-items-center rounded-lg text-red-700">
 					Something went wrong whilst trying to fetch props.
 				</div>
 			{/await}
