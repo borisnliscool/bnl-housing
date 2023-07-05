@@ -25,7 +25,7 @@
 		class="image"
 		loading="lazy"
 		alt={data.name}
-		src="images/{data.name}.webp"
+		src="images/props/{data.name}.webp"
 	/>
 </button>
 
