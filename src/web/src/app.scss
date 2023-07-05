@@ -15,14 +15,14 @@
 	}
 
 	&::-webkit-scrollbar-thumb {
-        @apply bg-gray-400 rounded-full;
-        
-        &:hover {
-            @apply bg-gray-500;
-        }
+		@apply bg-gray-400 rounded-full;
 
-        &:active {
-            @apply bg-blue-400;
-        }
+		&:hover {
+			@apply bg-gray-500;
+		}
+
+		&:active {
+			@apply bg-blue-400;
+		}
 	}
 }
