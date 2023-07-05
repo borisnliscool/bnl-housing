@@ -2,24 +2,21 @@
 	import { createEventDispatcher } from "svelte";
 	import type { PropType } from "../../utils/interfaces";
 	import { scale } from "svelte/transition";
+	import { soundOnEnter } from "../../utils/sounds";
 
 	const dispatch = createEventDispatcher();
 	const click = () => dispatch("click");
 
 	export let data: PropType;
 	export let animationDelay: number = 0;
-
-	let sound: HTMLAudioElement;
-	const playSoundEffect = () => sound.play();
 </script>
-
-<audio src="sounds/hover.ogg" preload="auto" bind:this={sound} />
 
 <button
 	on:click={click}
 	class="prop"
 	in:scale={{ delay: animationDelay }}
-	on:mouseenter={playSoundEffect}
+    use:soundOnEnter
+    data-sound="sounds/hover.ogg"
 >
 	<img
 		class="image"
@@ -35,7 +32,7 @@
 		background: linear-gradient(white 60%, #dfdfdf);
 
 		.image {
-			@apply w-[80%] aspect-square object-contain;
+			@apply w-[80%] aspect-square object-contain pointer-events-none;
 		}
 
 		&:hover {

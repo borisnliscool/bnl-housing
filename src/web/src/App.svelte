@@ -15,9 +15,17 @@
 	debugData([
 		{
 			action: "setPage",
-			data: "decoration",
+			data: "propPicker",
 		},
 	]);
+
+	window.addEventListener("click", (event) => {
+		const target = event.target as HTMLElement;
+		if (target.tagName == "BUTTON" || target.tagName == "A") {
+			let clickAudio = new Audio("sounds/click.ogg");
+			clickAudio.play();
+		}
+	});
 </script>
 
 {#if isEnvBrowser()}

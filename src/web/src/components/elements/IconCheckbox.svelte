@@ -24,7 +24,7 @@
 		: 'bg-gray-400/25'}"
 	on:click={toggle}
 >
-	<Icon {icon} class="text-2xl" />
+	<Icon {icon} class="text-2xl pointer-events-none" />
 
 	{#if tooltip}
 		<div
