@@ -443,6 +443,8 @@ function Property:enter(source, settings)
         TaskLeaveVehicle(player:ped(), spawnedVehicle, 0)
     end
 
+    TriggerEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
+
     return true
 end
 
@@ -516,6 +518,8 @@ function Property:exit(source, settings)
         player:triggerFunction("FadeIn", 500)
     end
     player:triggerFunction("BusyspinnerOff")
+
+    TriggerEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
 
     return true
 end

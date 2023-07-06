@@ -1,6 +1,9 @@
 lib.locale()
 Properties = {}
 
+RegisterNetEvent("bnl-housing:on:enterProperty")
+RegisterNetEvent("bnl-housing:on:leaveProperty")
+
 ---Load all properties
 function LoadProperties()
     local databaseProperties = MySQL.query.await("SELECT * FROM properties")
