@@ -5,10 +5,15 @@ RegisterNetEvent("bnl-housing:on:enterProperty")
 RegisterNetEvent("bnl-housing:on:leaveProperty")
 
 ---Load all properties
-function LoadProperties()
+local function LoadProperties()
     local databaseProperties = MySQL.query.await("SELECT * FROM properties")
     for _, propertyData in pairs(databaseProperties) do
         Properties[propertyData.id] = Property.load(propertyData)
+    end
+
+    Wait(100)
+    for _, source in pairs(Bridge.GetAllPlayers()) do
+        ClientFunctions.Notification(source, locale("notification.ready"),  "success")
     end
 end
 

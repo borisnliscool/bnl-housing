@@ -4,6 +4,7 @@
 	"permission.owner": "Eigenaar",
 	"permission.visitor": "Bezoeker",
 
+	"notification.ready": "Eigendommen geladen.",
 	"notification.property.menu": "~%s~ Eigendom menu",
 	"notification.property.knock": "Er klopt iemand op de deur.",
 	"notification.property.exitWithVehicle": "Klik op ~%s~ om het eigendom te verlaten met dit voertuig.",

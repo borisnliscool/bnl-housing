@@ -62,7 +62,7 @@ end
 ---Get all player server ids (sources).
 ---@return table
 function Bridge.GetAllPlayers()
-    return table.map(ESX.GetPlayers(), function(p) return p.source end)
+    return table.map(ESX.GetExtendedPlayers(), function(p) return p.source end)
 end
 
 ---Get a player's money
