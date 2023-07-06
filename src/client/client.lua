@@ -1,6 +1,9 @@
 lib.locale()
 Properties = {}
 
+RegisterNetEvent("bnl-housing:on:enterProperty")
+RegisterNetEvent("bnl-housing:on:leaveProperty")
+
 function SetupProperties()
     for _, property in pairs(Properties) do
         property.point:remove()

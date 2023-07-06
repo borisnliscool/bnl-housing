@@ -444,6 +444,7 @@ function Property:enter(source, settings)
     end
 
     TriggerEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
+    TriggerClientEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
 
     return true
 end
@@ -520,6 +521,7 @@ function Property:exit(source, settings)
     player:triggerFunction("BusyspinnerOff")
 
     TriggerEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
+    TriggerClientEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
 
     return true
 end
