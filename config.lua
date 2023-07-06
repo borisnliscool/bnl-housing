@@ -27,6 +27,12 @@ Config.inviteExpire = 15
 ---@type number
 Config.inviteRange = 10.0
 
+---Do you want to remove the property entities when all players leave?
+---This does cause slower property entries but is recommended for larger servers
+---to ensure the entity limit isn't breached.
+---@type boolean
+Config.unloadOnEmpty = true
+
 ---@type Keybind[]
 Config.Keybinds = {}
 ---@type Keybind

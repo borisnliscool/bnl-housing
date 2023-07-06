@@ -60,6 +60,7 @@ end
 function Property:destroyModel()
     if self.entity then
         DeleteEntity(self.entity)
+        self.entity = nil
     end
 end
 
@@ -102,6 +103,8 @@ function Property:destroyProps()
     for _, prop in pairs(self.props) do
         prop:destroy()
     end
+
+    self.props = {}
 end
 
 function Property:spawnProps()
@@ -299,6 +302,7 @@ end
 function Property:destroyVehicles()
     for _, vehicle in pairs(self.vehicles) do
         DeleteEntity(vehicle.entity)
+        vehicle.entity = nil
     end
 end
 
@@ -520,6 +524,10 @@ function Property:exit(source, settings)
     end
     player:triggerFunction("BusyspinnerOff")
 
+    if Config.unloadOnEmpty and #self.players == 0 then
+        self:destroy()
+    end
+
     TriggerEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
     TriggerClientEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
 
@@ -577,6 +585,11 @@ end
 
 ---Destroy the property
 function Property:destroy()
+    self.isSpawning = false
+    self.isSpawned = false
+    self.isSpawningVehicles = false
+    self.vehiclesSpawned = false
+
     self:destroyModel()
     self:destroyProps()
     self:destroyVehicles()
