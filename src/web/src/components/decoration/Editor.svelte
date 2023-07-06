@@ -88,6 +88,7 @@
 	<Threlte.PerspectiveCamera position={cameraPosition} fov={70} bind:camera>
 		<Threlte.OrbitControls
 			target={propPosition}
+            enablePan={false}
 			on:change={() => updatePositions(true)}
 		/>
 	</Threlte.PerspectiveCamera>

@@ -3,6 +3,7 @@
 	import Icon from "@iconify/svelte";
 	import type { SelectOptionType, placement } from "../../utils/interfaces";
 	import { fade } from "svelte/transition";
+	import { soundOnEnter } from "../../utils/sounds";
 
 	export let items: SelectOptionType[];
 	export let value: any = undefined;
@@ -71,6 +72,7 @@
 						value = item;
 						shown = !shown;
 					}}
+                    use:soundOnEnter
 				>
 					{item.name}
 				</button>
