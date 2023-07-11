@@ -1,5 +1,5 @@
 ---Check if the player has a permission for a property.
----@type table
+---@type function[]
 CheckPermission = {
     ---@param source number
     ---@param propertyId number

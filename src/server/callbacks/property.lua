@@ -93,3 +93,32 @@ RegisterMiddlewareCallback("bnl-housing:server:property:rentProperty",
         return property and property:rent(source)
     end
 )
+
+RegisterMiddlewareCallback("bnl-housing:server:property:decoration:addProp",
+    CheckPermission[PERMISSION.MEMBER],
+    function(_, propertyId, propData)
+        local property = GetPropertyById(propertyId)
+        if not property then return end
+
+        propData.location = propData.location - property.location
+
+        local ret = MySQL.query.await(
+            "INSERT INTO property_prop (property_id, model, location, rotation) VALUES (?, ?, ?, ?)", {
+                property.id,
+                propData.model,
+                json.encode(propData.location),
+                json.encode(propData.rotation),
+            })
+
+        local prop = Prop.new({
+            ret.insertId,
+            model = propData.model,
+            location = propData.location,
+            rotation = propData.rotation,
+            metadata = {}
+        }, property)
+
+        table.insert(property.props, prop)
+        prop:spawn()
+    end
+)

@@ -1,5 +1,6 @@
 lib.locale()
-Properties = {}
+---@type table, table | nil
+Properties, CurrentProperty = {}, nil
 
 RegisterNetEvent("bnl-housing:on:enterProperty")
 RegisterNetEvent("bnl-housing:on:leaveProperty")
@@ -68,5 +69,16 @@ function StartBusySpinner(text)
     AddTextComponentSubstringPlayerName(text)
     EndTextCommandBusyspinnerOn(5)
 end
+
+AddEventHandler("bnl-housing:on:enterProperty", function(propertyId, _)
+    CurrentProperty = table.findOne(Properties, function(property)
+        return property.id == propertyId
+    end)
+end)
+
+AddEventHandler("bnl-housing:on:leaveProperty", function(_, _)
+    ExitEditor(false)
+    CurrentProperty = false
+end)
 
 Bridge.onReady(SetupProperties)

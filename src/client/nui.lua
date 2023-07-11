@@ -3,6 +3,7 @@ local camera, entity, model, coords
 local props = {}
 local showBoundingBox, showOutline, showTransparancy = false, false, false
 
+--#region Callbacks
 RegisterNUICallback("close", function(data, cb)
     cb({})
     SendNUIMessage({
@@ -73,26 +74,23 @@ RegisterNUICallback("setTransparent", function(transparent, cb)
     setTransparency()
     cb({})
 end)
+--#endregion
 
----@param _model string
-local function startEditor(_model)
-    model = _model
+---@param _entity number
+---@param _coords vector3 | nil
+function StartEditorWithEntity(_entity, _coords)
+    if not _coords then
+        _coords = GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 2.0, 0.0)
+    end
 
-    -- Creating the entity
-    lib.requestModel(model)
-
-    local hash = joaat(model)
-    lib.requestModel(hash, 5000)
-
-    coords = GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 2.0, 0.0)
-    local _entity = CreateObject(hash, coords.x, coords.y, coords.z, false, true, false)
+    coords = _coords
     SetEntityCollision(_entity, false, false)
 
     -- Creating the camera
     local _camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
-    SetCamCoord(_camera, coords.x + 1, coords.y + 1, coords.z + 1)
+    SetCamCoord(_camera, _coords.x + 1, _coords.y + 1, _coords.z + 1)
     SetCamFov(_camera, 70.0)
-    PointCamAtCoord(_camera, coords.x, coords.y, coords.z)
+    PointCamAtCoord(_camera, _coords.x, _coords.y, _coords.z)
     RenderScriptCams(true, false, 0, true, false)
 
     -- todo:
@@ -101,7 +99,7 @@ local function startEditor(_model)
         action = "setup",
         data = {
             entity = _entity,
-            position = coords,
+            position = _coords,
             rotation = GetEntityRotation(_entity)
         }
     })
@@ -123,36 +121,71 @@ local function startEditor(_model)
     setBoundingBox()
 end
 
+---@param _model string
+function StartEditorWithModel(_model)
+    model = _model
+
+    -- Creating the entity
+    lib.requestModel(_model)
+
+    local hash = joaat(_model)
+    lib.requestModel(hash, 5000)
+
+    local _coords = GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 2.0, 0.0)
+    local _entity = CreateObject(hash, _coords.x, _coords.y, _coords.z, false, true, false)
+
+    return StartEditorWithEntity(_entity, _coords)
+end
+
 ---@param save boolean
-local function exitEditor(save)
+---@return table | nil
+function ExitEditor(save)
+    local _ret
     RenderScriptCams(false, false, 0, true, false)
 
     if save then
-        SetEntityCollision(entity, true, true)
-        FreezeEntityPosition(entity, true)
-        SetEntityDrawOutline(entity, false)
-        ResetEntityAlpha(entity)
+        -- SetEntityCollision(entity, true, true)
+        -- FreezeEntityPosition(entity, true)
+        -- SetEntityDrawOutline(entity, false)
+        -- ResetEntityAlpha(entity)
 
-        table.insert(props, {
+        -- table.insert(props, {
+        --     model = model,
+        --     coords = GetEntityCoords(entity),
+        --     rotation = GetEntityRotation(entity)
+        -- })
+
+        -- todo:
+        --  update this to save it to the property
+        Debug.Log(CurrentProperty.id)
+
+        Debug.Log({
             model = model,
             coords = GetEntityCoords(entity),
             rotation = GetEntityRotation(entity)
         })
-    else
-        DeleteEntity(entity)
+
+        _ret = lib.callback.await("bnl-housing:server:property:decoration:addProp", false, CurrentProperty.id, {
+            model = model,
+            location = GetEntityCoords(entity),
+            rotation = GetEntityRotation(entity)
+        })
     end
 
+    DeleteEntity(entity)
+
     camera, entity, model = 0, 0, ""
+    return _ret
 end
 
-RegisterNUICallback("selectProp", function(model, cb)
+RegisterNUICallback("selectProp", function(_model, cb)
     cb({})
-    startEditor(model)
+    StartEditorWithModel(_model)
 end)
 
-RegisterNUICallback("cancelPlacement", function(data, cb)
+RegisterNUICallback("cancelPlacement", function(_, cb)
     cb({})
-    exitEditor(false)
+    ExitEditor(false)
 
     SendNUIMessage({
         action = "setPage",
@@ -160,9 +193,9 @@ RegisterNUICallback("cancelPlacement", function(data, cb)
     })
 end)
 
-RegisterNUICallback("savePlacement", function(data, cb)
+RegisterNUICallback("savePlacement", function(_, cb)
     cb({})
-    exitEditor(true)
+    ExitEditor(true)
 
     SendNUIMessage({
         action = "setPage",
@@ -179,12 +212,25 @@ RegisterNUICallback("getProps", function(category, cb)
     end))
 end)
 
+function ShowPropPicker()
+    SendNUIMessage({
+        action = "setVisible",
+        data = true
+    })
+    SendNUIMessage({
+        action = "setPage",
+        data = "propPicker"
+    })
+    SetNuiFocus(true, true)
+end
+
+--#region temp
 RegisterCommand("housing:test", function(source, args, rawCommand)
-    startEditor(args[1] or "prop_bench_01a")
+    StartEditorWithModel(args[1] or "prop_bench_01a")
 end, false)
 
 RegisterCommand("housing:exit", function(source, args, rawCommand)
-    exitEditor(false)
+    ExitEditor(false)
 end, false)
 
 RegisterCommand("housing:print", function(source, args, rawCommand)
@@ -202,14 +248,5 @@ RegisterCommand("housing:print", function(source, args, rawCommand)
     lib.setClipboard(json.encode(_props))
 end, false)
 
-RegisterCommand("housing:menu", function(source, args, rawCommand)
-    SendNUIMessage({
-        action = "setVisible",
-        data = true
-    })
-    SendNUIMessage({
-        action = "setPage",
-        data = "propPicker"
-    })
-    SetNuiFocus(true, true)
-end, false)
+RegisterCommand("housing:menu", ShowPropPicker, false)
+--#endregion

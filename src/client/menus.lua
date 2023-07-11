@@ -116,7 +116,7 @@ function Menus.property(property)
         {
             label = locale("menu.property.decorate"),
             permissions = { PERMISSION.MEMBER, PERMISSION.RENTER, PERMISSION.OWNER },
-            onSelect = notImplemented
+            onSelect = ShowPropPicker
         },
         {
             label = locale("menu.property.manage_keys"),

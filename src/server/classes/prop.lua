@@ -10,11 +10,11 @@ function Prop.new(data, property)
     instance.property = property
     instance.id = data.id
     instance.model = data.model
-    local location = json.decode(data.location)
+    local location = type(data.location) == "string" and json.decode(data.location) or data.location
     instance.location = vector3(location.x, location.y, location.z)
-    local rotation = json.decode(data.rotation)
+    local rotation = type(data.location) == "string" and json.decode(data.rotation) or data.rotation
     instance.rotation = vector3(rotation.x, rotation.y, rotation.z)
-    instance.metadata = json.decode(data.metadata)
+    instance.metadata = type(data.location) == "string" and json.decode(data.metadata) or data.metadata
 
     return instance
 end

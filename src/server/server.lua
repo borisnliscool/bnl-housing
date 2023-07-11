@@ -11,7 +11,7 @@ local function LoadProperties()
         Properties[propertyData.id] = Property.load(propertyData)
     end
 
-    Wait(100)
+    Wait(500)
     for _, source in pairs(Bridge.GetAllPlayers()) do
         ClientFunctions.Notification(source, locale("notification.ready"),  "success")
     end
