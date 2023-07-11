@@ -88,7 +88,7 @@ function HideUI()
         action = "setVisible",
         data = false
     })
-    SetNuiFocus(true, true)
+    SetNuiFocus(false, false)
     TriggerEvent("bnl-housing:on:hideUI")
 end
 
