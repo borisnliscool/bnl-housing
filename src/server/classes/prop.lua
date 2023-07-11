@@ -53,3 +53,13 @@ end
 function Prop:destroy()
     DeleteEntity(self.entity)
 end
+
+function Prop:getData()
+    return {
+        id = self.id,
+        model = self.model,
+        location = self.location,
+        rotation = self.rotation,
+        metadata = self.metadata,
+    }
+end

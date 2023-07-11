@@ -1,4 +1,6 @@
 <script lang="ts">
+  import PlacedProps from './PlacedProps.svelte';
+
 	import { useKeyPress } from "../../utils/useKeyPress";
 	import { fetchNui } from "../../utils/fetchNui";
 	import type { PropType } from "../../utils/interfaces";
@@ -116,6 +118,8 @@
 </script>
 
 <Page id="propPicker" bind:isVisible>
+	<PlacedProps></PlacedProps>
+
 	<div
 		class="absolute bottom-0 left-0 px-6 py-4 w-full bg-gray-100/95 flex justify-between gap-4"
 	>

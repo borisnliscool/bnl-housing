@@ -21,6 +21,7 @@ function Property.new(data)
     instance.rentData = data.rentData
     ---@type boolean
     instance.isForRent = data.isForRent
+    instance.props = data.props
     instance.blip = nil
 
     return instance

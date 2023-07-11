@@ -15,7 +15,7 @@
 	debugData([
 		{
 			action: "setPage",
-			data: "decoration",
+			data: "propPicker",
 		},
 	]);
 

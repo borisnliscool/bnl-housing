@@ -67,6 +67,18 @@ RegisterNUICallback("setTransparent", function(transparent, cb)
     setTransparency()
     cb({})
 end)
+
+RegisterNUICallback("getPlacedProps", function(_, cb)
+    cb(table.map(CurrentProperty.props, function(prop)
+        return {
+            id = prop.id,
+            model = prop.model,
+            location = json.encode(prop.location),
+            rotation = json.encode(prop.rotation),
+            metadata = json.encode(prop.metadata),
+        }
+    end))
+end)
 --#endregion
 
 ---@param page string
@@ -216,5 +228,7 @@ RegisterCommand("housing:print", function(source, args, rawCommand)
     lib.setClipboard(json.encode(_props))
 end, false)
 
-RegisterCommand("housing:menu", ShowPropPicker, false)
+RegisterCommand("housing:menu", function()
+    ShowUI("propPicker")
+end, false)
 --#endregion

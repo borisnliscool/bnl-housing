@@ -612,6 +612,9 @@ function Property:getData()
         isForSale = self:isForSale(),
         rentData = self.rentData,
         isForRent = self:isForRent(),
+        props = table.map(self.props, function(prop)
+            return prop:getData()
+        end)
     }
     return data
 end

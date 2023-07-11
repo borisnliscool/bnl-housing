@@ -74,6 +74,7 @@
 ---@field isForSale boolean
 ---@field rentData table
 ---@field isForRent boolean
+---@field props table
 
 ---@class Prop
 ---@field id number
@@ -84,6 +85,7 @@
 ---@field metadata table
 ---@field spawn function
 ---@field destroy function
+---@field getData function
 
 ---@class Key
 ---@field id number?
