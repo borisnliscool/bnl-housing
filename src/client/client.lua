@@ -4,6 +4,8 @@ Properties, CurrentProperty = {}, nil
 
 RegisterNetEvent("bnl-housing:on:enterProperty")
 RegisterNetEvent("bnl-housing:on:leaveProperty")
+RegisterNetEvent("bnl-housing:on:showUI")
+RegisterNetEvent("bnl-housing:on:hideUI")
 
 function SetupProperties()
     for _, property in pairs(Properties) do

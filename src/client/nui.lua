@@ -6,19 +6,12 @@ local showBoundingBox, showOutline, showTransparancy = false, false, false
 --#region Callbacks
 RegisterNUICallback("close", function(data, cb)
     cb({})
-    SendNUIMessage({
-        action = "setVisible",
-        data = false
-    })
-    SetNuiFocus(false, false)
+    HideUI()
 end)
 
 RegisterNUICallback("navigate", function(page, cb)
     cb({})
-    SendNUIMessage({
-        action = "setPage",
-        data = page
-    })
+    ShowUI(page)
 end)
 
 RegisterNUICallback("update", function(data, cb)
@@ -76,6 +69,29 @@ RegisterNUICallback("setTransparent", function(transparent, cb)
 end)
 --#endregion
 
+---@param page string
+function ShowUI(page)
+    SendNUIMessage({
+        action = "setVisible",
+        data = true
+    })
+    SendNUIMessage({
+        action = "setPage",
+        data = page
+    })
+    SetNuiFocus(true, true)
+    TriggerEvent("bnl-housing:on:showUI", page)
+end
+
+function HideUI()
+    SendNUIMessage({
+        action = "setVisible",
+        data = false
+    })
+    SetNuiFocus(true, true)
+    TriggerEvent("bnl-housing:on:hideUI")
+end
+
 ---@param _entity number
 ---@param _coords vector3 | nil
 function StartEditorWithEntity(_entity, _coords)
@@ -93,8 +109,6 @@ function StartEditorWithEntity(_entity, _coords)
     PointCamAtCoord(_camera, _coords.x, _coords.y, _coords.z)
     RenderScriptCams(true, false, 0, true, false)
 
-    -- todo:
-    --  send entity bounds and handle that on the ui
     SendNUIMessage({
         action = "setup",
         data = {
@@ -103,15 +117,9 @@ function StartEditorWithEntity(_entity, _coords)
             rotation = GetEntityRotation(_entity)
         }
     })
-    SendNUIMessage({
-        action = "setVisible",
-        data = true
-    })
-    SendNUIMessage({
-        action = "setPage",
-        data = "decoration"
-    })
-    SetNuiFocus(true, true)
+
+    ShowUI("decoration")
+    TriggerEvent("bnl-housing:on:enterEditor")
 
     entity = _entity
     camera = _camera
@@ -144,27 +152,6 @@ function ExitEditor(save)
     RenderScriptCams(false, false, 0, true, false)
 
     if save then
-        -- SetEntityCollision(entity, true, true)
-        -- FreezeEntityPosition(entity, true)
-        -- SetEntityDrawOutline(entity, false)
-        -- ResetEntityAlpha(entity)
-
-        -- table.insert(props, {
-        --     model = model,
-        --     coords = GetEntityCoords(entity),
-        --     rotation = GetEntityRotation(entity)
-        -- })
-
-        -- todo:
-        --  update this to save it to the property
-        Debug.Log(CurrentProperty.id)
-
-        Debug.Log({
-            model = model,
-            coords = GetEntityCoords(entity),
-            rotation = GetEntityRotation(entity)
-        })
-
         _ret = lib.callback.await("bnl-housing:server:property:decoration:addProp", false, CurrentProperty.id, {
             model = model,
             location = GetEntityCoords(entity),
@@ -173,6 +160,7 @@ function ExitEditor(save)
     end
 
     DeleteEntity(entity)
+    TriggerEvent("bnl-housing:on:leaveEditor")
 
     camera, entity, model = 0, 0, ""
     return _ret
@@ -186,21 +174,13 @@ end)
 RegisterNUICallback("cancelPlacement", function(_, cb)
     cb({})
     ExitEditor(false)
-
-    SendNUIMessage({
-        action = "setPage",
-        data = "propPicker"
-    })
+    ShowUI("propPicker")
 end)
 
 RegisterNUICallback("savePlacement", function(_, cb)
     cb({})
     ExitEditor(true)
-
-    SendNUIMessage({
-        action = "setPage",
-        data = "propPicker"
-    })
+    ShowUI("propPicker")
 end)
 
 RegisterNUICallback("getProps", function(category, cb)
@@ -211,18 +191,6 @@ RegisterNUICallback("getProps", function(category, cb)
         }
     end))
 end)
-
-function ShowPropPicker()
-    SendNUIMessage({
-        action = "setVisible",
-        data = true
-    })
-    SendNUIMessage({
-        action = "setPage",
-        data = "propPicker"
-    })
-    SetNuiFocus(true, true)
-end
 
 --#region temp
 RegisterCommand("housing:test", function(source, args, rawCommand)
