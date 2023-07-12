@@ -15,7 +15,6 @@ function SetupProperties()
     for _, data in pairs(lib.callback.await("bnl-housing:server:getProperties")) do
         local property = Property.new(data)
         property:createEntrancePoint()
-        property:createBlip()
 
         Properties[property.id] = property
     end

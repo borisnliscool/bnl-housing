@@ -7,24 +7,32 @@ function Property.new(data)
     local instance = setmetatable({}, Property)
 
     instance.id = data.id
-    instance.entranceLocation = data.entranceLocation
-    instance.location = data.location
-    instance.model = data.model
-    instance.propertyType = data.propertyType
-    instance.address = data.address
-    instance.links = data.links
-    instance.key = data.key
-    instance.points = {}
-    instance.saleData = data.saleData
-    ---@type boolean
-    instance.isForSale = data.isForSale
-    instance.rentData = data.rentData
-    ---@type boolean
-    instance.isForRent = data.isForRent
-    instance.props = data.props
     instance.blip = nil
+    instance:setData(data)
 
     return instance
+end
+
+---Set property data
+---@param data table
+function Property:setData(data)
+    self.entranceLocation = data.entranceLocation
+    self.location = data.location
+    self.model = data.model
+    self.propertyType = data.propertyType
+    self.address = data.address
+    self.links = data.links
+    self.key = data.key
+    self.points = {}
+    self.saleData = data.saleData
+    ---@type boolean
+    self.isForSale = data.isForSale
+    self.rentData = data.rentData
+    ---@type boolean
+    self.isForRent = data.isForRent
+    self.props = data.props
+
+    self:createBlip()
 end
 
 ---@return vector3

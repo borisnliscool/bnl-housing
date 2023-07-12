@@ -179,9 +179,7 @@ function Property:givePlayerKey(source, permission)
     table.insert(self.keys, key)
     Debug.Log(Format("Gave key to %s for property %s", key.player, self.id))
 
-    -- todo
-    --  refresh the properties on the client side
-    --  to fix the blips for the reciever
+    self:triggerUpdate(source)
 end
 
 ---Remove the key for the player
@@ -199,8 +197,7 @@ function Property:removePlayerKey(keyId)
 
     Debug.Log(Format("Removed key %s from property %s", key.id, self.id))
 
-    -- todo
-    --  refresh the properties on the client side
+    self:triggerUpdate()
 end
 
 ---Function to remove all keys from property
@@ -208,8 +205,7 @@ function Property:removeAllKeys()
     MySQL.query.await("DELETE FROM property_key WHERE property_id = ?", { self.id })
     self.keys = {}
 
-    -- todo
-    --  refresh the properties on the client side
+    self:triggerUpdate()
 end
 
 --#endregion
@@ -689,12 +685,15 @@ end
 function Property:rent(source)
     if not self:isForRent() then return end
 
-    local price = self.saleData.price
+    local price = self.rentData.price
     if Bridge.GetMoney(source) < price then
         ClientFunctions["Notification"](source, locale("notification.rent.noMoney"), "error")
         return
     end
 
+    -- todo
+    --  if the player is the owner, they shouldn't
+    --  be able to rent the property
     Bridge.RemoveMoney(source, price)
     self:givePlayerKey(source, PERMISSION.RENTER)
 
@@ -707,6 +706,27 @@ function Property:rent(source)
     --  set saleData to completed
 
     self:loadTransactions()
+    self:triggerUpdate()
+end
+
+---Update the property on all clients or the specified source
+---@param source number | nil
+function Property:triggerUpdate(source)
+    local data = self:getData()
+    data.keys = nil
+
+    local function SendToPlayer(_source)
+        data.key = self:getPlayerKey(_source)
+        lib.callback("bnl-housing:client:updateProperty", _source, function() end, self.id, data)
+    end
+
+    if source then
+        return SendToPlayer(source)
+    end
+
+    for _, _source in pairs(Bridge.GetAllPlayers()) do
+        SendToPlayer(_source)
+    end
 end
 
 --#endregion
