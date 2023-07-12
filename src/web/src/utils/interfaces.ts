@@ -9,3 +9,11 @@ export interface PropType {
 }
 
 export type placement = "top" | "bottom" | "left" | "right";
+
+export interface PlacedProp {
+	id: number;
+	model: string;
+	location: string;
+	rotation: string;
+	metadata: string;
+}

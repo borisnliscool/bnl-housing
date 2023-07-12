@@ -106,6 +106,9 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:getPropEntity
     end
 )
 
+-- todo
+--  maybe move the following two functions
+--  to Property:addProp and Property:deleteProp?
 RegisterMiddlewareCallback("bnl-housing:server:property:decoration:addProp",
     CheckPermission[PERMISSION.MEMBER],
     function(_, propertyId, propData)
@@ -123,7 +126,7 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:addProp",
             })
 
         local prop = Prop.new({
-            ret.insertId,
+            id = ret.insertId,
             model = propData.model,
             location = propData.location,
             rotation = propData.rotation,
@@ -132,6 +135,10 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:addProp",
 
         table.insert(property.props, prop)
         prop:spawn()
+
+        property:triggerUpdate(table.map(property.players, function(player)
+            return player.source
+        end))
     end
 )
 
@@ -150,5 +157,9 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:deleteProp",
 
         prop:destroy()
         table.remove(property.props, key)
+
+        property:triggerUpdate(table.map(property.players, function(player)
+            return player.source
+        end))
     end
 )

@@ -58,7 +58,7 @@ end
 --#region Model
 ---Destroys the property shell entity
 function Property:destroyModel()
-    if self.entity then
+    if DoesEntityExist(self.entity) then
         DeleteEntity(self.entity)
         self.entity = nil
     end
@@ -710,7 +710,7 @@ function Property:rent(source)
 end
 
 ---Update the property on all clients or the specified source
----@param source number | nil
+---@param source number | table | nil
 function Property:triggerUpdate(source)
     local data = self:getData()
     data.keys = nil
@@ -720,11 +720,12 @@ function Property:triggerUpdate(source)
         ClientFunctions.UpdateProperty(_source, self.id, data)
     end
 
-    if source then
+    if source and type(source) == "number" then
         return SendToPlayer(source)
     end
 
-    for _, _source in pairs(Bridge.GetAllPlayers()) do
+    local players = (source and type(source) == "table") and source or Bridge.GetAllPlayers()
+    for _, _source in pairs(players) do
         SendToPlayer(_source)
     end
 end

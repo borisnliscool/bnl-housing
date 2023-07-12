@@ -5,16 +5,15 @@
 	import { fetchNui } from "../../utils/fetchNui";
 	import { onMount } from "svelte";
 	import Spinner from "../elements/Spinner.svelte";
+	import { useNuiEvent } from "../../utils/useNuiEvent";
+	import type { PlacedProp } from "../../utils/interfaces";
+	import { scale } from "svelte/transition";
 
-	let propPromise: Promise<
-		{
-			id: number;
-			model: string;
-			location: string;
-			rotation: string;
-			metadata: string;
-		}[]
-	>;
+	let propPromise: Promise<PlacedProp[]>;
+
+	useNuiEvent("setPlacedProps", (props: PlacedProp[]) => {
+		propPromise = new Promise((r) => r(props));
+	});
 
 	onMount(() => {
 		if (isEnvBrowser()) {
@@ -35,7 +34,7 @@
 	});
 </script>
 
-<div class="placed-menu">
+<div class="placed-menu" transition:scale>
 	<h1 class="font-bold">Placed props</h1>
 
 	<div class="flex flex-col gap-2 max-h-96 overflow-y-auto pr-1.5">

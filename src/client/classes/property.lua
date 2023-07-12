@@ -33,6 +33,21 @@ function Property:setData(data)
     self.props = data.props
 
     self:createBlip()
+
+    if CurrentProperty and CurrentProperty.id == self.id then
+        SendNUIMessage({
+            action = "setPlacedProps",
+            data = table.map(data.props, function(prop)
+                return {
+                    id = prop.id,
+                    model = prop.model,
+                    location = json.encode(prop.location),
+                    rotation = json.encode(prop.rotation),
+                    metadata = json.encode(prop.metadata),
+                }
+            end)
+        })
+    end
 end
 
 ---@return vector3
@@ -203,7 +218,7 @@ end
 
 ---Remove all in property points
 function Property:removeInPropertyPoints()
-    self.points.property:remove()
+    return self.points.property and self.points.property:remove()
 end
 
 ---Get all the players outside the property
