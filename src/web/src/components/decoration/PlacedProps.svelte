@@ -26,6 +26,13 @@
 						rotation: JSON.stringify({ x: 0.0, y: 0.0, z: 180.0 }),
 						metadata: JSON.stringify([]),
 					},
+					{
+						id: 2,
+						model: "prop_table",
+						location: JSON.stringify({ x: 1.56, y: 1.45, z: 5.23 }),
+						rotation: JSON.stringify({ x: 0.0, y: 0.0, z: 90.0 }),
+						metadata: JSON.stringify([]),
+					},
 				]);
 			});
 			return;
