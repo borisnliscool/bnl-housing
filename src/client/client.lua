@@ -42,6 +42,13 @@ function RemoveInPropertyPoints(propertyId)
     property:removeInPropertyPoints()
 end
 
+---This function is callable from the server
+---@param propertyId number
+---@param propertyData table
+function UpdateProperty(propertyId, propertyData)
+    Properties[propertyId]:setData(propertyData)
+end
+
 ---@param name string
 ---@param id number
 ---@return string

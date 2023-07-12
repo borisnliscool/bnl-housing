@@ -662,7 +662,7 @@ function Property:buy(source)
 
     local price = self.saleData.price
     if Bridge.GetMoney(source) < price then
-        ClientFunctions["Notification"](source, locale("notification.buy.noMoney"), "error")
+        ClientFunctions.Notification(source, locale("notification.buy.noMoney"), "error")
         return
     end
 
@@ -670,7 +670,7 @@ function Property:buy(source)
     self:removeAllKeys()
     self:givePlayerKey(source, PERMISSION.OWNER)
 
-    ClientFunctions["Notification"](source, locale(
+    ClientFunctions.Notification(source, locale(
         "notification.buy.success", self.address.streetName, self.address.buildingNumber, price
     ), "success")
 
@@ -687,7 +687,7 @@ function Property:rent(source)
 
     local price = self.rentData.price
     if Bridge.GetMoney(source) < price then
-        ClientFunctions["Notification"](source, locale("notification.rent.noMoney"), "error")
+        ClientFunctions.Notification(source, locale("notification.rent.noMoney"), "error")
         return
     end
 
@@ -697,7 +697,7 @@ function Property:rent(source)
     Bridge.RemoveMoney(source, price)
     self:givePlayerKey(source, PERMISSION.RENTER)
 
-    ClientFunctions["Notification"](source, locale(
+    ClientFunctions.Notification(source, locale(
         "notification.rent.success", self.address.streetName, self.address.buildingNumber, price
     ), "success")
 
@@ -717,7 +717,7 @@ function Property:triggerUpdate(source)
 
     local function SendToPlayer(_source)
         data.key = self:getPlayerKey(_source)
-        lib.callback("bnl-housing:client:updateProperty", _source, function() end, self.id, data)
+        ClientFunctions.UpdateProperty(_source, self.id, data)
     end
 
     if source then
