@@ -2,6 +2,10 @@
 local camera, entity, model, coords
 local props = {}
 local showBoundingBox, showOutline, showTransparancy = false, false, false
+---@type "NONE" | "CREATING" | "EDITING"
+local state = "NONE"
+---@type number | nil
+local currentPropId = nil
 
 --#region Callbacks
 RegisterNUICallback("close", function(data, cb)
@@ -79,6 +83,39 @@ RegisterNUICallback("getPlacedProps", function(_, cb)
         }
     end))
 end)
+
+---@param id number
+local function DeleteProp(id)
+    return lib.callback.await("bnl-housing:server:property:decoration:deleteProp", false, CurrentProperty.id, id)
+end
+
+RegisterNUICallback("editProp", function(propId, cb)
+    cb({})
+    local prop = table.findOne(CurrentProperty.props, function(_prop)
+        return _prop.id == propId
+    end)
+    if not prop then return end
+
+    local entity = NetworkGetEntityFromNetworkId(
+        lib.callback.await("bnl-housing:server:property:decoration:getPropEntity", false, CurrentProperty.id, prop.id)
+    )
+    if not entity then return end
+
+    model = prop.model
+    state = "EDITING"
+    currentPropId = prop.id
+
+    StartEditorWithEntity(entity, GetEntityCoords(entity))
+end)
+
+RegisterNUICallback("deleteProp", function(propId, cb)
+    cb({})
+    local prop = table.findOne(CurrentProperty.props, function(_prop)
+        return _prop.id == propId
+    end)
+    if not prop then return end
+    DeleteProp(prop.id)
+end)
 --#endregion
 
 ---@param page string
@@ -143,6 +180,7 @@ end
 
 ---@param _model string
 function StartEditorWithModel(_model)
+    state = "CREATING"
     model = _model
 
     -- Creating the entity
@@ -169,12 +207,19 @@ function ExitEditor(save)
             location = GetEntityCoords(entity),
             rotation = GetEntityRotation(entity)
         })
+
+        if state == "EDITING" and currentPropId then
+            DeleteProp(currentPropId)
+        end
     end
 
     DeleteEntity(entity)
     TriggerEvent("bnl-housing:on:leaveEditor")
 
     camera, entity, model = 0, 0, ""
+    state = "NONE"
+    currentPropId = nil
+
     return _ret
 end
 

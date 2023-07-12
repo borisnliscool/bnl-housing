@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fetchNui } from "../../utils/fetchNui";
 	import { slide } from "svelte/transition";
 
 	export let prop: {
@@ -35,8 +36,8 @@
                 z: {Math.round(location.z * 1000) / 1000}
 			</p>
 			<div>
-				<button class="button bg-blue-700"> Edit </button>
-				<button class="button bg-red-700"> Delete </button>
+				<button class="button bg-blue-700" on:click={() => fetchNui("editProp", prop.id)}> Edit </button>
+				<button class="button bg-red-700" on:click={() => fetchNui("deleteProp", prop.id)}> Delete </button>
 			</div>
 		</div>
 	{/if}

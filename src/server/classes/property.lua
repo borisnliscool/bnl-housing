@@ -103,8 +103,6 @@ function Property:destroyProps()
     for _, prop in pairs(self.props) do
         prop:destroy()
     end
-
-    self.props = {}
 end
 
 function Property:spawnProps()

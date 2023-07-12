@@ -94,6 +94,18 @@ RegisterMiddlewareCallback("bnl-housing:server:property:rentProperty",
     end
 )
 
+RegisterMiddlewareCallback("bnl-housing:server:property:decoration:getPropEntity",
+    CheckPermission[PERMISSION.MEMBER],
+    function(_, propertyId, propId)
+        local property = GetPropertyById(propertyId)
+        return property and NetworkGetNetworkIdFromEntity(
+            table.findOne(property.props, function(prop)
+                return prop.id == propId
+            end).entity
+        )
+    end
+)
+
 RegisterMiddlewareCallback("bnl-housing:server:property:decoration:addProp",
     CheckPermission[PERMISSION.MEMBER],
     function(_, propertyId, propData)
@@ -120,5 +132,23 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:addProp",
 
         table.insert(property.props, prop)
         prop:spawn()
+    end
+)
+
+RegisterMiddlewareCallback("bnl-housing:server:property:decoration:deleteProp",
+    CheckPermission[PERMISSION.MEMBER],
+    function(_, propertyId, propId)
+        local property = GetPropertyById(propertyId)
+        if not property then return end
+
+        local prop, key = table.findOne(property.props, function(_prop)
+            return _prop.id == propId
+        end)
+        if not prop or not key then return end
+
+        MySQL.query.await("DELETE FROM property_prop WHERE id = ?", { propId })
+
+        prop:destroy()
+        table.remove(property.props, key)
     end
 )

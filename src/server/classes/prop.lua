@@ -51,7 +51,7 @@ end
 
 ---Delete the entity
 function Prop:destroy()
-    DeleteEntity(self.entity)
+    return self.entity and DeleteEntity(self.entity)
 end
 
 function Prop:getData()

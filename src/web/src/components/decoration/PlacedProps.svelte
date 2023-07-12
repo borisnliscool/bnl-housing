@@ -38,7 +38,7 @@
 <div class="placed-menu">
 	<h1 class="font-bold">Placed props</h1>
 
-	<div class="flex flex-col gap-2 max-h-96 overflow-y-auto">
+	<div class="flex flex-col gap-2 max-h-96 overflow-y-auto pr-1.5">
 		{#await propPromise}
 			<div class="h-full grid place-items-center rounded-lg">
 				<div class="flex items-center gap-5">
