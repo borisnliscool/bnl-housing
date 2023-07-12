@@ -15,8 +15,7 @@
 	on:click={click}
 	class="prop"
 	in:scale={{ delay: animationDelay }}
-    use:soundOnEnter
-    data-sound="sounds/hover.ogg"
+	use:soundOnEnter
 >
 	<img
 		class="image"
