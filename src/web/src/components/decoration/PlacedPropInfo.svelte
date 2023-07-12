@@ -7,6 +7,7 @@
 <script lang="ts">
 	import { fetchNui } from "../../utils/fetchNui";
 	import { slide } from "svelte/transition";
+	import { soundOnEnter } from "../../utils/sounds";
 
 	export let prop: {
 		id: number;
@@ -27,7 +28,7 @@
 </script>
 
 <div class="p-2 pl-5 bg-gray-100/50 font-mono rounded-xl">
-	<button class="w-full text-left" on:click={setActive}>
+	<button class="w-full text-left" on:click={setActive} use:soundOnEnter>
 		{prop.model}
 	</button>
 

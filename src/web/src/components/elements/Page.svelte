@@ -7,12 +7,10 @@
 	export let isVisible: boolean = false;
 	export let transition = fade;
 
-	pageStore.subscribe((page) => {
-		isVisible = page == id;
-	});
+    $: isVisible = $pageStore == id;
 
 	useNuiEvent<string>("setPage", (page) => {
-		pageStore.set(page);
+        $pageStore = page;
 	});
 </script>
 
