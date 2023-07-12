@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import { writable } from "svelte/store";
-	const activeId = writable(0);
+	const activeId = writable(-1);
 	let id = 0;
 </script>
 
@@ -28,9 +28,6 @@
 
 <div class="p-2 pl-5 bg-gray-100/50 font-mono rounded-xl">
 	<button class="w-full text-left" on:click={setActive}>
-		<span class="font-bold mr-2">
-			{prop.id}
-		</span>
 		{prop.model}
 	</button>
 

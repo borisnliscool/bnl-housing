@@ -10,6 +10,11 @@
 	import { scale } from "svelte/transition";
 
 	let propPromise: Promise<PlacedProp[]>;
+	let propCount = 0;
+
+	$: (async () => {
+		propCount = (await propPromise).length;
+	})();
 
 	useNuiEvent("setPlacedProps", (props: PlacedProp[]) => {
 		propPromise = new Promise((r) => r(props));
@@ -37,6 +42,7 @@
 			});
 			return;
 		}
+
 		propPromise = fetchNui("getPlacedProps");
 	});
 </script>
@@ -44,7 +50,10 @@
 <div class="placed-menu" transition:scale>
 	<h1 class="font-bold">Placed props</h1>
 
-	<div class="flex flex-col gap-2 max-h-96 overflow-y-auto pr-1.5">
+	<div
+		class="flex flex-col gap-2 max-h-96 overflow-y-auto"
+		class:pr-2={propCount >= 8}
+	>
 		{#await propPromise}
 			<div class="h-full grid place-items-center rounded-lg">
 				<div class="flex items-center gap-5">
