@@ -63,7 +63,7 @@
 			</div>
 		{:then props}
 			{#if props && props.length > 0}
-				{#each props as prop}
+				{#each props as prop (prop.id)}
 					<PlacedPropInfo {prop} />
 				{/each}
 			{:else}
