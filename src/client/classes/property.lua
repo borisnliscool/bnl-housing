@@ -140,6 +140,8 @@ function Property:createBlip()
     if not self.key and not self.isForSale and not self.isForRent then return end
 
     local blipData = Config.blips[self.propertyType][self.key?.permission or "sale"]
+    if not blipData then return end
+
     local blip = AddBlipForCoord(self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z)
 
     SetBlipSprite(blip, blipData.sprite)
