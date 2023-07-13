@@ -368,8 +368,6 @@ function Property:enter(source, settings)
             NetworkGetNetworkIdFromEntity(vehicle)
         )
 
-        Debug.Log(vehicleProps)
-
         CreateThread(function()
             Wait(100)
 
