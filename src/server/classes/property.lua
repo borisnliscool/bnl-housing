@@ -518,7 +518,7 @@ function Property:exit(source, settings)
     end
     player:triggerFunction("BusyspinnerOff")
 
-    if Config.unloadOnEmpty and #self.players == 0 then
+    if Config.unloadOnEmpty and table.count(self.players) == 0 then
         self:destroy()
     end
 
