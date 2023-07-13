@@ -295,7 +295,9 @@ end
 ---Destroy all the vehicles in the property
 function Property:destroyVehicles()
     for _, vehicle in pairs(self.vehicles) do
-        DeleteEntity(vehicle.entity)
+        if DoesEntityExist(vehicle.entity) then
+            DeleteEntity(vehicle.entity)
+        end
         vehicle.entity = nil
     end
 end
