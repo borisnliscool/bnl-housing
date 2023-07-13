@@ -158,7 +158,7 @@ function Menus.invite(property)
     }
 
     local function InvitePlayer(serverId)
-        lib.callback("bnl-housing:server:property:invite", false, property.id, serverId)
+        lib.callback.await("bnl-housing:server:property:invite", false, property.id, serverId)
     end
 
     main.options = table.map(

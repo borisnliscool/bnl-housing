@@ -616,7 +616,10 @@ end
 ---Get the players outside the property
 ---@return table
 function Property:getOutsidePlayers()
-    return GetPlayersNearCoords(self.entranceLocation, Config.inviteRange)
+    return GetPlayersNearCoords(
+        vector3(self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z),
+        Config.inviteRange
+    )
 end
 
 ---Make the player knock on the door
