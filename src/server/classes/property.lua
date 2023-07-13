@@ -87,8 +87,9 @@ function Property:spawnModel()
     --  send an error message and return
     while not DoesEntityExist(entity) do Wait(10) end
 
-    FreezeEntityPosition(entity, true)
     SetEntityRoutingBucket(entity, self.bucketId)
+    Wait(100)
+    FreezeEntityPosition(entity, true)
 
     self.location = GetEntityCoords(entity)
     self.entity = entity
@@ -349,7 +350,7 @@ function Property:enter(source, settings)
     local spawnedVehicle, vehicleProps = nil, nil
 
     if handleVehicle then
-        if #self.shellData.vehicleSlots == #self.vehicles then
+        if not self.shellData.vehicleSlots or #self.shellData.vehicleSlots == #self.vehicles then
             -- this garage is full
             player:triggerFunction("Notification", locale("notification.property.noVehicleSpace"), "error")
             return false
