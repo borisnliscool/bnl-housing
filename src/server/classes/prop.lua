@@ -35,8 +35,6 @@ function Prop:spawn()
     while not DoesEntityExist(entity) do Wait(10) end
 
     FreezeEntityPosition(entity, true)
-    SetEntityRoutingBucket(entity, self.property.bucketId)
-
     SetEntityRotation(
         entity,
         self.rotation.x,
@@ -45,6 +43,8 @@ function Prop:spawn()
         2,
         true
     )
+
+    SetEntityRoutingBucket(entity, self.property.bucketId)
 
     self.entity = entity
 end

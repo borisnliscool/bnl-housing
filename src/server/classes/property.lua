@@ -60,8 +60,8 @@ end
 function Property:destroyModel()
     if DoesEntityExist(self.entity) then
         DeleteEntity(self.entity)
-        self.entity = nil
     end
+    self.entity = nil
 end
 
 ---Spawns the property shell entity
@@ -237,6 +237,8 @@ function Property:spawnVehicle(data)
 
     SetEntityRoutingBucket(vehicle, self.bucketId)
 
+    Wait(100)
+
     Entity(vehicle).state["propertyVehicle"] = {
         property = self.id,
         slot = data.slot
@@ -254,6 +256,8 @@ function Property:spawnVehicle(data)
         NetworkGetNetworkIdFromEntity(vehicle),
         data.props
     )
+
+    Wait(100)
 
     return vehicle
 end
@@ -289,6 +293,8 @@ function Property:spawnOutsideVehicle(props)
         NetworkGetNetworkIdFromEntity(vehicle),
         props
     )
+
+    Wait(100)
 
     return vehicle
 end
@@ -358,9 +364,19 @@ function Property:enter(source, settings)
 
         vehicleProps = lib.callback.await(
             "bnl-housing:client:getVehicleProps",
-            source,
+            NetworkGetEntityOwner(vehicle),
             NetworkGetNetworkIdFromEntity(vehicle)
         )
+
+        Debug.Log(vehicleProps)
+
+        CreateThread(function()
+            Wait(100)
+
+            if DoesEntityExist(vehicle) then
+                DeleteEntity(vehicle)
+            end
+        end)
     end
 
     player:triggerFunction("StartBusySpinner", "Loading property...")
@@ -401,12 +417,7 @@ function Property:enter(source, settings)
             slot = slot,
         }
 
-        spawnedVehicle = self:spawnVehicle(vehicleData)
-        vehicleData.entity = spawnedVehicle
-
-        table.insert(self.vehicles, vehicleData)
-
-        CreateThread(function()
+        local _, err = pcall(function()
             MySQL.query.await("INSERT INTO property_vehicle (property_id, slot, props) VALUES (?, ?, ?)", {
                 self.id,
                 slot.id,
@@ -414,10 +425,18 @@ function Property:enter(source, settings)
             })
         end)
 
-        -- I don't know why, but this needs to be down here
-        -- otherwise the vehicleProps don't work propperly
-        DeleteEntity(vehicle)
+        if err then
+            Debug.Error(err)
+            goto skipVehicleSpawning
+        end
+
+        spawnedVehicle = self:spawnVehicle(vehicleData)
+        vehicleData.entity = spawnedVehicle
+
+        table.insert(self.vehicles, vehicleData)
         TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, -1)
+
+        ::skipVehicleSpawning::
     end
 
     if not handleVehicle then
@@ -477,7 +496,6 @@ function Property:exit(source, settings)
     local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver and vehicleState ~= nil
     local spawnedVehicle = nil
 
-    player:setBucket(0)
     player:triggerFunction("RemoveInPropertyPoints", self.id)
     player:triggerFunction("StopMinimapOverlay")
 
@@ -485,7 +503,7 @@ function Property:exit(source, settings)
     --  handle all the passengers
     if handleVehicle then
         local vehicleData, index = table.findOne(self.vehicles, function(veh)
-            return veh.slot.id == vehicleState.slot.id
+            return vehicleState.slot.id == veh.slot.id
         end)
         table.remove(self.vehicles, index)
 
@@ -494,7 +512,9 @@ function Property:exit(source, settings)
             return false
         end
 
-        DeleteEntity(vehicleData.entity)
+        DeleteEntity(vehicle)
+
+        player:setBucket(0)
         spawnedVehicle = self:spawnOutsideVehicle(vehicleData.props)
 
         CreateThread(function()
@@ -508,6 +528,7 @@ function Property:exit(source, settings)
     end
 
     if not handleVehicle then
+        player:setBucket(0)
         player:warpOutOfProperty()
     end
 

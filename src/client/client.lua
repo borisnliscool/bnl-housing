@@ -63,11 +63,11 @@ end
 
 ---Show a help notification to the player
 ---@param message string
----@param time number
+---@param time? number
 function ShowHelpNotification(message, time)
     AddTextEntry("bnl-housing:helpMessage", message)
     BeginTextCommandDisplayHelp("bnl-housing:helpMessage")
-    EndTextCommandDisplayHelp(0, false, true, (time or 5) * 1000)
+    EndTextCommandDisplayHelp(0, false, true, (time ~= nil and time or 5) * 1000)
 end
 
 ---This function is callable from the server.
