@@ -18,6 +18,11 @@ lib.callback.register("bnl-housing:client:handleInvite", function(address)
         Wait(0)
         if IsControlJustReleased(Config.Keybinds.invite.padIndex, Config.Keybinds.invite.control) then
             ShowHelpNotification(" ", 0.001)
+
+            if cache.vehicle and IsVehicleBlacklisted(cache.vehicle) then
+                return false
+            end
+
             return true
         end
     end
