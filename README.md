@@ -115,7 +115,7 @@ Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/borisnli
 
 ## Contact
 
-[Boris NL#1500](https://borisnl.nl/discord) - [@borisnlyt](https://twitter.com/borisnlyt) - [boris@borisnl.nl](mailto:boris@borisnl.nl)
+[@borisnl](https://boris.foo/discord) - [boris@borisnl.nl](mailto:boris@borisnl.nl)
 
 Project Link: [https://github.com/borisnliscool/bnl-housing](https://github.com/borisnliscool/bnl-housing)
 
