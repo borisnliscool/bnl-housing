@@ -164,6 +164,7 @@ function Property:givePlayerKey(source, permission)
     end
 
     ---@type Key
+    ---@diagnostic disable-next-line: missing-fields
     local key = {
         property_id = self.id,
         player = Bridge.GetPlayerIdentifier(source),
@@ -250,12 +251,7 @@ function Property:spawnVehicle(data)
         true
     )
 
-    lib.callback.await(
-        "bnl-housing:client:setVehicleProps",
-        NetworkGetEntityOwner(vehicle),
-        NetworkGetNetworkIdFromEntity(vehicle),
-        data.props
-    )
+    SetVehicleProps(vehicle, data.props)
 
     Wait(100)
 
@@ -286,13 +282,7 @@ function Property:spawnOutsideVehicle(props)
     end
 
     SetEntityRoutingBucket(vehicle, 0)
-
-    lib.callback.await(
-        "bnl-housing:client:setVehicleProps",
-        NetworkGetEntityOwner(vehicle),
-        NetworkGetNetworkIdFromEntity(vehicle),
-        props
-    )
+    SetVehicleProps(vehicle, props)
 
     Wait(100)
 
@@ -362,11 +352,7 @@ function Property:enter(source, settings)
             return false
         end
 
-        vehicleProps = lib.callback.await(
-            "bnl-housing:client:getVehicleProps",
-            NetworkGetEntityOwner(vehicle),
-            NetworkGetNetworkIdFromEntity(vehicle)
-        )
+        vehicleProps = GetVehicleProps(vehicle)
 
         CreateThread(function()
             Wait(100)

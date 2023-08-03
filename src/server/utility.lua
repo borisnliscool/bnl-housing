@@ -40,3 +40,19 @@ CheckPermission = {
         return key.permission == PERMISSION.OWNER
     end,
 }
+
+---@param vehicle Entity
+---@param props table
+function SetVehicleProps(vehicle, props)
+    Entity(vehicle).state:set("setVehicleProperties", props, true)
+end
+
+---@param vehicle Entity
+---@return table
+function GetVehicleProps(vehicle)
+    return lib.callback.await(
+        "bnl-housing:client:getVehicleProps",
+        NetworkGetEntityOwner(vehicle),
+        NetworkGetNetworkIdFromEntity(vehicle)
+    )
+end
