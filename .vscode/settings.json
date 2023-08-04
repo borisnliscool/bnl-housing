@@ -1,6 +1,6 @@
 {
 	"Lua.diagnostics.globals": ["lib", "locale", "cache", "MySQL"],
 	"Lua.diagnostics.disable": ["duplicate-set-field"],
-    "css.customData": [".vscode/tailwind.json"],
-    "scss.lint.unknownAtRules": "ignore"
+	"css.customData": [".vscode/tailwind.json"],
+	"scss.lint.unknownAtRules": "ignore"
 }

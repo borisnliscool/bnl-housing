@@ -90,3 +90,16 @@ function table.count(list)
     end
     return count
 end
+
+---@param list table
+---@param func function
+---@return table
+function table.filter(list, func)
+    local ret = {}
+    for key, value in pairs(list) do
+        if func(value, key) then
+            ret[key] = value
+        end
+    end
+    return ret
+end

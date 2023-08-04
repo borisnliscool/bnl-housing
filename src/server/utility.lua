@@ -56,3 +56,9 @@ function GetVehicleProps(vehicle)
         NetworkGetNetworkIdFromEntity(vehicle)
     )
 end
+
+function GenerateRentCronJob()
+    local currentWeekday = tonumber(os.date("%w", os.time()))
+    currentWeekday = currentWeekday == 0 and 7 or currentWeekday
+    return ("0 0 * * %s"):format(currentWeekday)
+end

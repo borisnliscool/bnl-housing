@@ -13,7 +13,7 @@ local function LoadProperties()
 
     Wait(500)
     for _, source in pairs(Bridge.GetAllPlayers()) do
-        ClientFunctions.Notification(source, locale("notification.ready"),  "success")
+        ClientFunctions.Notification(source, locale("notification.ready"), "success")
     end
 end
 
@@ -94,3 +94,6 @@ end
 Bridge.onReady(LoadProperties)
 Bridge.onPlayerLoad(onPlayerLoad)
 Bridge.onPlayerUnload(onPlayerUnload)
+
+--todo
+-- add rent payment cron jobs

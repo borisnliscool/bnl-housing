@@ -151,9 +151,13 @@ end
 ---Give the player a key to the property
 ---@param source number
 ---@param permission Permissions
-function Property:givePlayerKey(source, permission)
+---@param update? boolean
+function Property:givePlayerKey(source, permission, update)
     if not permission then
         permission = PERMISSION.MEMBER
+    end
+    if update == nil then
+        update = true
     end
 
     -- check if the player already has a key
@@ -181,7 +185,9 @@ function Property:givePlayerKey(source, permission)
     table.insert(self.keys, key)
     Debug.Log(Format("Gave key to %s for property %s", key.player, self.id))
 
-    self:triggerUpdate(source)
+    if update then
+        self:triggerUpdate(source)
+    end
 end
 
 ---Remove the key for the player
@@ -203,11 +209,18 @@ function Property:removePlayerKey(keyId)
 end
 
 ---Function to remove all keys from property
-function Property:removeAllKeys()
+---@param update? boolean
+function Property:removeAllKeys(update)
+    if update == nil then
+        update = true
+    end
+
     MySQL.query.await("DELETE FROM property_key WHERE property_id = ?", { self.id })
     self.keys = {}
 
-    self:triggerUpdate()
+    if update then
+        self:triggerUpdate()
+    end
 end
 
 --#endregion
@@ -678,18 +691,33 @@ function Property:buy(source)
     end
 
     Bridge.RemoveMoney(source, price)
-    self:removeAllKeys()
-    self:givePlayerKey(source, PERMISSION.OWNER)
+    self:removeAllKeys(false)
+    self:givePlayerKey(source, PERMISSION.OWNER, false)
 
     ClientFunctions.Notification(source, locale(
         "notification.buy.success", self.address.streetName, self.address.buildingNumber, price
     ), "success")
 
-    -- todo
-    --  add a row to property_payments
-    --  set saleData to completed
+    local playerIdentifier = Bridge.GetPlayerIdentifier(source)
+
+    MySQL.insert.await("INSERT INTO property_payments (player, property_id, amount, payment_type) VALUES (?, ?, ?, ?)", {
+        playerIdentifier,
+        self.id,
+        price,
+        TRANSACTION_TYPE.SALE
+    })
+
+    MySQL.query.await("UPDATE property_transaction SET customer = ?, status = ? WHERE id = ?", {
+        playerIdentifier,
+        COMPLETION_STATUS.COMPLETED,
+        self.saleData.id
+    })
 
     self:loadTransactions()
+
+    -- todo
+    --  maybe remove rent transaction if it is uncompleted?
+    self:triggerUpdate()
 end
 
 ---@param source number
@@ -706,15 +734,31 @@ function Property:rent(source)
     --  if the player is the owner, they shouldn't
     --  be able to rent the property
     Bridge.RemoveMoney(source, price)
-    self:givePlayerKey(source, PERMISSION.RENTER)
+    self:givePlayerKey(source, PERMISSION.RENTER, false)
 
     ClientFunctions.Notification(source, locale(
         "notification.rent.success", self.address.streetName, self.address.buildingNumber, price
     ), "success")
 
-    -- todo
-    --  add a row to property_payments
-    --  set saleData to completed
+    local playerIdentifier = Bridge.GetPlayerIdentifier(source)
+    local paymentInterval = GenerateRentCronJob()
+
+    MySQL.insert.await(
+        "INSERT INTO property_payments (player, property_id, amount, payment_type, payment_interval) VALUES (?, ?, ?, ?, ?)",
+        {
+            playerIdentifier,
+            self.id,
+            price,
+            TRANSACTION_TYPE.RENTAL,
+            paymentInterval
+        }
+    )
+
+    MySQL.query.await("UPDATE property_transaction SET customer = ?, status = ? WHERE id = ?", {
+        playerIdentifier,
+        COMPLETION_STATUS.COMPLETED,
+        self.rentData.id
+    })
 
     self:loadTransactions()
     self:triggerUpdate()
@@ -737,7 +781,9 @@ function Property:triggerUpdate(source)
 
     local players = (source and type(source) == "table") and source or Bridge.GetAllPlayers()
     for _, _source in pairs(players) do
-        SendToPlayer(_source)
+        CreateThread(function()
+            SendToPlayer(_source)
+        end)
     end
 end
 

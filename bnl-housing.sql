@@ -73,3 +73,16 @@ CREATE TABLE IF NOT EXISTS property_transaction (
     INDEX idx_property_id (property_id),
     INDEX idx_customer (customer)
 );
+
+CREATE TABLE IF NOT EXISTS property_payments (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    player VARCHAR(128) NOT NULL,
+    property_id INT NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    amount INT NOT NULL,
+    payment_type ENUM("sale", "rental") NOT NULL,
+    payment_interval VARCHAR(16),
+    FOREIGN KEY (property_id) REFERENCES properties(id),
+    INDEX idx_property_id (property_id),
+    INDEX idx_payment_date (payment_date)
+);
