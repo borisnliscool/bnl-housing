@@ -81,11 +81,16 @@ function Property:spawnModel()
         false
     )
 
-    -- todo
-    --  sometimes this infinite loops because the model doesn't exist
-    --  we need to check if it fails like 5 times, and if so
-    --  send an error message and return
-    while not DoesEntityExist(entity) do Wait(10) end
+    local count = 0
+    while not DoesEntityExist(entity) do
+        Wait(10)
+        count = count + 1
+
+        if count > 10 then
+            Debug.Error(Format("Failed to load shell %s.", self.model))
+            return
+        end
+    end
 
     SetEntityRoutingBucket(entity, self.bucketId)
     Wait(100)
@@ -343,9 +348,6 @@ function Property:enter(source, settings)
 
     local propertyPlayerIsIn = GetPropertyPlayerIsIn(source)
     if propertyPlayerIsIn ~= nil then
-        -- todo
-        --  make the transition smoother, currently its doing two
-        --  transitions and you see the outside for a split second
         propertyPlayerIsIn:exit(source, {
             transitionIn = false,
         })
@@ -722,6 +724,10 @@ end
 
 ---@param source number
 function Property:rent(source)
+    -- todo
+    --  remove any other renter payments
+    --  and maybe key owners?
+
     if not self:isForRent() then return end
 
     local price = self.rentData.price
@@ -730,9 +736,12 @@ function Property:rent(source)
         return
     end
 
-    -- todo
-    --  if the player is the owner, they shouldn't
-    --  be able to rent the property
+    local key = self:getPlayerKey(source)
+    if key.permission == PERMISSION.OWNER then
+        ClientFunctions.Notification(source, locale("notification.rent.owner"), "error")
+        return
+    end
+
     Bridge.RemoveMoney(source, price)
     self:givePlayerKey(source, PERMISSION.RENTER, false)
 

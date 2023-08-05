@@ -14,6 +14,7 @@
 	"notification.buy.success": "Je hebt %s %s gekocht voor €%s.",
 	"notification.rent.noMoney": "Je hebt niet genoeg geld om dit eigendom te huren.",
 	"notification.rent.success": "Je hebt %s %s gehuurd voor €%s.",
+    "notification.rent.owner": "Je kan dit eigendom niet huren omdat je het bezig",
 	"notification.invite": "Je bent uitgenodigd naar ~y~%s~s~. \nKlik op ~%s~ om te accepteren.",
 
 	"blip.property.house.owner": "Eigen huis",

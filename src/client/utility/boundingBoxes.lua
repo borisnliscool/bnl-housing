@@ -24,8 +24,6 @@ end
 ---@param point1 vector3
 ---@param point2 vector3
 local function Line(point1, point2)
-    -- todo:
-    --  make this configurable
     local color = { r = 255, g = 255, b = 255, a = 255 }
     DrawLine(point1.x, point1.y, point1.z, point2.x, point2.y, point2.z, color.r, color.g, color.b, color.a)
 end
