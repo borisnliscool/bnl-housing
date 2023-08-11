@@ -495,8 +495,6 @@ function Property:exit(source, settings)
     player:triggerFunction("RemoveInPropertyPoints", self.id)
     player:triggerFunction("StopMinimapOverlay")
 
-    -- todo
-    --  handle all the passengers
     if handleVehicle and isDriver then
         local vehicleData, index = table.findOne(self.vehicles, function(veh)
             return vehicleState.slot.id == veh.slot.id
