@@ -57,8 +57,25 @@ function GetVehicleProps(vehicle)
     )
 end
 
+---@return string
 function GenerateRentCronJob()
     local currentWeekday = tonumber(os.date("%w", os.time()))
     currentWeekday = currentWeekday == 0 and 7 or currentWeekday
     return ("0 0 * * %s"):format(currentWeekday)
+end
+
+---@param vehicle Entity
+---@return { [integer]: integer }
+function GetPlayersInVehicle(vehicle)
+    local allPeds = {}
+    table.map(Bridge.GetAllPlayers(), function(player)
+        allPeds[GetPlayerPed(player)] = player
+    end)
+
+    local ret = {}
+    for i = -1, 16 do
+        ret[i] = allPeds[GetPedInVehicleSeat(vehicle, i)]
+    end
+
+    return ret
 end

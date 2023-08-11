@@ -49,3 +49,11 @@ RegisterCommand("housing:insert", function(source, args, rawCommand)
         })
     end
 end, false)
+
+RegisterCommand("vehicle", function(source, args, rawCommand)
+    Debug.Log(
+        GetPlayersInVehicle(
+            GetVehiclePedIsIn(GetPlayerPed(source), false)
+        )
+    )
+end, false)

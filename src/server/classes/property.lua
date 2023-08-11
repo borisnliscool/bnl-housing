@@ -354,10 +354,10 @@ function Property:enter(source, settings)
 
     local vehicle = player:vehicle()
     local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
-    local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver
+    local handleVehicle = vehicle and DoesEntityExist(vehicle)
     local spawnedVehicle, vehicleProps = nil, nil
 
-    if handleVehicle then
+    if handleVehicle and isDriver then
         if not self.shellData.vehicleSlots or #self.shellData.vehicleSlots == #self.vehicles then
             -- this garage is full
             player:triggerFunction("Notification", locale("notification.property.noVehicleSpace"), "error")
@@ -365,6 +365,14 @@ function Property:enter(source, settings)
         end
 
         vehicleProps = GetVehicleProps(vehicle)
+
+        for seat, playerId in pairs(GetPlayersInVehicle(vehicle)) do
+            if playerId ~= source then
+                self:enter(playerId, {
+                    seat = seat
+                })
+            end
+        end
 
         CreateThread(function()
             Wait(500)
@@ -396,9 +404,7 @@ function Property:enter(source, settings)
         self.vehiclesSpawned = true
     end
 
-    -- todo
-    --  handle passenger entering when driver enters the property
-    if handleVehicle then
+    if handleVehicle and isDriver then
         local slot = self:getFirstFreeVehicleSlot()
         if not slot then
             Debug.Error("Could not find a slot for the vehicle, this shouldn't happen!")
@@ -423,12 +429,13 @@ function Property:enter(source, settings)
         vehicleData.entity = spawnedVehicle
 
         table.insert(self.vehicles, vehicleData)
-        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, -1)
 
         ::skipVehicleSpawning::
     end
 
-    if not handleVehicle then
+    if handleVehicle then
+        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, (settings and settings.seat ~= nil) and settings.seat or -1)
+    else
         player:warpIntoProperty()
     end
 
@@ -482,7 +489,7 @@ function Property:exit(source, settings)
     local vehicle = player:vehicle()
     local vehicleState = Entity(vehicle).state["propertyVehicle"]
     local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
-    local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver and vehicleState ~= nil
+    local handleVehicle = vehicle and DoesEntityExist(vehicle) and vehicleState ~= nil
     local spawnedVehicle = nil
 
     player:triggerFunction("RemoveInPropertyPoints", self.id)
@@ -490,7 +497,7 @@ function Property:exit(source, settings)
 
     -- todo
     --  handle all the passengers
-    if handleVehicle then
+    if handleVehicle and isDriver then
         local vehicleData, index = table.findOne(self.vehicles, function(veh)
             return vehicleState.slot.id == veh.slot.id
         end)
@@ -501,6 +508,14 @@ function Property:exit(source, settings)
             return false
         end
 
+        for seat, playerId in pairs(GetPlayersInVehicle(vehicle)) do
+            if playerId ~= source then
+                self:exit(playerId, {
+                    seat = seat
+                })
+            end
+        end
+
         DeleteEntity(vehicle)
 
         player:setBucket(0)
@@ -509,8 +524,10 @@ function Property:exit(source, settings)
         CreateThread(function()
             DB.removePropertyVehicle(self.id, vehicleData.slot.id)
         end)
+    end
 
-        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, -1)
+    if handleVehicle then
+        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, (settings and settings.seat ~= nil) and settings.seat or -1)
     end
 
     if not handleVehicle then
