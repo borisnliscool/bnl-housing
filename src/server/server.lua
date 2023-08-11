@@ -6,7 +6,7 @@ RegisterNetEvent("bnl-housing:on:leaveProperty")
 
 ---Load all properties
 local function LoadProperties()
-    local databaseProperties = MySQL.query.await("SELECT * FROM properties")
+    local databaseProperties = DB.getAllProperties()
     for _, propertyData in pairs(databaseProperties) do
         Properties[propertyData.id] = Property.load(propertyData)
     end
@@ -55,10 +55,7 @@ local function onPlayerLoad(player)
     local playerIdentifier = Bridge.GetPlayerIdentifier(player)
     Debug.Log(Format("Loading player %s", Bridge.GetPlayerName(player)))
 
-    local data = MySQL.single.await(
-        "SELECT property_id FROM property_player WHERE player = ?",
-        { playerIdentifier }
-    )
+    local data = DB.getPropertyPlayer(playerIdentifier)
     if not data or not data.property_id then return end
     local propertyId = data.property_id
 
@@ -69,7 +66,7 @@ local function onPlayerLoad(player)
 
     if property:enter(player) then
         Debug.Log(Format("Loaded player %s in property %s", Bridge.GetPlayerName(player), propertyId))
-        MySQL.query.await("DELETE FROM property_player WHERE player = ?", { playerIdentifier })
+        DB.deletePropertyPlayer(playerIdentifier)
         return
     end
 
@@ -85,10 +82,7 @@ local function onPlayerUnload(player)
     local playerIdentifier = Bridge.GetPlayerIdentifier(player)
     property.players[playerIdentifier] = nil
 
-    MySQL.insert.await(
-        "INSERT INTO property_player (property_id, player) VALUES (?, ?)",
-        { property.id, playerIdentifier }
-    )
+    DB.insertPropertyPlayer(property.id, playerIdentifier)
 end
 
 Bridge.onReady(LoadProperties)

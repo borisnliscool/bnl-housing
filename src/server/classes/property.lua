@@ -121,7 +121,7 @@ end
 function Property:loadProps()
     self:destroyProps()
 
-    local databaseProps = MySQL.query.await("SELECT * FROM property_prop WHERE property_id = ?", { self.id })
+    local databaseProps = DB.getPropertyProps(self.id)
     self.props = table.map(databaseProps, function(propData)
         return Prop.new(propData, self)
     end)
@@ -133,7 +133,7 @@ end
 
 ---Load the property keys
 function Property:loadKeys()
-    local databaseKeys = MySQL.query.await("SELECT * FROM property_key WHERE property_id = ?", { self.id })
+    local databaseKeys = DB.getPropertyKeys(self.id)
     self.keys = databaseKeys
 end
 
@@ -181,12 +181,7 @@ function Property:givePlayerKey(source, permission, update)
         permission = permission
     }
 
-    local id = MySQL.insert.await("INSERT INTO property_key (property_id, player, permission) VALUES (?, ?, ?)", {
-        key.property_id,
-        key.player,
-        key.permission
-    })
-    key.id = id
+    key.id = DB.insertPropertyKey(key.property_id, key.player, key.permission)
 
     table.insert(self.keys, key)
     Debug.Log(Format("Gave key to %s for property %s", key.player, self.id))
@@ -206,7 +201,7 @@ function Property:removePlayerKey(keyId)
     end)
     if not key or not id then return end
 
-    MySQL.query.await("DELETE FROM property_key WHERE id = ?", { key.id })
+    DB.removePropertyKey(key.id)
     table.remove(self.keys, id)
 
     Debug.Log(Format("Removed key %s from property %s", key.id, self.id))
@@ -221,7 +216,7 @@ function Property:removeAllKeys(update)
         update = true
     end
 
-    MySQL.query.await("DELETE FROM property_key WHERE property_id = ?", { self.id })
+    DB.removePropertyKeys(self.id)
     self.keys = {}
 
     if update then
@@ -236,7 +231,7 @@ end
 ---Load the data for all the vehicles
 function Property:loadVehicleData()
     self.vehicles = table.map(
-        MySQL.query.await("SELECT * FROM property_vehicle WHERE property_id = ?", { self.id }),
+        DB.getPropertyVehicles(self.id),
         function(d)
             d.slot = self.shellData.vehicleSlots[d.slot]
             d.props = json.decode(d.props)
@@ -388,9 +383,6 @@ function Property:enter(source, settings)
     player:freeze(true)
     player:setBucket(self.bucketId)
 
-    -- todo
-    --  I'm not totally conviced of this method
-    --  of spawning the shell just in time
     if not self.isSpawned and not self.isSpawning then
         self.isSpawning = true
         self:spawnModel()
@@ -419,11 +411,7 @@ function Property:enter(source, settings)
         }
 
         local _, err = pcall(function()
-            MySQL.query.await("INSERT INTO property_vehicle (property_id, slot, props) VALUES (?, ?, ?)", {
-                self.id,
-                slot.id,
-                json.encode(vehicleProps)
-            })
+            DB.insertPropertyVehicle(self.id, slot.id, vehicleProps)
         end)
 
         if err then
@@ -519,10 +507,7 @@ function Property:exit(source, settings)
         spawnedVehicle = self:spawnOutsideVehicle(vehicleData.props)
 
         CreateThread(function()
-            MySQL.query.await("DELETE FROM property_vehicle WHERE property_id = ? AND slot = ?", {
-                self.id,
-                vehicleData.slot.id
-            })
+            DB.removePropertyVehicle(self.id, vehicleData.slot.id)
         end)
 
         TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, -1)
@@ -559,14 +544,9 @@ end
 
 ---Load the linked properties data
 function Property:loadLinks()
-    local query =
-        "SELECT linked_property_id AS property_id FROM property_link WHERE property_id = ? " ..
-        "UNION " ..
-        "SELECT property_id AS property_id FROM property_link WHERE linked_property_id = ?"
+    local propertyLinks = DB.getPropertyLinks(self.id)
 
-    local queryResult = MySQL.query.await(query, { self.id, self.id })
-
-    self.links = table.map(queryResult, function(row)
+    self.links = table.map(propertyLinks, function(row)
         return row.property_id
     end)
 end
@@ -595,10 +575,7 @@ function Property:save()
     -- Saving props
     if self.props and #self.props > 0 then
         for _, prop in pairs(self.props) do
-            MySQL.prepare.await("UPDATE property_prop SET metadata = ? WHERE id = ?", {
-                json.encode(prop.metadata),
-                prop.id
-            })
+            DB.updatePropertyProp(prop.metadata, prop.id)
         end
     end
 end
@@ -662,10 +639,7 @@ end
 
 ---Load the property transition data
 function Property:loadTransactions()
-    local databaseTransactions = MySQL.query.await(
-        "SELECT * FROM property_transaction WHERE property_id = ? AND transaction_type IN ('rental', 'sale') ORDER BY start_date DESC LIMIT 2;",
-        { self.id }
-    )
+    local databaseTransactions = DB.getPropertyTransactions(self.id)
 
     self.rentData = table.findOne(databaseTransactions, function(d)
         return d.transaction_type == TRANSACTION_TYPE.RENTAL
@@ -705,18 +679,8 @@ function Property:buy(source)
 
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
 
-    MySQL.insert.await("INSERT INTO property_payments (player, property_id, amount, payment_type) VALUES (?, ?, ?, ?)", {
-        playerIdentifier,
-        self.id,
-        price,
-        TRANSACTION_TYPE.SALE
-    })
-
-    MySQL.query.await("UPDATE property_transaction SET customer = ?, status = ? WHERE id = ?", {
-        playerIdentifier,
-        COMPLETION_STATUS.COMPLETED,
-        self.saleData.id
-    })
+    DB.insertPropertyPayment(playerIdentifier, self.id, price, TRANSACTION_TYPE.SALE)
+    DB.updatePropertyTransaction(playerIdentifier, COMPLETION_STATUS.COMPLETED, self.saleData.id)
 
     self:loadTransactions()
 
@@ -755,22 +719,8 @@ function Property:rent(source)
     local playerIdentifier = Bridge.GetPlayerIdentifier(source)
     local paymentInterval = GenerateRentCronJob()
 
-    MySQL.insert.await(
-        "INSERT INTO property_payments (player, property_id, amount, payment_type, payment_interval) VALUES (?, ?, ?, ?, ?)",
-        {
-            playerIdentifier,
-            self.id,
-            price,
-            TRANSACTION_TYPE.RENTAL,
-            paymentInterval
-        }
-    )
-
-    MySQL.query.await("UPDATE property_transaction SET customer = ?, status = ? WHERE id = ?", {
-        playerIdentifier,
-        COMPLETION_STATUS.COMPLETED,
-        self.rentData.id
-    })
+    DB.insertPropertyPayment(playerIdentifier, self.id, price, TRANSACTION_TYPE.RENTAL, paymentInterval)
+    DB.updatePropertyTransaction(playerIdentifier, COMPLETION_STATUS.COMPLETED, self.rentData.id)
 
     self:loadTransactions()
     self:triggerUpdate()

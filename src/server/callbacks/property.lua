@@ -117,13 +117,12 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:addProp",
 
         propData.location = propData.location - property.location
 
-        local ret = MySQL.query.await(
-            "INSERT INTO property_prop (property_id, model, location, rotation) VALUES (?, ?, ?, ?)", {
-                property.id,
-                propData.model,
-                json.encode(propData.location),
-                json.encode(propData.rotation),
-            })
+        local ret = DB.insertPropertyProp(
+            property.id,
+            propData.model,
+            propData.location,
+            propData.rotation
+        )
 
         local prop = Prop.new({
             id = ret.insertId,
@@ -153,7 +152,7 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:deleteProp",
         end)
         if not prop or not key then return end
 
-        MySQL.query.await("DELETE FROM property_prop WHERE id = ?", { propId })
+        DB.deletePropertyProp(propId)
 
         prop:destroy()
         table.remove(property.props, key)

@@ -4,13 +4,13 @@
 ]]
 
 ---@class Property
----@field id number
+---@field id integer
 ---@field model string
 ---@field shellData table
 ---@field entranceLocation vector4
 ---@field propertyType PropertyType
 ---@field address Address
----@field bucketId number
+---@field bucketId integer
 ---@field props table
 ---@field keys table
 ---@field links table
@@ -21,7 +21,7 @@
 ---@field isSpawningVehicles boolean
 ---@field vehiclesSpawned boolean
 ---@field location vector3
----@field entity number
+---@field entity Entity
 ---@field saleData table?
 ---@field rentData table?
 ---@field destroyModel function
@@ -63,7 +63,7 @@
 ---@field buildingNumber string
 
 ---@class PropertyData
----@field id number
+---@field id integer
 ---@field entranceLocation vector4
 ---@field location vector3
 ---@field propertyType PropertyType
@@ -78,7 +78,7 @@
 ---@field props table
 
 ---@class Prop
----@field id number
+---@field id integer
 ---@field property Property
 ---@field model string
 ---@field location vector3
@@ -89,13 +89,13 @@
 ---@field getData function
 
 ---@class Key
----@field id number?
----@field propery_id number
+---@field id integer?
+---@field propery_id integer
 ---@field permission Permissions
 ---@field player string
 
 ---@class Player
----@field source number
+---@field source integer
 ---@field identifier string
 ---@field name string
 ---@field property Property
@@ -111,8 +111,8 @@
 ---@field removeMoney function
 
 ---@class Keybind
----@field padIndex number
----@field control number
+---@field padIndex integer
+---@field control integer
 ---@field name string
 
 ---@class Point
@@ -121,7 +121,7 @@
 ---@field marker Marker
 
 ---@class Marker
----@field type number
+---@field type integer
 ---@field size vector3
 ---@field vehicleSize number
 ---@field offset vector3
@@ -131,10 +131,10 @@
 ---@field faceCamera boolean
 
 ---@class Blip
----@field sprite number
----@field color number
+---@field sprite integer
+---@field color integer
 ---@field short boolean?
----@field display number?
+---@field display integer?
 ---@field scale number?
 
 ---@class PropertyBlips
@@ -144,7 +144,7 @@
 ---@field sale Blip
 
 ---@class VehicleSlot
----@field id? number
+---@field id? integer
 ---@field location vector4
 
 ---@alias Entity number
