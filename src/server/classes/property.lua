@@ -56,6 +56,7 @@ function Property.load(data)
 end
 
 --#region Model
+
 ---Destroys the property shell entity
 function Property:destroyModel()
     if DoesEntityExist(self.entity) then
@@ -231,6 +232,7 @@ end
 --#endregion
 
 --#region Vehicles
+
 ---Load the data for all the vehicles
 function Property:loadVehicleData()
     self.vehicles = table.map(
@@ -355,7 +357,7 @@ function Property:enter(source, settings)
 
     local player = Player.new(source, self)
 
-    local vehicle = GetVehiclePedIsIn(player:ped(), false)
+    local vehicle = player:vehicle()
     local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
     local handleVehicle = vehicle and DoesEntityExist(vehicle) and isDriver
     local spawnedVehicle, vehicleProps = nil, nil
@@ -370,7 +372,7 @@ function Property:enter(source, settings)
         vehicleProps = GetVehicleProps(vehicle)
 
         CreateThread(function()
-            Wait(100)
+            Wait(500)
 
             if DoesEntityExist(vehicle) then
                 DeleteEntity(vehicle)
@@ -554,6 +556,7 @@ end
 --#endregion
 
 --#region Misc
+
 ---Load the linked properties data
 function Property:loadLinks()
     local query =
