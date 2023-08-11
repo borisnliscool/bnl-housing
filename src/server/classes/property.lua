@@ -1,5 +1,3 @@
-local MySQL = MySQL
-
 Property = {}
 Property.__index = Property
 
