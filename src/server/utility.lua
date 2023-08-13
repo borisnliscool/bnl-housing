@@ -64,6 +64,7 @@ function GenerateRentCronJob()
     return ("0 0 * * %s"):format(currentWeekday)
 end
 
+---Returns a table with all the players in a given vehicle, key is player ped, value is player server id.
 ---@param vehicle Entity
 ---@return { [integer]: integer }
 function GetPlayersInVehicle(vehicle)
