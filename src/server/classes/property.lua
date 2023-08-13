@@ -353,7 +353,7 @@ function Property:enter(source, settings)
     local vehicle = player:vehicle()
     local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
     local handleVehicle = vehicle and DoesEntityExist(vehicle)
-    local spawnedVehicle, vehicleProps = nil, nil
+    local spawnedVehicle, vehicleProps, vehiclePassengers = nil, nil, nil
 
     if handleVehicle and isDriver then
         if not self.shellData.vehicleSlots or #self.shellData.vehicleSlots == #self.vehicles then
@@ -363,14 +363,7 @@ function Property:enter(source, settings)
         end
 
         vehicleProps = GetVehicleProps(vehicle)
-
-        for seat, playerId in pairs(GetPlayersInVehicle(vehicle)) do
-            if playerId ~= source then
-                self:enter(playerId, {
-                    seat = seat
-                })
-            end
-        end
+        vehiclePassengers = GetPlayersInVehicle(vehicle)
 
         CreateThread(function()
             Wait(500)
@@ -428,11 +421,25 @@ function Property:enter(source, settings)
 
         table.insert(self.vehicles, vehicleData)
 
+        for seat, playerId in pairs(vehiclePassengers) do
+            if playerId ~= source then
+                CreateThread(function()
+                    self:enter(playerId, {
+                        seat = seat,
+                        spawnedVehicle = vehicleData.entity
+                    })
+                end)
+            end
+        end
+
         ::skipVehicleSpawning::
     end
 
-    if handleVehicle then
-        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, (settings and settings.seat ~= nil) and settings.seat or -1)
+    if handleVehicle or (settings and settings.seat) then
+        TaskWarpPedIntoVehicle(player:ped(),
+            (settings and settings.spawnedVehicle ~= nil) and settings.spawnedVehicle or spawnedVehicle,
+            (settings and settings.seat ~= nil) and settings.seat or -1
+        )
     else
         player:warpIntoProperty()
     end
@@ -506,9 +513,12 @@ function Property:exit(source, settings)
 
         for seat, playerId in pairs(GetPlayersInVehicle(vehicle)) do
             if playerId ~= source then
-                self:exit(playerId, {
-                    seat = seat
-                })
+                CreateThread(function()
+                    Wait(100)
+                    self:exit(playerId, {
+                        seat = seat
+                    })
+                end)
             end
         end
 
