@@ -7,7 +7,6 @@
 	import Spinner from "../elements/Spinner.svelte";
 	import { useNuiEvent } from "../../utils/useNuiEvent";
 	import type { PlacedProp } from "../../utils/interfaces";
-	import { scale } from "svelte/transition";
 
 	let propPromise: Promise<PlacedProp[]>;
 	let propCount = 0;
@@ -47,7 +46,7 @@
 	});
 </script>
 
-<div class="placed-menu" transition:scale>
+<div class="placed-menu">
 	<h1 class="font-bold">Placed props</h1>
 
 	<div
@@ -72,9 +71,3 @@
 		{/await}
 	</div>
 </div>
-
-<style lang="scss">
-	.placed-menu {
-		@apply absolute w-full max-w-md top-0 right-0 m-3 p-3 px-4 bg-gray-200/95 shadow-lg rounded-lg flex flex-col gap-1;
-	}
-</style>

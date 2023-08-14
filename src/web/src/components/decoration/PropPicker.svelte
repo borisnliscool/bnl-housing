@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PlacedProps from './PlacedProps.svelte';
+	import PlacedProps from "./PlacedProps.svelte";
 
 	import { useKeyPress } from "../../utils/useKeyPress";
 	import { fetchNui } from "../../utils/fetchNui";
@@ -9,6 +9,7 @@
 	import Prop from "./Prop.svelte";
 	import { isEnvBrowser } from "../../utils/misc";
 	import Spinner from "../elements/Spinner.svelte";
+	import { scale } from "svelte/transition";
 
 	const categories = [
 		{
@@ -96,11 +97,12 @@
 	let props: Promise<PropType[]>;
 	let category: any;
 	let isVisible: boolean;
+	let selectedProp: PropType | null;
 
 	const fetchProps = async (category: string) => {
 		if (isEnvBrowser()) {
 			return new Promise((r) => {
-				r([{ category: "", name: "v_ret_gc_chair03" }]);
+				r([{ category: "", id: "v_ret_gc_chair03", name: "Chair", price: 70 }]);
 			});
 		}
 
@@ -111,14 +113,32 @@
 	$: props = fetchProps(category?.value);
 
 	const selectProp = async (model: string) => {
-		await fetchNui("selectProp", model);
+		// await fetchNui("selectProp", model);
+		selectedProp = Object.values(await props).find((p) => p.name == model)!;
 	};
 
 	useKeyPress("Escape", () => isVisible && fetchNui("close"));
 </script>
 
 <Page id="propPicker" bind:isVisible>
-	<PlacedProps></PlacedProps>
+	<div class="side-menu" transition:scale>
+		{#if selectedProp}
+			<button on:click={() => (selectedProp = null)}> Close </button>
+			selectedProp:
+
+			<div class="w-1/2 mx-auto">
+				<Prop data={selectedProp} hoverEffects={false} />
+			</div>
+
+			<pre>{JSON.stringify(selectedProp, null, 4)}</pre>
+
+            <button on:click={() => fetchNui("selectProp", selectedProp?.id)}>
+                Buy
+            </button>
+		{:else}
+			<PlacedProps />
+		{/if}
+	</div>
 
 	<div
 		class="absolute bottom-0 left-0 px-6 py-4 w-full bg-gray-100/95 flex justify-between gap-4"
@@ -153,7 +173,7 @@
 				</div>
 			{:then _props}
 				<div class="props">
-					{#each _props as prop, index}
+					{#each Object.values(_props) as prop, index}
 						<Prop
 							data={prop}
 							on:click={() => selectProp(prop.name)}
@@ -174,5 +194,9 @@
 	.props {
 		@apply w-full h-full grid grid-cols-4 gap-1 p-3 overflow-y-auto md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12;
 		transform-style: preserve-3d;
+	}
+
+	.side-menu {
+		@apply absolute w-full max-w-md top-0 right-0 m-3 p-3 px-4 bg-gray-200/95 shadow-lg rounded-lg flex flex-col gap-1;
 	}
 </style>

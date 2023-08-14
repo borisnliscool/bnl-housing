@@ -4,8 +4,10 @@ export interface SelectOptionType {
 }
 
 export interface PropType {
+	id: string;
 	name: string;
 	category: string;
+	price: number;
 }
 
 export type placement = "top" | "bottom" | "left" | "right";

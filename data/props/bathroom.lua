@@ -1,88 +1,207 @@
 return {
-    "prop_towel_01",
-    "prop_toilet_soap_04",
-    "v_res_mbtaps",
-    "prop_toilet_roll_05",
-    "v_res_r_perfume",
-    "prop_toilet_soap_03",
-    "v_serv_bs_looroll",
-    "v_res_tt_looroll",
-    "v_res_mbtowelfld",
-    "prop_towel_rail_01",
-    "prop_toilet_shamp_01",
-    "prop_toilet_roll_02",
-    "prop_toothbrush_01",
-    "prop_toothpaste_01",
-    "prop_toilet_soap_02",
-    "v_res_mbath",
-    "prop_toilet_brush_01",
-    "prop_w_fountain_01",
-    "prop_shower_rack_01",
-    "prop_toilet_soap_01",
-    "prop_soap_disp_01",
-    "v_res_r_cottonbuds",
-    "prop_sink_04",
-    "prop_toilet_02",
-    "prop_sponge_01",
-    "prop_toilet_roll_01",
-    "prop_toilet_01",
-    "prop_sink_06",
-    "prop_toothb_cup_01",
-    "prop_toilet_shamp_02",
-    "v_res_mbathpot",
-    "prop_towel_rail_02",
-    "v_res_r_bublbath",
-    "v_res_r_lotion",
-    "v_res_mbaccessory",
-    "prop_sink_05",
-    "v_res_mbsink",
-    "prop_sink_02",
-    "v_res_mbtowel",
-    "prop_handdry_02",
-    "prop_handdry_01"
+    prop_towel_01 = {
+        id = "prop_towel_01",
+        name = "Towel 01",
+        price = 10
+    },
+    prop_toilet_soap_04 = {
+        id = "prop_toilet_soap_04",
+        name = "Toilet Soap 04",
+        price = 5
+    },
+    v_res_mbtaps = {
+        id = "v_res_mbtaps",
+        name = "Bathroom Taps",
+        price = 20
+    },
+    prop_toilet_roll_05 = {
+        id = "prop_toilet_roll_05",
+        name = "Toilet Roll 05",
+        price = 3
+    },
+    v_res_r_perfume = {
+        id = "v_res_r_perfume",
+        name = "Perfume",
+        price = 15
+    },
+    prop_toilet_soap_03 = {
+        id = "prop_toilet_soap_03",
+        name = "Toilet Soap 03",
+        price = 5
+    },
+    v_serv_bs_looroll = {
+        id = "v_serv_bs_looroll",
+        name = "Bathroom Service Loo Roll",
+        price = 2
+    },
+    v_res_tt_looroll = {
+        id = "v_res_tt_looroll",
+        name = "Bathroom Loo Roll",
+        price = 2
+    },
+    v_res_mbtowelfld = {
+        id = "v_res_mbtowelfld",
+        name = "Bathroom Towel Folded",
+        price = 8
+    },
+    prop_towel_rail_01 = {
+        id = "prop_towel_rail_01",
+        name = "Towel Rail 01",
+        price = 12
+    },
+    prop_toilet_shamp_01 = {
+        id = "prop_toilet_shamp_01",
+        name = "Toilet Shampoo 01",
+        price = 5
+    },
+    prop_toilet_roll_02 = {
+        id = "prop_toilet_roll_02",
+        name = "Toilet Roll 02",
+        price = 3
+    },
+    prop_toothbrush_01 = {
+        id = "prop_toothbrush_01",
+        name = "Toothbrush 01",
+        price = 4
+    },
+    prop_toothpaste_01 = {
+        id = "prop_toothpaste_01",
+        name = "Toothpaste 01",
+        price = 5
+    },
+    prop_toilet_soap_02 = {
+        id = "prop_toilet_soap_02",
+        name = "Toilet Soap 02",
+        price = 5
+    },
+    v_res_mbath = {
+        id = "v_res_mbath",
+        name = "Bathroom Set",
+        price = 25
+    },
+    prop_toilet_brush_01 = {
+        id = "prop_toilet_brush_01",
+        name = "Toilet Brush 01",
+        price = 8
+    },
+    prop_w_fountain_01 = {
+        id = "prop_w_fountain_01",
+        name = "Water Fountain 01",
+        price = 30
+    },
+    prop_shower_rack_01 = {
+        id = "prop_shower_rack_01",
+        name = "Shower Rack 01",
+        price = 15
+    },
+    prop_toilet_soap_01 = {
+        id = "prop_toilet_soap_01",
+        name = "Toilet Soap 01",
+        price = 5
+    },
+    prop_soap_disp_01 = {
+        id = "prop_soap_disp_01",
+        name = "Soap Dispenser 01",
+        price = 10
+    },
+    v_res_r_cottonbuds = {
+        id = "v_res_r_cottonbuds",
+        name = "Cotton Buds",
+        price = 5
+    },
+    prop_sink_04 = {
+        id = "prop_sink_04",
+        name = "Sink 04",
+        price = 40
+    },
+    prop_toilet_02 = {
+        id = "prop_toilet_02",
+        name = "Toilet 02",
+        price = 50
+    },
+    prop_sponge_01 = {
+        id = "prop_sponge_01",
+        name = "Sponge 01",
+        price = 6
+    },
+    prop_toilet_roll_01 = {
+        id = "prop_toilet_roll_01",
+        name = "Toilet Roll 01",
+        price = 3
+    },
+    prop_toilet_01 = {
+        id = "prop_toilet_01",
+        name = "Toilet 01",
+        price = 50
+    },
+    prop_sink_06 = {
+        id = "prop_sink_06",
+        name = "Sink 06",
+        price = 45
+    },
+    prop_toothb_cup_01 = {
+        id = "prop_toothb_cup_01",
+        name = "Toothbrush Cup 01",
+        price = 8
+    },
+    prop_toilet_shamp_02 = {
+        id = "prop_toilet_shamp_02",
+        name = "Toilet Shampoo 02",
+        price = 5
+    },
+    v_res_mbathpot = {
+        id = "v_res_mbathpot",
+        name = "Bathroom Pot",
+        price = 10
+    },
+    prop_towel_rail_02 = {
+        id = "prop_towel_rail_02",
+        name = "Towel Rail 02",
+        price = 12
+    },
+    v_res_r_bublbath = {
+        id = "v_res_r_bublbath",
+        name = "Bubble Bath",
+        price = 25
+    },
+    v_res_r_lotion = {
+        id = "v_res_r_lotion",
+        name = "Lotion",
+        price = 20
+    },
+    v_res_mbaccessory = {
+        id = "v_res_mbaccessory",
+        name = "Bathroom Accessory",
+        price = 15
+    },
+    prop_sink_05 = {
+        id = "prop_sink_05",
+        name = "Sink 05",
+        price = 42
+    },
+    v_res_mbsink = {
+        id = "v_res_mbsink",
+        name = "Bathroom Sink",
+        price = 38
+    },
+    prop_sink_02 = {
+        id = "prop_sink_02",
+        name = "Sink 02",
+        price = 36
+    },
+    v_res_mbtowel = {
+        id = "v_res_mbtowel",
+        name = "Bathroom Towel",
+        price = 10
+    },
+    prop_handdry_02 = {
+        id = "prop_handdry_02",
+        name = "Hand Dryer 02",
+        price = 30
+    },
+    prop_handdry_01 = {
+        id = "prop_handdry_01",
+        name = "Hand Dryer 01",
+        price = 28
+    },
 }
-
---[[
-"id","name","price"
-"prop_towel_01","Towel 01",10
-"prop_toilet_soap_04","Toilet Soap 04",5
-"v_res_mbtaps","Bathroom Taps",20
-"prop_toilet_roll_05","Toilet Roll 05",3
-"v_res_r_perfume","Perfume",15
-"prop_toilet_soap_03","Toilet Soap 03",5
-"v_serv_bs_looroll","Bathroom Service Loo Roll",2
-"v_res_tt_looroll","Bathroom Loo Roll",2
-"v_res_mbtowelfld","Bathroom Towel Folded",8
-"prop_towel_rail_01","Towel Rail 01",12
-"prop_toilet_shamp_01","Toilet Shampoo 01",5
-"prop_toilet_roll_02","Toilet Roll 02",3
-"prop_toothbrush_01","Toothbrush 01",4
-"prop_toothpaste_01","Toothpaste 01",5
-"prop_toilet_soap_02","Toilet Soap 02",5
-"v_res_mbath","Bathroom Set",25
-"prop_toilet_brush_01","Toilet Brush 01",8
-"prop_w_fountain_01","Water Fountain 01",30
-"prop_shower_rack_01","Shower Rack 01",15
-"prop_toilet_soap_01","Toilet Soap 01",5
-"prop_soap_disp_01","Soap Dispenser 01",10
-"v_res_r_cottonbuds","Cotton Buds",5
-"prop_sink_04","Sink 04",40
-"prop_toilet_02","Toilet 02",50
-"prop_sponge_01","Sponge 01",6
-"prop_toilet_roll_01","Toilet Roll 01",3
-"prop_toilet_01","Toilet 01",50
-"prop_sink_06","Sink 06",45
-"prop_toothb_cup_01","Toothbrush Cup 01",8
-"prop_toilet_shamp_02","Toilet Shampoo 02",5
-"v_res_mbathpot","Bathroom Pot",10
-"prop_towel_rail_02","Towel Rail 02",12
-"v_res_r_bublbath","Bubble Bath",25
-"v_res_r_lotion","Lotion",20
-"v_res_mbaccessory","Bathroom Accessory",15
-"prop_sink_05","Sink 05",42
-"v_res_mbsink","Bathroom Sink",38
-"prop_sink_02","Sink 02",36
-"v_res_mbtowel","Bathroom Towel",10
-"prop_handdry_02","Hand Dryer 02",30
-"prop_handdry_01","Hand Dryer 01",28
-]]

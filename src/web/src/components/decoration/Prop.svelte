@@ -9,30 +9,49 @@
 
 	export let data: PropType;
 	export let animationDelay: number = 0;
+	export let hoverEffects = true;
 </script>
 
-<button
-	on:click={click}
-	class="prop"
-	in:scale={{ delay: animationDelay }}
-	use:soundOnEnter
->
-	<img
-		class="image"
-		loading="lazy"
-		alt={data.name}
-		src="images/props/{data.name}.webp"
-	/>
-</button>
+{#if hoverEffects}
+	<button
+		on:click={click}
+		class="prop hover"
+		in:scale={{ delay: animationDelay }}
+		use:soundOnEnter
+	>
+		<img
+			class="image"
+			loading="lazy"
+			alt={data.id}
+			src="images/props/{data.id}.webp"
+		/>
+	</button>
+{:else}
+	<div
+		class="prop"
+		in:scale={{ delay: animationDelay }}
+	>
+		<img
+			class="image"
+			loading="lazy"
+			alt={data.id}
+			src="images/props/{data.id}.webp"
+		/>
+	</div>
+{/if}
 
 <style lang="scss">
 	.prop {
-		@apply relative w-full aspect-square rounded-lg border border-gray-300 shadow-md hover:shadow-xl hover:scale-[1.05] transition-all grid place-items-center;
+		@apply relative w-full aspect-square rounded-lg border border-gray-300 shadow-md transition-all grid place-items-center cursor-default;
 		background: linear-gradient(white 60%, #dfdfdf);
 
 		.image {
 			@apply w-[80%] aspect-square object-contain pointer-events-none;
 		}
+	}
+
+	.hover {
+		@apply hover:shadow-xl hover:scale-[1.05] cursor-pointer;
 
 		&:hover {
 			@apply z-10;

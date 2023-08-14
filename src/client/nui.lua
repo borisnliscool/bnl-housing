@@ -241,12 +241,16 @@ RegisterNUICallback("savePlacement", function(_, cb)
 end)
 
 RegisterNUICallback("getProps", function(category, cb)
-    cb(table.map(Data.Props[category], function(name)
+    local data = table.map(Data.Props[category], function(prop)
         return {
-            name = name,
+            id = prop.id,
             category = category,
+            name = prop.name,
+            price = prop.price
         }
-    end))
+    end)
+    print(json.encode(data, { indent = true }))
+    cb(data)
 end)
 
 --#region temp

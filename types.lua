@@ -88,6 +88,11 @@
 ---@field destroy function
 ---@field getData function
 
+---@class PropData
+---@field id string
+---@field name string
+---@field price number
+
 ---@class Key
 ---@field id integer?
 ---@field propery_id integer
