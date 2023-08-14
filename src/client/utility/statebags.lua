@@ -1,3 +1,6 @@
+-- todo
+--  Make a function for the duplicate code
+
 --- Taken from ox_lib
 --- https://github.com/overextended/ox_lib/blob/master/resource/vehicleProperties/client.lua
 AddStateBagChangeHandler('setVehicleProperties', '', function(bagName, _, value)
@@ -11,4 +14,14 @@ AddStateBagChangeHandler('setVehicleProperties', '', function(bagName, _, value)
     if lib.setVehicleProperties(entity, value) then
         Entity(entity).state:set('setVehicleProperties', nil, true)
     end
+end)
+
+AddStateBagChangeHandler('undriveable', '', function(bagName, _, value)
+    if not value or not GetEntityFromStateBagName then return end
+
+    local entity = GetEntityFromStateBagName(bagName)
+    local networked = not bagName:find('localEntity')
+
+    if networked and NetworkGetEntityOwner(entity) ~= cache.playerId then return end
+    SetVehicleUndriveable(entity, value)
 end)

@@ -257,12 +257,7 @@ function Property:spawnVehicle(data)
         property = self.id,
         slot = data.slot
     }
-
-    lib.callback.await("bnl-housing:client:setVehicleUndriveable",
-        NetworkGetEntityOwner(vehicle),
-        NetworkGetNetworkIdFromEntity(vehicle),
-        true
-    )
+    Entity(vehicle).state["undriveable"] = true
 
     SetVehicleProps(vehicle, data.props)
 
