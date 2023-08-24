@@ -489,7 +489,6 @@ function Property:exit(source, settings)
     local spawnedVehicle = nil
 
     player:triggerFunction("RemoveInPropertyPoints", self.id)
-    player:triggerFunction("StopMinimapOverlay")
 
     if handleVehicle and isDriver then
         local vehicleData, index = table.findOne(self.vehicles, function(veh)
