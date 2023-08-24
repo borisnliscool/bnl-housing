@@ -25,9 +25,16 @@ function Menus.entrance(property)
         table.insert(main.options, {
             label = locale("menu.entrance.buy", property.saleData.price),
             onSelect = function()
-                -- todo
-                --  add some sort of confirmation
-                lib.callback.await("bnl-housing:server:property:buyProperty", false, property.id)
+                local alert = lib.alertDialog({
+                    header = locale("alert.buyConfirmation.header"),
+                    content = locale("alert.buyConfirmation.content", property.saleData.price),
+                    centered = true,
+                    cancel = true
+                })
+
+                if alert == "confirm" then
+                    lib.callback.await("bnl-housing:server:property:buyProperty", false, property.id)
+                end
             end
         })
     end
@@ -36,9 +43,16 @@ function Menus.entrance(property)
         table.insert(main.options, {
             label = locale("menu.entrance.rent", property.rentData.price),
             onSelect = function()
-                -- todo
-                --  add some sort of confirmation
-                lib.callback.await("bnl-housing:server:property:rentProperty", false, property.id)
+                local alert = lib.alertDialog({
+                    header = locale("alert.rentConfirmation.header"),
+                    content = locale("alert.rentConfirmation.content", property.rentData.price),
+                    centered = true,
+                    cancel = true
+                })
+
+                if alert == "confirm" then
+                    lib.callback.await("bnl-housing:server:property:rentProperty", false, property.id)
+                end
             end
         })
     end

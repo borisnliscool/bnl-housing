@@ -14,7 +14,7 @@
 	"notification.buy.success": "Je hebt %s %s gekocht voor €%s.",
 	"notification.rent.noMoney": "Je hebt niet genoeg geld om dit eigendom te huren.",
 	"notification.rent.success": "Je hebt %s %s gehuurd voor €%s.",
-    "notification.rent.owner": "Je kan dit eigendom niet huren omdat je het bezig",
+	"notification.rent.owner": "Je kan dit eigendom niet huren omdat je het bezig",
 	"notification.invite": "Je bent uitgenodigd naar ~y~%s~s~. \nKlik op ~%s~ om te accepteren.",
 
 	"blip.property.house.owner": "Eigen huis",
@@ -37,6 +37,11 @@
 	"blip.property.garage.renter": "Gehuurd garage",
 	"blip.property.garage.forSale": "Garage tekoop",
 	"blip.property.garage.forRent": "Garage tehuur",
+
+	"alert.rentConfirmation.header": "Weet je het zeker?",
+	"alert.rentConfirmation.content": "Weet je zeker dat je dit eigendom wilt huren voor **€%s**?",
+	"alert.buyConfirmation.header": "Weet je het zeker?",
+	"alert.buyConfirmation.content": "Weet je zeker dat je dit eigendom wilt kopen voor **€%s**?",
 
 	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Aankloppen",

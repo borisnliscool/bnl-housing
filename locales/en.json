@@ -38,6 +38,11 @@
 	"blip.property.garage.forSale": "Garage for sale",
 	"blip.property.garage.forRent": "Garage for rent",
 
+	"alert.rentConfirmation.header": "Are you sure?",
+	"alert.rentConfirmation.content": "Are you sure you want to rent this property for **$%s**?",
+	"alert.buyConfirmation.header": "Are you sure?",
+	"alert.buyConfirmation.content": "Are you sure you want to buy this property for **$%s**?",
+
 	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Knock on the door",
 	"menu.entrance.enter": "Enter the property",
