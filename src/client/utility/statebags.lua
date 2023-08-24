@@ -1,27 +1,30 @@
--- todo
---  Make a function for the duplicate code
-
---- Taken from ox_lib
---- https://github.com/overextended/ox_lib/blob/master/resource/vehicleProperties/client.lua
-AddStateBagChangeHandler('setVehicleProperties', '', function(bagName, _, value)
-    if not value or not GetEntityFromStateBagName then return end
+---@param bagName string
+---@param value any
+local function getValidEntityFromStateBag(bagName, value)
+    if not value or not GetEntityFromStateBagName then
+        return
+    end
 
     local entity = GetEntityFromStateBagName(bagName)
     local networked = not bagName:find('localEntity')
 
-    if networked and NetworkGetEntityOwner(entity) ~= cache.playerId then return end
+    if networked and NetworkGetEntityOwner(entity) ~= cache.playerId then
+        return
+    end
 
-    if lib.setVehicleProperties(entity, value) then
+    return entity
+end
+
+AddStateBagChangeHandler('setVehicleProperties', '', function(bagName, _, v)
+    local entity = getValidEntityFromStateBag(bagName, v)
+    if entity and lib.setVehicleProperties(entity, v) then
         Entity(entity).state:set('setVehicleProperties', nil, true)
     end
 end)
 
-AddStateBagChangeHandler('undriveable', '', function(bagName, _, value)
-    if not value or not GetEntityFromStateBagName then return end
-
-    local entity = GetEntityFromStateBagName(bagName)
-    local networked = not bagName:find('localEntity')
-
-    if networked and NetworkGetEntityOwner(entity) ~= cache.playerId then return end
-    SetVehicleUndriveable(entity, value)
+AddStateBagChangeHandler('undriveable', '', function(bagName, _, v)
+    local entity = getValidEntityFromStateBag(bagName, v)
+    if entity then
+        SetVehicleUndriveable(entity, v)
+    end
 end)
