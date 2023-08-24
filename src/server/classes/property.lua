@@ -403,7 +403,7 @@ function Property:enter(source, settings)
         }
 
         local _, err = pcall(function()
-            DB.insertPropertyVehicle(self.id, slot.id, vehicleProps)
+            DB.insertPropertyVehicle(self.id, slot.id, vehicleProps or {})
         end)
 
         if err then
@@ -416,14 +416,16 @@ function Property:enter(source, settings)
 
         table.insert(self.vehicles, vehicleData)
 
-        for seat, playerId in pairs(vehiclePassengers) do
-            if playerId ~= source then
-                CreateThread(function()
-                    self:enter(playerId, {
-                        seat = seat,
-                        spawnedVehicle = vehicleData.entity
-                    })
-                end)
+        if vehiclePassengers then
+            for seat, playerId in pairs(vehiclePassengers) do
+                if playerId ~= source then
+                    CreateThread(function()
+                        self:enter(playerId, {
+                            seat = seat,
+                            spawnedVehicle = vehicleData.entity
+                        })
+                    end)
+                end
             end
         end
 
@@ -432,7 +434,8 @@ function Property:enter(source, settings)
 
     if handleVehicle or (settings and settings.seat) then
         TaskWarpPedIntoVehicle(player:ped(),
-            (settings and settings.spawnedVehicle ~= nil) and settings.spawnedVehicle or spawnedVehicle,
+            (settings and settings.spawnedVehicle ~= nil) and settings.spawnedVehicle or
+            spawnedVehicle --[[@as Entity]],
             (settings and settings.seat ~= nil) and settings.seat or -1
         )
     else
@@ -452,7 +455,7 @@ function Property:enter(source, settings)
     player:triggerFunction("BusyspinnerOff")
 
     if handleVehicle then
-        TaskLeaveVehicle(player:ped(), spawnedVehicle, 0)
+        TaskLeaveVehicle(player:ped(), spawnedVehicle --[[@as Entity]], 0)
     end
 
     TriggerEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
@@ -523,7 +526,8 @@ function Property:exit(source, settings)
     end
 
     if handleVehicle then
-        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle, (settings and settings.seat ~= nil) and settings.seat or -1)
+        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle --[[@as Entity]],
+            (settings and settings.seat ~= nil) and settings.seat or -1)
     end
 
     if not handleVehicle then
