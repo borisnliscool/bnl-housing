@@ -165,7 +165,7 @@ end
 ---@return number
 DB.insertPropertyPayment = function(playerIdentifier, propertyId, price, transactionType, paymentInterval)
     return MySQL.insert.await(
-    "INSERT INTO property_payments (player, property_id, amount, payment_type, payment_interval) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO property_payments (player, property_id, amount, payment_type, payment_interval) VALUES (?, ?, ?, ?, ?)",
         {
             playerIdentifier,
             propertyId,
@@ -173,4 +173,10 @@ DB.insertPropertyPayment = function(playerIdentifier, propertyId, price, transac
             transactionType,
             paymentInterval
         })
+end
+
+---@param transactionId number
+---@return QueryResult|{ [number]: { [string]: unknown  }}
+DB.deletePropertyTransaction = function(transactionId)
+    return MySQL.query.await("DELETE FROM property_transaction WHERE id = ?", { transactionId })
 end

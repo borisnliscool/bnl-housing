@@ -70,6 +70,7 @@ function Property:spawnModel()
     -- todo
     --  think about where to place the entity, currently it's placed 50 units below
     --  the location, but this could cause issues with water under the map
+    --  note: this might be preventable by using the CreateDryVolume native
     local entity = CreateObject(
         self.model,
         self.entranceLocation.x,
@@ -699,10 +700,11 @@ function Property:buy(source)
     DB.insertPropertyPayment(playerIdentifier, self.id, price, TRANSACTION_TYPE.SALE)
     DB.updatePropertyTransaction(playerIdentifier, COMPLETION_STATUS.COMPLETED, self.saleData.id)
 
-    self:loadTransactions()
+    if self:isForRent() then
+        DB.deletePropertyTransaction(self.rentData.id)
+    end
 
-    -- todo
-    --  maybe remove rent transaction if it is uncompleted?
+    self:loadTransactions()
     self:triggerUpdate()
 end
 
