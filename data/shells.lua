@@ -37,7 +37,6 @@ Data.Shells = {
         }
     },
     shell_garagel = {
-        minimap = "hei_dlc_garage_high_new",
         entrances = {
             foot = vec3(12.105225, -14.273026, -1.013794),
         },
@@ -78,7 +77,6 @@ Data.Shells = {
         }
     },
     shell_garages = {
-        minimap = "v_garages",
         entrances = {
             foot = vec3(5.881104, 3.463226, -0.510254),
         },
@@ -92,7 +90,6 @@ Data.Shells = {
         }
     },
     shell_garagem = {
-        minimap = "v_garagem",
         entrances = {
             foot = vec3(13.463501, 1.577515, -0.763794),
         },

@@ -441,10 +441,6 @@ function Property:enter(source, settings)
 
     player:triggerFunction("SetupInPropertyPoints", self.id)
 
-    if self.shellData.minimap then
-        player:triggerFunction("StartMinimapOverlay", self.shellData.minimap, self.location, 1)
-    end
-
     self.players[player.identifier] = player
 
     Wait(500)
