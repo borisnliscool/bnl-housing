@@ -70,6 +70,7 @@
 ---@field address Address
 ---@field model string
 ---@field keys table
+---@field key? Key
 ---@field links table
 ---@field saleData table
 ---@field isForSale boolean
