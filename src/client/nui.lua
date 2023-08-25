@@ -73,15 +73,8 @@ RegisterNUICallback("setTransparent", function(transparent, cb)
 end)
 
 RegisterNUICallback("getPlacedProps", function(_, cb)
-    cb(table.map(CurrentProperty.props, function(prop)
-        return {
-            id = prop.id,
-            model = prop.model,
-            location = json.encode(prop.location),
-            rotation = json.encode(prop.rotation),
-            metadata = json.encode(prop.metadata),
-        }
-    end))
+    local placedProps = FormatPlacedProps(CurrentProperty.props)
+    cb(placedProps)
 end)
 
 ---@param id number
@@ -242,17 +235,13 @@ end)
 
 RegisterNUICallback("getProps", function(category, cb)
     local data = table.map(Data.Props[category], function(prop)
-        return {
-            id = prop.id,
-            category = category,
-            name = prop.name,
-            price = prop.price
-        }
+        prop.category = category
+        return prop
     end)
-    print(json.encode(data, { indent = true }))
     cb(data)
 end)
 
+-- todo
 --#region temp
 RegisterCommand("housing:test", function(source, args, rawCommand)
     StartEditorWithModel(args[1] or "prop_bench_01a")

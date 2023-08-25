@@ -26,6 +26,7 @@
 					{
 						id: 1,
 						model: "prop_chair",
+						name: "prop_chair",
 						location: JSON.stringify({ x: 3.23, y: 5.12, z: 1.23 }),
 						rotation: JSON.stringify({ x: 0.0, y: 0.0, z: 180.0 }),
 						metadata: JSON.stringify([]),
@@ -33,6 +34,7 @@
 					{
 						id: 2,
 						model: "prop_table",
+						name: "prop_table",
 						location: JSON.stringify({ x: 1.56, y: 1.45, z: 5.23 }),
 						rotation: JSON.stringify({ x: 0.0, y: 0.0, z: 90.0 }),
 						metadata: JSON.stringify([]),

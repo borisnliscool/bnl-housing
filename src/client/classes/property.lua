@@ -37,15 +37,7 @@ function Property:setData(data)
     if CurrentProperty and CurrentProperty.id == self.id then
         SendNUIMessage({
             action = "setPlacedProps",
-            data = table.map(data.props, function(prop)
-                return {
-                    id = prop.id,
-                    model = prop.model,
-                    location = json.encode(prop.location),
-                    rotation = json.encode(prop.rotation),
-                    metadata = json.encode(prop.metadata),
-                }
-            end)
+            data = FormatPlacedProps(data.props)
         })
     end
 end

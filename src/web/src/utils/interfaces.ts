@@ -14,6 +14,7 @@ export type placement = "top" | "bottom" | "left" | "right";
 
 export interface PlacedProp {
 	id: number;
+	name: string;
 	model: string;
 	location: string;
 	rotation: string;

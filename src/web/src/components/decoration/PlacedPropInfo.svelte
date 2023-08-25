@@ -11,6 +11,7 @@
 
 	export let prop: {
 		id: number;
+		name: string;
 		model: string;
 		location: string;
 		rotation: string;
@@ -29,7 +30,7 @@
 
 <div class="p-2 pl-5 bg-gray-100/50 font-mono rounded-xl">
 	<button class="w-full text-left" on:click={setActive} use:soundOnEnter>
-		{prop.model}
+		{prop.name}
 	</button>
 
 	{#if active}

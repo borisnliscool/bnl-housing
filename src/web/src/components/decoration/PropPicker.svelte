@@ -113,8 +113,7 @@
 	$: props = fetchProps(category?.value);
 
 	const selectProp = async (model: string) => {
-		// await fetchNui("selectProp", model);
-		selectedProp = Object.values(await props).find((p) => p.name == model)!;
+		selectedProp = Object.values(await props).find((p) => p.id == model)!;
 	};
 
 	useKeyPress("Escape", () => isVisible && fetchNui("close"));
@@ -132,9 +131,9 @@
 
 			<pre>{JSON.stringify(selectedProp, null, 4)}</pre>
 
-            <button on:click={() => fetchNui("selectProp", selectedProp?.id)}>
-                Buy
-            </button>
+			<button on:click={() => fetchNui("selectProp", selectedProp?.id)}>
+				Buy
+			</button>
 		{:else}
 			<PlacedProps />
 		{/if}
@@ -176,7 +175,7 @@
 					{#each Object.values(_props) as prop, index}
 						<Prop
 							data={prop}
-							on:click={() => selectProp(prop.name)}
+							on:click={() => selectProp(prop.id)}
 							animationDelay={index * 10}
 						/>
 					{/each}
