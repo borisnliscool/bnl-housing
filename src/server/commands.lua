@@ -1,10 +1,4 @@
 -- todo: temp
-RegisterCommand("save", function(source, args, rawCommand)
-    for key, value in pairs(Properties) do
-        value:save()
-    end
-end, false)
-
 RegisterCommand("enter", function(source, args, rawCommand)
     local property = GetPropertyById(tonumber(args[1]) or 1)
     return property and property:enter(source)
@@ -13,10 +7,6 @@ end, false)
 RegisterCommand("exit", function(source, args, rawCommand)
     local property = GetPropertyPlayerIsIn(source)
     return property and property:exit(source)
-end, false)
-
-RegisterCommand("bucket", function(source, args, rawCommand)
-    SetPlayerRoutingBucket(source, tonumber(args[1] or "0") --[[@as number]])
 end, false)
 
 RegisterCommand("relative", function(source, args, rawCommand)
@@ -48,12 +38,4 @@ RegisterCommand("housing:insert", function(source, args, rawCommand)
             json.encode(prop.rotation),
         })
     end
-end, false)
-
-RegisterCommand("vehicle", function(source, args, rawCommand)
-    Debug.Log(
-        GetPlayersInVehicle(
-            GetVehiclePedIsIn(GetPlayerPed(source), false)
-        )
-    )
 end, false)
