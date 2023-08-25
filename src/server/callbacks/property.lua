@@ -106,59 +106,18 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:getPropEntity
     end
 )
 
--- todo
---  maybe move the following two functions
---  to Property:addProp and Property:deleteProp?
 RegisterMiddlewareCallback("bnl-housing:server:property:decoration:addProp",
     CheckPermission[PERMISSION.MEMBER],
     function(_, propertyId, propData)
         local property = GetPropertyById(propertyId)
-        if not property then return end
-
-        propData.location = propData.location - property.location
-
-        local ret = DB.insertPropertyProp(
-            property.id,
-            propData.model,
-            propData.location,
-            propData.rotation
-        )
-
-        local prop = Prop.new({
-            id = ret.insertId,
-            model = propData.model,
-            location = propData.location,
-            rotation = propData.rotation,
-            metadata = {}
-        }, property)
-
-        table.insert(property.props, prop)
-        prop:spawn()
-
-        property:triggerUpdate(table.map(property.players, function(player)
-            return player.source
-        end))
+        return property and property:addProp(propData)
     end
 )
 
-RegisterMiddlewareCallback("bnl-housing:server:property:decoration:deleteProp",
+RegisterMiddlewareCallback("bnl-housing:server:property:decoration:removeProp",
     CheckPermission[PERMISSION.MEMBER],
     function(_, propertyId, propId)
         local property = GetPropertyById(propertyId)
-        if not property then return end
-
-        local prop, key = table.findOne(property.props, function(_prop)
-            return _prop.id == propId
-        end)
-        if not prop or not key then return end
-
-        DB.deletePropertyProp(propId)
-
-        prop:destroy()
-        table.remove(property.props, key)
-
-        property:triggerUpdate(table.map(property.players, function(player)
-            return player.source
-        end))
+        return property and property:removeProp(propId)
     end
 )

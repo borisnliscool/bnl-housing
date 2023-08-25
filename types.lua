@@ -29,6 +29,8 @@
 ---@field destroyProps function
 ---@field spawnProps function
 ---@field loadProps function
+---@field addProp function
+---@field removeProp function
 ---@field loadKeys function
 ---@field getPlayerKey function
 ---@field givePlayerKey function

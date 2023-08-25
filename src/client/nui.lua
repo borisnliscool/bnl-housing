@@ -86,7 +86,7 @@ end)
 
 ---@param id number
 local function DeleteProp(id)
-    return lib.callback.await("bnl-housing:server:property:decoration:deleteProp", false, CurrentProperty.id, id)
+    return lib.callback.await("bnl-housing:server:property:decoration:removeProp", false, CurrentProperty.id, id)
 end
 
 RegisterNUICallback("editProp", function(propId, cb)

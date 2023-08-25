@@ -126,6 +126,55 @@ function Property:loadProps()
     end)
 end
 
+-- todo
+--  currently there's no way to update a prop,
+--  so we just delete it and add a new one when
+--  we want to update it.
+
+---@param propData table
+function Property:addProp(propData)
+    propData.location = propData.location - self.location
+
+    local ret = DB.insertPropertyProp(
+        self.id,
+        propData.model,
+        propData.location,
+        propData.rotation
+    )
+
+    local prop = Prop.new({
+        id = ret.insertId,
+        model = propData.model,
+        location = propData.location,
+        rotation = propData.rotation,
+        metadata = {}
+    }, self)
+
+    table.insert(self.props, prop)
+    prop:spawn()
+
+    self:triggerUpdate(table.map(self.players, function(player)
+        return player.source
+    end))
+end
+
+---@param propId number
+function Property:removeProp(propId)
+    local prop, key = table.findOne(self.props, function(_prop)
+        return _prop.id == propId
+    end)
+    if not prop or not key then return end
+
+    DB.deletePropertyProp(propId)
+
+    prop:destroy()
+    table.remove(self.props, key)
+
+    self:triggerUpdate(table.map(self.players, function(player)
+        return player.source
+    end))
+end
+
 --#endregion
 
 --#region Keys
