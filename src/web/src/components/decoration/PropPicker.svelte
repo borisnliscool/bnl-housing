@@ -122,18 +122,27 @@
 <Page id="propPicker" bind:isVisible>
 	<div class="side-menu" transition:scale>
 		{#if selectedProp}
-			<button on:click={() => (selectedProp = null)}> Close </button>
-			selectedProp:
-
-			<div class="w-1/2 mx-auto">
+			<p class="text-center py-4 text-xl font-extrabold tracking-wide">
+				{selectedProp.name}
+			</p>
+			<div class="w-2/3 mx-auto">
 				<Prop data={selectedProp} hoverEffects={false} />
 			</div>
 
-			<pre>{JSON.stringify(selectedProp, null, 4)}</pre>
-
-			<button on:click={() => fetchNui("selectProp", selectedProp?.id)}>
-				Buy
-			</button>
+			<div class="flex flex-col gap-1 mt-8">
+				<button
+					on:click={() => fetchNui("selectProp", selectedProp?.id)}
+					class="py-2 bg-blue-600 text-white rounded-md"
+				>
+					Place for ${selectedProp.price}
+				</button>
+				<button
+					on:click={() => (selectedProp = null)}
+					class="py-2 bg-gray-400 text-gray-100 rounded-md"
+				>
+					Cancel
+				</button>
+			</div>
 		{:else}
 			<PlacedProps />
 		{/if}

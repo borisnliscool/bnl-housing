@@ -109,7 +109,7 @@
 				class="button bg-blue-700"
 				on:click={() => fetchNui("savePlacement")}
 			>
-				Save
+				Place
 			</button>
 		</div>
 	</div>
