@@ -216,9 +216,22 @@ function ExitEditor(save)
     return _ret
 end
 
+local function payForProp(_model)
+    local prop = GetPropFromModel(_model)
+    if not prop then return end
+
+    Debug.Log(Format("Paying $%s for a %s", prop.price, prop.name))
+    lib.callback.await("bnl-housing:server:property:decoration:payForProp", false, CurrentProperty.id, _model)
+
+    -- todo
+    --  this isn't really a good way to do this as if the placement
+    --  is canceled, the money is stil taken from the player
+end
+
 RegisterNUICallback("selectProp", function(_model, cb)
     cb({})
     StartEditorWithModel(_model)
+    payForProp(_model)
 end)
 
 RegisterNUICallback("cancelPlacement", function(_, cb)

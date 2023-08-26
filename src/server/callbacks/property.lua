@@ -121,3 +121,12 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:removeProp",
         return property and property:removeProp(propId)
     end
 )
+
+RegisterMiddlewareCallback("bnl-housing:server:property:decoration:payForProp",
+    CheckPermission[PERMISSION.MEMBER],
+    function(source, _, propModel)
+        local propData = GetPropFromModel(propModel)
+        if not propData then return end
+        Bridge.RemoveMoney(source, math.abs(propData.price))
+    end
+)
