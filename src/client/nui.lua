@@ -253,33 +253,3 @@ RegisterNUICallback("getProps", function(category, cb)
     end)
     cb(data)
 end)
-
--- todo
---#region temp
-RegisterCommand("housing:test", function(source, args, rawCommand)
-    StartEditorWithModel(args[1] or "prop_bench_01a")
-end, false)
-
-RegisterCommand("housing:exit", function(source, args, rawCommand)
-    ExitEditor(false)
-end, false)
-
-RegisterCommand("housing:print", function(source, args, rawCommand)
-    local property = lib.callback.await("bnl-housing:server:property:inside", false)
-    local currentPropertyLocation =
-        property and lib.callback.await("bnl-housing:server:property:getLocation", false, property.id)
-
-    local _props = table.map(props, function(prop)
-        if not currentPropertyLocation then return prop end
-        prop.coords = prop.coords - currentPropertyLocation
-        return prop
-    end)
-
-    Debug.Log(_props)
-    lib.setClipboard(json.encode(_props))
-end, false)
-
-RegisterCommand("housing:menu", function()
-    ShowUI("propPicker")
-end, false)
---#endregion
