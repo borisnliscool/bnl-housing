@@ -254,5 +254,5 @@ RegisterNUICallback("getProps", function(category, cb)
     cb(data)
 end)
 
-exports("startEditorWithModel", StartEditorWithModel)
-exports("exitEditor", ExitEditor)
+exports("startPropEditorWithModel", StartEditorWithModel)
+exports("exitPropEditor", ExitEditor)
