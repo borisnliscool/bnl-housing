@@ -131,7 +131,7 @@ function Property:createBlip()
 
     if not self.key and not self.isForSale and not self.isForRent then return end
 
-    local blipData = Config.blips[self.propertyType][self.key.permission or "sale"]
+    local blipData = Config.blips[self.propertyType][self.key and self.key.permission or "sale"]
     if not blipData then return end
 
     local blip = AddBlipForCoord(self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z)
@@ -142,7 +142,12 @@ function Property:createBlip()
     SetBlipScale(blip, blipData.scale or 1.0)
     SetBlipAsShortRange(blip, blipData.short or false)
 
-    local name = locale(("blip.property.%s.%s"):format(self.propertyType, self.key.permission or "forSale"))
+    local name = locale(
+        ("blip.property.%s.%s"):format(
+            self.propertyType,
+            self.key and self.key.permission or self.isForSale and TRANSACTION_TYPE.SALE or TRANSACTION_TYPE.RENTAL
+        )
+    )
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentSubstringPlayerName(name)
     EndTextCommandSetBlipName(blip)
