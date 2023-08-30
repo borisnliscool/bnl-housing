@@ -180,3 +180,7 @@ end
 DB.deletePropertyTransaction = function(transactionId)
     return MySQL.query.await("DELETE FROM property_transaction WHERE id = ?", { transactionId })
 end
+
+DB.getPropertyRentPayments = function()
+    return MySQL.query.await("SELECT * FROM property_payments WHERE payment_interval IS NOT NULL")
+end

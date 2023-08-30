@@ -59,9 +59,8 @@ end
 
 ---@return string
 function GenerateRentCronJob()
-    local currentWeekday = tonumber(os.date("%w", os.time()))
-    currentWeekday = currentWeekday == 0 and 7 or currentWeekday
-    return ("0 0 * * %s"):format(currentWeekday)
+    local currentWeekday = tonumber(os.date("%w", os.time())) + 1
+    return ("%s %s * * %s"):format(os.date("%M"), os.date("%H"), currentWeekday)
 end
 
 ---Returns a table with all the players in a given vehicle, key is player ped, value is player server id.

@@ -45,9 +45,10 @@ end
 
 ---This function has to get the name from the database, because it can also be called for identifiers that are online in the server.
 ---@param identifier string
----@return string
+---@return string | nil
 function Bridge.GetPlayerNameFromIdentifier(identifier)
     local data = MySQL.single.await("SELECT firstname, lastname FROM users WHERE identifier = ?", { identifier })
+    if not data then return nil end
     return ("%s %s"):format(data.firstname, data.lastname)
 end
 
@@ -73,7 +74,31 @@ function Bridge.GetMoney(source)
 end
 
 ---Remove money from a player
----@param source any
-function Bridge.RemoveMoney(source, amount)
-    return ESX.GetPlayerFromId(source).removeAccountMoney("bank", amount)
+---@param player number | string
+function Bridge.RemoveMoney(player, amount)
+    if type(player) == "number" then
+        return ESX.GetPlayerFromId(player).removeAccountMoney("bank", amount)
+    elseif type(player) == "string" then
+        local query = [[
+            UPDATE users
+            SET accounts = JSON_SET(accounts, '$.bank', JSON_UNQUOTE(JSON_EXTRACT(accounts, '$.bank')) - ?)
+            WHERE identifier = ?;
+        ]]
+        MySQL.query.await(query, { amount, player })
+    end
+end
+
+---Add money to a player
+---@param player number | string
+function Bridge.AddMoney(player, amount)
+    if type(player) == "number" then
+        return ESX.GetPlayerFromId(player).addAccountMoney("bank", amount)
+    elseif type(player) == "string" then
+        local query = [[
+            UPDATE users
+            SET accounts = JSON_SET(accounts, '$.bank', JSON_UNQUOTE(JSON_EXTRACT(accounts, '$.bank')) + ?)
+            WHERE identifier = ?;
+        ]]
+        MySQL.query.await(query, { amount, player })
+    end
 end

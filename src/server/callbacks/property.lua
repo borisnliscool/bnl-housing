@@ -23,7 +23,7 @@ RegisterMiddlewareCallback("bnl-housing:server:property:getKeys",
                 id = key.id,
                 property_id = key.property_id,
                 permission = key.permission,
-                player = Bridge.GetPlayerNameFromIdentifier(key.player),
+                player = Bridge.GetPlayerNameFromIdentifier(key.player) or "",
                 serverId = Bridge.GetServerIdFromIdentifier(key.player),
             }
         end)

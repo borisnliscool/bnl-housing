@@ -85,9 +85,10 @@ local function onPlayerUnload(player)
     DB.insertPropertyPlayer(property.id, playerIdentifier)
 end
 
-Bridge.onReady(LoadProperties)
-Bridge.onPlayerLoad(onPlayerLoad)
-Bridge.onPlayerUnload(onPlayerUnload)
+CreateThread(function()
+    Bridge.onReady(LoadProperties)
+    Bridge.onPlayerLoad(onPlayerLoad)
+    Bridge.onPlayerUnload(onPlayerUnload)
 
---todo
--- add rent payment cron jobs
+    StartRentCronJobs()
+end)
