@@ -91,7 +91,15 @@ function Bridge.GetMoney(source)
 end
 
 ---Remove money from a player
----@param source any
-function Bridge.RemoveMoney(source, amount)
+---@param player number | string
+---@param amount number
+function Bridge.RemoveMoney(player, amount)
+    -- todo: implement
+end
+
+---Add money to a player
+---@param player number | string
+---@param amount number
+function Bridge.AddMoney(player, amount)
     -- todo: implement
 end

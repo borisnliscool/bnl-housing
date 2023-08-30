@@ -75,6 +75,7 @@ end
 
 ---Remove money from a player
 ---@param player number | string
+---@param amount number
 function Bridge.RemoveMoney(player, amount)
     if type(player) == "number" then
         return ESX.GetPlayerFromId(player).removeAccountMoney("bank", amount)
@@ -90,6 +91,7 @@ end
 
 ---Add money to a player
 ---@param player number | string
+---@param amount number
 function Bridge.AddMoney(player, amount)
     if type(player) == "number" then
         return ESX.GetPlayerFromId(player).addAccountMoney("bank", amount)
