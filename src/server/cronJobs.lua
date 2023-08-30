@@ -1,7 +1,5 @@
 function StartRentCronJobs()
     for _, payment in pairs(DB.getPropertyRentPayments()) do
-        print(json.encode(payment, { indent = true }))
-
         lib.cron.new(payment.payment_interval, function()
             Bridge.RemoveMoney(payment.player, payment.amount)
 
