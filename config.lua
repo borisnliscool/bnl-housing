@@ -33,8 +33,9 @@ Config.inviteRange = 10.0
 ---@type boolean
 Config.unloadOnEmpty = true
 
----@type Keybind[]
+---@type table<string, Keybind>
 Config.Keybinds = {}
+
 ---@type Keybind
 Config.Keybinds.invite = {
     padIndex = 0,
@@ -71,7 +72,7 @@ Config.VehicleBlacklist = {
     }
 }
 
----@type Point[]
+---@type table<string, Point>
 Config.points = {}
 
 ---@type Point
