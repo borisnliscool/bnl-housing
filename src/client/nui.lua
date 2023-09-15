@@ -176,14 +176,13 @@ function StartEditorWithModel(_model)
     state = "CREATING"
     model = _model
 
-    -- Creating the entity
-    lib.requestModel(_model)
-
     local hash = joaat(_model)
     lib.requestModel(hash, 5000)
 
     local _coords = GetOffsetFromEntityInWorldCoords(cache.ped, 0.0, 2.0, 0.0)
     local _entity = CreateObject(hash, _coords.x, _coords.y, _coords.z, false, true, false)
+
+    SetModelAsNoLongerNeeded(hash)
 
     return StartEditorWithEntity(_entity, _coords)
 end
