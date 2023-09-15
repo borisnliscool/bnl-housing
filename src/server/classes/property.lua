@@ -81,13 +81,13 @@ function Property:spawnModel()
         false
     )
 
-    local count = 0
+    local start = GetGameTimer()
+
     while not DoesEntityExist(entity) do
         Wait(10)
-        count = count + 1
 
-        if count > 10 then
-            Debug.Error(Format("Failed to load shell %s.", self.model))
+        if GetGameTimer() - start > 10000 then
+            Debug.Error(Format("Timed out. Failed to load shell %s.", self.model))
             return
         end
     end
