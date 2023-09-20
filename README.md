@@ -1,10 +1,8 @@
-<div align="center">
-  <div align="center"><img src="https://i.imgur.com/efWK1Rc.png"></div>
+<img src="https://i.imgur.com/efWK1Rc.png" align="center">
 
-  <a align="center" href="https://docs.boris.foo/bnl-housing/">
-    <h3>Read the documentation for installation and API usage</h3>
-  </a>
-</div>
+<h3 align=center>
+    <a href="https://docs.boris.foo/bnl-housing/">Read the documentation for installation and API usage</a>
+</h3>
 
 <br>
 
