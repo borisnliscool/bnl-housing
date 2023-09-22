@@ -135,9 +135,11 @@
 					on:click={() => fetchNui("selectProp", selectedProp?.id)}
 					class="py-2 bg-blue-600 text-white rounded-md"
 				>
-					Place for {$currency}{selectedProp.price == 0
-						? "free"
-						: selectedProp.price}
+					{#if selectedProp.price == 0}
+						Place
+					{:else}
+						Place for {$currency}{selectedProp.price}
+					{/if}
 				</button>
 				<button
 					on:click={() => (selectedProp = null)}

@@ -27,6 +27,10 @@ Config.inviteExpire = 15
 ---@type number
 Config.inviteRange = 10.0
 
+---If the player needs to pay to decorate their property
+---@type boolean
+Config.paidDecoration = true
+
 ---Do you want to remove the property entities when all players leave?
 ---This does cause slower property entries but is recommended for larger servers
 ---to ensure the entity limit isn't breached.

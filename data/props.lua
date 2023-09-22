@@ -24,4 +24,14 @@ Data.Props = {
     walls = LoadData("props/walls") --[[@as PropData[] ]],
 }
 
+CreateThread(function()
+    if not Config.paidDecoration then
+        for _, category in pairs(Data.Props) do
+            for _, prop in pairs(category) do
+                (prop --[[@as PropData]]).price = 0
+            end
+        end
+    end
+end)
+
 return Data.Props
