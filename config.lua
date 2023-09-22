@@ -183,7 +183,7 @@ Config.blips = {
             color = 5,
         },
         sale = {
-            sprite = 357,
+            sprite = 369,
             color = 0,
             short = true
         },
