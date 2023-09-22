@@ -4,10 +4,6 @@ Config = {}
 FRAMEWORKS = {
     auto = "auto",
     esx = "esx",
-    --! Warning: ox_core support is untested for bnl-housing and might not work.
-    ox = "ox",
-    --! Warning: qb-core support is untested for bnl-housing and might not work.
-    qb = "qb",
 }
 
 ---Framework you're using (automatic should be fine)
