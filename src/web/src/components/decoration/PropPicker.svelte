@@ -10,6 +10,7 @@
 	import { isEnvBrowser } from "../../utils/misc";
 	import Spinner from "../elements/Spinner.svelte";
 	import { scale } from "svelte/transition";
+	import currency from "../../store/currency";
 
 	const categories = [
 		{
@@ -134,7 +135,9 @@
 					on:click={() => fetchNui("selectProp", selectedProp?.id)}
 					class="py-2 bg-blue-600 text-white rounded-md"
 				>
-					Place for ${selectedProp.price}
+					Place for {$currency}{selectedProp.price == 0
+						? "free"
+						: selectedProp.price}
 				</button>
 				<button
 					on:click={() => (selectedProp = null)}

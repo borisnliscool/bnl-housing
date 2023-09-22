@@ -1,4 +1,6 @@
 {
+	"currency": "€",
+
 	"permission.member": "Lid",
 	"permission.renter": "Huurder",
 	"permission.owner": "Eigenaar",

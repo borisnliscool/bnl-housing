@@ -1,4 +1,6 @@
 {
+	"currency": "$",
+
 	"permission.member": "Member",
 	"permission.renter": "Renter",
 	"permission.owner": "Owner",

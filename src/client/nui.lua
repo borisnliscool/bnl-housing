@@ -253,5 +253,9 @@ RegisterNUICallback("getProps", function(category, cb)
     cb(data)
 end)
 
+RegisterNUICallback("getLocaleItem", function(item, cb)
+    cb(locale(item))
+end)
+
 exports("startPropEditorWithModel", StartEditorWithModel)
 exports("exitPropEditor", ExitEditor)
