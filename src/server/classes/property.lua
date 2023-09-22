@@ -67,15 +67,11 @@ end
 function Property:spawnModel()
     self:destroyModel()
 
-    -- todo
-    --  think about where to place the entity, currently it's placed 50 units below
-    --  the location, but this could cause issues with water under the map
-    --  note: this might be preventable by using the CreateDryVolume native
     local entity = CreateObject(
         self.model,
         self.entranceLocation.x,
         self.entranceLocation.y,
-        self.entranceLocation.z - 50.0,
+        1500.0,
         true,
         true,
         false
