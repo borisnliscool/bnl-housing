@@ -394,7 +394,7 @@ function Property:enter(source, settings)
     local vehicle = player:vehicle()
     local isDriver = GetPedInVehicleSeat(vehicle, -1) == player:ped()
     local handleVehicle = vehicle and DoesEntityExist(vehicle)
-    local spawnedVehicle, vehicleProps, vehiclePassengers = nil, nil, nil
+    local spawnedVehicle, vehicleProps = nil, nil
 
     if handleVehicle and isDriver then
         if not self.shellData.vehicleSlots or #self.shellData.vehicleSlots == #self.vehicles then
@@ -404,7 +404,6 @@ function Property:enter(source, settings)
         end
 
         vehicleProps = GetVehicleProps(vehicle)
-        vehiclePassengers = GetPlayersInVehicle(vehicle)
 
         CreateThread(function()
             Wait(500)
@@ -462,27 +461,13 @@ function Property:enter(source, settings)
 
         table.insert(self.vehicles, vehicleData)
 
-        if vehiclePassengers then
-            for seat, playerId in pairs(vehiclePassengers) do
-                if playerId ~= source then
-                    CreateThread(function()
-                        self:enter(playerId, {
-                            seat = seat,
-                            spawnedVehicle = vehicleData.entity
-                        })
-                    end)
-                end
-            end
-        end
-
         ::skipVehicleSpawning::
     end
 
-    if handleVehicle or (settings and settings.seat) then
+    if handleVehicle or (settings and settings.isPassenger) then
         TaskWarpPedIntoVehicle(player:ped(),
-            (settings and settings.spawnedVehicle ~= nil) and settings.spawnedVehicle or
             spawnedVehicle --[[@as Entity]],
-            (settings and settings.seat ~= nil) and settings.seat or -1
+            -1
         )
     else
         player:warpIntoProperty()
