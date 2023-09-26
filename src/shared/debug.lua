@@ -46,5 +46,5 @@ end
 ---@param ... unknown
 ---@return nil
 function Debug.Error(...)
-    return error("[^1ERROR^0]" .. formatString(...))
+    return error("[^1ERROR]" .. formatString(...) .. '^0')
 end
