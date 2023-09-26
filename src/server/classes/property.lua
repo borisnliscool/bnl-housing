@@ -336,7 +336,6 @@ function Property:spawnOutsideVehicle(props)
     end
 
     SetEntityRoutingBucket(vehicle, 0)
-    SetVehicleProps(vehicle, props)
 
     Wait(100)
 
@@ -405,6 +404,7 @@ function Property:enter(source, settings)
 
         vehicleProps = GetVehicleProps(vehicle)
 
+        -- todo dont know why this is sleeping here
         CreateThread(function()
             Wait(500)
 
@@ -535,30 +535,28 @@ function Property:exit(source, settings)
             return false
         end
 
-        for seat, playerId in pairs(GetPlayersInVehicle(vehicle)) do
-            if playerId ~= source then
-                CreateThread(function()
-                    Wait(100)
-                    self:exit(playerId, {
-                        seat = seat
-                    })
-                end)
-            end
-        end
-
         DeleteEntity(vehicle)
 
         player:setBucket(0)
         spawnedVehicle = self:spawnOutsideVehicle(vehicleData.props)
 
+        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle --[[@as Entity]], -1)
+
+        -- Hack to make setting the properties work, because otherwise,
+        -- for some reason, it fucks itself
+        CreateThread(function()
+            local ped = player:ped()
+            while GetPedInVehicleSeat(spawnedVehicle, -1) ~= ped do
+                Wait(100)
+            end
+            Wait(100)
+
+            SetVehicleProps(spawnedVehicle --[[@as Entity]], vehicleData.props)
+        end)
+
         CreateThread(function()
             DB.removePropertyVehicle(self.id, vehicleData.slot.id)
         end)
-    end
-
-    if handleVehicle then
-        TaskWarpPedIntoVehicle(player:ped(), spawnedVehicle --[[@as Entity]],
-            (settings and settings.seat ~= nil) and settings.seat or -1)
     end
 
     if not handleVehicle then
