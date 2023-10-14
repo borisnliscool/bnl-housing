@@ -212,6 +212,11 @@ Data.Shells = {
     shell_warehouse1 = {
         entrances = {
             foot = vec3(-8.584839, 0.140152, -0.965454),
+        },
+        vehicleSlots = {
+            {
+                location = vec4(4.2403564453125, 0.19580078125, -0.958251953125, 90.0)
+            },
         }
     },
     shell_warehouse2 = {
