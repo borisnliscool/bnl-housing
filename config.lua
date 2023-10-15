@@ -10,7 +10,7 @@ FRAMEWORKS = {
 ---@type Framework
 Config.framework = FRAMEWORKS.auto
 
----The way for the menu to show up,
+---The way for the menu to show up
 ---@type "walk" | "keypress"
 Config.interactMode = "keypress"
 ---The way players get listed in menus
@@ -77,7 +77,7 @@ Config.points = {}
 
 ---@type Point
 Config.points.entrance = {
-    viewDistance = 10.0,
+    viewDistance = 5.0,
     -- this is only used if Config.interactMode is set to "keypress"
     interact = Config.Keybinds.interact,
     marker = {

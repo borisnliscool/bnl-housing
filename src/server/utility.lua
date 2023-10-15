@@ -44,6 +44,11 @@ CheckPermission = {
 ---@param vehicle Entity
 ---@param props table
 function SetVehicleProps(vehicle, props)
+    -- todo
+    -- Maybe check if the vehicle has a driver and then send that
+    -- player a set properties event, otherwise use this.
+    -- We could also send a callback to the client and after that
+    -- check if the props are correct, and otherwise send it again
     Entity(vehicle).state:set("setVehicleProperties", props, true)
 end
 
