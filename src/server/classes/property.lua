@@ -477,6 +477,9 @@ function Property:enter(source, settings)
 
     self.players[player.identifier] = player
 
+    TriggerEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
+    TriggerClientEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
+
     Wait(500)
 
     player:freeze(false)
@@ -488,9 +491,6 @@ function Property:enter(source, settings)
     if handleVehicle then
         TaskLeaveVehicle(player:ped(), spawnedVehicle --[[@as Entity]], 0)
     end
-
-    TriggerEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
-    TriggerClientEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
 
     return true
 end
@@ -566,6 +566,9 @@ function Property:exit(source, settings)
 
     self.players[player.identifier] = nil
 
+    TriggerEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
+    TriggerClientEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
+
     Wait(500)
 
     player:freeze(false)
@@ -577,9 +580,6 @@ function Property:exit(source, settings)
     if Config.unloadOnEmpty and table.count(self.players) == 0 then
         self:destroy()
     end
-
-    TriggerEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
-    TriggerClientEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
 
     return true
 end
