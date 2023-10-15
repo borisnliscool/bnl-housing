@@ -129,7 +129,10 @@ end
 
 ---@param propData table
 function Property:addProp(propData)
-    propData.location = propData.location - self.location
+    local modelData = GetPropFromModel(propData.model)
+
+    propData.location = propData.location - self.location -
+        (modelData and vec3(modelData.offset.x, modelData.offset.y, modelData.offset.z) or vec3(0, 0, 0))
 
     local ret = DB.insertPropertyProp(
         self.id,
