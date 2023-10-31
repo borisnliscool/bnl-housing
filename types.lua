@@ -58,6 +58,7 @@
 ---@field buy function
 ---@field rent function
 ---@field triggerUpdate function
+---@field markForSale function
 
 ---@class Address
 ---@field zipcode string

@@ -144,7 +144,9 @@ function Menus.property(property)
         {
             label = locale("menu.property.sell"),
             permissions = { PERMISSION.OWNER },
-            onSelect = notImplemented
+            onSelect = function()
+                property:startSale()
+            end
         },
         {
             label = locale("menu.property.rent_out"),

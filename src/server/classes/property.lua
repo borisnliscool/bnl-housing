@@ -776,6 +776,18 @@ function Property:rent(source)
     self:triggerUpdate()
 end
 
+---@param price number
+function Property:markForSale(price)
+    if self:isForSale() then return end
+
+    DB.insertPropertyTransaction(self.id, price, TRANSACTION_TYPE.SALE)
+
+    self:loadTransactions()
+    self:triggerUpdate()
+
+    return true
+end
+
 ---Update the property on all clients or the specified source
 ---@param source number | table | nil
 function Property:triggerUpdate(source)

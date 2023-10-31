@@ -184,3 +184,13 @@ end
 DB.getPropertyRentPayments = function()
     return MySQL.query.await("SELECT * FROM property_payments WHERE payment_interval IS NOT NULL")
 end
+
+---@param propertyId number
+---@param price number
+---@param transactionType TransactionType
+DB.insertPropertyTransaction = function(propertyId, price, transactionType)
+    return MySQL.insert.await("INSERT INTO property_transaction (property_id, transaction_type, price) VALUES (?, ?, ?)",
+        {
+            propertyId, transactionType, price
+        })
+end

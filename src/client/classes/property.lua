@@ -233,3 +233,35 @@ end
 function Property:getKeys()
     return lib.callback.await("bnl-housing:server:property:getKeys", false, self.id)
 end
+
+function Property:startSale()
+    -- todo locale
+    local input = lib.inputDialog("Sell Property", {
+        {
+            type = "number",
+            label = "Price"
+        }
+    })
+
+    if not input then return end
+
+    local price = input[1]
+    if not price then return end
+
+    local confirmed = lib.alertDialog({
+        header   = "Confirm",
+        content  = ("Are you sure you want to sell **%s %s** for **$%s**? This action cannot be undone. You will still have access to the property until it is sold.")
+            :format(self.address.streetName, self.address.buildingNumber, price),
+        centered = true,
+        cancel   = true
+    }) == "confirm"
+
+    if not confirmed then return end
+
+    local success = lib.callback.await("bnl-housing:server:property:sell", false, CurrentProperty.id, price)
+    Debug.Log("Success: ", success)
+end
+
+function Property:startRental()
+
+end

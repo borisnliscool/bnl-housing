@@ -130,3 +130,10 @@ RegisterMiddlewareCallback("bnl-housing:server:property:decoration:payForProp",
         Bridge.RemoveMoney(source, math.abs(propData.price))
     end
 )
+
+RegisterMiddlewareCallback("bnl-housing:server:property:sell", CheckPermission[PERMISSION.OWNER],
+    function(_, propertyId, price)
+        local property = GetPropertyById(propertyId)
+        return property and property:markForSale(price)
+    end
+)
