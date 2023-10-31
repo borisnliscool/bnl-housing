@@ -26,8 +26,8 @@ function Menus.entrance(property)
             label = locale("menu.entrance.buy", property.saleData.price),
             onSelect = function()
                 local alert = lib.alertDialog({
-                    header = locale("alert.buyConfirmation.header"),
-                    content = locale("alert.buyConfirmation.content", property.saleData.price),
+                    header = locale("confirm"),
+                    content = locale("alert.buy.confirm", property.saleData.price),
                     centered = true,
                     cancel = true
                 })
@@ -44,8 +44,8 @@ function Menus.entrance(property)
             label = locale("menu.entrance.rent", property.rentData.price),
             onSelect = function()
                 local alert = lib.alertDialog({
-                    header = locale("alert.rentConfirmation.header"),
-                    content = locale("alert.rentConfirmation.content", property.rentData.price),
+                    header = locale("confirm"),
+                    content = locale("alert.rent.confirm", property.rentData.price),
                     centered = true,
                     cancel = true
                 })
@@ -151,7 +151,9 @@ function Menus.property(property)
         {
             label = locale("menu.property.rent_out"),
             permissions = { PERMISSION.OWNER },
-            onSelect = notImplemented
+            onSelect = function()
+                property:startRental()
+            end
         },
     }
 

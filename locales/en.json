@@ -1,5 +1,6 @@
 {
 	"currency": "$",
+	"confirm": "Confirm",
 
 	"permission.member": "Member",
 	"permission.renter": "Renter",
@@ -41,10 +42,8 @@
 	"blip.property.garage.sale": "Garage for sale",
 	"blip.property.garage.rental": "Garage for rent",
 
-	"alert.rentConfirmation.header": "Are you sure?",
-	"alert.rentConfirmation.content": "Are you sure you want to rent this property for **$%s**?",
-	"alert.buyConfirmation.header": "Are you sure?",
-	"alert.buyConfirmation.content": "Are you sure you want to buy this property for **$%s**?",
+	"alert.rent.confirm": "Are you sure you want to rent this property for **$%s** per week?",
+	"alert.buy.confirm": "Are you sure you want to buy this property for **$%s**?",
 
 	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Knock on the door",
@@ -59,7 +58,12 @@
 	"menu.property.decorate": "Decorate property",
 	"menu.property.manage_keys": "Manage keys",
 	"menu.property.sell": "Sell property",
+	"menu.property.sell.price": "Price",
+	"menu.property.sell.confirm": "Are you sure you want to sell **%s %s** for **$%s**? This action cannot be undone. You will still have access to the property until it is sold.",
 	"menu.property.rent_out": "Rent out property",
+	"menu.property.rent.price_per_week": "Price per week",
+	"menu.property.rent.confirm": "Are you sure you want to rent out **%s %s** for **$%s** per week?",
+	"menu.property.rent.per_week": "$%s per week",
 
 	"menu.invite.no_players": "No players outside",
 	"menu.manage_keys.give": "Give player keys",

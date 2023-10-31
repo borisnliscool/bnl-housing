@@ -41,10 +41,8 @@
 	"blip.property.garage.sale": "Garage tekoop",
 	"blip.property.garage.rental": "Garage tehuur",
 
-	"alert.rentConfirmation.header": "Weet je het zeker?",
-	"alert.rentConfirmation.content": "Weet je zeker dat je dit eigendom wilt huren voor **€%s**?",
-	"alert.buyConfirmation.header": "Weet je het zeker?",
-	"alert.buyConfirmation.content": "Weet je zeker dat je dit eigendom wilt kopen voor **€%s**?",
+	"alert.rent.confirm": "Weet je zeker dat je dit eigendom wilt huren voor **€%s** per week?",
+	"alert.buy.confirm": "Weet je zeker dat je dit eigendom wilt kopen voor **€%s**?",
 
 	"menu.entrance.title": "%s %s Menu",
 	"menu.entrance.knock": "Aankloppen",

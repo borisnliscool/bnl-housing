@@ -137,3 +137,10 @@ RegisterMiddlewareCallback("bnl-housing:server:property:sell", CheckPermission[P
         return property and property:markForSale(price)
     end
 )
+
+RegisterMiddlewareCallback("bnl-housing:server:property:rentout", CheckPermission[PERMISSION.OWNER],
+    function(_, propertyId, price)
+        local property = GetPropertyById(propertyId)
+        return property and property:markForRent(price)
+    end
+)
