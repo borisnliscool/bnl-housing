@@ -1,30 +1,47 @@
 ---@param bagName string
----@param value any
-local function getValidEntityFromStateBag(bagName, value)
-    if not value or not GetEntityFromStateBagName then
-        return
+---@return number | nil
+local function getVehicleFromBagName(bagName)
+    local entityTimeout = GetGameTimer()
+    while not GetEntityFromStateBagName(bagName) do
+        Wait(0)
+
+        if GetGameTimer() - entityTimeout > 10000 then
+            return
+        end
     end
 
-    local entity = GetEntityFromStateBagName(bagName)
-    local networked = not bagName:find('localEntity')
+    local vehicle = GetEntityFromStateBagName(bagName)
+    if not vehicle then return end
 
-    if networked and NetworkGetEntityOwner(entity) ~= cache.playerId then
-        return
+    local networkOwnerTimeout = GetGameTimer()
+    while NetworkGetEntityOwner(vehicle) ~= PlayerId() do
+        Wait(0)
+
+        if GetGameTimer() - networkOwnerTimeout > 10000 then
+            return
+        end
     end
 
-    return entity
+    return vehicle
 end
 
-AddStateBagChangeHandler('setVehicleProperties', '', function(bagName, _, v)
-    local entity = getValidEntityFromStateBag(bagName, v)
-    if entity and lib.setVehicleProperties(entity, v) then
-        Entity(entity).state:set('setVehicleProperties', nil, true)
-    end
+
+AddStateBagChangeHandler('setVehicleProperties', '', function(bagName, _, value)
+    if not value then return end
+
+    local vehicle = getVehicleFromBagName(bagName)
+    if not vehicle then return end
+
+    lib.setVehicleProperties(vehicle, value)
 end)
 
-AddStateBagChangeHandler('undriveable', '', function(bagName, _, v)
-    local entity = getValidEntityFromStateBag(bagName, v)
-    if entity then
-        SetVehicleUndriveable(entity, v)
+AddStateBagChangeHandler('undriveable', '', function(bagName, _, value)
+    if not value then return end
+
+    local vehicle = getVehicleFromBagName(bagName)
+    if not vehicle then
+        return
     end
+
+    SetVehicleUndriveable(vehicle, value)
 end)
