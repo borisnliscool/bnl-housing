@@ -17,6 +17,7 @@
 	"notification.rent.noMoney": "You don't have enough money to rent this property.",
 	"notification.rent.success": "You rented %s %s for $%s.",
 	"notification.rent.owner": "You cannot rent this property because you own it.",
+	"notification.rent.paid": "You paid $%s rent for %s %s.",
 	"notification.invite": "You were invited to ~y~%s~s~. \nPress ~%s~ to accept.",
 
 	"blip.property.house.owner": "Owned house",
