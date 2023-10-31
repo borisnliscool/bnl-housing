@@ -54,9 +54,11 @@ end
 function Property:getMarker(markerType)
     local marker = lib.table.deepclone(Config.points[markerType].marker)
 
+    local isVehicleEnterable = self.propertyType == "garage" or self.propertyType == "warehouse"
+
     if
         markerType == "entrance" and
-        self.propertyType == "garage" and
+        isVehicleEnterable and
         (cache.vehicle and cache.vehicle ~= 0)
     then
         marker.size = vec3(marker.size.x * marker.vehicleSize, marker.size.y * marker.vehicleSize, marker.size.z)
