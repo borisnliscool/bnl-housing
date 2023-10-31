@@ -89,14 +89,6 @@ function Menus.entrance(property)
 end
 
 function Menus.property(property)
-    local function notImplemented()
-        Debug.Log("This feature is ^1not yet implemented^0!")
-        lib.notify({
-            type = "error",
-            description = "This feature is not yet implemented!"
-        })
-    end
-
     local main = {
         id = "bnl-housing_property",
         title = locale("menu.property.title", property.address.streetName, property.address.buildingNumber),
@@ -155,6 +147,12 @@ function Menus.property(property)
                 property:startRental()
             end
         },
+        {
+            -- todo implement
+            label = "Stop renting property",
+            permissions = { PERMISSION.RENTER },
+            onSelect = Debug.Error
+        }
     }
 
     main.options = table.map(options, function(option)

@@ -4,6 +4,9 @@ function StartRentCronJobs()
             local property = GetPropertyById(payment.property_id)
             if not property then return end
 
+            -- todo
+            -- if player cannot afford, remove key and reset availability
+
             Bridge.RemoveMoney(payment.player, payment.amount)
 
             if Bridge.GetServerIdFromIdentifier(payment.player) then
