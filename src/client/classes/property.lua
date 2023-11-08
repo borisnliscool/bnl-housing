@@ -235,7 +235,6 @@ function Property:getKeys()
 end
 
 function Property:startSale()
-    -- todo locale
     local input = lib.inputDialog(locale("menu.property.sell"), {
         {
             type = "number",
@@ -262,7 +261,6 @@ function Property:startSale()
 end
 
 function Property:startRental()
-    -- todo locale
     local input = lib.inputDialog(locale("menu.property.rent_out"), {
         {
             type = "number",
