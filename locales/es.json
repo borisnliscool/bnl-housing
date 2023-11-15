@@ -1,0 +1,68 @@
+{
+	"property": "Propiedad",
+	"property_menu": "Menú de Propiedad",
+	"open_menu": "Presiona [E] para abrir el menú",
+	"open_property_menu": "Presiona [E] para abrir el menú de propiedades",
+	"not_close_enough": "No estás lo suficientemente cerca",
+	"no_permission": "No tienes permiso para hacer eso",
+	"error": "Algo salió mal...",
+	"not_implemented": "Esta función aún no está implementada",
+
+	"garage": "Garaje",
+	"warehouse": "Almacén",
+
+	"safe": "Caja de seguridad",
+	"open_safe": "Abrir caja de seguridad",
+	"wrong_code": "El código que ingresaste es incorrecto",
+	"safe_not_locked": "Esta caja de seguridad no está cerrada con llave, elige un código primero",
+	"safe_is_locked": "La caja de seguridad está cerrada con llave",
+	"set_safe_code": "Establecer código de la caja de seguridad",
+	"code": "Código",
+	"old_code": "Código antiguo",
+	"new_code": "Código nuevo",
+	"enter_code": "Ingresar código",
+	"code_changed": "Cambiaste el código",
+	"invalid_code": "El código que ingresaste no es válido",
+
+	"enter_property": "Entrar a la propiedad",
+	"property_full": "No queda espacio en esta propiedad para tu vehículo",
+	"vehicle_already_in_property": "Tu vehículo ya está en esta propiedad",
+	"not_driver": "No eres el conductor de este vehículo",
+	"exit_property": "Salir de la propiedad",
+	"not_close_to_enter": "No estás lo suficientemente cerca de la propiedad para entrar",
+	"no_access": "No tienes acceso a esta propiedad",
+	"break_in": "Forzar entrada",
+
+	"invite_to_property": "Invitar a la propiedad",
+	"invited_to_property": "Has sido invitado a una propiedad.\nPulsa ~INPUT_DETONATE~ para aceptar la invitación y entrar a la propiedad",
+	"entered_property": "Has entrado a la propiedad",
+	"knock_on_door": "Tocar la puerta",
+	"knocking_notification": "Has tocado la puerta",
+	"knocking_on_door": "Hay alguien tocando la puerta. Si quieres dejarlos entrar, invítalos a la propiedad",
+	"noone_outside": "No hay nadie afuera de la propiedad",
+
+	"manage_keys": "Administrar llaves",
+	"player_has_access": "¡Este jugador ya tiene acceso a esta propiedad!",
+	"give_keys": "Dar llaves",
+	"take_keys": "Quitar llaves",
+	"gave_keys": "Le diste llaves de esta propiedad a %s",
+	"taken_keys": "Quitaste las llaves de esta propiedad a %s",
+	"no_key_owners": "¡Esta propiedad no tiene otras llaves!",
+	"keys_noone_close": "No hay nadie cerca para dar llaves de esta propiedad",
+
+	"decorate_property": "Decorar propiedad",
+	"decoration_menu": "Menú de decoración",
+
+	"unlock_property": "Desbloquear propiedad",
+
+	"sell_property": "Vender propiedad",
+	"sell_price": "Precio de venta",
+	"sell_confirm": "Escribe '%s' para confirmar",
+	"sell_confirm_string": "confirmar",
+	"sell_confirm_error": "Debes escribir '%s' para confirmar",
+
+	"rent_property": "Alquilar propiedad",
+
+	"create_new_property": "Crear una nueva propiedad",
+	"shell_id": "ID del interior"
+}
