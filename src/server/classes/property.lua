@@ -1,10 +1,6 @@
 Property = {}
 Property.__index = Property
 
--- todo
---  create a Property.new function that creates
---  a new property in the db and returns that
-
 ---@param data table
 ---@return Property
 function Property.load(data)
@@ -51,6 +47,28 @@ function Property.load(data)
     end)
 
     return instance
+end
+
+---@param data NewPropertyData
+function Property.new(data)
+    local newProperty = DB.createProperty(
+        data.model, data.location, data.propertyType, data.zipcode, data.streetName, data.buildingNumber
+    )
+
+    if not newProperty.insertId then
+        return error("Could not create new property")
+    end
+
+    local propertyData = DB.getProperty(newProperty.insertId)
+    if not propertyData then
+        return error("Could not find property")
+    end
+
+    local property = Property.load(propertyData)
+    Properties[newProperty.insertId] = property
+    property:triggerUpdate()
+
+    return property
 end
 
 --#region Model

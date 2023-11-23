@@ -5,6 +5,28 @@ DB.getAllProperties = function()
     return MySQL.query.await("SELECT * FROM properties")
 end
 
+---@param property_id number
+---@return { [string]: unknown ?}
+DB.getProperty = function(property_id)
+    return MySQL.query.await("SELECT * FROM properties WHERE id = ?", { property_id })[1]
+end
+
+---@param model string
+---@param location vector4
+---@param propertyType string
+---@param zipcode string
+---@param streetName string
+---@param buildingNumber number
+---@return QueryResult|{ [number]: { [string]: unknown  }}
+DB.createProperty = function(model, location, propertyType, zipcode, streetName, buildingNumber)
+    return MySQL.query.await(
+        "INSERT INTO properties (model, entrance_location, property_type, zipcode, street_name, building_number) VALUES (?, ?, ?, ?, ?, ?)",
+        {
+            model, json.encode(location), propertyType, zipcode, streetName, buildingNumber
+        }
+    )
+end
+
 ---@param identifier string
 ---@return table<string, unknown>|nil
 DB.getPropertyPlayer = function(identifier)

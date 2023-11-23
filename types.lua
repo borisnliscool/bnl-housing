@@ -61,6 +61,14 @@
 ---@field markForSale function
 ---@field markForRent function
 
+---@class NewPropertyData
+---@field location vector4
+---@field model string
+---@field propertyType string
+---@field zipcode string
+---@field streetName string
+---@field buildingNumber number
+
 ---@class Address
 ---@field zipcode string
 ---@field streetName string

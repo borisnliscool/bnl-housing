@@ -9,6 +9,7 @@ function Property.new(data)
     instance.id = data.id
     instance.blip = nil
     instance:setData(data)
+    instance:createEntrancePoint()
 
     return instance
 end

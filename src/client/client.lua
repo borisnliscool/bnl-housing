@@ -14,8 +14,6 @@ function SetupProperties()
 
     for _, data in pairs(lib.callback.await("bnl-housing:server:getProperties")) do
         local property = Property.new(data)
-        property:createEntrancePoint()
-
         Properties[property.id] = property
     end
 end
@@ -46,7 +44,10 @@ end
 ---@param propertyId number
 ---@param propertyData table
 function UpdateProperty(propertyId, propertyData)
-    Properties[propertyId]:setData(propertyData)
+    if not Properties[propertyId] then
+        Properties[propertyId] = Property.new(propertyData)
+    end
+    return Properties[propertyId]:setData(propertyData)
 end
 
 ---@param name string

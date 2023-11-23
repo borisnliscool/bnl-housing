@@ -2,6 +2,8 @@ exports("getProperty", function(id)
     return GetPropertyById(id):getData()
 end)
 
+exports("createProperty", Property.new)
+
 exports("getPropertyPlayerIsIn", function(playerId)
     return GetPropertyPlayerIsIn(playerId)
 end)
