@@ -66,6 +66,8 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
 
             if
                 data.interact.interactMode == "keypress" or
+                data.interact.marker or
+                data.interact.outline or
                 data.interact.helpText
             then
                 local point = lib.points.new({
@@ -122,10 +124,10 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
 
                         if data.interact.outline.color then
                             SetEntityDrawOutlineColor(
-                                data.interact.outline.color.r,
-                                data.interact.outline.color.g,
-                                data.interact.outline.color.b,
-                                data.interact.outline.color.a
+                                (data.interact.outline.color.r and data.interact.outline.color.r or 255),
+                                (data.interact.outline.color.g and data.interact.outline.color.g or 255),
+                                (data.interact.outline.color.b and data.interact.outline.color.b or 255),
+                                (data.interact.outline.color.a and data.interact.outline.color.a or 255)
                             )
                         end
 
@@ -144,7 +146,7 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
                 table.insert(specialPropPoints, point)
             end
 
-            if data.interact.interactMode == "target" then
+            if data.interact.interactMode == "target" and data.interact.target then
                 for _, option in pairs(data.interact.target) do
                     option.distance = data.interact.range
                 end
