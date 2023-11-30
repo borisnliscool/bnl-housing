@@ -47,10 +47,24 @@ function Prop:spawn()
     SetEntityRoutingBucket(entity, self.property.bucketId)
 
     self.entity = entity
+
+    if ServerSpecialProps[self.model] then
+        CallSpecialPropHandlers(
+            ServerSpecialProps[self.model].handlers?.server?.spawn,
+            self:getData()
+        )
+    end
 end
 
 ---Delete the entity
 function Prop:destroy()
+    if ServerSpecialProps[self.model] then
+        CallSpecialPropHandlers(
+            ServerSpecialProps[self.model].handlers?.server?.destroy,
+            self:getData()
+        )
+    end
+
     return DoesEntityExist(self.entity) and DeleteEntity(self.entity)
 end
 

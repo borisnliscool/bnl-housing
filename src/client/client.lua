@@ -1,4 +1,5 @@
 lib.locale()
+
 ---@type table, table | nil
 Properties, CurrentProperty = {}, nil
 

@@ -148,6 +148,10 @@
 ---@field bob boolean
 ---@field faceCamera boolean
 
+---@class Outline
+---@field color table
+---@field shader number
+
 ---@class Blip
 ---@field sprite integer
 ---@field color integer
@@ -166,3 +170,5 @@
 ---@field location vector4
 
 ---@alias Entity number
+
+---@alias SpecialPropEventHandler string | function | table<string | function>
