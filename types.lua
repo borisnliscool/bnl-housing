@@ -141,7 +141,7 @@
 ---@class Marker
 ---@field type integer
 ---@field size vector3
----@field vehicleSize number
+---@field vehicleSize number?
 ---@field offset vector3
 ---@field rotation vector3
 ---@field color table
@@ -149,8 +149,8 @@
 ---@field faceCamera boolean
 
 ---@class Outline
----@field color table
----@field shader number
+---@field color table?
+---@field shader number?
 
 ---@class Blip
 ---@field sprite integer

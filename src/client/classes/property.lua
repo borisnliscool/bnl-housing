@@ -1,6 +1,9 @@
 Property = {}
 Property.__index = Property
 
+-- todo we might be able to send all the props at once on property entry,
+-- this way we don't leak all the props if the player doesn't have access
+
 ---@param data table
 ---@return table
 function Property.new(data)
@@ -62,7 +65,8 @@ function Property:getMarker(markerType)
         isVehicleEnterable and
         (cache.vehicle and cache.vehicle ~= 0)
     then
-        marker.size = vec3(marker.size.x * marker.vehicleSize, marker.size.y * marker.vehicleSize, marker.size.z)
+        marker.size = vec3(marker.size.x * (marker.vehicleSize or 1), marker.size.y * (marker.vehicleSize or 1),
+            marker.size.z)
     end
 
     return marker

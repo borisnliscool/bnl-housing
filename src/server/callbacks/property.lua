@@ -95,7 +95,6 @@ RegisterMiddlewareCallback("bnl-housing:server:property:rentProperty",
 )
 
 RegisterMiddlewareCallback("bnl-housing:server:property:decoration:getPropEntity",
-    CheckPermission[PERMISSION.MEMBER],
     function(_, propertyId, propId)
         local property = GetPropertyById(propertyId)
         return property and NetworkGetNetworkIdFromEntity(
