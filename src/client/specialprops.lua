@@ -1,5 +1,5 @@
 ---@class Interact
----@field interactMode "walk" | "keypress" | "target"
+---@field interactMode "keypress" | "target"
 ---@field keybind Keybind?
 ---@field target OxTargetOption?
 ---@field range number
@@ -46,11 +46,10 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
             goto continue
         end
 
-        prop.entity = NetworkGetEntityFromNetworkId(
-            lib.callback.await(
-                "bnl-housing:server:property:decoration:getPropEntity", false, CurrentProperty.id, prop.id
-            )
+        local propNetId = lib.callback.await(
+            "bnl-housing:server:property:decoration:getPropEntity", false, CurrentProperty.id, prop.id
         )
+        prop.entity = NetworkGetEntityFromNetworkId(propNetId)
 
         CallSpecialPropHandlers(
             data.handlers?.client?.spawn,
@@ -67,7 +66,6 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
 
             if
                 data.interact.interactMode == "keypress" or
-                data.interact.interactMode == "walk" or
                 data.interact.helpText
             then
                 local point = lib.points.new({
@@ -145,6 +143,14 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
 
                 table.insert(specialPropPoints, point)
             end
+
+            if data.interact.interactMode == "target" then
+                for _, option in pairs(data.interact.target) do
+                    option.distance = data.interact.range
+                end
+
+                exports.ox_target:addEntity(propNetId, data.interact.target)
+            end
         end
 
         ::continue::
@@ -156,18 +162,23 @@ RegisterNetEvent("bnl-housing:on:leaveProperty", function(propertyId)
     if not property then return end
 
     for _, prop in ipairs(property.props) do
-        if not ClientSpecialProps[prop.model] then
+        local data = ClientSpecialProps[prop.model]
+        if not data then
             goto continue
         end
 
         CallSpecialPropHandlers(
-            ClientSpecialProps[prop.model].handlers?.client?.destroy,
+            data.handlers?.client?.destroy,
             prop
         )
 
-        for _, point in ipairs(specialPropPoints) do
+        for _, point in pairs(specialPropPoints) do
             point:remove()
             specialPropPoints[_] = nil
+        end
+
+        if data.interact?.interactMode == "target" then
+            exports.ox_target:removeEntity(NetworkGetNetworkIdFromEntity(prop.entity))
         end
 
         ::continue::
