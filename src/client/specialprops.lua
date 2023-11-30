@@ -114,7 +114,7 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
                             prop
                         )
 
-                        -- trigger server event here
+                        TriggerServerEvent("bnl-housing:server:specialprops:interact", property.id, prop.id)
                     end
                 end
 

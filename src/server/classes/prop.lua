@@ -75,5 +75,6 @@ function Prop:getData()
         location = self.location,
         rotation = self.rotation,
         metadata = self.metadata,
+        propertyId = self.property.id
     }
 end

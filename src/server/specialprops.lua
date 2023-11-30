@@ -21,3 +21,25 @@ local handler = function(options)
 end
 
 exports("registerSpecialProp", handler)
+
+---
+
+RegisterNetEvent("bnl-housing:server:specialprops:interact", function(propertyId, propId)
+    local property = GetPropertyPlayerIsIn(source)
+    if not property or property.id ~= propertyId then
+        return
+    end
+
+    local prop = table.findOne(property.props, function(prop)
+        return prop.id == propId
+    end)
+
+    if not prop then
+        return
+    end
+
+    CallSpecialPropHandlers(
+        ServerSpecialProps[prop.model].handlers?.server?.interact,
+        prop:getData()
+    )
+end)

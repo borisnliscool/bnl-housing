@@ -26,6 +26,7 @@ end
 
 
 ---@param handler { type: "event", event: string } | { type: "export", resource: string, export: string }
+---@param ... any
 local callHandler = function(handler, ...)
     local args = ...
 
@@ -35,7 +36,9 @@ local callHandler = function(handler, ...)
 
     if handler.type == "export" then
         local success, result = pcall(function()
-            exports[handler.resource][handler.export](args)
+            -- I hate exports, like, why is this like this??
+            local export = exports[handler.resource][handler.export]
+            export(export, args)
         end)
         if not success then
             error(("Failed to execute special prop export: %s.%s"):format(handler.resource, handler.export))
@@ -48,10 +51,8 @@ end
 ---@param ... any
 CallSpecialPropHandlers = function(handlers, ...)
     if not handlers then return end
-
     local args = ...
 
-    -- todo surround in pcall or xpcall
     CreateThread(function()
         if type(handlers) == "function" then
             return handlers(args)
@@ -65,7 +66,7 @@ CallSpecialPropHandlers = function(handlers, ...)
         end
 
         if type(handlers) == "table" then
-            for _, handler in ipairs(handlers) do
+            for _, handler in pairs(handlers) do
                 CreateThread(function()
                     return callHandler(
                         parseHandlerString(handler),
