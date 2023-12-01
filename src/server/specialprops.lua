@@ -11,7 +11,7 @@
 ServerSpecialProps = {}
 
 ---@param options SpecialPropServerHandlerOptions
-RegisterSpecialProp = function(options)
+local handler = function(options)
     if ServerSpecialProps[options.model] then
         Debug.Log(Format("Special prop handler %s already exists, overwriting.", options.model))
     end
@@ -19,6 +19,8 @@ RegisterSpecialProp = function(options)
     ServerSpecialProps[options.model] = options
     Debug.Log(Format("Registered special prop handler for %s", options.model))
 end
+
+exports("registerSpecialProp", handler)
 
 ---
 
@@ -38,6 +40,6 @@ RegisterNetEvent("bnl-housing:server:specialprops:interact", function(propertyId
 
     CallSpecialPropHandlers(
         ServerSpecialProps[prop.model].handlers?.server?.interact,
-        prop:getData()
+        prop:getSpecialPropAPI()
     )
 end)

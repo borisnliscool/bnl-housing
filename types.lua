@@ -102,6 +102,7 @@
 ---@field spawn function
 ---@field destroy function
 ---@field getData function
+---@field getSpecialPropAPI function
 
 ---@class PropData
 ---@field id string

@@ -14,7 +14,7 @@ function Prop.new(data, property)
     instance.location = vector3(location.x, location.y, location.z)
     local rotation = type(data.location) == "string" and json.decode(data.rotation) or data.rotation
     instance.rotation = vector3(rotation.x, rotation.y, rotation.z)
-    instance.metadata = type(data.location) == "string" and json.decode(data.metadata) or data.metadata
+    instance.metadata = type(data.metadata) == "string" and json.decode(data.metadata) or data.metadata or {}
 
     return instance
 end
@@ -51,7 +51,7 @@ function Prop:spawn()
     if ServerSpecialProps[self.model] then
         CallSpecialPropHandlers(
             ServerSpecialProps[self.model].handlers?.server?.spawn,
-            self:getData()
+            self:getSpecialPropAPI()
         )
     end
 end
@@ -61,7 +61,7 @@ function Prop:destroy()
     if ServerSpecialProps[self.model] then
         CallSpecialPropHandlers(
             ServerSpecialProps[self.model].handlers?.server?.destroy,
-            self:getData()
+            self:getSpecialPropAPI()
         )
     end
 
@@ -77,4 +77,42 @@ function Prop:getData()
         metadata = self.metadata,
         propertyId = self.property.id
     }
+end
+
+function Prop:getSpecialPropAPI()
+    local data = self:getData()
+
+    data.metadata = {
+        ---@param key string
+        get = function(key)
+            return exports["bnl-housing"]:getPropMetadataItem(self.property.id, self.id, true, key)
+        end,
+
+        ---@param key string
+        ---@param value any
+        set = function(key, value)
+            return exports["bnl-housing"]:setPropMetadataItem(self.property.id, self.id, true, key, value)
+        end,
+
+        clear = function()
+            return exports["bnl-housing"]:clearPropMetadataItem(self.property.id, self.id, true)
+        end,
+
+        ---@param key string
+        getPrivate = function(key)
+            return exports["bnl-housing"]:getPropMetadataItem(self.property.id, self.id, false, key)
+        end,
+
+        ---@param key string
+        ---@param value any
+        setPrivate = function(key, value)
+            return exports["bnl-housing"]:setPropMetadataItem(self.property.id, self.id, false, key, value)
+        end,
+
+        clearPrivate = function()
+            return exports["bnl-housing"]:clearPropMetadataItem(self.property.id, self.id, false)
+        end
+    }
+
+    return data
 end

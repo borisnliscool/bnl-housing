@@ -650,6 +650,7 @@ end
 ---Save the property
 function Property:save()
     -- Saving props
+    -- todo do this in one thingy
     if self.props and #self.props > 0 then
         for _, prop in pairs(self.props) do
             DB.updatePropertyProp(prop.metadata, prop.id)
