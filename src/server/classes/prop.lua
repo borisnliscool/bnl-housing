@@ -95,7 +95,7 @@ function Prop:getSpecialPropAPI()
         end,
 
         clear = function()
-            return exports["bnl-housing"]:clearPropMetadataItem(self.property.id, self.id, true)
+            return exports["bnl-housing"]:clearPropMetadata(self.property.id, self.id, true)
         end,
 
         ---@param key string
@@ -110,7 +110,7 @@ function Prop:getSpecialPropAPI()
         end,
 
         clearPrivate = function()
-            return exports["bnl-housing"]:clearPropMetadataItem(self.property.id, self.id, false)
+            return exports["bnl-housing"]:clearPropMetadata(self.property.id, self.id, false)
         end
     }
 

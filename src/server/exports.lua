@@ -81,7 +81,7 @@ exports("setPropMetadataItem", function(propertyId, propId, public, key, value)
     end))
 end)
 
-exports("clearPropMetadataItem", function(propertyId, propId, public)
+exports("clearPropMetadata", function(propertyId, propId, public)
     local property = GetPropertyById(propertyId)
     if not property then error("property not found") end
 

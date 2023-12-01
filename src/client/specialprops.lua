@@ -40,7 +40,7 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
     local property = Properties[propertyId]
     if not property then return end
 
-    for _, prop in ipairs(property.props) do
+    for _, prop in pairs(property.props) do
         local data = ClientSpecialProps[prop.model]
         if not data then
             goto continue
