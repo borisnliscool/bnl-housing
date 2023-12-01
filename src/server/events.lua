@@ -7,6 +7,7 @@ AddEventHandler('onResourceStop', function(resource)
 
     for _, property in pairs(Properties) do
         for _, player in pairs(property.players) do
+            -- todo this doesnt work I think
             player:warpOutOfProperty()
         end
 

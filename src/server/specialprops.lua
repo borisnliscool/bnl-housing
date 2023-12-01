@@ -11,7 +11,7 @@
 ServerSpecialProps = {}
 
 ---@param options SpecialPropServerHandlerOptions
-local handler = function(options)
+RegisterSpecialProp = function(options)
     if ServerSpecialProps[options.model] then
         Debug.Log(Format("Special prop handler %s already exists, overwriting.", options.model))
     end
@@ -19,8 +19,6 @@ local handler = function(options)
     ServerSpecialProps[options.model] = options
     Debug.Log(Format("Registered special prop handler for %s", options.model))
 end
-
-exports("registerSpecialProp", handler)
 
 ---
 

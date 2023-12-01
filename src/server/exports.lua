@@ -36,3 +36,5 @@ exports("warpPlayerOutOfProperty", function(playerId, propertyId)
     local property = GetPropertyById(propertyId) or GetPropertyPlayerIsIn(playerId)
     return property and property:exit(playerId)
 end)
+
+exports("registerSpecialProp", RegisterSpecialProp)

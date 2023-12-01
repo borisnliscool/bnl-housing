@@ -1,3 +1,5 @@
+---@meta
+
 --[[
     This file is only used for type annotations, no actual code will be written here.
     When adding new functions or variables to classes, make sure to also add them in this file.

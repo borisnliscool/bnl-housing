@@ -19,6 +19,7 @@ A player property resource that allows users to purchase, sell, decorate, store 
 - Logging out in properties
 - Parking vehicles in properties
 - Linking properties
+- Special prop API
 - ..and more!
 
 ### Contributors

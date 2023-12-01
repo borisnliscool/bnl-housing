@@ -250,6 +250,7 @@ function Property:givePlayerKey(source, permission, update)
 
     table.insert(self.keys, key)
     Debug.Log(Format("Gave key to %s for property %s", key.player, self.id))
+    lib.logger(player, ("gave key to %s for property %s"):format(key.player, self.id))
 
     if update then
         self:triggerUpdate(source)
@@ -270,6 +271,7 @@ function Property:removePlayerKey(keyId)
     table.remove(self.keys, id)
 
     Debug.Log(Format("Removed key %s from property %s", key.id, self.id))
+    lib.logger(player, ("removed key %s from property %s"):format(key.id, self.id))
 
     self:triggerUpdate()
 end
@@ -425,7 +427,7 @@ function Property:enter(source, settings)
 
         vehicleProps = GetVehicleProps(vehicle)
 
-        -- todo dont know why this is sleeping here
+        -- I don't know why this is sleeping here, but it won't work without.
         CreateThread(function()
             Wait(500)
 
@@ -500,6 +502,10 @@ function Property:enter(source, settings)
 
     TriggerEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
     TriggerClientEvent("bnl-housing:on:enterProperty", source, self.id, handleVehicle and spawnedVehicle)
+    lib.logger(player,
+        ("player %s entered property %s %s"):format(source, self.id,
+            handleVehicle and spawnedVehicle and "with a vehicle" or "on foot")
+    )
 
     Wait(500)
 
@@ -589,6 +595,10 @@ function Property:exit(source, settings)
 
     TriggerEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
     TriggerClientEvent("bnl-housing:on:leaveProperty", source, self.id, handleVehicle and spawnedVehicle)
+    lib.logger(player,
+        ("player %s left property %s %s"):format(source, self.id,
+            handleVehicle and spawnedVehicle and "with a vehicle" or "on foot")
+    )
 
     Wait(500)
 
@@ -696,6 +706,9 @@ end
 ---@param source number
 function Property:knock(source)
     Debug.Log(Format("%s knocked on the door of property %s", Bridge.GetPlayerName(source), self.id))
+    lib.logger(player,
+        ("player %s knocked on the door of property %s"):format(source, self.id)
+    )
 
     for _, player in pairs(self.players) do
         if player.key.permission ~= PERMISSION.VISITOR then
@@ -749,6 +762,9 @@ function Property:buy(source)
     DB.insertPropertyPayment(playerIdentifier, self.id, price, TRANSACTION_TYPE.SALE)
     DB.updatePropertyTransaction(playerIdentifier, COMPLETION_STATUS.COMPLETED, self.saleData.id)
 
+    TriggerEvent("bnl-housing:on:buyProperty", source, self.id, price)
+    lib.logger(player, ("player %s bought property %s for %s"):format(source, self.id, price))
+
     if self:isForRent() then
         DB.deletePropertyTransaction(self.rentData.id)
     end
@@ -790,6 +806,9 @@ function Property:rent(source)
     DB.insertPropertyPayment(playerIdentifier, self.id, price, TRANSACTION_TYPE.RENTAL, paymentInterval)
     DB.updatePropertyTransaction(playerIdentifier, COMPLETION_STATUS.COMPLETED, self.rentData.id)
 
+    TriggerEvent("bnl-housing:on:rentProperty", source, self.id, price)
+    lib.logger(player, ("player %s rented property %s for %s"):format(source, self.id, price))
+
     self:loadTransactions()
     self:triggerUpdate()
 end
@@ -803,6 +822,10 @@ function Property:markForSale(price)
     self:loadTransactions()
     self:triggerUpdate()
 
+    lib.logger(player,
+        ("player %s marked property %s for sale for %s"):format(source, self.id, price)
+    )
+
     return true
 end
 
@@ -814,6 +837,10 @@ function Property:markForRent(price)
 
     self:loadTransactions()
     self:triggerUpdate()
+
+    lib.logger(player,
+        ("player %s marked property %s for rent for %s"):format(source, self.id, price)
+    )
 
     return true
 end

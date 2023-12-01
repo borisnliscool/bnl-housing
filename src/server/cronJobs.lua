@@ -21,10 +21,17 @@ function StartRentCronJobs()
 
             local ownerKey = table.findOne(property.keys, function(key)
                 return key.permission == PERMISSION.OWNER
-            end) --[[@as Key]]
-            if not ownerKey then return end
+            end) --[[@as Key?]]
 
-            Bridge.AddMoney(ownerKey.player, payment.amount)
+            if ownerKey then
+                Bridge.AddMoney(ownerKey.player, payment.amount)
+            end
+
+            lib.logger(payment.player, "rentPayment",
+                ("'%s' paid %s property rent for property %s to '%s'"):format(payment.player, payment.amount, property
+                    .id, ownerKey?.player or "server"
+                )
+            )
         end)
     end
 end
