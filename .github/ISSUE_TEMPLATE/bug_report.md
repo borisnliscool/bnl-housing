@@ -33,3 +33,6 @@ Include screenshots if they can help illustrate the problem.
 
 **Additional Details**<br>
 Provide any additional context or information related to the issue.
+
+**Have you checked existing issues for duplicates?**<br>
+- [ ] Check this box after confirming that similar issues have been reviewed and this one is unique.
