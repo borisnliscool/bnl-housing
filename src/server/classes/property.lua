@@ -437,6 +437,8 @@ function Property:enter(source, settings)
         end)
     end
 
+    self:triggerUpdate(source)
+
     player:triggerFunction("StartBusySpinner", "Loading property...")
     player:triggerFunction("FadeOut", 500)
 
