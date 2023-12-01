@@ -854,6 +854,11 @@ function Property:triggerUpdate(source)
     local data = self:getData()
     data.keys = nil
 
+    data.props = table.map(data.props, function(prop)
+        prop.metadata = prop.metadata?.public or {}
+        return prop
+    end)
+
     local function SendToPlayer(_source)
         data.key = self:getPlayerKey(_source)
         ClientFunctions.UpdateProperty(_source, self.id, data)
