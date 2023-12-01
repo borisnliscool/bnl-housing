@@ -149,6 +149,14 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
             if data.interact.interactMode == "target" and data.interact.target then
                 for _, option in pairs(data.interact.target) do
                     option.distance = data.interact.range
+
+                    local _select = option.onSelect
+                    if _select then
+                        option.onSelect = function(...)
+                            ---@diagnostic disable-next-line: redundant-parameter
+                            _select(..., prop)
+                        end
+                    end
                 end
 
                 exports.ox_target:addEntity(propNetId, data.interact.target)
