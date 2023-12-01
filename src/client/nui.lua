@@ -1,6 +1,5 @@
 ---@type number, number, string, vector3
-local camera, entity, model, coords
-local props = {}
+local camera, currentEntity, model, coords
 local showBoundingBox, showOutline, showTransparancy = false, false, false
 ---@type "NONE" | "CREATING" | "EDITING"
 local state = "NONE"
@@ -22,9 +21,9 @@ RegisterNUICallback("update", function(data, cb)
     local propCoords = vec(data.prop.position.z, data.prop.position.x, data.prop.position.y) + coords
 
     ---@diagnostic disable-next-line: missing-parameter
-    SetEntityCoords(entity, propCoords.x, propCoords.y, propCoords.z)
+    SetEntityCoords(currentEntity, propCoords.x, propCoords.y, propCoords.z)
     ---@diagnostic disable-next-line: missing-parameter
-    SetEntityRotation(entity, data.prop.rotation.x, data.prop.rotation.y, data.prop.rotation.z)
+    SetEntityRotation(currentEntity, data.prop.rotation.x, data.prop.rotation.y, data.prop.rotation.z)
 
     if data.camera then
         local camCoords = vec(data.camera.position.z, data.camera.position.x, data.camera.position.y) + coords
@@ -36,20 +35,20 @@ RegisterNUICallback("update", function(data, cb)
 end)
 
 local function setTransparency()
-    SetEntityAlpha(entity, showTransparancy and 204 or 255, false)
+    SetEntityAlpha(currentEntity, showTransparancy and 204 or 255, false)
 end
 
 local function setOutline()
-    SetEntityDrawOutline(entity, showOutline)
+    SetEntityDrawOutline(currentEntity, showOutline)
     SetEntityDrawOutlineColor(0, 0, 200, 255)
     SetEntityDrawOutlineShader(1)
 end
 
 local function setBoundingBox()
     CreateThread(function()
-        while showBoundingBox and entity ~= nil do
+        while showBoundingBox and currentEntity ~= nil do
             Wait(0)
-            DrawEntityBoundingBox(entity)
+            DrawEntityBoundingBox(currentEntity)
         end
     end)
 end
@@ -163,7 +162,7 @@ function StartEditorWithEntity(_entity, _coords)
     ShowUI("decoration")
     TriggerEvent("bnl-housing:on:enterEditor")
 
-    entity = _entity
+    currentEntity = _entity
     camera = _camera
 
     setTransparency()
@@ -204,8 +203,8 @@ function ExitEditor(save)
     if save then
         _ret = lib.callback.await("bnl-housing:server:property:decoration:addProp", false, CurrentProperty.id, {
             model = model,
-            location = GetEntityCoords(entity),
-            rotation = GetEntityRotation(entity)
+            location = GetEntityCoords(currentEntity),
+            rotation = GetEntityRotation(currentEntity)
         })
 
         if state == "EDITING" and currentPropId then
@@ -217,10 +216,10 @@ function ExitEditor(save)
         end
     end
 
-    DeleteEntity(entity)
+    DeleteEntity(currentEntity)
     TriggerEvent("bnl-housing:on:leaveEditor")
 
-    camera, entity, model = 0, 0, ""
+    camera, currentEntity, model = 0, 0, ""
     state = "NONE"
     currentPropId = nil
 
