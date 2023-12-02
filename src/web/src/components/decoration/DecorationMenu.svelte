@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { editorMode, editorSpace } from "../../store/stores";
-	import Page from "../elements/Page.svelte";
-	import Editor from "./Editor.svelte";
 	import type { modeType, spaceType } from "src/utils/misc";
+	import { slide } from "svelte/transition";
+	import { editorMode, editorSpace } from "../../store/stores";
 	import { fetchNui } from "../../utils/fetchNui";
 	import { useKeyPress } from "../../utils/useKeyPress";
 	import IconCheckbox from "../elements/IconCheckbox.svelte";
-	import { slide } from "svelte/transition";
+	import Page from "../elements/Page.svelte";
+	import Editor from "./Editor.svelte";
 
 	let isVisible: boolean;
 	let transparency: boolean = false;
@@ -43,7 +43,7 @@
 		class="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2"
 		transition:slide={{ axis: "x" }}
 	>
-		<div class="menu">
+		<div class="bg-gray-200/95 shadow-lg w-14 p-2 rounded-lg flex flex-col gap-2">
 			<IconCheckbox
 				icon="mdi:cursor-move"
 				tooltip="Move <kbd>(w)</kbd>"
@@ -58,7 +58,7 @@
 			/>
 		</div>
 
-		<div class="menu">
+		<div class="bg-gray-200/95 shadow-lg w-14 p-2 rounded-lg flex flex-col gap-2">
 			<IconCheckbox
 				icon="mdi:cube-outline"
 				tooltip="Bounding Box <kbd>(b)</kbd>"
@@ -79,7 +79,7 @@
 			/>
 		</div>
 
-		<div class="menu">
+		<div class="bg-gray-200/95 shadow-lg w-14 p-2 rounded-lg flex flex-col gap-2">
 			<IconCheckbox
 				icon="mdi:web"
 				tooltip="World space <kbd>(1)</kbd>"
@@ -100,13 +100,13 @@
 	>
 		<div class="flex gap-2">
 			<button
-				class="button bg-gray-500"
+				class="p-3 px-6 max-w-[6rem] text-white rounded-md text-sm bg-gray-500"
 				on:click={() => fetchNui("cancelPlacement")}
 			>
 				Back <kbd>(ESC)</kbd>
 			</button>
 			<button
-				class="button bg-blue-700"
+				class="p-3 px-6 max-w-[6rem] text-white rounded-md text-sm bg-blue-700"
 				on:click={() => fetchNui("savePlacement")}
 			>
 				Place
@@ -115,13 +115,3 @@
 	</div>
 </Page>
 
-<style lang="scss">
-	.menu {
-		@apply bg-gray-200/95 shadow-lg w-14 p-2 rounded-lg flex flex-col gap-2;
-	}
-
-	.button {
-		@apply p-3 px-6 text-white rounded-md text-sm;
-		min-width: 6rem;
-	}
-</style>

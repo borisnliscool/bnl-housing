@@ -5,8 +5,8 @@
 </script>
 
 <script lang="ts">
-	import { fetchNui } from "../../utils/fetchNui";
 	import { slide } from "svelte/transition";
+	import { fetchNui } from "../../utils/fetchNui";
 	import { soundOnEnter } from "../../utils/sounds";
 
 	export let prop: {
@@ -45,13 +45,13 @@
 			</p>
 			<div>
 				<button
-					class="button bg-blue-700"
+					class="p-1 px-3 text-white rounded-md text-sm bg-blue-700"
 					on:click={() => fetchNui("editProp", prop.id)}
 				>
 					Edit
 				</button>
 				<button
-					class="button bg-red-700"
+					class="p-1 px-3 text-white rounded-md text-sm bg-red-700"
 					on:click={() => fetchNui("deleteProp", prop.id)}
 				>
 					Delete
@@ -60,9 +60,3 @@
 		</div>
 	{/if}
 </div>
-
-<style lang="scss">
-	.button {
-		@apply p-1 px-3 text-white rounded-md text-sm;
-	}
-</style>

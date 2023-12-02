@@ -72,9 +72,9 @@
 ---@field buildingNumber number
 
 ---@class Address
----@field zipcode string
----@field streetName string
----@field buildingNumber string
+---@field zipcode string?
+---@field streetName string?
+---@field buildingNumber string?
 
 ---@class PropertyData
 ---@field id integer
