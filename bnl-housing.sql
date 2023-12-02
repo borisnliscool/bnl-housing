@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS properties (
     property_type ENUM("house", "warehouse", "office", "garage") NOT NULL,
     zipcode VARCHAR(128),
     street_name VARCHAR(128),
-    building_number FLOAT,
+    building_number VARCHAR(16),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT uk_property_address UNIQUE (zipcode, street_name, building_number)
