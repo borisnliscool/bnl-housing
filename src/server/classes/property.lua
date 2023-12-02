@@ -51,6 +51,9 @@ end
 
 ---@param data NewPropertyData
 function Property.new(data)
+    -- todo sale or rental data handling
+    -- todo initial owner handling
+
     local newProperty = DB.createProperty(
         data.model, data.location, data.propertyType, data.zipcode, data.streetName, data.buildingNumber
     )

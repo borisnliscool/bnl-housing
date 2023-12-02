@@ -12,10 +12,11 @@
 			data: true,
 		},
 	]);
+
 	debugData([
 		{
 			action: "setPage",
-			data: "propPicker",
+			data: "adminMenu",
 		},
 	]);
 
@@ -30,7 +31,7 @@
 
 {#if isEnvBrowser()}
 	<div
-		class="fixed top-0 left-0 h-full w-full bg-[url(https://zip.boris.foo/r/FiveM_b2802_GTAProcess-BYuZzuJT.jpg?compress=false)] bg-center bg-cover"
+		class="fixed top-0 left-0 h-full w-full bg-[url(https://zip.boris.foo/u/CvSCLP.jpg)] bg-center bg-cover"
 	/>
 {/if}
 

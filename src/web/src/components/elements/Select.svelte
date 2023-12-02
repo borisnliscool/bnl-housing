@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import Icon from "@iconify/svelte";
-	import type { SelectOptionType, placement } from "../../utils/interfaces";
+	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
+	import type { SelectOptionType, placement } from "../../utils/interfaces";
 	import { soundOnEnter } from "../../utils/sounds";
 
 	export let items: SelectOptionType[];
@@ -62,17 +62,21 @@
 			on:click={() => (shown = false)}
 		/>
 
-		<div class="options" {style} transition:fade={{ duration: 200 }}>
+		<div
+			class="options {$$props.class}"
+			{style}
+			transition:fade={{ duration: 200 }}
+		>
 			{#each items as item}
 				<button
 					class="option {value == item
-						? 'bg-blue-600 text-white'
-						: 'hover:bg-blue-100'}"
+						? '!bg-blue-600 text-white'
+						: 'hover:!bg-blue-100'}"
 					on:click={() => {
 						value = item;
 						shown = !shown;
 					}}
-                    use:soundOnEnter
+					use:soundOnEnter
 				>
 					{item.name}
 				</button>
@@ -87,7 +91,7 @@
 	}
 
 	.active {
-		@apply w-full text-left p-1 px-4 pr-2 border border-gray-400 rounded-md bg-white flex items-center justify-between;
+		@apply w-full text-left p-1.5 px-4 pr-2 border border-gray-400 rounded-md bg-white flex items-center justify-between outline-none focus:ring;
 	}
 
 	.options {
@@ -95,7 +99,7 @@
 	}
 
 	.option {
-		@apply text-left p-2 px-4 rounded-sm whitespace-pre;
+		@apply text-left p-2 px-4 rounded-sm whitespace-pre outline-none focus:bg-blue-100;
 		transition: background-color 100ms;
 	}
 </style>

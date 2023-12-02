@@ -1,11 +1,12 @@
-export function soundOnEnter(node: HTMLElement) {
-	const handleEvent = (event: MouseEvent) => {
-		const audio = new Audio(
-			(event!.target as HTMLElement).dataset.sound ?? "sounds/hover.ogg"
-		);
-		audio.play();
-	};
+const buildEventHandler = (name: string) => (event: MouseEvent) => {
+	const audio = new Audio(
+		(event!.target as HTMLElement).dataset.sound ?? `sounds/${name}.ogg`
+	);
+	audio.play();
+};
 
+export function soundOnEnter(node: HTMLElement) {
+	const handleEvent = buildEventHandler("hover");
 	node.addEventListener("mouseenter", handleEvent, true);
 
 	return {
@@ -16,13 +17,7 @@ export function soundOnEnter(node: HTMLElement) {
 }
 
 export function soundOnClick(node: HTMLElement) {
-	const handleEvent = (event: MouseEvent) => {
-		const audio = new Audio(
-			(event!.target as HTMLElement).dataset.sound ?? "sounds/click.ogg"
-		);
-		audio.play();
-	};
-
+	const handleEvent = buildEventHandler("click");
 	node.addEventListener("click", handleEvent, true);
 
 	return {

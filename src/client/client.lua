@@ -13,9 +13,13 @@ function SetupProperties()
         property.point:remove()
     end
 
+    Properties = {}
+
     for _, data in pairs(lib.callback.await("bnl-housing:server:getProperties")) do
         local property = Property.new(data)
-        Properties[property.id] = property
+        if property then
+            Properties[property.id] = property
+        end
     end
 end
 
@@ -92,3 +96,9 @@ AddEventHandler("bnl-housing:on:leaveProperty", function(_, _)
 end)
 
 Bridge.onReady(SetupProperties)
+
+
+-- todo move to commands or something
+RegisterCommand("housing", function(source, args, rawCommand)
+    ShowUI("adminMenu")
+end, false)

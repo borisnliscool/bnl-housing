@@ -5,10 +5,14 @@
  * @return returnData - A promise for the data sent back by the NuiCallbacks CB argument
  */
 
+import { isEnvBrowser } from "./misc";
+
 export async function fetchNui<T = any>(
 	eventName: string,
 	data: unknown = {}
 ): Promise<T> {
+	if (isEnvBrowser()) throw new Error("couldn't fetch nui from browser");
+
 	const options = {
 		method: "post",
 		headers: {
