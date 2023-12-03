@@ -104,7 +104,7 @@ function Property:spawnModel()
         Wait(10)
 
         if GetGameTimer() - start > 10000 then
-            Debug.Error(Format("Timed out. Failed to load shell %s.", self.model))
+            lib.print.error(("Timed out. Failed to load shell %s."):format(self.model))
             return
         end
     end
@@ -252,7 +252,8 @@ function Property:givePlayerKey(source, permission, update)
     key.id = DB.insertPropertyKey(key.property_id, key.player, key.permission)
 
     table.insert(self.keys, key)
-    Debug.Log(Format("Gave key to %s for property %s", key.player, self.id))
+
+    lib.print.info(("Gave key to %s for property %s"):format(key.player, self.id))
     lib.logger(player, ("gave key to %s for property %s"):format(key.player, self.id))
 
     if update then
@@ -273,7 +274,7 @@ function Property:removePlayerKey(keyId)
     DB.removePropertyKey(key.id)
     table.remove(self.keys, id)
 
-    Debug.Log(Format("Removed key %s from property %s", key.id, self.id))
+    lib.print.info(("Removed key %s from property %s"):format(key.id, self.id))
     lib.logger(player, ("removed key %s from property %s"):format(key.id, self.id))
 
     self:triggerUpdate()
@@ -466,7 +467,7 @@ function Property:enter(source, settings)
     if handleVehicle and isDriver then
         local slot = self:getFirstFreeVehicleSlot()
         if not slot then
-            Debug.Error("Could not find a slot for the vehicle, this shouldn't happen!")
+            lib.print.error("Could not find a slot for the vehicle, this shouldn't happen!")
             return false
         end
 
@@ -480,7 +481,7 @@ function Property:enter(source, settings)
         end)
 
         if err then
-            Debug.Error(err)
+            lib.print.error(err)
             goto skipVehicleSpawning
         end
 
@@ -563,7 +564,7 @@ function Property:exit(source, settings)
         table.remove(self.vehicles, index)
 
         if vehicleData == nil then
-            Debug.Error("Couldn't find vehicleData for vehicle", vehicle)
+            lib.print.error("Couldn't find vehicleData for vehicle", vehicle)
             return false
         end
 
@@ -711,7 +712,7 @@ end
 ---Make the player knock on the door
 ---@param source number
 function Property:knock(source)
-    Debug.Log(Format("%s knocked on the door of property %s", Bridge.GetPlayerName(source), self.id))
+    lib.print.info(("%s knocked on the door of property %s"):format(Bridge.GetPlayerName(source), self.id))
     lib.logger(player,
         ("player %s knocked on the door of property %s"):format(source, self.id)
     )

@@ -190,7 +190,7 @@ local function payForProp(_model)
     local prop = GetPropFromModel(_model)
     if not prop then return end
 
-    Debug.Log(Format("Paying $%s for a %s", prop.price, prop.name))
+    lib.print.verbose(("Paying $%s for a %s"):format(prop.price, prop.name))
     lib.callback.await("bnl-housing:server:property:decoration:payForProp", false, CurrentProperty.id, _model)
 end
 

@@ -53,7 +53,7 @@ end
 ---@param player number
 local function onPlayerLoad(player)
     local playerIdentifier = Bridge.GetPlayerIdentifier(player)
-    Debug.Log(Format("Loading player %s", Bridge.GetPlayerName(player)))
+    lib.print.verbose(("Loading player %s"):format(Bridge.GetPlayerName(player)))
 
     local data = DB.getPropertyPlayer(playerIdentifier)
     if not data or not data.property_id then return end
@@ -65,12 +65,12 @@ local function onPlayerLoad(player)
     Wait(250)
 
     if property:enter(player) then
-        Debug.Log(Format("Loaded player %s in property %s", Bridge.GetPlayerName(player), propertyId))
+        lib.print.verbose(("Loaded player %s in property %s"):format(Bridge.GetPlayerName(player), propertyId))
         DB.deletePropertyPlayer(playerIdentifier)
         return
     end
 
-    Debug.Error(Format("Failed to make %s enter property %s", Bridge.GetPlayerName(player), propertyId))
+    lib.print.error(("Failed to make %s enter property %s"):format(Bridge.GetPlayerName(player), propertyId))
 end
 
 ---Function that execute when a player unloads

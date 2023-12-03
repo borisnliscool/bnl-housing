@@ -13,11 +13,11 @@ ServerSpecialProps = {}
 ---@param options SpecialPropServerHandlerOptions
 local handler = function(options)
     if ServerSpecialProps[options.model] then
-        Debug.Log(Format("Special prop handler %s already exists, overwriting.", options.model))
+        lib.print.warn(("Special prop handler %s already exists, overwriting."):format(options.model))
     end
 
     ServerSpecialProps[options.model] = options
-    Debug.Log(Format("Registered special prop handler for %s", options.model))
+    lib.print.info(("Registered special prop handler for %s"):format(options.model))
 end
 
 exports("registerSpecialProp", handler)

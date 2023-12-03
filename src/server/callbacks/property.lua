@@ -141,8 +141,6 @@ RegisterMiddlewareCallback("bnl-housing:server:property:rentout", CheckPermissio
 )
 
 RegisterMiddlewareCallback("bnl-housing:server:property:create", AdminPermission, function(source, propertyData)
-    Debug.Log(propertyData)
-
     local noLocation = not propertyData.location or (
         propertyData.location.x == 0 and
         propertyData.location.y == 0 and

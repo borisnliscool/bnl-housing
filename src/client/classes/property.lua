@@ -262,7 +262,8 @@ function Property:startSale()
     if not confirmed then return end
 
     local success = lib.callback.await("bnl-housing:server:property:sell", false, CurrentProperty.id, price)
-    Debug.Log("Success: ", success)
+    lib.print.debug("Success: ", success)
+    -- todo notification
 end
 
 function Property:startRental()
@@ -288,5 +289,7 @@ function Property:startRental()
     if not confirmed then return end
 
     local success = lib.callback.await("bnl-housing:server:property:rentout", false, CurrentProperty.id, price)
-    Debug.Log("Success: ", success)
+    lib.print.debug("Success: ", success)
+
+    -- todo notification
 end

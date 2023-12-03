@@ -7,7 +7,7 @@ function LoadData(name)
     local func, err = load(datafile, ('@%s/%s'):format("bnl-housing", file))
 
     if not func or err then
-        return Debug.Error(err)
+        return lib.print.error("Failed to load data", err)
     end
 
     return func()

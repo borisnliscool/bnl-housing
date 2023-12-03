@@ -15,5 +15,5 @@ AddEventHandler('onResourceStop', function(resource)
         property:destroy()
     end
 
-    Debug.Log(Format("Destoyed properties: %s", table.concat(destroyedProperties, ", ")))
+    lib.print.verbose(("Destoyed properties: %s"):format(table.concat(destroyedProperties, ", ")))
 end)

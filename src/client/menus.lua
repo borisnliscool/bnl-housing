@@ -151,7 +151,7 @@ function Menus.property(property)
             -- todo implement
             label = "Stop renting property",
             permissions = { PERMISSION.RENTER },
-            onSelect = Debug.Error
+            onSelect = lib.print.error
         }
     }
 
