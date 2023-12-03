@@ -140,7 +140,7 @@
 			</label>
 			<input
 				class="px-4 py-2 rounded outline-none focus:ring"
-				type="number"
+				type="text"
 				id="buildingNumber"
 				placeholder="17"
 				bind:value={newProperty.buildingNumber}
