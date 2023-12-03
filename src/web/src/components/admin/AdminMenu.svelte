@@ -9,20 +9,42 @@
 	type PropertyType = "house" | "garage" | "warehouse" | "office";
 
 	const newProperty: {
-		location: string;
+		location: {
+			x: number;
+			y: number;
+			z: number;
+			w: number;
+		};
 		model: string;
 		propertyType: PropertyType;
 		zipcode: string;
 		streetName: string;
 		buildingNumber: string;
 	} = {
-		location: "",
+		location: {
+			x: 0,
+			y: 0,
+			z: 0,
+			w: 0,
+		},
 		model: "",
 		propertyType: "house",
 		zipcode: "",
 		streetName: "",
 		buildingNumber: "",
 	};
+
+	let location: string = "";
+	$: {
+		const [x, y, z, w] = location.split(/,| /g).filter((r) => r);
+
+		newProperty.location = {
+			x: Number(x ?? 0),
+			y: Number(y ?? 0),
+			z: Number(z ?? 0),
+			w: Number(w ?? 0),
+		};
+	}
 
 	let propertyTypeSelect: SelectOptionType | undefined;
 	$: newProperty.propertyType = propertyTypeSelect?.value as PropertyType;
@@ -44,8 +66,13 @@
 				type="text"
 				id="location"
 				placeholder="leave empty for current location"
-				bind:value={newProperty.location}
+				bind:value={location}
 			/>
+
+			<span class="text-xs text-neutral-500">
+				x: {newProperty.location?.x}, y: {newProperty.location?.y}, z: {newProperty
+					.location?.z}, w: {newProperty.location?.w},
+			</span>
 		</div>
 
 		<div class="flex flex-col gap-1">
@@ -60,7 +87,10 @@
 		</div>
 
 		<div class="flex flex-col gap-1">
-			<label for="" class="text-sm">Property type</label>
+			<label for="" class="text-sm">
+				Property type
+				<span class="text-red-500">*</span>
+			</label>
 			<Select
 				class="w-full"
 				items={[
@@ -76,7 +106,10 @@
 		</div>
 
 		<div class="flex flex-col gap-1">
-			<label for="zipcode" class="text-sm">Zipcode</label>
+			<label for="zipcode" class="text-sm">
+				Zipcode
+				<span class="text-red-500">*</span>
+			</label>
 			<input
 				class="px-4 py-2 rounded outline-none focus:ring"
 				type="text"
@@ -87,7 +120,10 @@
 		</div>
 
 		<div class="flex flex-col gap-1">
-			<label for="streetName" class="text-sm">Street Name</label>
+			<label for="streetName" class="text-sm">
+				Street Name
+				<span class="text-red-500">*</span>
+			</label>
 			<input
 				class="px-4 py-2 rounded outline-none focus:ring"
 				type="text"
@@ -98,7 +134,10 @@
 		</div>
 
 		<div class="flex flex-col gap-1">
-			<label for="buildingNumber" class="text-sm">Building Number</label>
+			<label for="buildingNumber" class="text-sm">
+				Building Number
+				<span class="text-red-500">*</span>
+			</label>
 			<input
 				class="px-4 py-2 rounded outline-none focus:ring"
 				type="number"
@@ -110,6 +149,7 @@
 
 		<button
 			class="py-2 bg-blue-600 text-white rounded-md mt-2 outline-none focus:ring"
+			on:click={() => fetchNui("createProperty", newProperty)}
 		>
 			Create
 		</button>

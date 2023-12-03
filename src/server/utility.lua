@@ -41,6 +41,12 @@ CheckPermission = {
     end,
 }
 
+---@param source number
+---@return boolean
+AdminPermission = function(source)
+    return IsPlayerAceAllowed(tostring(source), "admin")
+end
+
 ---@param vehicle Entity
 ---@param props table
 function SetVehicleProps(vehicle, props)

@@ -255,5 +255,11 @@ RegisterNUICallback("getLocaleItem", function(item, cb)
     cb(locale(item))
 end)
 
+RegisterNUICallback("createProperty", function(data, cb)
+    cb({})
+    lib.callback.await("bnl-housing:server:property:create", false, data)
+    HideUI()
+end)
+
 exports("startPropEditorWithModel", StartEditorWithModel)
 exports("exitPropEditor", ExitEditor)

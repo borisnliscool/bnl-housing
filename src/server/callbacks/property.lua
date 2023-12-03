@@ -139,3 +139,41 @@ RegisterMiddlewareCallback("bnl-housing:server:property:rentout", CheckPermissio
         return property and property:markForRent(price)
     end
 )
+
+RegisterMiddlewareCallback("bnl-housing:server:property:create", AdminPermission, function(source, propertyData)
+    Debug.Log(propertyData)
+
+    local noLocation = not propertyData.location or (
+        propertyData.location.x == 0 and
+        propertyData.location.y == 0 and
+        propertyData.location.z == 0
+    )
+
+    if noLocation then
+        local ped = GetPlayerPed(source)
+        local coords = GetEntityCoords(ped)
+        local heading = GetEntityHeading(ped)
+
+        propertyData.location = {
+            x = coords.x,
+            y = coords.y,
+            z = coords.z,
+            w = heading
+        }
+    end
+
+    if not propertyData.model or propertyData.model == "" then
+        propertyData.model = "shell_michael"
+    end
+
+    local property = Property.new(propertyData)
+    if not property then
+        return error("failed to create property")
+    end
+
+    lib.logger(source, "propertyCreated",
+        ("'%s' created a new property %s"):format(source, property.id)
+    )
+
+    return property:getData()
+end)
