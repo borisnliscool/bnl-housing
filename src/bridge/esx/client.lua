@@ -26,7 +26,7 @@ CreateThread(function()
     Wait(100)
 
     if ESX.IsPlayerLoaded() and onReadyCallback then
-        Debug.Log("Loading properties")
+        lib.print.info("Loading properties")
         onReadyCallback()
     end
 end)

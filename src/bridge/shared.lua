@@ -26,7 +26,7 @@ local function DetectFramework()
         return FRAMEWORKS.qb
     end
 
-    Debug.Error("Unable to auto detect framework.")
+    lib.print.error("Unable to auto detect framework.")
 end
 
 ---@type Framework?
