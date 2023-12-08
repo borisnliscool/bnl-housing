@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS property_key (
     property_id INT NOT NULL,
     player VARCHAR(128) NOT NULL,
     permission ENUM("owner", "member", "renter") NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES properties(id),
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
     INDEX idx_property_id (property_id),
     INDEX idx_player (player),
     CONSTRAINT uk_property_key UNIQUE (property_id, player)
@@ -29,14 +29,14 @@ CREATE TABLE IF NOT EXISTS property_prop (
     location JSON NOT NULL,
     rotation JSON NOT NULL,
     metadata JSON NOT NULL DEFAULT "{}",
-    FOREIGN KEY (property_id) REFERENCES properties(id),
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
     INDEX idx_property_id (property_id)
 );
 
 CREATE TABLE IF NOT EXISTS property_player (
     property_id INT NOT NULL,
     player VARCHAR(128) NOT NULL UNIQUE,
-    FOREIGN KEY (property_id) REFERENCES properties(id),
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
     INDEX idx_property_id (property_id),
     INDEX idx_player (player)
 );
@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS property_link (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     property_id INT NOT NULL,
     linked_property_id INT NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES properties(id),
-    FOREIGN KEY (linked_property_id) REFERENCES properties(id),
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
+    FOREIGN KEY (linked_property_id) REFERENCES properties(id) ON DELETE CASCADE,
     INDEX idx_property_id (property_id),
     INDEX idx_linked_property_id (linked_property_id)
 );
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS property_vehicle (
     property_id INT NOT NULL,
     slot INT NOT NULL,
     props JSON NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES properties(id),
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
     INDEX idx_property_id (property_id),
     CONSTRAINT uk_property_vehicle UNIQUE (property_id, slot)
 );
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS property_transaction (
     price INT NOT NULL,
     start_date TIMESTAMP,
     status ENUM("completed", "uncompleted") DEFAULT 'uncompleted' NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES properties(id),
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
     INDEX idx_property_id (property_id),
     INDEX idx_customer (customer)
 );
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS property_payments (
     amount INT NOT NULL,
     payment_type ENUM("sale", "rental") NOT NULL,
     payment_interval VARCHAR(16),
-    FOREIGN KEY (property_id) REFERENCES properties(id),
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
     INDEX idx_property_id (property_id),
     INDEX idx_payment_date (payment_date)
 );
