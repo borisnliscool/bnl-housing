@@ -169,6 +169,14 @@ RegisterMiddlewareCallback("bnl-housing:server:property:create", AdminPermission
         return error("failed to create property")
     end
 
+    if propertyData.saleData and propertyData.saleData.isForSale then
+        property:markForSale(propertyData.saleData.price)
+    end
+
+    if propertyData.rentData and propertyData.rentData.isForRent then
+        property:markForRent(propertyData.rentData.price)
+    end
+
     lib.logger(source, "propertyCreated",
         ("'%s' created a new property %s"):format(source, property.id)
     )

@@ -3,7 +3,7 @@
 	import { createEventDispatcher, onMount } from "svelte";
 
 	export let toggled = false;
-	export let icon = "";
+	export let icon = "fa6-solid:check";
 	export let tooltip = "";
 
 	const dispatch = createEventDispatcher();
@@ -19,12 +19,17 @@
 </script>
 
 <button
-	class="group relative w-full rounded-md aspect-square grid place-items-center hover:shadow-sm transition-all outline-none {toggled
-		? 'bg-blue-500 text-white'
+	class="text-white group relative w-full rounded-md aspect-square grid place-items-center hover:shadow-sm transition-all outline-none {toggled
+		? 'bg-blue-500'
 		: 'bg-gray-400/25'}"
 	on:click={toggle}
 >
-	<Icon {icon} class="text-2xl pointer-events-none" />
+	<div
+		class:opacity-100={toggled}
+		class="text-2xl pointer-events-none opacity-0 transition-all {$$props.class}"
+	>
+		<Icon {icon} />
+	</div>
 
 	{#if tooltip}
 		<div
