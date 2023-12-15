@@ -28,8 +28,8 @@ function StartRentCronJobs()
             end
 
             lib.logger(payment.player, "rentPayment",
-                ("'%s' paid %s property rent for property %s to '%s'"):format(payment.player, payment.amount, property
-                    .id, ownerKey?.player or "server"
+                ("'%s' paid %s property rent for property %s to '%s'"):format(
+                    payment.player, payment.amount, property.id, ownerKey?.player or "server"
                 )
             )
         end)

@@ -63,5 +63,7 @@
 	"menu.manage_keys.give": "Geef sleutels",
 	"menu.manage_keys.take": "Pak sleutels af",
 	"menu.manage_keys.no_players": "Geen spelers in de buurt",
-	"menu.manage_keys.no_keys": "Geen sleutels gevonden"
+	"menu.manage_keys.no_keys": "Geen sleutels gevonden",
+
+	"commands.housing.help": "Open het bnl-housing administratie menu"
 }

@@ -96,9 +96,3 @@ AddEventHandler("bnl-housing:on:leaveProperty", function(_, _)
 end)
 
 Bridge.onReady(SetupProperties)
-
-
--- todo move to commands or something
-RegisterCommand("housing", function(source, args, rawCommand)
-    ShowUI("adminMenu")
-end, false)

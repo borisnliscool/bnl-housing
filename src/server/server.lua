@@ -86,7 +86,10 @@ local function onPlayerUnload(player)
 end
 
 CreateThread(function()
-    Bridge.onReady(LoadProperties)
+    Bridge.onReady(function()
+        LoadProperties()
+        RegisterHousingCommands()
+    end)
     Bridge.onPlayerLoad(onPlayerLoad)
     Bridge.onPlayerUnload(onPlayerUnload)
 

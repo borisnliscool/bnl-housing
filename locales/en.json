@@ -69,5 +69,7 @@
 	"menu.manage_keys.give": "Give player keys",
 	"menu.manage_keys.take": "Take player keys",
 	"menu.manage_keys.no_players": "No players nearby",
-	"menu.manage_keys.no_keys": "No keys found"
+	"menu.manage_keys.no_keys": "No keys found",
+
+	"commands.housing.help": "Open the bnl-housing admin menu"
 }
