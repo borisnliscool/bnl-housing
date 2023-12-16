@@ -8,7 +8,10 @@ RegisterNetEvent("bnl-housing:on:leaveProperty")
 local function LoadProperties()
     local databaseProperties = DB.getAllProperties()
     for _, propertyData in pairs(databaseProperties) do
-        Properties[propertyData.id] = Property.load(propertyData)
+        local property = Property.load(propertyData)
+        if not property then return end
+
+        Properties[propertyData.id] = property
     end
 
     Wait(500)

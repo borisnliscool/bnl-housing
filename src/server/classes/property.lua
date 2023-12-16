@@ -2,13 +2,20 @@ Property = {}
 Property.__index = Property
 
 ---@param data table
----@return Property
+---@return Property | nil
 function Property.load(data)
     local instance = setmetatable({}, Property)
 
     instance.id = data.id
     instance.model = data.model
+
+    if not Data.Shells[instance.model] then
+        lib.print.error(("shell %s does not exist!"):format(instance.model))
+        return
+    end
+
     instance.shellData = Data.Shells[instance.model]
+
     if instance.shellData.vehicleSlots then
         instance.shellData.vehicleSlots = table.map(instance.shellData.vehicleSlots, function(slot, id)
             slot.id = id
@@ -68,6 +75,8 @@ function Property.new(data)
     end
 
     local property = Property.load(propertyData)
+    if not property then return end
+
     Properties[newProperty.insertId] = property
     property:triggerUpdate()
 
