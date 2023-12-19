@@ -1,9 +1,6 @@
 Property = {}
 Property.__index = Property
 
--- todo we might be able to send all the props at once on property entry,
--- this way we don't leak all the props if the player doesn't have access
-
 ---@param data table
 ---@return table
 function Property.new(data)

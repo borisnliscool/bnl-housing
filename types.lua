@@ -99,10 +99,11 @@
 ---@field location vector3
 ---@field rotation vector3
 ---@field metadata table
+---@field _metadata table
 ---@field spawn function
 ---@field destroy function
 ---@field getData function
----@field getSpecialPropAPI function
+---@field metadataAPI function
 
 ---@class PropData
 ---@field id string
@@ -171,6 +172,14 @@
 ---@class VehicleSlot
 ---@field id? integer
 ---@field location vector4
+
+---@class PropMetadataAPI
+---@field get fun(key: string)
+---@field set fun(key: string, value: any)
+---@field clear fun()
+---@field getPrivate fun(key: string)
+---@field setPrivate fun(key: string, value: any)
+---@field clearPrivate fun()
 
 ---@alias Entity number
 

@@ -9,13 +9,13 @@ RegisterMiddlewareCallback("bnl-housing:server:getProperties", function(source)
             return key.player == playerIdentifier
         end)
 
-        -- Remove props if no key, otherwise only public metadata
-        data.props = data.key and table.map(data.props, function(prop)
-            prop.metadata = prop.metadata?.public or {}
+        data.keys = nil
+        data.props = data.key and table.map(property.props, function(_prop)
+            local prop = _prop:getData()
+            prop.metadata = _prop._metadata?.public or {}
             return prop
         end) or {}
 
-        data.keys = nil
         return data
     end)
 end)

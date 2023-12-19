@@ -668,7 +668,7 @@ function Property:save()
     -- todo do this in one thingy
     if self.props and #self.props > 0 then
         for _, prop in pairs(self.props) do
-            DB.updatePropertyProp(prop.metadata, prop.id)
+            DB.updatePropertyProp(prop._metadata, prop.id)
         end
     end
 end
@@ -865,10 +865,11 @@ end
 ---@param source number | table | nil
 function Property:triggerUpdate(source)
     local data = self:getData()
-    data.keys = nil
 
-    data.props = table.map(data.props, function(prop)
-        prop.metadata = prop.metadata?.public or {}
+    data.keys = nil
+    data.props = table.map(self.props, function(_prop)
+        local prop = _prop:getData()
+        prop.metadata = _prop._metadata?.public or {}
         return prop
     end)
 

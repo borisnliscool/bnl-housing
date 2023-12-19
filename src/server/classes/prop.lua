@@ -14,7 +14,9 @@ function Prop.new(data, property)
     instance.location = vector3(location.x, location.y, location.z)
     local rotation = type(data.location) == "string" and json.decode(data.rotation) or data.rotation
     instance.rotation = vector3(rotation.x, rotation.y, rotation.z)
-    instance.metadata = type(data.metadata) == "string" and json.decode(data.metadata) or data.metadata or {}
+
+    instance._metadata = type(data.metadata) == "string" and json.decode(data.metadata) or data.metadata or {}
+    instance.metadata = instance:metadataAPI()
 
     return instance
 end
@@ -51,7 +53,7 @@ function Prop:spawn()
     if ServerSpecialProps[self.model] then
         CallSpecialPropHandlers(
             ServerSpecialProps[self.model].handlers?.server?.spawn,
-            self:getSpecialPropAPI()
+            self:getData()
         )
     end
 end
@@ -61,7 +63,7 @@ function Prop:destroy()
     if ServerSpecialProps[self.model] then
         CallSpecialPropHandlers(
             ServerSpecialProps[self.model].handlers?.server?.destroy,
-            self:getSpecialPropAPI()
+            self:getData()
         )
     end
 
@@ -79,10 +81,9 @@ function Prop:getData()
     }
 end
 
-function Prop:getSpecialPropAPI()
-    local data = self:getData()
-
-    data.metadata = {
+---@return PropMetadataAPI
+function Prop:metadataAPI()
+    return {
         ---@param key string
         get = function(key)
             return exports["bnl-housing"]:getPropMetadataItem(self.property.id, self.id, true, key)
@@ -113,6 +114,4 @@ function Prop:getSpecialPropAPI()
             return exports["bnl-housing"]:clearPropMetadata(self.property.id, self.id, false)
         end
     }
-
-    return data
 end

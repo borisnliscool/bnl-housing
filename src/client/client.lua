@@ -17,6 +17,7 @@ function SetupProperties()
 
     for _, data in pairs(lib.callback.await("bnl-housing:server:getProperties")) do
         local property = Property.new(data)
+
         if property then
             Properties[property.id] = property
         end

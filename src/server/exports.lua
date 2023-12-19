@@ -48,15 +48,15 @@ exports("getPropMetadataItem", function(propertyId, propId, public, key)
     end) --[[@as Prop?]]
     if not prop then error("prop not found") end
 
-    if not prop.metadata[public and "public" or "private"] then
-        prop.metadata[public and "public" or "private"] = {}
+    if not prop._metadata[public and "public" or "private"] then
+        prop._metadata[public and "public" or "private"] = {}
     end
 
     if not key or key == "" then
-        return prop.metadata[public and "public" or "private"]
+        return prop._metadata[public and "public" or "private"]
     end
 
-    return prop.metadata[public and "public" or "private"][key]
+    return prop._metadata[public and "public" or "private"][key]
 end)
 
 exports("setPropMetadataItem", function(propertyId, propId, public, key, value)
@@ -68,17 +68,21 @@ exports("setPropMetadataItem", function(propertyId, propId, public, key, value)
     end) --[[@as Prop?]]
     if not prop then error("prop not found") end
 
-    if not prop.metadata[public and "public" or "private"] then
-        prop.metadata[public and "public" or "private"] = {}
+    if not prop._metadata[public and "public" or "private"] then
+        prop._metadata[public and "public" or "private"] = {}
     end
 
-    prop.metadata[public and "public" or "private"][key] = value
-    DB.updatePropertyProp(prop.metadata, prop.id)
+    prop._metadata[public and "public" or "private"][key] = value
+    DB.updatePropertyProp(prop._metadata, prop.id)
 
     -- Update the metadata on all players in the property
-    property:triggerUpdate(table.map(property.players, function(player)
-        return player.source
-    end))
+    if public then
+        property:triggerUpdate(
+            table.map(property.players, function(player)
+                return player.source
+            end)
+        )
+    end
 end)
 
 exports("clearPropMetadata", function(propertyId, propId, public)
@@ -90,11 +94,15 @@ exports("clearPropMetadata", function(propertyId, propId, public)
     end) --[[@as Prop?]]
     if not prop then error("prop not found") end
 
-    prop.metadata[public and "public" or "private"] = {}
-    DB.updatePropertyProp(prop.metadata, prop.id)
+    prop._metadata[public and "public" or "private"] = {}
+    DB.updatePropertyProp(prop._metadata, prop.id)
 
     -- Update the metadata on all players in the property
-    property:triggerUpdate(table.map(property.players, function(player)
-        return player.source
-    end))
+    if public then
+        property:triggerUpdate(
+            table.map(property.players, function(player)
+                return player.source
+            end)
+        )
+    end
 end)

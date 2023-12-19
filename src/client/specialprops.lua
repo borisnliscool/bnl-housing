@@ -111,7 +111,10 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
                     then
                         CallSpecialPropHandlers(
                             data.handlers?.client?.interact,
-                            prop
+                            -- Find the prop because it could be updated by property:setData
+                            table.findOne(property.props, function(value)
+                                return value.id == prop.id
+                            end)
                         )
 
                         TriggerServerEvent("bnl-housing:server:specialprops:interact", property.id, prop.id)
