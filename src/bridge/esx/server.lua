@@ -67,10 +67,22 @@ function Bridge.GetAllPlayers()
 end
 
 ---Get a player's money
----@param source number
----@return number
-function Bridge.GetMoney(source)
-    return ESX.GetPlayerFromId(source).getAccount("bank").money
+---@param player number | string
+---@return number | nil
+function Bridge.GetMoney(player)
+    if type(player) == "number" then
+        return ESX.GetPlayerFromId(player)?.getAccount("bank").money
+    end
+
+    if type(player) == "string" then
+        local queryResult = MySQL.single.await("SELECT accounts FROM users WHERE identifier = ?", {
+            player
+        })
+        if not queryResult then return end
+
+        local accounts = json.decode(queryResult.accounts)
+        return accounts.bank
+    end
 end
 
 ---Remove money from a player
@@ -79,7 +91,9 @@ end
 function Bridge.RemoveMoney(player, amount)
     if type(player) == "number" then
         return ESX.GetPlayerFromId(player).removeAccountMoney("bank", amount)
-    elseif type(player) == "string" then
+    end
+
+    if type(player) == "string" then
         local query = [[
             UPDATE users
             SET accounts = JSON_SET(accounts, '$.bank', JSON_UNQUOTE(JSON_EXTRACT(accounts, '$.bank')) - ?)
@@ -95,7 +109,9 @@ end
 function Bridge.AddMoney(player, amount)
     if type(player) == "number" then
         return ESX.GetPlayerFromId(player).addAccountMoney("bank", amount)
-    elseif type(player) == "string" then
+    end
+
+    if type(player) == "string" then
         local query = [[
             UPDATE users
             SET accounts = JSON_SET(accounts, '$.bank', JSON_UNQUOTE(JSON_EXTRACT(accounts, '$.bank')) + ?)
