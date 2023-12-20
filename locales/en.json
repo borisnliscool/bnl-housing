@@ -20,6 +20,10 @@
 	"notification.rent.owner": "You cannot rent this property because you own it.",
 	"notification.rent.paid": "You paid $%s rent for %s %s.",
 	"notification.invite": "You were invited to ~y~%s~s~. \nPress ~%s~ to accept.",
+	"notification.sale.success": "Successfully placed this property for sale!",
+	"notification.sale.fail": "Failed to place this property for sale.",
+	"notification.rentout.success": "Successfully placed this property for rent!",
+	"notification.rentout.fail": "Failed to place this property for rent.",
 
 	"blip.property.house.owner": "Owned house",
 	"blip.property.house.member": "Friend's house",
