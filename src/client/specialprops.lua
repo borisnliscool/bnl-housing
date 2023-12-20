@@ -56,7 +56,7 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
             prop
         )
 
-        -- todo extract to function
+        -- todo extract to function, also return a method that can be used to remove all points etc
         if data.interact then
             local globalPropLocation = vector3(
                 property.location.x + prop.location.x,

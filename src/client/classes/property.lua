@@ -260,6 +260,7 @@ function Property:startSale()
 
     local success = lib.callback.await("bnl-housing:server:property:sell", false, CurrentProperty.id, price)
     lib.print.debug("Success: ", success)
+
     -- todo notification
 end
 

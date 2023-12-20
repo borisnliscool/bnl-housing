@@ -665,7 +665,7 @@ end
 ---Save the property
 function Property:save()
     -- Saving props
-    -- todo do this in one thingy
+    -- todo might be able to save all the props using one query
     if self.props and #self.props > 0 then
         for _, prop in pairs(self.props) do
             DB.updatePropertyProp(prop._metadata, prop.id)
@@ -793,7 +793,7 @@ end
 function Property:rent(source)
     -- todo
     --  remove any other renter payments
-    --  and maybe key owners?
+    --  and maybe member key owners?
 
     if not self:isForRent() then return end
 
