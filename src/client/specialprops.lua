@@ -36,7 +36,8 @@ exports("registerSpecialProp", handler)
 
 local specialPropPoints = {}
 
-RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
+---@param propertyId number
+local function registerPropertySpecialProps(propertyId)
     local property = Properties[propertyId]
     if not property then return end
 
@@ -56,7 +57,6 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
             prop
         )
 
-        -- todo extract to function, also return a method that can be used to remove all points etc
         if data.interact then
             local globalPropLocation = vector3(
                 property.location.x + prop.location.x,
@@ -168,9 +168,12 @@ RegisterNetEvent("bnl-housing:on:enterProperty", function(propertyId)
 
         ::continue::
     end
-end)
+end
 
-RegisterNetEvent("bnl-housing:on:leaveProperty", function(propertyId)
+RegisterNetEvent("bnl-housing:on:enterProperty", registerPropertySpecialProps)
+
+---@param propertyId number
+local function cleanupPropertySpecialProps(propertyId)
     local property = Properties[propertyId]
     if not property then return end
 
@@ -196,4 +199,6 @@ RegisterNetEvent("bnl-housing:on:leaveProperty", function(propertyId)
 
         ::continue::
     end
-end)
+end
+
+RegisterNetEvent("bnl-housing:on:leaveProperty", cleanupPropertySpecialProps)

@@ -58,9 +58,6 @@ end
 
 ---@param data NewPropertyData
 function Property.new(data)
-    -- todo sale or rental data handling
-    -- todo initial owner handling
-
     local newProperty = DB.createProperty(
         data.model, data.location, data.propertyType, data.zipcode, data.streetName, data.buildingNumber
     )
@@ -151,11 +148,6 @@ function Property:loadProps()
         return Prop.new(propData, self)
     end)
 end
-
--- todo
---  currently there's no way to update a prop,
---  so we just delete it and add a new one when
---  we want to update it.
 
 ---@param propData table
 function Property:addProp(propData)
@@ -665,7 +657,6 @@ end
 ---Save the property
 function Property:save()
     -- Saving props
-    -- todo might be able to save all the props using one query
     if self.props and #self.props > 0 then
         for _, prop in pairs(self.props) do
             DB.updatePropertyProp(prop._metadata, prop.id)
