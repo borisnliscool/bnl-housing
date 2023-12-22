@@ -193,7 +193,8 @@
 			{/if}
 		</div>
 
-		<div class="mt-2 flex flex-col gap-2">
+		<!-- Renting is disabled for intital release -->
+		<!-- <div class="mt-2 flex flex-col gap-2">
 			<div class="flex items-center gap-2">
 				<div class="w-6">
 					<IconCheckbox
@@ -220,7 +221,7 @@
 					/>
 				</div>
 			{/if}
-		</div>
+		</div> -->
 
 		<button
 			class="py-2 bg-blue-600 text-white rounded-md mt-2 outline-none focus:ring"

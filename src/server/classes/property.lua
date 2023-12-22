@@ -743,7 +743,8 @@ end
 
 ---@return boolean
 function Property:isForRent()
-    return self.rentData and self.rentData.status == COMPLETION_STATUS.UNCOMPLETED or false
+    return false -- Renting is disabled for initial release.
+    -- return self.rentData and self.rentData.status == COMPLETION_STATUS.UNCOMPLETED or false
 end
 
 ---@param source number
@@ -782,10 +783,6 @@ end
 
 ---@param source number
 function Property:rent(source)
-    -- todo
-    --  remove any other renter payments
-    --  and maybe member key owners?
-
     if not self:isForRent() then return end
 
     local price = self.rentData.price

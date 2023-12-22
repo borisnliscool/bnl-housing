@@ -12,7 +12,6 @@ A player property resource that allows users to purchase, sell, decorate, store 
 
 - Purchasing properties
 - Selling properties
-- Renting out properties
 - Decoration properties
 - Sharing property keys
 - Inviting players
