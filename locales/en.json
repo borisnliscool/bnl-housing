@@ -84,7 +84,7 @@
 	"specialprops.safe.four_digit": "Four digit code",
 	"specialprops.safe.change_code": "Change safe code",
 	"specialprops.safe.old_code": "Old safe code",
-	"specialprops.safe.new_code": "New safe code",
+	"specialprops.safe.new_code": "New four digit safe code",
 	"specialprops.safe.invalid_code": "Invalid safe code",
-	"specialprops.safe.updated_code": "Updated the safe code"
+	"specialprops.safe.updated_code": "Updated the safe code to %s"
 }

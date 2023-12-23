@@ -59,7 +59,7 @@ local interact = function(prop)
         local code = input[1]
         if not code then return end
 
-        TriggerServerEvent("bnl-housing:specialprops:safe:open", code, prop.propertyId, prop.id)
+        TriggerServerEvent("bnl-housing:specialprops:safe:open", tostring(code), prop.propertyId, prop.id)
     end
 
     local changeCode = function()
@@ -89,7 +89,8 @@ local interact = function(prop)
         local oldCode, newCode = input[1], input[2]
         if not oldCode or not newCode then return end
 
-        TriggerServerEvent("bnl-housing:specialprops:safe:changeCode", oldCode, newCode, prop.propertyId, prop.id)
+        TriggerServerEvent("bnl-housing:specialprops:safe:changeCode", tostring(oldCode), tostring(newCode),
+            prop.propertyId, prop.id)
     end
 
     lib.registerMenu({

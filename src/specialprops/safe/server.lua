@@ -29,7 +29,7 @@ RegisterNetEvent("bnl-housing:specialprops:safe:open", function(enteredCode, pro
     local currentCode = prop.metadata.getPrivate("code")
 
     if not currentCode then
-        prop.metadata.setPrivate("code", enteredCode)
+        prop.metadata.setPrivate("code", enteredCode:sub(1, 4))
         currentCode = enteredCode
     end
 
@@ -49,14 +49,16 @@ RegisterNetEvent("bnl-housing:specialprops:safe:open", function(enteredCode, pro
     exports.ox_inventory:forceOpenInventory(source, 'stash', stashId)
 end)
 
-RegisterNetEvent("bnl-housing:specialprops:safe:changeCode", function(oldCode, newCode, propertyId, propId)
+RegisterNetEvent("bnl-housing:specialprops:safe:changeCode", function(oldCode, _newCode, propertyId, propId)
     local prop = exports["bnl-housing"]:getPropertyProp(propertyId, propId)
     if not prop then return end
 
+    local newCode = _newCode:sub(1, 4)
     local currentCode = prop.metadata.getPrivate("code")
 
     if not currentCode then
         prop.metadata.setPrivate("code", newCode)
+        ClientFunctions.Notification(source, locale("specialprops.safe.updated_code", newCode), "success")
         return
     end
 
@@ -65,6 +67,6 @@ RegisterNetEvent("bnl-housing:specialprops:safe:changeCode", function(oldCode, n
         return
     end
 
-    ClientFunctions.Notification(source, locale("specialprops.safe.updated_code"), "success")
+    ClientFunctions.Notification(source, locale("specialprops.safe.updated_code", newCode), "success")
     prop.metadata.setPrivate("code", newCode)
 end)

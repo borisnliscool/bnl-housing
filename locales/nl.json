@@ -78,7 +78,7 @@
 	"specialprops.safe.four_digit": "Vier cijferige code",
 	"specialprops.safe.change_code": "Verander kluis code",
 	"specialprops.safe.old_code": "Oude kluis code",
-	"specialprops.safe.new_code": "Nieuwe kluis code",
+	"specialprops.safe.new_code": "Nieuwe vier cijferige kluis code",
 	"specialprops.safe.invalid_code": "Verkeerde kluis code",
-	"specialprops.safe.updated_code": "Kluis code veranderd"
+	"specialprops.safe.updated_code": "Kluis code veranderd naar %s"
 }
