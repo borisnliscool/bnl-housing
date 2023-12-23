@@ -6,6 +6,10 @@
 
 <br>
 
+> **Warning** <br>
+> The project is not finished, and should not be used in production.<br>
+> No support will be given until release.
+
 A player property resource that allows users to purchase, sell, decorate, store vehicles and more. With bridges for every majour framework it should work out of the box on pretty much any server.
 
 ### Features
