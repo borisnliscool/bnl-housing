@@ -1,126 +1,55 @@
-<div id="top"></div>
+<img src="https://i.imgur.com/efWK1Rc.png" align="center">
 
-<br />
-<div align="center">
+<h3 align=center>
+    <a href="https://docs.boris.foo/bnl-housing/">Read the documentation for installation, configuration and API usage</a>
+</h3>
 
-  <h1 align="center"><img src="https://i.imgur.com/efWK1Rc.png"></h1>
-
-  <p align="center">
-    A player property resource for FiveM.
-    <br />
-    <a href="https://github.com/borisnliscool/bnl-housing/issues">Report a Bug</a>
-    ·
-    <a href="https://github.com/borisnliscool/bnl-housing/issues">Request a Feature</a>
-    ·
-    <a href="https://borisnl.nl/discord">Join my Discord</a>
-  </p>
-</div>
+<br>
 
 > **Warning** <br>
 > The project is not finished, and should not be used in production.<br>
 > No support will be given until release.
 
+A player property resource that allows users to purchase, sell, decorate, store vehicles and more. With bridges for every majour framework it should work out of the box on pretty much any server.
 
-## About The Project
+### Features
 
-A player property resource that allows you to purchase, sell, decorate, store your vehicles, and more. This script is currently standalone and does not require a framework. However in the future I'm planning on adding support for the major frameworks.
+- Purchasing properties
+- Selling properties
+- Decoration properties
+- Sharing property keys
+- Inviting players
+- Logging out in properties
+- Parking vehicles in properties
+- Linking properties
+- Special prop API
+- ..and more!
 
-If you're looking for the docs or commands you can find them [here](https://github.com/borisnliscool/bnl-housing/blob/main/DOCS.md) (for now)
+### Contributors
 
-<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
+Thanks to all the awesome people who make bnl-housing great!
 
-## Dependencies
+[![Contributors](https://contrib.rocks/image?repo=borisnliscool/bnl-housing)](https://github.com/borisnliscool/bnl-housing/graphs/contributors)
 
-1. [ox_lib](https://github.com/overextended/ox_lib)
-2. [oxmysql](https://github.com/overextended/oxmysql)
-3. baseevents
+<table>
+<tr><td><h3>License</h3></tr></td>
+<tr><td>
 
-## Installation
+Copyright © 2023 borisnliscool (https://github.com/borisnliscool)
 
-- Be sure to download the [latest release](https://github.com/borisnliscool/bnl-housing/releases) of the resource, it's always good to stay up to date.
-- Place it somewhere inside the `resources` directory
-- Add the resource to your `server.cfg` after dependencies to make sure it's started correctly at server startup:
-```
-ensure bnl-housing
-```
-- Lastly, insert `bnl_housing.sql` into your database.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-If you incounter any issues downloading, you can ask for help in [my discord](https://borisnl.nl/discord).
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+You should have received a copy of the GNU General Public License
+along with this program.
+If not, see <https://www.gnu.org/licenses/>
 
-<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
-
-- FAQ:
-1. Where can I get the property shells?
-https://mega.nz/file/G01QxIJL#ctLH4cz46Kqyo8V2dTCCSMYS6ii1GB85qXX1LYt34Wg
-
-2. How can I give myself admin perms?
-To give yourself "bnl-housing:admin" permission, you need to add it to your Ace permissions in the server.cfg file. Open the file and add the following line: add_principal identifier.steam:[your steam id] "bnl-housing:admin" allow, replacing [your steam id] with your actual Steam ID. 
-
-Alternatively, if you have an admin group you can add the ace to that: add_ace group.admin "bnl-housing:admin" allow
-
-## Roadmap
-
-- [x] Ownable properties
-- [x] Share keys
-  - [x] Give spare keys to players
-  - [x] Take spare keys from players 
-- [x] Invite players inside
-- [x] Knock on doors of properties
-- [x] Locale support
-  - [x] Dutch (NL)
-  - [x] English (EN)
-  - [x] French (FR)
-  - [x] German (DE)
-- [x] Logging out in properties
-- [ ] Decorate properties
-  - [x] Normal props
-    - [ ] Tooltips for controls
-  - [x] Special props that do things when near like a storage container or laptop
-    - [x] Safe with codelock
-    - [x] Example prop
-  - [x] Add qtarget support for special props
-- [ ] Park vehicles in garages or warehouses
-  - [x] Enter properties with vehicles
-  - [x] Save them
-  - [x] Idea: Max vehicle count per shell
-  - [x] Passengers enter property
-  - [ ] Check for space before enter
-- [ ] Break in / lockpick
-- [ ] Unlock property so anyone is free to enter
-- [ ] Code lock option for front door
-- [ ] Police raid
-- [ ] Property selling
-  - [ ] Rent out property
-- [ ] Realtor job
-- [ ] Property blips
-  - [x] Working
-  - [x] Improve performance
-    - [ ] Make it even better
-  - [x] Correct Sprite for different property types
- - [ ] Property Addresses https://github.com/borisnliscool/bnl-housing/issues/6
- - [ ] Routing buckets
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<img src="https://user-images.githubusercontent.com/60477582/171034076-a15f0d8e-8216-487e-a51a-e01322c316c7.png">
-
-## License
-
-Distributed under the GPL-3.0 License. See [LICENSE](https://github.com/borisnliscool/bnl-housing/blob/main/LICENSE) for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-## Contact
-
-[@borisnl](https://boris.foo/discord) - [boris@borisnl.nl](mailto:boris@borisnl.nl)
-
-Project Link: [https://github.com/borisnliscool/bnl-housing](https://github.com/borisnliscool/bnl-housing)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## Acknowledgments
-
-Thanks to all contributors and testers especially [@CasperV06](https://github.com/CasperV06) & [@pimiscool](https://github.com/pimiscool) for helping me test.
+</td></tr>
+</table>

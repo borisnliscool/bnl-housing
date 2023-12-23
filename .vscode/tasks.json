@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "src/web",
+			"problemMatcher": [],
+			"label": "npm: dev - src/web",
+			"detail": "vite"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "src/web",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - src/web",
+			"detail": "vite build"
+		}
+	]
+}
