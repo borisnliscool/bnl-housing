@@ -183,4 +183,4 @@
 
 ---@alias Entity number
 
----@alias SpecialPropEventHandler string | function | table<string | function>
+---@alias SpecialPropEventHandler string | table<string>

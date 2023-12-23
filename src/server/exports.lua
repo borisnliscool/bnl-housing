@@ -2,6 +2,13 @@ exports("getProperty", function(id)
     return GetPropertyById(id):getData()
 end)
 
+exports("getPropertyProp", function(propertyId, propId)
+    local property = GetPropertyById(propertyId):getData()
+    return table.findOne(property.props, function(prop)
+        return prop.id == propId
+    end)
+end)
+
 exports("createProperty", Property.new)
 
 exports("getPropertyPlayerIsIn", function(playerId)

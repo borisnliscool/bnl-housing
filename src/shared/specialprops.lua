@@ -54,10 +54,6 @@ CallSpecialPropHandlers = function(handlers, ...)
     local args = ...
 
     CreateThread(function()
-        if type(handlers) == "function" then
-            return handlers(args)
-        end
-
         if type(handlers) == "string" then
             return callHandler(
                 parseHandlerString(handlers),
@@ -68,10 +64,7 @@ CallSpecialPropHandlers = function(handlers, ...)
         if type(handlers) == "table" then
             for _, handler in pairs(handlers) do
                 CreateThread(function()
-                    return callHandler(
-                        parseHandlerString(handler),
-                        args
-                    )
+                    CallSpecialPropHandlers(handler, args)
                 end)
             end
         end

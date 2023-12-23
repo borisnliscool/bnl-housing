@@ -39,7 +39,7 @@ RegisterNetEvent("bnl-housing:server:specialprops:interact", function(propertyId
     end
 
     CallSpecialPropHandlers(
-        ServerSpecialProps[prop.model].handlers?.server?.interact,
+        ServerSpecialProps[prop.model]?.handlers?.server?.interact,
         prop:getData()
     )
 end)
