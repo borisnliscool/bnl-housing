@@ -67,7 +67,7 @@ jobs:
           mkdir -p ./temp/bnl-housing/src/web
           cp ./{bnl-housing.sql,config.lua,fxmanifest.lua,types.lua,LICENSE,README.md} ./temp/bnl-housing
           cp -r ./{data,locales} ./temp/bnl-housing
-          cp -r ./src/{bridge,shared,server,client} ./temp/bnl-housing/src
+          cp -r ./src/{bridge,shared,server,client,specialprops} ./temp/bnl-housing/src
           cp -r ./src/web/build ./temp/bnl-housing/src/web/build
           cd ./temp && zip -r ../bnl-housing.zip ./bnl-housing
 

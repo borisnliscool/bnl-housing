@@ -69,5 +69,16 @@
 	"menu.manage_keys.no_players": "Geen spelers in de buurt",
 	"menu.manage_keys.no_keys": "Geen sleutels gevonden",
 
-	"commands.housing.help": "Open het bnl-housing administratie menu"
+	"commands.housing.help": "Open het bnl-housing administratie menu",
+
+	"specialprops.safe": "Kluis",
+	"specialprops.safe.open": "Open kluis",
+	"specialprops.safe.open_help": "~%s~ Open kluis",
+	"specialprops.safe.enter_code": "Voer kluis code in",
+	"specialprops.safe.four_digit": "Vier cijferige code",
+	"specialprops.safe.change_code": "Verander kluis code",
+	"specialprops.safe.old_code": "Oude kluis code",
+	"specialprops.safe.new_code": "Nieuwe kluis code",
+	"specialprops.safe.invalid_code": "Verkeerde kluis code",
+	"specialprops.safe.updated_code": "Kluis code veranderd"
 }

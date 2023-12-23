@@ -27,6 +27,7 @@ files {
 
 client_scripts {
     'src/client/**/*.lua',
+    'src/specialprops/**/client.lua',
 }
 
 server_scripts {
@@ -34,6 +35,7 @@ server_scripts {
     'src/server/classes/*.lua',
     'src/server/*.lua',
     'src/server/callbacks/*.lua',
+    'src/specialprops/**/server.lua',
 }
 
 shared_scripts {
@@ -41,4 +43,5 @@ shared_scripts {
     'config.lua',
     'src/bridge/shared.lua',
     'src/shared/*.lua',
+    'src/specialprops/**/shared.lua',
 }

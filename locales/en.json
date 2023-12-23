@@ -75,5 +75,16 @@
 	"menu.manage_keys.no_players": "No players nearby",
 	"menu.manage_keys.no_keys": "No keys found",
 
-	"commands.housing.help": "Open the bnl-housing admin menu"
+	"commands.housing.help": "Open the bnl-housing admin menu",
+
+	"specialprops.safe": "Safe",
+	"specialprops.safe.open": "Open safe",
+	"specialprops.safe.open_help": "~%s~ Open safe",
+	"specialprops.safe.enter_code": "Enter safe code",
+	"specialprops.safe.four_digit": "Four digit code",
+	"specialprops.safe.change_code": "Change safe code",
+	"specialprops.safe.old_code": "Old safe code",
+	"specialprops.safe.new_code": "New safe code",
+	"specialprops.safe.invalid_code": "Invalid safe code",
+	"specialprops.safe.updated_code": "Updated the safe code"
 }
