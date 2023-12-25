@@ -143,6 +143,8 @@ function Menus.property(property)
                 property:startSale()
             end
         },
+        -- Renting is disabled for intital release.
+        --[[
         {
             label = locale("menu.property.rent_out"),
             permissions = { PERMISSION.OWNER },
@@ -150,8 +152,6 @@ function Menus.property(property)
                 property:startRental()
             end
         },
-        -- Renting is disabled for intital release.
-        --[[
         {
             label = "Stop renting property",
             permissions = { PERMISSION.RENTER },
