@@ -1,7 +1,5 @@
 {
 	"name": "web",
-	"private": true,
-	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -30,6 +28,6 @@
 		"@iconify/svelte": "^3.1.4",
 		"@threlte/core": "^5.0.9",
 		"@threlte/extras": "^4.9.3",
-		"three": "^0.154.0"
+		"three": "^0.160.0"
 	}
 }
