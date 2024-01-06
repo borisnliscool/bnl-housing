@@ -61,9 +61,9 @@
         return await fetchNui("getProps", category) || [];
     }
 
-    async function selectProp(model) {
-        selectedProp = props.find((p) => p.id == model) || null;
-    }
+	async function selectProp(model: string) {
+		selectedProp = Object.values(await props).find((p) => p.id == model)!;
+	}
 
     useKeyPress("Escape", () => isVisible && fetchNui("close"));
 
