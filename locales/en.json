@@ -86,5 +86,26 @@
 	"specialprops.safe.old_code": "Old safe code",
 	"specialprops.safe.new_code": "New four digit safe code",
 	"specialprops.safe.invalid_code": "Invalid safe code",
-	"specialprops.safe.updated_code": "Updated the safe code to %s"
+	"specialprops.safe.updated_code": "Updated the safe code to %s",
+
+	"categories.bar": "Bar",
+	"categories.bathroom": "Bathroom",
+	"categories.bins": "Bins",
+	"categories.construction": "Construction",
+	"categories.electrical": "Electrical",
+	"categories.equipment": "Equipment",
+	"categories.garage": "Garage",	
+	"categories.industrial": "Industrial",
+	"categories.interior": "Interior",
+	"categories.kitchen": "Kitchen",
+	"categories.minigame": "Minigame",
+	"categories.office": "Office",
+	"categories.outdoor": "Outdoor",
+	"categories.potted": "Potted",
+	"categories.recreational": "Recreational",
+	"categories.rubbish": "Rubbish",
+	"categories.seating": "Seating",
+	"categories.storage": "Storage",
+	"categories.utility": "Utility",
+	"categories.walls": "Walls"
 }

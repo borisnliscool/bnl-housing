@@ -80,5 +80,26 @@
 	"specialprops.safe.old_code": "Oude kluis code",
 	"specialprops.safe.new_code": "Nieuwe vier cijferige kluis code",
 	"specialprops.safe.invalid_code": "Verkeerde kluis code",
-	"specialprops.safe.updated_code": "Kluis code veranderd naar %s"
+	"specialprops.safe.updated_code": "Kluis code veranderd naar %s",
+
+	"categories.bar": "Bar",
+	"categories.bathroom": "Badkamer",
+	"categories.bins": "Bakken",
+	"categories.construction": "Bouw",
+	"categories.electrical": "Elektrisch",
+	"categories.equipment": "Apparatuur",
+	"categories.garage": "Garage",	
+	"categories.industrial": "Industrieel",
+	"categories.interior": "Interieur",
+	"categories.kitchen": "Keuken",
+	"categories.minigame": "Minigame",
+	"categories.office": "Kantoor",
+	"categories.outdoor": "Buitenshuis",
+	"categories.potted": "Ingemaakt",
+	"categories.recreational": "Recreatief",
+	"categories.rubbish": "Afval",
+	"categories.seating": "Zitplaatsen",
+	"categories.storage": "Opslag",
+	"categories.utility": "Nutsvoorziening",
+	"categories.walls": "Muren"
 }
