@@ -6,7 +6,8 @@
 		"dev:game": "vite build --watch",
 		"build": "vite build",
 		"preview": "vite preview",
-		"check": "svelte-check --tsconfig ./tsconfig.json"
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"format": "pnpm exec prettier . --write"
 	},
 	"devDependencies": {
 		"@sveltejs/vite-plugin-svelte": "^2.4.2",
@@ -15,6 +16,7 @@
 		"autoprefixer": "^10.4.14",
 		"postcss": "^8.4.24",
 		"postcss-load-config": "^4.0.1",
+		"prettier": "3.1.1",
 		"svelte": "^3.59.1",
 		"svelte-check": "^2.10.3",
 		"svelte-preprocess": "^4.10.7",
