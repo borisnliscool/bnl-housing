@@ -1,7 +1,5 @@
 const buildEventHandler = (name: string) => (event: MouseEvent) => {
-	const audio = new Audio(
-		(event!.target as HTMLElement).dataset.sound ?? `sounds/${name}.ogg`
-	);
+	const audio = new Audio((event!.target as HTMLElement).dataset.sound ?? `sounds/${name}.ogg`);
 	audio.play();
 };
 
