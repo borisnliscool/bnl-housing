@@ -20,6 +20,7 @@ We have different templates for creating bug reports and feature requests. When 
 - Follow the coding style and guidelines used in the project.
 - Ensure your changes do not conflict with the latest main branch.
 - Write clear commit messages describing the purpose of your changes.
+- Follow the [Conventional Commits](https://www.conventionalcommits.org/) committing style.
 - Submit a pull request with a descriptive title and details about your modifications.
 
 I appreciate your contributions to improving the project! If you have any questions or need further assistance, feel free to reach out to us on Discord or through the issue tracker.
