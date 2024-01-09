@@ -1,5 +1,4 @@
 ---@class Interact
----@field interactMode "keypress" | "target"
 ---@field keybind Keybind?
 ---@field target OxTargetOption?
 ---@field range number
@@ -65,7 +64,7 @@ local function registerPropertySpecialProps(propertyId)
             )
 
             if
-                data.interact.interactMode == "keypress" or
+                data.interact.keybind or
                 data.interact.marker or
                 data.interact.outline or
                 data.interact.helpText
@@ -149,7 +148,7 @@ local function registerPropertySpecialProps(propertyId)
                 table.insert(specialPropPoints, point)
             end
 
-            if data.interact.interactMode == "target" and data.interact.target then
+            if data.interact.target then
                 for _, option in pairs(data.interact.target) do
                     option.distance = data.interact.range
 
@@ -193,7 +192,7 @@ local function cleanupPropertySpecialProps(propertyId)
             specialPropPoints[_] = nil
         end
 
-        if data.interact?.interactMode == "target" then
+        if data.interact?.target then
             exports.ox_target:removeEntity(NetworkGetNetworkIdFromEntity(prop.entity))
         end
 

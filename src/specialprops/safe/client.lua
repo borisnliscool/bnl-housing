@@ -5,7 +5,6 @@ local register = function()
         model = "p_v_43_safe_s",
 
         interact = {
-            interactMode = "keypress",
             range = 2.0,
             helpText = locale("specialprops.safe.open_help", "INPUT_PICKUP"),
 
