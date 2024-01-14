@@ -12,12 +12,19 @@ RegisterNUICallback("close", function(data, cb)
     HideUI()
 end)
 
+-- Hide the prop editor ui on leaving the property
+AddEventHandler("bnl-housing:on:leaveProperty", function()
+    HideUI()
+end)
+
 RegisterNUICallback("navigate", function(page, cb)
     cb({})
     ShowUI(page)
 end)
 
 RegisterNUICallback("update", function(data, cb)
+    cb({})
+
     local propCoords = vec(data.prop.position.z, data.prop.position.x, data.prop.position.y) + coords
 
     ---@diagnostic disable-next-line: missing-parameter
@@ -30,8 +37,6 @@ RegisterNUICallback("update", function(data, cb)
         SetCamCoord(camera, camCoords.x, camCoords.y, camCoords.z)
         PointCamAtCoord(camera, propCoords.x, propCoords.y, propCoords.z)
     end
-
-    cb({})
 end)
 
 local function setTransparency()
