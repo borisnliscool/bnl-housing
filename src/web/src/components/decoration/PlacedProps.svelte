@@ -1,19 +1,17 @@
 <script lang="ts">
 	import PlacedPropInfo from "./PlacedPropInfo.svelte";
 
-	import { isEnvBrowser } from "../../utils/misc";
-	import { fetchNui } from "../../utils/fetchNui";
 	import { onMount } from "svelte";
-	import Spinner from "../elements/Spinner.svelte";
-	import { useNuiEvent } from "../../utils/useNuiEvent";
+	import { fetchNui } from "../../utils/fetchNui";
 	import type { PlacedProp } from "../../utils/interfaces";
+	import { isEnvBrowser } from "../../utils/misc";
+	import { useNuiEvent } from "../../utils/useNuiEvent";
+	import Spinner from "../elements/Spinner.svelte";
 
 	let propPromise: Promise<PlacedProp[]>;
 	let propCount = 0;
 
-	$: (async () => {
-		propCount = (await propPromise).length;
-	})();
+	$: (async () => (propCount = (await propPromise)?.length ?? 0))();
 
 	useNuiEvent("setPlacedProps", (props: PlacedProp[]) => {
 		propPromise = new Promise((r) => r(props));
@@ -51,10 +49,7 @@
 <div class="placed-menu">
 	<h1 class="font-bold">Placed props</h1>
 
-	<div
-		class="flex flex-col gap-2 max-h-96 overflow-y-auto"
-		class:pr-2={propCount >= 8}
-	>
+	<div class="flex flex-col gap-2 max-h-96 overflow-y-auto" class:pr-2={propCount >= 8}>
 		{#await propPromise}
 			<div class="h-full grid place-items-center rounded-lg">
 				<div class="flex items-center gap-5">

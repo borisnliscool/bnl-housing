@@ -724,16 +724,6 @@ return {
         id = "prop_wheelchair_01_s",
         price = 150
     },
-    p_v_43_safe_s = {
-        name = "Safe 43",
-        offset = {
-            y = 0.0,
-            z = 0.7500001,
-            x = 0.0
-        },
-        id = "p_v_43_safe_s",
-        price = 200
-    },
     hei_prop_bank_cctv_02 = {
         name = "Bank CCTV 02",
         offset = {

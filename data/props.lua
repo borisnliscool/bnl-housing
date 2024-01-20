@@ -19,6 +19,7 @@ Data.Props = {
     recreational = LoadData("props/recreational") --[[@as PropData[] ]],
     rubbish = LoadData("props/rubbish") --[[@as PropData[] ]],
     seating = LoadData("props/seating") --[[@as PropData[] ]],
+    special = LoadData("props/special") --[[@as PropData[] ]],
     storage = LoadData("props/storage") --[[@as PropData[] ]],
     utility = LoadData("props/utility") --[[@as PropData[] ]],
     walls = LoadData("props/walls") --[[@as PropData[] ]],

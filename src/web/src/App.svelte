@@ -16,7 +16,7 @@
 	debugData([
 		{
 			action: "setPage",
-			data: "adminMenu",
+			data: "propPicker",
 		},
 	]);
 
@@ -30,9 +30,7 @@
 </script>
 
 {#if isEnvBrowser()}
-	<div
-		class="fixed top-0 left-0 h-full w-full bg-[url(https://zip.boris.foo/u/CvSCLP.jpg)] bg-center bg-cover"
-	/>
+	<div class="fixed top-0 left-0 h-full w-full bg-[url(https://zip.boris.foo/u/CvSCLP.jpg)] bg-center bg-cover" />
 {/if}
 
 <VisibilityProvider>

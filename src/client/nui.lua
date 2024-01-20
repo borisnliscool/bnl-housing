@@ -248,6 +248,21 @@ RegisterNUICallback("savePlacement", function(_, cb)
     ShowUI("propPicker")
 end)
 
+RegisterNUICallback("getCategories", function(_, cb)
+    local categories = table.map(Data.Props, function(_, category)
+        return {
+            name = locale("categories." .. category),
+            value = category
+        }
+    end, true)
+
+    table.sort(categories, function(a, b)
+        return a.name < b.name
+    end)
+
+    cb(categories)
+end)
+
 RegisterNUICallback("getProps", function(category, cb)
     local data = table.map(Data.Props[category], function(prop)
         prop.category = category
