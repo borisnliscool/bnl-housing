@@ -6,7 +6,7 @@
 
 <br>
 
-> **Warning** <br>
+> [!Warning]
 > The project is not finished, and should not be used in production.<br>
 > No support will be given until release.
 
