@@ -153,6 +153,13 @@ end
 function Property:addProp(propData)
     local modelData = GetPropFromModel(propData.model)
 
+    local distance = #(self.location - propData.location)
+    -- Hack to check if the prop is placed outside of the property.
+    -- In the future we want to do an actual bounds check with the shell.
+    if distance > 50.0 then
+        return false
+    end
+
     propData.location = propData.location - self.location -
         (modelData and modelData.offset and vec3(modelData.offset.x, modelData.offset.y, modelData.offset.z) or vec3(0, 0, 0))
 
