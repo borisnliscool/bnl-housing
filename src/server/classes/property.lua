@@ -324,7 +324,12 @@ end
 ---@return Entity
 function Property:spawnVehicle(data)
     local coords = self.location + vec3(data.slot.location.x, data.slot.location.y, data.slot.location.z)
-    local vehicle = CreateVehicle(data.props.model, coords.x, coords.y, coords.z, data.slot.location.w, true, false)
+    local vehicle = CreateVehicleServerSetter(
+        data.props.model,
+        "automobile",
+        coords.x, coords.y, coords.z,
+        data.slot.location.w
+    )
 
     while not DoesEntityExist(vehicle) do
         Wait(10)
@@ -332,15 +337,20 @@ function Property:spawnVehicle(data)
 
     SetEntityRoutingBucket(vehicle, self.bucketId)
 
-    Wait(100)
+    CreateThread(function()
+        Wait(500)
 
-    Entity(vehicle).state["propertyVehicle"] = {
-        property = self.id,
-        slot = data.slot
-    }
-    Entity(vehicle).state["undriveable"] = true
+        SetVehicleProps(vehicle, data.props)
 
-    SetVehicleProps(vehicle, data.props)
+        Entity(vehicle).state["propertyVehicle"] = {
+            property = self.id,
+            slot = data.slot
+        }
+        Entity(vehicle).state["undriveable"] = true
+
+        Wait(500)
+        FreezeEntityPosition(vehicle, true)
+    end)
 
     Wait(100)
 
@@ -363,8 +373,12 @@ end
 ---@param props table
 ---@return Entity
 function Property:spawnOutsideVehicle(props)
-    local vehicle = CreateVehicle(props.model, self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z,
-        self.entranceLocation.w, true, false)
+    local vehicle = CreateVehicleServerSetter(
+        props.model,
+        "automobile",
+        self.entranceLocation.x, self.entranceLocation.y, self.entranceLocation.z,
+        self.entranceLocation.w
+    )
 
     while not DoesEntityExist(vehicle) do
         Wait(10)
@@ -554,7 +568,7 @@ function Property:exit(source, settings)
     player:triggerFunction("FadeOut", 500)
     player:freeze(true)
 
-    Wait(500)
+    Wait(600)
 
     -- Handling vehicle stuff
     local vehicle = player:vehicle()

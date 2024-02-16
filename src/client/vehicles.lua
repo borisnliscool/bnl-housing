@@ -16,7 +16,12 @@ lib.onCache('vehicle', function(vehicle)
 
     local propertyVehicle = Entity(vehicle).state["propertyVehicle"]
     if not propertyVehicle then return end
+
     isInPropertyVehicle = true
+
+    if IsControlPressed(Config.Keybinds.exitGarage.padIndex, Config.Keybinds.exitGarage.control) then
+        return lib.callback.await("bnl-housing:server:property:exit", false, propertyVehicle.property)
+    end
 
     while isInPropertyVehicle do
         Wait(0)
@@ -25,7 +30,7 @@ lib.onCache('vehicle', function(vehicle)
             ShowHelpNotification(locale("notification.property.exitWithVehicle", Config.Keybinds.exitGarage.name))
 
             if IsControlJustPressed(Config.Keybinds.exitGarage.padIndex, Config.Keybinds.exitGarage.control) then
-                lib.callback.await("bnl-housing:server:property:exit", false, propertyVehicle.property)
+                return lib.callback.await("bnl-housing:server:property:exit", false, propertyVehicle.property)
             end
         end
     end
