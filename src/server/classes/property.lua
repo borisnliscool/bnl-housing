@@ -468,7 +468,7 @@ function Property:enter(source, settings)
     player:triggerFunction("StartBusySpinner", "Loading property...")
     player:triggerFunction("FadeOut", 500)
 
-    Wait(500)
+    Wait(600)
 
     player:freeze(true)
     player:setBucket(self.bucketId)
