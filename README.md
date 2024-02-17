@@ -7,10 +7,9 @@
 <br>
 
 > [!Warning]
-> The project is not finished, and should not be used in production.<br>
-> No support will be given until release.
-
-A player property resource that allows users to purchase, sell, decorate, store vehicles and more. With bridges for every majour framework it should work out of the box on pretty much any server.
+> This project is currently under development and is not yet ready for production use. You may encounter bugs, incomplete features, or other issues that could affect functionality. <br>
+> No support will be provided until the official release. If you encounter any problems or have feedback, please consider joining our Discord community [here](https://boris.foo/discord) and sharing your thoughts. <br>
+> To track the current progress of the project, visit our [project tracker](https://github.com/users/borisnliscool/projects/1).
 
 ### Features
 
@@ -19,10 +18,11 @@ A player property resource that allows users to purchase, sell, decorate, store 
 - Decoration properties
 - Sharing property keys
 - Inviting players
-- Logging out in properties
-- Parking vehicles in properties
+- Logging out while inside properties
+- Parking vehicles inside of properties
 - Linking properties
 - Special prop API
+- Default safe special prop
 - ..and more!
 
 ### Contributors
