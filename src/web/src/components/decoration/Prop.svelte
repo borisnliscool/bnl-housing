@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
-	import type { PropType } from "../../utils/interfaces";
 	import { scale } from "svelte/transition";
+	import type { PropType } from "../../utils/interfaces";
 	import { soundOnEnter } from "../../utils/sounds";
 
 	const dispatch = createEventDispatcher();
@@ -24,8 +24,8 @@
 
 <style lang="scss">
 	.prop {
-		@apply relative grid aspect-square w-full cursor-default place-items-center rounded-lg border border-gray-300 shadow-md transition-all;
-		background: linear-gradient(white 60%, #dfdfdf);
+		@apply relative grid aspect-square w-full cursor-default place-items-center rounded-lg shadow transition-all;
+		@apply border border-gray-300 bg-gradient-to-b from-white via-white to-gray-200;
 
 		.image {
 			@apply pointer-events-none aspect-square w-[80%] object-contain;
@@ -33,15 +33,11 @@
 	}
 
 	.hover {
-		@apply cursor-pointer hover:scale-[1.05] hover:shadow-xl;
+		@apply cursor-pointer hover:shadow-lg;
 
 		&:hover {
 			@apply z-10;
-			transform: scale(1.1) perspective(100rem) rotateX(10deg);
-
-			.image {
-				filter: drop-shadow(0 0 1rem #00c0ff80);
-			}
+			transform: scale(1.05) perspective(100rem) rotateX(10deg);
 		}
 	}
 </style>

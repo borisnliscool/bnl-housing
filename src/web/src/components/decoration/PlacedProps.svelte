@@ -46,8 +46,8 @@
 	});
 </script>
 
-<div class="placed-menu">
-	<h1 class="font-bold">Placed props</h1>
+<div>
+	<h1 class="pb-1 font-bold">Placed props</h1>
 
 	<div class="flex max-h-96 flex-col gap-2 overflow-y-auto" class:pr-2={propCount >= 8}>
 		{#await propPromise}
@@ -63,7 +63,7 @@
 					<PlacedPropInfo {prop} />
 				{/each}
 			{:else}
-				<p class="text-center text-sm text-gray-500">No placements found</p>
+				<p class="py-4 text-center text-sm text-gray-500">No placements found</p>
 			{/if}
 		{/await}
 	</div>

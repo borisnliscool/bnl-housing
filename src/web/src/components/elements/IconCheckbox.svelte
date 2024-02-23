@@ -19,7 +19,7 @@
 </script>
 
 <button
-	class="group relative grid aspect-square w-full place-items-center rounded-md text-white outline-none transition-all hover:shadow-sm {toggled
+	class="group relative grid aspect-square w-full place-items-center rounded text-white outline-none transition-all hover:shadow-sm {toggled
 		? 'bg-blue-500'
 		: 'bg-gray-400/25'}"
 	on:click={toggle}
@@ -30,7 +30,7 @@
 
 	{#if tooltip}
 		<div
-			class="absolute left-[100%] ml-4 hidden whitespace-nowrap rounded-md bg-black/95 p-1 px-2 text-white group-hover:block"
+			class="absolute left-[100%] ml-4 hidden whitespace-nowrap rounded bg-black/95 p-1 px-2 text-white group-hover:block"
 		>
 			{@html tooltip}
 		</div>

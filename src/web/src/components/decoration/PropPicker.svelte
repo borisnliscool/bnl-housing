@@ -55,7 +55,10 @@
 </script>
 
 <Page id="propPicker" bind:isVisible>
-	<div class="side-menu" transition:scale>
+	<div
+		class="absolute right-0 top-0 m-3 flex w-full max-w-md flex-col gap-1 rounded border border-gray-300 bg-gradient-to-b from-gray-100 to-gray-200 p-3 px-4 shadow"
+		transition:scale
+	>
 		{#if selectedProp}
 			<p class="py-4 text-center text-xl font-extrabold tracking-wide">
 				{selectedProp.name}
@@ -67,7 +70,7 @@
 			<div class="mt-8 flex flex-col gap-1">
 				<button
 					on:click={() => fetchNui("selectProp", selectedProp?.id)}
-					class="rounded-md bg-blue-600 py-2 text-white"
+					class="rounded bg-blue-600 py-2 text-white"
 				>
 					{#if selectedProp.price == 0}
 						Place
@@ -75,7 +78,7 @@
 						Place for {$currency}{selectedProp.price}
 					{/if}
 				</button>
-				<button on:click={() => (selectedProp = undefined)} class="rounded-md bg-gray-400 py-2 text-gray-100">
+				<button on:click={() => (selectedProp = undefined)} class="rounded bg-gray-400 py-2 text-gray-100">
 					Cancel
 				</button>
 			</div>
@@ -87,7 +90,7 @@
 	<div class="absolute bottom-0 left-0 flex w-full justify-between gap-4 bg-gray-100/95 px-6 py-4">
 		<div class="flex w-[14rem] flex-col justify-between">
 			<div>
-				<p>Category</p>
+				<p class="pb-0.5 text-sm">Category</p>
 
 				{#if categories}
 					{#await categories then _categories}
@@ -100,12 +103,12 @@
 					{/await}
 				{/if}
 			</div>
-			<button class="rounded-md bg-gray-500 p-3 px-6 text-sm text-white" on:click={() => fetchNui("close")}>
-				Close <kbd>(ESC)</kbd>
+			<button class="rounded bg-gray-500 p-3 px-6 text-sm text-white" on:click={() => fetchNui("close")}>
+				Close
 			</button>
 		</div>
 
-		<div class="h-72 w-full overflow-hidden rounded-bl-lg rounded-tl-lg bg-gray-100/50 shadow-sm">
+		<div class="h-72 w-full overflow-hidden rounded-lg bg-gray-100 shadow-sm">
 			{#if props}
 				{#await props}
 					<div class="grid h-full place-items-center rounded-lg">
@@ -134,9 +137,5 @@
 	.props {
 		@apply grid h-full w-full grid-cols-4 gap-1 overflow-y-auto p-3 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12;
 		transform-style: preserve-3d;
-	}
-
-	.side-menu {
-		@apply absolute right-0 top-0 m-3 flex w-full max-w-md flex-col gap-1 rounded-lg bg-gray-200/95 p-3 px-4 shadow-lg;
 	}
 </style>

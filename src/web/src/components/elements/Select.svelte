@@ -82,11 +82,11 @@
 	}
 
 	.active {
-		@apply flex w-full items-center justify-between rounded-md border border-gray-400 bg-white p-1.5 px-4 pr-2 text-left outline-none focus-visible:ring;
+		@apply flex w-full items-center justify-between rounded border border-gray-400 bg-white p-1.5 px-4 pr-2 text-left outline-none focus-visible:ring;
 	}
 
 	.options {
-		@apply absolute z-50 grid flex-col overflow-hidden rounded-md bg-white p-1 shadow-lg;
+		@apply absolute z-50 grid flex-col overflow-hidden rounded bg-white p-1 shadow-lg;
 	}
 
 	.option {

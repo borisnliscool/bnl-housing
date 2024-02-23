@@ -26,9 +26,15 @@
 	function setActive() {
 		$activeId = $activeId != componentId ? componentId : -1;
 	}
+
+	$: coords = {
+		x: Math.round(location.x * 1000) / 1000,
+		y: Math.round(location.y * 1000) / 1000,
+		z: Math.round(location.z * 1000) / 1000,
+	};
 </script>
 
-<div class="rounded-xl bg-gray-100/50 p-2 pl-5 font-mono">
+<div class="rounded-md bg-gray-100 p-2 pl-5">
 	<button class="w-full text-left" on:click={setActive} use:soundOnEnter>
 		{prop.name}
 	</button>
@@ -36,19 +42,17 @@
 	{#if active}
 		<div class="flex w-full items-center justify-between gap-2" transition:slide>
 			<p class="text-sm text-gray-400">
-				x: {Math.round(location.x * 1000) / 1000}, y: {Math.round(location.y * 1000) / 1000}, z: {Math.round(
-					location.z * 1000,
-				) / 1000}
+				x: {coords.x}, y: {coords.y}, z: {coords.z}
 			</p>
 			<div>
 				<button
-					class="rounded-md bg-blue-700 p-1 px-3 text-sm text-white"
+					class="rounded bg-blue-700 p-1 px-3 text-sm text-white"
 					on:click={() => fetchNui("editProp", prop.id)}
 				>
 					Edit
 				</button>
 				<button
-					class="rounded-md bg-red-700 p-1 px-3 text-sm text-white"
+					class="rounded bg-red-700 p-1 px-3 text-sm text-white"
 					on:click={() => fetchNui("deleteProp", prop.id)}
 				>
 					Delete

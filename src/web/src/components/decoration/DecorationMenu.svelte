@@ -95,13 +95,13 @@
 	<div class="absolute bottom-0 right-0 flex items-end justify-between gap-4 rounded-tl-lg bg-gray-200/90 p-4">
 		<div class="flex gap-2">
 			<button
-				class="max-w-[6rem] rounded-md bg-gray-500 p-3 px-6 text-sm text-white"
+				class="max-w-[6rem] rounded bg-gray-500 p-3 px-6 text-sm text-white"
 				on:click={() => fetchNui("cancelPlacement")}
 			>
 				Back <kbd>(ESC)</kbd>
 			</button>
 			<button
-				class="max-w-[6rem] rounded-md bg-blue-700 p-3 px-6 text-sm text-white"
+				class="max-w-[6rem] rounded bg-blue-700 p-3 px-6 text-sm text-white"
 				on:click={() => fetchNui("savePlacement")}
 			>
 				Place

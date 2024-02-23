@@ -221,7 +221,7 @@
 		</div> -->
 
 		<button
-			class="mt-2 rounded-md bg-blue-600 py-2 text-white outline-none focus-visible:ring"
+			class="mt-2 rounded bg-blue-600 py-2 text-white outline-none focus-visible:ring"
 			on:click={() => fetchNui("createProperty", newProperty)}
 		>
 			Create
