@@ -19,21 +19,18 @@
 </script>
 
 <button
-	class="text-white group relative w-full rounded-md aspect-square grid place-items-center hover:shadow-sm transition-all outline-none {toggled
+	class="group relative grid aspect-square w-full place-items-center rounded-md text-white outline-none transition-all hover:shadow-sm {toggled
 		? 'bg-blue-500'
 		: 'bg-gray-400/25'}"
 	on:click={toggle}
 >
-	<div
-		class:opacity-100={toggled}
-		class="text-2xl pointer-events-none opacity-0 transition-all {$$props.class}"
-	>
+	<div class:opacity-100={toggled} class="pointer-events-none text-2xl opacity-0 transition-all {$$props.class}">
 		<Icon {icon} />
 	</div>
 
 	{#if tooltip}
 		<div
-			class="hidden group-hover:block absolute left-[100%] ml-4 p-1 px-2 rounded-md bg-black/95 text-white whitespace-nowrap"
+			class="absolute left-[100%] ml-4 hidden whitespace-nowrap rounded-md bg-black/95 p-1 px-2 text-white group-hover:block"
 		>
 			{@html tooltip}
 		</div>

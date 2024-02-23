@@ -28,30 +28,27 @@
 	}
 </script>
 
-<div class="p-2 pl-5 bg-gray-100/50 font-mono rounded-xl">
+<div class="rounded-xl bg-gray-100/50 p-2 pl-5 font-mono">
 	<button class="w-full text-left" on:click={setActive} use:soundOnEnter>
 		{prop.name}
 	</button>
 
 	{#if active}
-		<div
-			class="w-full flex gap-2 items-center justify-between"
-			transition:slide
-		>
-			<p class="text-gray-400 text-sm">
-				x: {Math.round(location.x * 1000) / 1000}, y: {Math.round(
-					location.y * 1000
-				) / 1000}, z: {Math.round(location.z * 1000) / 1000}
+		<div class="flex w-full items-center justify-between gap-2" transition:slide>
+			<p class="text-sm text-gray-400">
+				x: {Math.round(location.x * 1000) / 1000}, y: {Math.round(location.y * 1000) / 1000}, z: {Math.round(
+					location.z * 1000,
+				) / 1000}
 			</p>
 			<div>
 				<button
-					class="p-1 px-3 text-white rounded-md text-sm bg-blue-700"
+					class="rounded-md bg-blue-700 p-1 px-3 text-sm text-white"
 					on:click={() => fetchNui("editProp", prop.id)}
 				>
 					Edit
 				</button>
 				<button
-					class="p-1 px-3 text-white rounded-md text-sm bg-red-700"
+					class="rounded-md bg-red-700 p-1 px-3 text-sm text-white"
 					on:click={() => fetchNui("deleteProp", prop.id)}
 				>
 					Delete

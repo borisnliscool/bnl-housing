@@ -30,7 +30,7 @@
 </script>
 
 {#if isEnvBrowser()}
-	<div class="fixed top-0 left-0 h-full w-full bg-[url(https://zip.boris.foo/u/CvSCLP.jpg)] bg-center bg-cover" />
+	<div class="fixed left-0 top-0 h-full w-full bg-[url(https://zip.boris.foo/u/CvSCLP.jpg)] bg-cover bg-center" />
 {/if}
 
 <VisibilityProvider>

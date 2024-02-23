@@ -39,11 +39,8 @@
 <Page id="decoration" bind:isVisible>
 	<Editor />
 
-	<div
-		class="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2"
-		transition:slide={{ axis: "x" }}
-	>
-		<div class="bg-gray-200/95 shadow-lg w-14 p-2 rounded-lg flex flex-col gap-2">
+	<div class="absolute left-4 top-1/2 flex -translate-y-1/2 flex-col gap-2" transition:slide={{ axis: "x" }}>
+		<div class="flex w-14 flex-col gap-2 rounded-lg bg-gray-200/95 p-2 shadow-lg">
 			<IconCheckbox
 				icon="mdi:cursor-move"
 				tooltip="Move <kbd>(w)</kbd>"
@@ -58,7 +55,7 @@
 			/>
 		</div>
 
-		<div class="bg-gray-200/95 shadow-lg w-14 p-2 rounded-lg flex flex-col gap-2">
+		<div class="flex w-14 flex-col gap-2 rounded-lg bg-gray-200/95 p-2 shadow-lg">
 			<IconCheckbox
 				icon="mdi:cube-outline"
 				tooltip="Bounding Box <kbd>(b)</kbd>"
@@ -79,7 +76,7 @@
 			/>
 		</div>
 
-		<div class="bg-gray-200/95 shadow-lg w-14 p-2 rounded-lg flex flex-col gap-2">
+		<div class="flex w-14 flex-col gap-2 rounded-lg bg-gray-200/95 p-2 shadow-lg">
 			<IconCheckbox
 				icon="mdi:web"
 				tooltip="World space <kbd>(1)</kbd>"
@@ -95,18 +92,16 @@
 		</div>
 	</div>
 
-	<div
-		class="absolute bottom-0 right-0 p-4 rounded-tl-lg bg-gray-200/90 flex items-end justify-between gap-4"
-	>
+	<div class="absolute bottom-0 right-0 flex items-end justify-between gap-4 rounded-tl-lg bg-gray-200/90 p-4">
 		<div class="flex gap-2">
 			<button
-				class="p-3 px-6 max-w-[6rem] text-white rounded-md text-sm bg-gray-500"
+				class="max-w-[6rem] rounded-md bg-gray-500 p-3 px-6 text-sm text-white"
 				on:click={() => fetchNui("cancelPlacement")}
 			>
 				Back <kbd>(ESC)</kbd>
 			</button>
 			<button
-				class="p-3 px-6 max-w-[6rem] text-white rounded-md text-sm bg-blue-700"
+				class="max-w-[6rem] rounded-md bg-blue-700 p-3 px-6 text-sm text-white"
 				on:click={() => fetchNui("savePlacement")}
 			>
 				Place
@@ -114,4 +109,3 @@
 		</div>
 	</div>
 </Page>
-

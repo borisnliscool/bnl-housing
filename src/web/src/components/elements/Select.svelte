@@ -57,21 +57,12 @@
 	</button>
 
 	{#if shown}
-		<button
-			class="fixed top-0 left-0 w-full h-full cursor-default z-40"
-			on:click={() => (shown = false)}
-		/>
+		<button class="fixed left-0 top-0 z-40 h-full w-full cursor-default" on:click={() => (shown = false)} />
 
-		<div
-			class="options {$$props.class}"
-			{style}
-			transition:fade={{ duration: 200 }}
-		>
+		<div class="options {$$props.class}" {style} transition:fade={{ duration: 200 }}>
 			{#each items as item}
 				<button
-					class="option {value == item
-						? '!bg-blue-600 text-white'
-						: 'hover:!bg-blue-100'}"
+					class="option {value == item ? '!bg-blue-600 text-white' : 'hover:!bg-blue-100'}"
 					on:click={() => {
 						value = item;
 						shown = !shown;
@@ -91,15 +82,15 @@
 	}
 
 	.active {
-		@apply w-full text-left p-1.5 px-4 pr-2 border border-gray-400 rounded-md bg-white flex items-center justify-between outline-none focus:ring;
+		@apply flex w-full items-center justify-between rounded-md border border-gray-400 bg-white p-1.5 px-4 pr-2 text-left outline-none focus-visible:ring;
 	}
 
 	.options {
-		@apply absolute grid z-50 flex-col rounded-md overflow-hidden bg-white shadow-lg p-1;
+		@apply absolute z-50 grid flex-col overflow-hidden rounded-md bg-white p-1 shadow-lg;
 	}
 
 	.option {
-		@apply text-left p-2 px-4 rounded-sm whitespace-pre outline-none focus:bg-blue-100;
+		@apply whitespace-pre rounded-sm p-2 px-4 text-left outline-none focus:bg-blue-100;
 		transition: background-color 100ms;
 	}
 </style>

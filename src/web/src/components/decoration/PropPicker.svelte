@@ -57,17 +57,17 @@
 <Page id="propPicker" bind:isVisible>
 	<div class="side-menu" transition:scale>
 		{#if selectedProp}
-			<p class="text-center py-4 text-xl font-extrabold tracking-wide">
+			<p class="py-4 text-center text-xl font-extrabold tracking-wide">
 				{selectedProp.name}
 			</p>
-			<div class="w-2/3 mx-auto">
+			<div class="mx-auto w-2/3">
 				<Prop data={selectedProp} hoverEffects={false} />
 			</div>
 
-			<div class="flex flex-col gap-1 mt-8">
+			<div class="mt-8 flex flex-col gap-1">
 				<button
 					on:click={() => fetchNui("selectProp", selectedProp?.id)}
-					class="py-2 bg-blue-600 text-white rounded-md"
+					class="rounded-md bg-blue-600 py-2 text-white"
 				>
 					{#if selectedProp.price == 0}
 						Place
@@ -75,7 +75,7 @@
 						Place for {$currency}{selectedProp.price}
 					{/if}
 				</button>
-				<button on:click={() => (selectedProp = undefined)} class="py-2 bg-gray-400 text-gray-100 rounded-md">
+				<button on:click={() => (selectedProp = undefined)} class="rounded-md bg-gray-400 py-2 text-gray-100">
 					Cancel
 				</button>
 			</div>
@@ -84,8 +84,8 @@
 		{/if}
 	</div>
 
-	<div class="absolute bottom-0 left-0 px-6 py-4 w-full bg-gray-100/95 flex justify-between gap-4">
-		<div class="w-[14rem] flex flex-col justify-between">
+	<div class="absolute bottom-0 left-0 flex w-full justify-between gap-4 bg-gray-100/95 px-6 py-4">
+		<div class="flex w-[14rem] flex-col justify-between">
 			<div>
 				<p>Category</p>
 
@@ -100,15 +100,15 @@
 					{/await}
 				{/if}
 			</div>
-			<button class="p-3 px-6 text-white rounded-md text-sm bg-gray-500" on:click={() => fetchNui("close")}>
+			<button class="rounded-md bg-gray-500 p-3 px-6 text-sm text-white" on:click={() => fetchNui("close")}>
 				Close <kbd>(ESC)</kbd>
 			</button>
 		</div>
 
-		<div class="w-full h-72 bg-gray-100/50 overflow-hidden shadow-sm rounded-tl-lg rounded-bl-lg">
+		<div class="h-72 w-full overflow-hidden rounded-bl-lg rounded-tl-lg bg-gray-100/50 shadow-sm">
 			{#if props}
 				{#await props}
-					<div class="h-full grid place-items-center rounded-lg">
+					<div class="grid h-full place-items-center rounded-lg">
 						<div class="flex items-center gap-5">
 							<Spinner class="w-8" />
 							<p>Loading...</p>
@@ -121,7 +121,7 @@
 						{/each}
 					</div>
 				{:catch}
-					<div class="h-full grid place-items-center rounded-lg text-red-700">
+					<div class="grid h-full place-items-center rounded-lg text-red-700">
 						Something went wrong whilst trying to fetch props.
 					</div>
 				{/await}
@@ -132,11 +132,11 @@
 
 <style lang="scss">
 	.props {
-		@apply w-full h-full grid grid-cols-4 gap-1 p-3 overflow-y-auto md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12;
+		@apply grid h-full w-full grid-cols-4 gap-1 overflow-y-auto p-3 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12;
 		transform-style: preserve-3d;
 	}
 
 	.side-menu {
-		@apply absolute w-full max-w-md top-0 right-0 m-3 p-3 px-4 bg-gray-200/95 shadow-lg rounded-lg flex flex-col gap-1;
+		@apply absolute right-0 top-0 m-3 flex w-full max-w-md flex-col gap-1 rounded-lg bg-gray-200/95 p-3 px-4 shadow-lg;
 	}
 </style>

@@ -49,9 +49,9 @@
 <div class="placed-menu">
 	<h1 class="font-bold">Placed props</h1>
 
-	<div class="flex flex-col gap-2 max-h-96 overflow-y-auto" class:pr-2={propCount >= 8}>
+	<div class="flex max-h-96 flex-col gap-2 overflow-y-auto" class:pr-2={propCount >= 8}>
 		{#await propPromise}
-			<div class="h-full grid place-items-center rounded-lg">
+			<div class="grid h-full place-items-center rounded-lg">
 				<div class="flex items-center gap-5">
 					<Spinner class="w-8" />
 					<p>Loading...</p>

@@ -71,7 +71,7 @@
 
 <Page id="adminMenu">
 	<div
-		class="absolute w-full max-h-[95%] overflow-y-auto max-w-md top-0 left-0 m-3 p-3 px-4 bg-gray-200/95 shadow-lg rounded-lg flex flex-col gap-2"
+		class="absolute left-0 top-0 m-3 flex max-h-[95%] w-full max-w-md flex-col gap-2 overflow-y-auto rounded-lg bg-gray-200/95 p-3 px-4 shadow-lg"
 		transition:scale
 	>
 		<h1 class="text-lg font-bold">Create new property</h1>
@@ -79,7 +79,7 @@
 		<div class="flex flex-col gap-1">
 			<label for="location" class="text-sm">Property coordinates</label>
 			<input
-				class="px-4 py-2 rounded outline-none focus:ring"
+				class="rounded px-4 py-2 outline-none focus-visible:ring"
 				type="text"
 				id="location"
 				placeholder="leave empty for current location"
@@ -87,15 +87,15 @@
 			/>
 
 			<span class="text-xs text-neutral-500">
-				x: {newProperty.location?.x}, y: {newProperty.location?.y}, z: {newProperty
-					.location?.z}, w: {newProperty.location?.w},
+				x: {newProperty.location?.x}, y: {newProperty.location?.y}, z: {newProperty.location?.z}, w: {newProperty
+					.location?.w},
 			</span>
 		</div>
 
 		<div class="flex flex-col gap-1">
 			<label for="model" class="text-sm">Shell model</label>
 			<input
-				class="px-4 py-2 rounded outline-none focus:ring"
+				class="rounded px-4 py-2 outline-none focus-visible:ring"
 				type="text"
 				id="model"
 				placeholder="shell_michael"
@@ -128,7 +128,7 @@
 				<span class="text-red-500">*</span>
 			</label>
 			<input
-				class="px-4 py-2 rounded outline-none focus:ring"
+				class="rounded px-4 py-2 outline-none focus-visible:ring"
 				type="text"
 				id="zipcode"
 				placeholder="715"
@@ -142,7 +142,7 @@
 				<span class="text-red-500">*</span>
 			</label>
 			<input
-				class="px-4 py-2 rounded outline-none focus:ring"
+				class="rounded px-4 py-2 outline-none focus-visible:ring"
 				type="text"
 				id="streetName"
 				placeholder="Alta Street"
@@ -156,7 +156,7 @@
 				<span class="text-red-500">*</span>
 			</label>
 			<input
-				class="px-4 py-2 rounded outline-none focus:ring"
+				class="rounded px-4 py-2 outline-none focus-visible:ring"
 				type="text"
 				id="buildingNumber"
 				placeholder="17"
@@ -167,10 +167,7 @@
 		<div class="mt-2 flex flex-col gap-2">
 			<div class="flex items-center gap-2">
 				<div class="w-6">
-					<IconCheckbox
-						class="!text-sm"
-						bind:toggled={newProperty.saleData.isForSale}
-					/>
+					<IconCheckbox class="!text-sm" bind:toggled={newProperty.saleData.isForSale} />
 				</div>
 
 				<p>For sale</p>
@@ -183,7 +180,7 @@
 						<span class="text-red-500">*</span>
 					</label>
 					<input
-						class="px-4 py-2 rounded outline-none focus:ring"
+						class="rounded px-4 py-2 outline-none focus-visible:ring"
 						type="text"
 						id="saleprice"
 						placeholder="100.000"
@@ -213,7 +210,7 @@
 						<span class="text-red-500">*</span>
 					</label>
 					<input
-						class="px-4 py-2 rounded outline-none focus:ring"
+						class="px-4 py-2 rounded outline-none focus-visible:ring"
 						type="text"
 						id="rentprice"
 						placeholder="100.000"
@@ -224,7 +221,7 @@
 		</div> -->
 
 		<button
-			class="py-2 bg-blue-600 text-white rounded-md mt-2 outline-none focus:ring"
+			class="mt-2 rounded-md bg-blue-600 py-2 text-white outline-none focus-visible:ring"
 			on:click={() => fetchNui("createProperty", newProperty)}
 		>
 			Create

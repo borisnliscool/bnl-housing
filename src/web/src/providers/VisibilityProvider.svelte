@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { useNuiEvent } from "../utils/useNuiEvent";
 	import { visibility } from "../store/stores";
+	import { useNuiEvent } from "../utils/useNuiEvent";
 
 	useNuiEvent<boolean>("setVisible", (visible) => ($visibility = visible));
 </script>

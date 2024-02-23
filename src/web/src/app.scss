@@ -22,11 +22,11 @@
 	}
 
 	&::-webkit-scrollbar-track {
-		@apply bg-gray-300/75 rounded-full;
+		@apply rounded-full bg-gray-300/75;
 	}
 
 	&::-webkit-scrollbar-thumb {
-		@apply bg-gray-400 rounded-full;
+		@apply rounded-full bg-gray-400;
 
 		&:hover {
 			@apply bg-gray-500;

@@ -7,19 +7,16 @@
 	export let isVisible: boolean = false;
 	export let transition = fade;
 
-    $: isVisible = $pageStore == id;
+	$: isVisible = $pageStore == id;
 
 	useNuiEvent<string>("setPage", (page) => {
-        $pageStore = page;
+		$pageStore = page;
 	});
 </script>
 
 {#if isVisible}
-	<section
-		class="fixed top-0 left-0 w-full h-screen"
-		transition:transition={{ duration: 150 }}
-	>
-		<div class="h-full relative">
+	<section class="fixed left-0 top-0 h-screen w-full" transition:transition={{ duration: 150 }}>
+		<div class="relative h-full">
 			<slot />
 		</div>
 	</section>
