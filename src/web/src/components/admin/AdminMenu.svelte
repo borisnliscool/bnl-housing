@@ -71,7 +71,7 @@
 
 <Page id="adminMenu">
 	<div
-		class="absolute left-0 top-0 m-3 flex max-h-[95%] w-full max-w-md flex-col gap-2 overflow-y-auto rounded-lg bg-gray-200/95 p-3 px-4 shadow-lg"
+		class="absolute left-0 top-0 m-3 flex max-h-[95%] w-full max-w-md flex-col gap-2 overflow-y-auto rounded border border-gray-300 bg-gradient-to-b from-gray-100 to-gray-200 p-3 px-4 shadow"
 		transition:scale
 	>
 		<h1 class="text-lg font-bold">Create new property</h1>
@@ -190,7 +190,7 @@
 			{/if}
 		</div>
 
-		<!-- Renting is disabled for intital release -->
+		<!-- Renting is disabled for initial release -->
 		<!-- <div class="mt-2 flex flex-col gap-2">
 			<div class="flex items-center gap-2">
 				<div class="w-6">
