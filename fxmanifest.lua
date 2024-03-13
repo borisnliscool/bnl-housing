@@ -12,7 +12,6 @@ dependencies {
     '/onesync',
     'ox_lib',
     'oxmysql',
-    'bnl-housing-shells',
 }
 
 ui_page 'src/web/build/index.html'
@@ -22,8 +21,19 @@ files {
     'data/**/*.lua',
     'locales/*.json',
     'src/web/build/index.html',
-    'src/web/build/**/*'
+    'src/web/build/**/*',
+    'stream/*.ytyp'
 }
+
+data_file 'DLC_ITYP_REQUEST' 'shellprops.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'shellpropsv10.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'shellpropsv2.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'shellpropsv3.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'shellpropsv4.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'shellpropsv5.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'shellpropsv7.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'shellpropsv8.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'shellpropsv9.ytyp'
 
 client_scripts {
     'src/client/**/*.lua',
