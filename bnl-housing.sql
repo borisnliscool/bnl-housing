@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS property_prop (
     model VARCHAR(32) NOT NULL,
     location JSON NOT NULL,
     rotation JSON NOT NULL,
-    metadata JSON NOT NULL DEFAULT "{}",
+    metadata JSON NOT NULL DEFAULT (JSON_OBJECT()),
     FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
     INDEX idx_property_id (property_id)
 );
