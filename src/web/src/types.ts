@@ -20,3 +20,6 @@ export interface PlacedProp {
 	rotation: string;
 	metadata: string;
 }
+
+export type modeType = "translate" | "rotate";
+export type spaceType = "world" | "local";

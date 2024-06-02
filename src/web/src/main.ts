@@ -1,5 +1,3 @@
-import "@fontsource-variable/inter";
-import "./app.scss";
 import App from "./App.svelte";
 
 const app = new App({

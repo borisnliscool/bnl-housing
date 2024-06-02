@@ -1,6 +1,9 @@
-import { onMount, onDestroy } from "svelte";
+import { onDestroy, onMount } from "svelte";
 
-export function useKeyPress(key: string, handler: (data: KeyboardEvent) => void) {
+export function useKeyPress(
+	key: string,
+	handler: (data: KeyboardEvent) => void
+) {
 	const eventListener = (event: KeyboardEvent) => {
 		event.key === key && handler(event);
 	};
