@@ -59,7 +59,9 @@ Config.Keybinds.interact = {
 Config.VehicleBlacklist = {
     ---@type number[]
     classes = {
-        10, 11, 14, 15, 16, 17, 18, 19, 20, 21
+        -- Put any vehicle class in here, make sure it is a number
+        -- and is an output of GetVehicleClass (https://docs.fivem.net/natives/?_0x29439776AAA00A62)
+        10, 11, 14, 15, 16, 17, 19, 20, 21
     },
     ---@type number[]
     models = {
