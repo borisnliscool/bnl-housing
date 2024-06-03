@@ -91,7 +91,7 @@
 	}
 
 	.active {
-		@apply flex w-full items-center justify-between rounded border border-gray-400 bg-white p-1.5 px-4 pr-2 text-left outline-none focus-visible:ring;
+		@apply flex w-full items-center justify-between rounded border border-neutral-300 bg-white py-2 px-3.5 text-left outline-none focus-visible:ring;
 	}
 
 	.options {
