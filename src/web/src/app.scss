@@ -28,7 +28,7 @@
 }
 
 .button {
-	@apply rounded-md bg-gradient-radial to-blue-600 from-sky-500 py-2 text-white outline-none focus-visible:ring hover:shadow-md transition-all active:scale-[99%] font-semibold tracking-wide w-full;
+	@apply rounded-md bg-gradient-radial to-blue-600 from-blue-500 py-2 text-white outline-none focus-visible:ring hover:shadow-md transition-all active:scale-[99%] font-semibold tracking-wide w-full;
 }
 
 .text-input-group {
