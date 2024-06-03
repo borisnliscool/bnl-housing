@@ -1,5 +1,6 @@
 <script>
 	import "./app.scss";
+	import AdminMenu from "./components/admin/AdminMenu.svelte";
 	import VisibilityProvider from "./providers/VisibilityProvider.svelte";
 	import { isEnvBrowser } from "./utils/misc";
 </script>
@@ -12,4 +13,6 @@
 	/>
 {/if}
 
-<VisibilityProvider>Hello world</VisibilityProvider>
+<VisibilityProvider>
+	<AdminMenu />
+</VisibilityProvider>
