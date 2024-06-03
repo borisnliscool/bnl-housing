@@ -2,7 +2,7 @@
 	import { slide } from "svelte/transition";
 	import type { SelectOptionType } from "../../types";
 	import { fetchNui } from "../../utils/fetchNui";
-	import { soundOnClick, soundOnFocus } from "../../utils/sounds";
+	import { soundOnClick } from "../../utils/sounds";
 	import { useKeyPress } from "../../utils/useKeyPress";
 	import IconCheckbox from "../elements/IconCheckbox.svelte";
 	import Page from "../elements/Page.svelte";
@@ -165,7 +165,6 @@
 
 						<input
 							type="text"
-							use:soundOnFocus
 							placeholder="100.000"
 							bind:value={newProperty.saleData.price}
 						/>

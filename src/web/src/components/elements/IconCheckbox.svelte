@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from "svelte";
+	import { soundOnClick } from "../../utils/sounds";
 	import Check from "../icons/Check.svelte";
 
 	export let toggled = false;
@@ -22,6 +23,7 @@
 		? 'bg-blue-500'
 		: 'bg-gray-400/25'}"
 	on:click={toggle}
+	use:soundOnClick
 >
 	<div
 		class:opacity-100={toggled}
