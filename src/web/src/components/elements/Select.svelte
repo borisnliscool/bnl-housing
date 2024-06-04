@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import type { SelectOptionType, placement } from '../../types';
+	import type { Placement, SelectOptionType } from '../../types';
 	import { cn } from '../../utils/misc';
 	import { soundOnClick, soundOnEnter } from '../../utils/sounds';
 	import AngleDown from '../icons/AngleDown.svelte';
@@ -10,13 +10,13 @@
 	export { className as class };
 
 	export let items: SelectOptionType[];
-	export let value: any = undefined;
+	export let value: SelectOptionType | undefined = undefined;
 	export let shown = false;
 
-	export let placement: placement = 'top';
+	export let placement: Placement = 'top';
 	export let cols = 10;
 
-	const generateClasses = (placement: placement, cols: number) => {
+	const generateClasses = (newPlacement: Placement, cols: number) => {
 		let styles = [];
 
 		const invertedPlacement = {
@@ -24,12 +24,12 @@
 			top: 'bottom',
 			left: 'right',
 			right: 'left'
-		}[placement] as placement;
+		}[newPlacement] as Placement;
 
 		styles.push(`${invertedPlacement}: 100%;`);
 		styles.push(`grid-template-columns: repeat(${cols}, 1fr);`);
 
-		if (placement == 'left' || placement == 'right') {
+		if (newPlacement == 'left' || newPlacement == 'right') {
 			styles.push('top: 0;');
 		}
 

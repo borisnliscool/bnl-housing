@@ -44,6 +44,7 @@
 			<div
 				class="absolute left-[100%] ml-4 hidden whitespace-nowrap rounded bg-black/95 p-1 px-2 text-white group-hover:block"
 			>
+				<!-- eslint-disable svelte/no-at-html-tags -->
 				{@html tooltip}
 			</div>
 		{/if}

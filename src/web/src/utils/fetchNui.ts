@@ -7,7 +7,12 @@
 
 import { isEnvBrowser } from './misc';
 
-export async function fetchNui<T = any>(eventName: string, data: unknown = {}): Promise<T> {
+type OptionalWindow = Window &
+	typeof globalThis & {
+		GetParentResourceName: () => string | undefined;
+	};
+
+export async function fetchNui<T = unknown>(eventName: string, data: unknown = {}): Promise<T> {
 	if (isEnvBrowser()) throw new Error("couldn't fetch nui from browser");
 
 	const options = {
@@ -18,8 +23,8 @@ export async function fetchNui<T = any>(eventName: string, data: unknown = {}): 
 		body: JSON.stringify(data)
 	};
 
-	const resourceName = (window as any).GetParentResourceName
-		? (window as any).GetParentResourceName()
+	const resourceName = (window as OptionalWindow).GetParentResourceName
+		? (window as OptionalWindow).GetParentResourceName()
 		: 'nui-frame-app';
 
 	const resp = await fetch(`https://${resourceName}/${eventName}`, options);

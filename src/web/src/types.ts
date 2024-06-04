@@ -1,6 +1,8 @@
+export type SelectValueType = string | number;
+
 export interface SelectOptionType {
 	name: string | number;
-	value: string | number;
+	value: SelectValueType;
 }
 
 export interface PropType {
@@ -10,7 +12,7 @@ export interface PropType {
 	price: number;
 }
 
-export type placement = 'top' | 'bottom' | 'left' | 'right';
+export type Placement = 'top' | 'bottom' | 'left' | 'right';
 
 export interface PlacedProp {
 	id: number;
