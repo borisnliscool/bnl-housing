@@ -4,7 +4,7 @@
 	import { fetchNui } from "../../utils/fetchNui";
 	import { soundOnClick } from "../../utils/sounds";
 	import { useKeyPress } from "../../utils/useKeyPress";
-	import IconCheckbox from "../elements/IconCheckbox.svelte";
+	import Checkbox from "../elements/Checkbox.svelte";
 	import Page from "../elements/Page.svelte";
 	import Panel from "../elements/Panel.svelte";
 	import Select from "../elements/Select.svelte";
@@ -145,16 +145,9 @@
 			</label>
 
 			<div class="mt-2 flex flex-col gap-2">
-				<div class="flex items-center gap-2">
-					<div class="w-6">
-						<IconCheckbox
-							class="!text-sm"
-							bind:toggled={newProperty.saleData.isForSale}
-						/>
-					</div>
-
-					<p>For sale</p>
-				</div>
+				<Checkbox class="w-6" bind:toggled={newProperty.saleData.isForSale}>
+					<p>For Sale</p>
+				</Checkbox>
 
 				{#if newProperty.saleData.isForSale}
 					<label class="text-input-group" transition:slide>
