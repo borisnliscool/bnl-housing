@@ -1,16 +1,16 @@
 <script>
-	import "@fontsource-variable/inter";
-	import "./app.scss";
-	import AdminMenu from "./components/admin/AdminMenu.svelte";
-	import VisibilityProvider from "./providers/VisibilityProvider.svelte";
-	import { isEnvBrowser } from "./utils/misc";
+	import '@fontsource-variable/inter';
+	import './app.scss';
+	import AdminMenu from './components/admin/AdminMenu.svelte';
+	import VisibilityProvider from './providers/VisibilityProvider.svelte';
+	import { isEnvBrowser } from './utils/misc';
 </script>
 
 {#if isEnvBrowser()}
 	<img
 		src="https://zip.boris.foo/r/CvSCLP.jpg?compress=false"
 		alt="development background"
-		class="-z-10 fixed left-0 top-0 h-full w-full object-cover object-center"
+		class="fixed left-0 top-0 -z-10 h-full w-full object-cover object-center"
 	/>
 {/if}
 

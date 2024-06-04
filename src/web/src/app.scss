@@ -3,8 +3,18 @@
 @tailwind utilities;
 
 * {
-	font-family: "Inter Variable", system-ui, -apple-system, BlinkMacSystemFont,
-		"Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+	font-family:
+		'Inter Variable',
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		Roboto,
+		Oxygen,
+		Ubuntu,
+		Cantarell,
+		'Open Sans',
+		'Helvetica Neue',
 		sans-serif;
 
 	&::-webkit-scrollbar {
@@ -29,7 +39,7 @@
 }
 
 .button {
-	@apply rounded-md bg-gradient-radial to-blue-600 from-blue-500 py-2 text-white outline-none focus-visible:ring hover:shadow-md transition-all active:scale-[99%] font-semibold tracking-wide w-full;
+	@apply w-full rounded-md bg-gradient-radial from-blue-500 to-blue-600 py-2 font-semibold tracking-wide text-white outline-none transition-all hover:shadow-md focus-visible:ring active:scale-[99%];
 }
 
 .text-input-group {
@@ -40,6 +50,6 @@
 	}
 
 	input {
-		@apply rounded-md px-3.5 py-2 outline-none focus-visible:ring text-base border border-gray-300 focus-visible:border-blue-400;
+		@apply rounded-md border border-gray-300 px-3.5 py-2 text-base outline-none focus-visible:border-blue-400 focus-visible:ring;
 	}
 }

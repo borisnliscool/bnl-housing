@@ -1,8 +1,8 @@
-import { writable } from "svelte/store";
-import { fetchNui } from "../utils/fetchNui";
+import { writable } from 'svelte/store';
+import { fetchNui } from '../utils/fetchNui';
 
-const currencyStore = writable<"€" | "$">("€");
+const currencyStore = writable<'€' | '$'>('€');
 
-fetchNui("getLocaleItem", "currency").then((r) => currencyStore.set(r));
+fetchNui('getLocaleItem', 'currency').then((r) => currencyStore.set(r));
 
 export default currencyStore;

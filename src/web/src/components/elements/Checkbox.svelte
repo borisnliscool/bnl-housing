@@ -1,43 +1,40 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from "svelte";
-	import { cn } from "../../utils/misc";
-	import { soundOnClick } from "../../utils/sounds";
-	import Check from "../icons/Check.svelte";
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { cn } from '../../utils/misc';
+	import { soundOnClick } from '../../utils/sounds';
+	import Check from '../icons/Check.svelte';
 
-	let className = "";
+	let className = '';
 	export { className as class };
 	export let toggled = false;
-	export let tooltip = "";
+	export let tooltip = '';
 
 	const dispatch = createEventDispatcher();
 
 	const toggle = () => {
 		toggled = !toggled;
-		dispatch("toggled", { toggled: toggled });
+		dispatch('toggled', { toggled: toggled });
 	};
 
 	onMount(() => {
-		if (toggled) dispatch("toggled", { toggled: toggled });
+		if (toggled) dispatch('toggled', { toggled: toggled });
 	});
 </script>
 
 <button class="flex items-center gap-2" on:click={toggle} use:soundOnClick>
 	<div
 		class={cn(
-			"group relative grid aspect-square w-full border place-items-center rounded text-white outline-none transition-all hover:shadow-sm",
-			toggled ? "bg-blue-500 border-blue-500" : "border-gray-300 bg-white",
+			'group relative grid aspect-square w-full place-items-center rounded border text-white outline-none transition-all hover:shadow-sm',
+			toggled ? 'border-blue-500 bg-blue-500' : 'border-gray-300 bg-white',
 			className
 		)}
 	>
-		<div
-			class:opacity-100={toggled}
-			class="pointer-events-none text-2xl opacity-0 transition-all"
-		>
+		<div class:opacity-100={toggled} class="pointer-events-none text-2xl opacity-0 transition-all">
 			<slot name="icon">
 				<Check
 					class={cn(
-						"size-4 fill-white transition-all",
-						toggled ? "rotate-0 scale-100" : "-rotate-45 scale-50"
+						'size-4 fill-white transition-all',
+						toggled ? 'rotate-0 scale-100' : '-rotate-45 scale-50'
 					)}
 				/>
 			</slot>

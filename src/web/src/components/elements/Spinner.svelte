@@ -1,9 +1,9 @@
 <script lang="ts">
-	let className = "";
+	let className = '';
 	export { className as class };
 
-	export let background = "fill-gray-300";
-	export let handle = "fill-blue-800";
+	export let background = 'fill-gray-300';
+	export let handle = 'fill-blue-800';
 </script>
 
 <!-- Thanks https://mynaui.com/ -->
