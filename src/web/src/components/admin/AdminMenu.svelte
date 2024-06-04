@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
-	import type { SelectOptionType } from '../../types';
+	import type { PropertyType, SelectOptionType } from '../../types';
 	import { fetchNui } from '../../utils/fetchNui';
 	import { soundOnClick } from '../../utils/sounds';
 	import { useKeyPress } from '../../utils/useKeyPress';
@@ -8,8 +8,6 @@
 	import Page from '../elements/Page.svelte';
 	import Panel from '../elements/Panel.svelte';
 	import Select from '../elements/Select.svelte';
-
-	type PropertyType = 'house' | 'garage' | 'warehouse' | 'office';
 
 	const newProperty = {
 		location: {
@@ -49,11 +47,23 @@
 	let propertyTypeSelect: SelectOptionType | undefined;
 	$: newProperty.propertyType = propertyTypeSelect?.value as PropertyType;
 
+	$: canCreate = !!(
+		newProperty.model &&
+		newProperty.propertyType &&
+		newProperty.zipcode &&
+		newProperty.streetName &&
+		newProperty.buildingNumber
+	);
+
 	useKeyPress('Escape', () => fetchNui('close'));
+
+	const createProperty = async () => {
+		await fetchNui('createProperty', newProperty);
+	};
 </script>
 
 <Page id="adminMenu">
-	<Panel class="absolute left-0 top-0 m-3 max-h-[95%] w-full max-w-md overflow-y-auto">
+	<Panel class="absolute left-4 top-4 max-h-[calc(100vh-2rem)] w-full max-w-md">
 		<div class="flex w-full flex-col gap-2">
 			<h1 class="text-xl font-bold">Create new property</h1>
 
@@ -143,11 +153,7 @@
 				{/if}
 			</div>
 
-			<button
-				class="button mt-4"
-				use:soundOnClick
-				on:click={() => fetchNui('createProperty', newProperty)}
-			>
+			<button class="button mt-4" use:soundOnClick on:click={createProperty} disabled={!canCreate}>
 				Create
 			</button>
 		</div>

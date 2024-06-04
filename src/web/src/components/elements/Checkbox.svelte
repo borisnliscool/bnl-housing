@@ -21,10 +21,10 @@
 	});
 </script>
 
-<button class="flex items-center gap-2" on:click={toggle} use:soundOnClick>
+<button class="group flex items-center gap-2 outline-none" on:click={toggle} use:soundOnClick>
 	<div
 		class={cn(
-			'group relative grid aspect-square w-full place-items-center rounded border text-white outline-none transition-all hover:shadow-sm',
+			'group relative grid aspect-square w-full place-items-center rounded border text-white outline-none transition-all hover:shadow-sm group-focus-visible:border-blue-400 group-focus-visible:ring',
 			toggled ? 'border-blue-500 bg-blue-500' : 'border-gray-300 bg-white',
 			className
 		)}

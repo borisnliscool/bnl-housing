@@ -25,3 +25,5 @@ export interface PlacedProp {
 
 export type modeType = 'translate' | 'rotate';
 export type spaceType = 'world' | 'local';
+
+export type PropertyType = 'house' | 'garage' | 'warehouse' | 'office';

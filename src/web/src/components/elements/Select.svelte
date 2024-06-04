@@ -41,7 +41,7 @@
 
 <div class="relative w-full">
 	<button
-		class="flex w-full items-center justify-between rounded border border-neutral-300 bg-white px-3.5 py-2 text-left outline-none focus-visible:border-blue-400 focus-visible:ring"
+		class="flex w-full items-center justify-between rounded border border-neutral-300 bg-white px-3.5 py-2 text-left outline-none transition-all focus-visible:border-blue-400 focus-visible:ring"
 		on:click={() => (shown = !shown)}
 		use:soundOnClick
 	>

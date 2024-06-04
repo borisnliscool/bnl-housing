@@ -23,7 +23,7 @@
 </script>
 
 {#if isVisible}
-	<section class="fixed left-0 top-0 h-screen w-full" transition:transition={{ duration: 150 }}>
+	<section class="fixed left-0 top-0 h-screen w-full" transition:transition>
 		<div class="relative h-full">
 			<slot />
 		</div>

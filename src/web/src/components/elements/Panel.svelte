@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
 	import { cn } from '../../utils/misc';
 
 	let className = '';
@@ -7,12 +6,18 @@
 </script>
 
 <div
-	class={cn('rounded-xl bg-gradient-to-b from-sky-400 to-blue-600 p-1 shadow-xl', className)}
-	transition:slide
+	class={cn(
+		'overflow-y-auto rounded-xl bg-gradient-to-bl from-sky-400 to-blue-600 p-1 shadow-xl',
+		className
+	)}
 >
 	<div
-		class="w-full rounded-lg border border-gray-50 bg-gradient-to-b from-gray-100 to-gray-200 p-4 pt-3 shadow-sm"
+		class="size-full overflow-hidden rounded-lg border border-gray-50 bg-gradient-to-b from-gray-100 to-gray-200 shadow-sm"
 	>
-		<slot />
+		<div
+			class="relative p-4 pt-3 before:pointer-events-none before:absolute before:inset-0 before:top-0 before:bg-[url(/images/noise.webp)] before:opacity-15"
+		>
+			<slot />
+		</div>
 	</div>
 </div>
