@@ -24,8 +24,8 @@
 <button class="flex items-center gap-2" on:click={toggle} use:soundOnClick>
 	<div
 		class={cn(
-			"group relative grid aspect-square w-full place-items-center rounded text-white outline-none transition-all hover:shadow-sm",
-			toggled ? "bg-blue-500" : "bg-gray-400/25",
+			"group relative grid aspect-square w-full border place-items-center rounded text-white outline-none transition-all hover:shadow-sm",
+			toggled ? "bg-blue-500 border-blue-500" : "border-gray-300 bg-white",
 			className
 		)}
 	>
