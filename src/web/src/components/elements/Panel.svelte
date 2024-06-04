@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { cn } from "../../utils/misc";
 
-	let className: string | undefined;
+	let className = "";
 	export { className as class };
 </script>
 
 <div
 	class={cn(
-		"p-1 bg-gradient-to-b from-blue-600 to-sky-400 rounded-xl shadow-xl",
+		"p-1 bg-gradient-to-b to-blue-600 from-sky-400 rounded-xl shadow-xl",
 		className
 	)}
 >
 	<div
-		class="bg-gradient-to-b from-gray-100 to-gray-200 shadow-sm pt-3 p-4 rounded-lg w-full"
+		class="bg-gradient-to-b from-gray-100 to-gray-200 border border-gray-50 shadow-sm pt-3 p-4 rounded-lg w-full"
 	>
 		<slot />
 	</div>

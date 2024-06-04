@@ -1,4 +1,5 @@
 <script>
+	import "@fontsource-variable/inter";
 	import "./app.scss";
 	import AdminMenu from "./components/admin/AdminMenu.svelte";
 	import VisibilityProvider from "./providers/VisibilityProvider.svelte";

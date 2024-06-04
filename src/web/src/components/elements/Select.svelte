@@ -2,8 +2,12 @@
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
 	import type { SelectOptionType, placement } from "../../types";
+	import { cn } from "../../utils/misc";
 	import { soundOnClick, soundOnEnter } from "../../utils/sounds";
 	import AngleDown from "../icons/AngleDown.svelte";
+
+	let className = "";
+	export { className as class };
 
 	export let items: SelectOptionType[];
 	export let value: any = undefined;
@@ -61,16 +65,19 @@
 		/>
 
 		<div
-			class="absolute z-50 grid flex-col overflow-hidden rounded-md bg-white p-1 shadow-lg {$$props.class}"
+			class={cn(
+				"absolute z-50 grid flex-col overflow-hidden rounded-md bg-white p-1 shadow-lg",
+				className
+			)}
 			transition:fade={{ duration: 200 }}
 			style={generateClasses(placement, cols)}
 		>
 			{#each items as item}
 				<button
-					class="whitespace-pre rounded p-2 px-4 text-left outline-none focus:bg-blue-100 transition-all {value ==
-					item
-						? '!bg-blue-600 text-white'
-						: 'hover:!bg-blue-100'}"
+					class={cn(
+						"whitespace-pre rounded p-2 px-4 text-left outline-none focus:bg-blue-100 transition-all",
+						value == item ? "!bg-blue-600 text-white" : "hover:!bg-blue-100"
+					)}
 					on:click={() => {
 						value = item;
 						shown = !shown;

@@ -90,10 +90,10 @@
 			</label>
 
 			<div class="flex flex-col gap-1">
-				<label for="" class="text-sm">
+				<p class="text-sm text-gray-500">
 					Property type
 					<span class="text-red-500">*</span>
-				</label>
+				</p>
 
 				<Select
 					class="w-full"

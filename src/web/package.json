@@ -12,6 +12,7 @@
 		"format": "pnpm exec prettier . --write"
 	},
 	"devDependencies": {
+		"@fontsource-variable/inter": "^5.0.18",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",
 		"@tsconfig/svelte": "^5.0.2",
 		"autoprefixer": "^10.4.19",

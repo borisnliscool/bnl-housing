@@ -1,10 +1,13 @@
 <script lang="ts">
+	let className = "";
+	export { className as class };
+
 	export let background = "fill-gray-300";
 	export let handle = "fill-blue-800";
 </script>
 
 <!-- Thanks https://mynaui.com/ -->
-<div aria-label="Loading..." role="status" class={$$props.class}>
+<div aria-label="Loading..." role="status" class={className}>
 	<svg class="aspect-square w-full animate-spin" viewBox="3 3 18 18">
 		<path
 			class={background}
