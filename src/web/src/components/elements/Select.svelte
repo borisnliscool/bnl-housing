@@ -76,7 +76,9 @@
 				<button
 					class={cn(
 						'whitespace-pre rounded p-2 px-4 text-left outline-none transition-all focus:bg-blue-100 focus-visible:border-blue-400 focus-visible:ring',
-						value == item ? '!bg-blue-600 text-white' : 'hover:!bg-blue-100'
+						value == item
+							? '!bg-gradient-radial from-blue-500 to-blue-600 text-white'
+							: 'hover:!bg-blue-100'
 					)}
 					on:click={() => {
 						value = item;
