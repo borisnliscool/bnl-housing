@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/efWK1Rc.png" align="center">
+<img src="https://github.com/borisnliscool/bnl-housing/assets/60477582/aa4e2ff5-014e-4d61-9115-3950b283a73e" align="center">
 
 <h3 align=center>
     <a href="https://docs.boris.foo/bnl-housing/">Read the documentation for installation, configuration and API usage</a>
@@ -24,12 +24,6 @@
 - Special prop API
 - Default safe special prop
 - ..and more!
-
-### Contributors
-
-Thanks to all the awesome people who make bnl-housing great!
-
-[![Contributors](https://contrib.rocks/image?repo=borisnliscool/bnl-housing)](https://github.com/borisnliscool/bnl-housing/graphs/contributors)
 
 <table>
 <tr><td><h3>License</h3></tr></td>
