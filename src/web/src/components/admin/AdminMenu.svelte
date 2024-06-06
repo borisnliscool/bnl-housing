@@ -55,6 +55,12 @@
 		newProperty.buildingNumber
 	);
 
+	$: showLocation =
+		newProperty.location?.x !== 0 ||
+		newProperty.location?.y !== 0 ||
+		newProperty.location?.z !== 0 ||
+		newProperty.location?.w !== 0;
+
 	useKeyPress('Escape', () => fetchNui('close'));
 
 	const createProperty = async () => {
@@ -72,12 +78,14 @@
 
 				<input type="text" placeholder="leave empty for current location" bind:value={location} />
 
-				<span class="grid grid-cols-4 px-1 text-xs text-neutral-500">
-					<div>x: {newProperty.location?.x}</div>
-					<div>y: {newProperty.location?.y}</div>
-					<div>z: {newProperty.location?.z}</div>
-					<div>w: {newProperty.location?.w}</div>
-				</span>
+				{#if showLocation}
+					<span class="grid grid-cols-4 px-1 text-xs text-neutral-500">
+						<div>x: {newProperty.location?.x}</div>
+						<div>y: {newProperty.location?.y}</div>
+						<div>z: {newProperty.location?.z}</div>
+						<div>w: {newProperty.location?.w}</div>
+					</span>
+				{/if}
 			</label>
 
 			<label class="text-input-group">
