@@ -7,7 +7,9 @@
 	import Checkbox from '../elements/Checkbox.svelte';
 	import Page from '../elements/Page.svelte';
 	import Panel from '../elements/Panel.svelte';
+	import Required from '../elements/RequiredStar.svelte';
 	import Select from '../elements/Select.svelte';
+	import { Input } from '../elements/input';
 
 	const newProperty = {
 		location: {
@@ -73,34 +75,32 @@
 		<div class="flex w-full flex-col gap-2">
 			<h1 class="text-xl font-bold">Create new property</h1>
 
-			<label class="text-input-group">
-				<p>Property coordinates</p>
+			<Input
+				label="Property coordinates"
+				placeholder="leave empty for current location"
+				bind:value={location}
+			/>
 
-				<input type="text" placeholder="leave empty for current location" bind:value={location} />
+			{#if showLocation}
+				<span class="grid grid-cols-4 px-1 text-xs text-neutral-500">
+					<div>x: {newProperty.location?.x}</div>
+					<div>y: {newProperty.location?.y}</div>
+					<div>z: {newProperty.location?.z}</div>
+					<div>w: {newProperty.location?.w}</div>
+				</span>
+			{/if}
 
-				{#if showLocation}
-					<span class="grid grid-cols-4 px-1 text-xs text-neutral-500">
-						<div>x: {newProperty.location?.x}</div>
-						<div>y: {newProperty.location?.y}</div>
-						<div>z: {newProperty.location?.z}</div>
-						<div>w: {newProperty.location?.w}</div>
-					</span>
-				{/if}
-			</label>
-
-			<label class="text-input-group">
-				<p>
-					Shell model
-					<span class="text-red-500">*</span>
-				</p>
-
-				<input type="text" placeholder="shell_michael" bind:value={newProperty.model} />
-			</label>
+			<Input
+				label="Shell model"
+				placeholder="shell_michael"
+				required={true}
+				bind:value={newProperty.model}
+			/>
 
 			<div class="flex flex-col gap-1">
 				<p class="text-sm text-gray-500">
 					Property type
-					<span class="text-red-500">*</span>
+					<Required />
 				</p>
 
 				<Select
@@ -117,32 +117,21 @@
 				/>
 			</div>
 
-			<label class="text-input-group">
-				<p>
-					Zipcode
-					<span class="text-red-500">*</span>
-				</p>
+			<Input label="Zipcode" placeholder="715" required={true} bind:value={newProperty.zipcode} />
 
-				<input type="text" placeholder="715" bind:value={newProperty.zipcode} />
-			</label>
+			<Input
+				label="Street Name"
+				placeholder="Alta Street"
+				required={true}
+				bind:value={newProperty.streetName}
+			/>
 
-			<label class="text-input-group">
-				<p>
-					Street Name
-					<span class="text-red-500">*</span>
-				</p>
-
-				<input type="text" placeholder="Alta Street" bind:value={newProperty.streetName} />
-			</label>
-
-			<label class="text-input-group">
-				<p>
-					Building Number
-					<span class="text-red-500">*</span>
-				</p>
-
-				<input type="text" placeholder="17" bind:value={newProperty.buildingNumber} />
-			</label>
+			<Input
+				label="Building Number"
+				placeholder="17"
+				required={true}
+				bind:value={newProperty.buildingNumber}
+			/>
 
 			<div class="mt-2 flex flex-col gap-2">
 				<Checkbox class="w-6" bind:toggled={newProperty.saleData.isForSale}>
@@ -150,14 +139,13 @@
 				</Checkbox>
 
 				{#if newProperty.saleData.isForSale}
-					<label class="text-input-group" transition:slide>
-						<p>
-							Sale price
-							<span class="text-red-500">*</span>
-						</p>
-
-						<input type="text" placeholder="100.000" bind:value={newProperty.saleData.price} />
-					</label>
+					<div transition:slide>
+						<Input
+							label="Sale price"
+							placeholder="100.000"
+							bind:value={newProperty.saleData.price}
+						/>
+					</div>
 				{/if}
 			</div>
 

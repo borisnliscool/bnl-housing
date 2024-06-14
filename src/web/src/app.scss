@@ -41,15 +41,3 @@
 .button {
 	@apply w-full rounded-md bg-gradient-radial from-blue-500 to-blue-600 py-2 font-semibold tracking-wide text-white outline-none transition-all hover:shadow-md focus-visible:ring active:scale-[99%] disabled:scale-100 disabled:cursor-not-allowed disabled:opacity-50;
 }
-
-.text-input-group {
-	@apply flex flex-col gap-1 text-sm;
-
-	p {
-		@apply text-gray-500;
-	}
-
-	input {
-		@apply rounded-md border border-gray-300 px-3.5 py-2 text-base outline-none transition-all focus-visible:border-blue-400 focus-visible:ring;
-	}
-}
