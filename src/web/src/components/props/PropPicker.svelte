@@ -11,20 +11,31 @@
 	import DisplayProp from './DisplayProp.svelte';
 
 	let categories: Promise<SelectOptionType[]>;
-	let props: Promise<PropType[]>;
+	let props: Promise<Record<string, PropType>>;
 
 	let category: SelectOptionType | undefined = undefined;
+	let propsParent: HTMLDivElement;
 
-	const fetchProps = (category: string): Promise<PropType[]> => {
-		const props: Promise<PropType[]> = isEnvBrowser()
+	const fetchProps = (category: string): Promise<Record<string, PropType>> => {
+		const props: Promise<Record<string, PropType>> = isEnvBrowser()
 			? new Promise((r) =>
-					r([
-						{ category: 'test', id: 'v_ret_gc_chair03', name: 'Chair', price: 70 },
-						{ category: 'test', id: 'prop_sol_chair', name: 'Chair 2', price: 100 },
-						{ category: 'test', id: 'prop_off_chair_01', name: 'Chair 3', price: 55 }
-					])
+					r({
+						v_ret_gc_chair03: {
+							category: 'test',
+							id: 'v_ret_gc_chair03',
+							name: 'Chair',
+							price: 70
+						}
+					})
 				)
 			: fetchNui('getProps', category);
+
+		props.then((r) =>
+			propsParent?.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			})
+		);
 
 		return props;
 	};
@@ -55,8 +66,8 @@
 	<GradientBackdrop
 		class="fixed bottom-0 left-0 right-0 grid h-1/3 min-h-72 grid-cols-3 gap-1 rounded-b-none lg:grid-cols-5"
 	>
-		<Panel>
-			<div class="grid size-full gap-1 lg:grid-cols-2">
+		<Panel class="overflow-y-auto p-3">
+			<div class="grid gap-1 lg:grid-cols-2">
 				{#await categories}
 					{#each Array(12) as _}
 						<Skeleton class="h-full rounded" />
@@ -66,9 +77,9 @@
 						{#each value as item}
 							<button
 								class={cn(
-									'size-full max-h-10 rounded-md',
+									'size-full h-10 rounded-md',
 									category?.value == item.value
-										? 'bg-gradient-to-tl from-blue-600 to-blue-500 text-white'
+										? 'bg-gradient-to-tr from-blue-600 to-blue-400 text-white'
 										: ''
 								)}
 								on:click={() => (category = item)}
@@ -89,15 +100,18 @@
 			</div>
 		</Panel>
 
-		<Panel class="col-span-2 h-full overflow-hidden overflow-y-auto lg:col-span-4">
-			<div class="grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-7 2xl:grid-cols-8">
+		<Panel class="col-span-2 h-full overflow-hidden overflow-y-auto p-0 lg:col-span-4">
+			<div
+				class="grid grid-cols-2 gap-2 p-4 pt-3 md:grid-cols-4 lg:grid-cols-7 2xl:grid-cols-8"
+				bind:this={propsParent}
+			>
 				{#await props}
 					{#each Array(16) as _}
 						<Skeleton class="aspect-square rounded" />
 					{/each}
 				{:then value}
 					{#if value}
-						{#each value as prop, i}
+						{#each Object.values(value) as prop, i}
 							<DisplayProp {prop} animationDelay={i * 10} />
 						{/each}
 					{:else}
