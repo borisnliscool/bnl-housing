@@ -5,6 +5,7 @@
 	import { soundOnClick } from '../../utils/sounds';
 	import { useKeyPress } from '../../utils/useKeyPress';
 	import Checkbox from '../elements/Checkbox.svelte';
+	import GradientBackdrop from '../elements/GradientBackdrop.svelte';
 	import Page from '../elements/Page.svelte';
 	import Panel from '../elements/Panel.svelte';
 	import Required from '../elements/RequiredStar.svelte';
@@ -71,87 +72,94 @@
 </script>
 
 <Page id="adminMenu">
-	<Panel class="absolute left-4 top-4 max-h-[calc(100vh-2rem)] w-full max-w-md">
-		<div class="flex w-full flex-col gap-2">
-			<h1 class="text-xl font-bold">Create new property</h1>
+	<GradientBackdrop class="absolute left-4 top-4 max-h-[calc(100vh-2rem)] w-full max-w-md">
+		<Panel>
+			<div class="flex w-full flex-col gap-2">
+				<h1 class="text-xl font-bold">Create new property</h1>
 
-			<Input
-				label="Property coordinates"
-				placeholder="leave empty for current location"
-				bind:value={location}
-			/>
-
-			{#if showLocation}
-				<span class="grid grid-cols-4 px-1 text-xs text-neutral-500">
-					<div>x: {newProperty.location?.x}</div>
-					<div>y: {newProperty.location?.y}</div>
-					<div>z: {newProperty.location?.z}</div>
-					<div>w: {newProperty.location?.w}</div>
-				</span>
-			{/if}
-
-			<Input
-				label="Shell model"
-				placeholder="shell_michael"
-				required={true}
-				bind:value={newProperty.model}
-			/>
-
-			<div class="flex flex-col gap-1">
-				<p class="text-sm text-gray-500">
-					Property type
-					<Required />
-				</p>
-
-				<Select
-					class="w-full"
-					items={[
-						{ name: 'House', value: 'house' },
-						{ name: 'Garage', value: 'garage' },
-						{ name: 'Warehouse', value: 'warehouse' },
-						{ name: 'Office', value: 'office' }
-					]}
-					bind:value={propertyTypeSelect}
-					placement="bottom"
-					cols={1}
+				<Input
+					label="Property coordinates"
+					placeholder="leave empty for current location"
+					bind:value={location}
 				/>
-			</div>
 
-			<Input label="Zipcode" placeholder="715" required={true} bind:value={newProperty.zipcode} />
-
-			<Input
-				label="Street Name"
-				placeholder="Alta Street"
-				required={true}
-				bind:value={newProperty.streetName}
-			/>
-
-			<Input
-				label="Building Number"
-				placeholder="17"
-				required={true}
-				bind:value={newProperty.buildingNumber}
-			/>
-
-			<div class="mt-2 flex flex-col gap-2">
-				<Checkbox class="w-6" bind:toggled={newProperty.saleData.isForSale}>
-					<p>For Sale</p>
-				</Checkbox>
-
-				{#if newProperty.saleData.isForSale}
-					<div transition:slide>
-						<Input
-							label="Sale price"
-							placeholder="100.000"
-							bind:value={newProperty.saleData.price}
-						/>
-					</div>
+				{#if showLocation}
+					<span class="grid grid-cols-4 px-1 text-xs text-neutral-500">
+						<div>x: {newProperty.location?.x}</div>
+						<div>y: {newProperty.location?.y}</div>
+						<div>z: {newProperty.location?.z}</div>
+						<div>w: {newProperty.location?.w}</div>
+					</span>
 				{/if}
-			</div>
 
-			<button class="button mt-4" use:soundOnClick on:click={createProperty} disabled={!canCreate}>
-				Create
-			</button>
-		</div>
-	</Panel>
+				<Input
+					label="Shell model"
+					placeholder="shell_michael"
+					required={true}
+					bind:value={newProperty.model}
+				/>
+
+				<div class="flex flex-col gap-1">
+					<p class="text-sm text-gray-500">
+						Property type
+						<Required />
+					</p>
+
+					<Select
+						class="w-full"
+						items={[
+							{ name: 'House', value: 'house' },
+							{ name: 'Garage', value: 'garage' },
+							{ name: 'Warehouse', value: 'warehouse' },
+							{ name: 'Office', value: 'office' }
+						]}
+						bind:value={propertyTypeSelect}
+						placement="bottom"
+						cols={1}
+					/>
+				</div>
+
+				<Input label="Zipcode" placeholder="715" required={true} bind:value={newProperty.zipcode} />
+
+				<Input
+					label="Street Name"
+					placeholder="Alta Street"
+					required={true}
+					bind:value={newProperty.streetName}
+				/>
+
+				<Input
+					label="Building Number"
+					placeholder="17"
+					required={true}
+					bind:value={newProperty.buildingNumber}
+				/>
+
+				<div class="mt-2 flex flex-col gap-2">
+					<Checkbox class="w-6" bind:toggled={newProperty.saleData.isForSale}>
+						<p>For Sale</p>
+					</Checkbox>
+
+					{#if newProperty.saleData.isForSale}
+						<div transition:slide>
+							<Input
+								label="Sale price"
+								placeholder="100.000"
+								bind:value={newProperty.saleData.price}
+							/>
+						</div>
+					{/if}
+				</div>
+
+				<button
+					class="button mt-4"
+					use:soundOnClick
+					on:click={createProperty}
+					disabled={!canCreate}
+				>
+					Create
+				</button>
+			</div>
+		</Panel>
+	</GradientBackdrop>
 </Page>
