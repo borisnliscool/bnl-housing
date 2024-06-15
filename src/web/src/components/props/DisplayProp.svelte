@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { scale } from 'svelte/transition';
 	import type { PropType } from '../../types';
 	import { cn } from '../../utils/misc';
 	import { soundOnClick, soundOnEnter } from '../../utils/sounds';
@@ -13,7 +12,6 @@
 	export { className as class };
 
 	export let prop: PropType;
-	export let animationDelay: number = 0;
 </script>
 
 <button
@@ -23,7 +21,6 @@
 		'cursor-pointer hover:z-10 hover:shadow-md',
 		className
 	)}
-	transition:scale={{ delay: animationDelay }}
 	use:soundOnClick
 	use:soundOnEnter
 >

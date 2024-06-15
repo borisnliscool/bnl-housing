@@ -111,8 +111,8 @@
 					{/each}
 				{:then value}
 					{#if value}
-						{#each Object.values(value) as prop, i}
-							<DisplayProp {prop} animationDelay={i * 10} />
+						{#each Object.values(value) as prop}
+							<DisplayProp {prop} />
 						{/each}
 					{:else}
 						{#each Array(12) as _}
