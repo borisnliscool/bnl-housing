@@ -30,7 +30,7 @@
 				)
 			: fetchNui('getProps', category);
 
-		props.then((r) =>
+		props.then((_) =>
 			propsParent?.scrollIntoView({
 				behavior: 'smooth',
 				block: 'start'
@@ -102,7 +102,7 @@
 
 		<Panel class="col-span-2 h-full overflow-hidden overflow-y-auto p-0 lg:col-span-4">
 			<div
-				class="grid grid-cols-2 gap-2 p-4 pt-3 md:grid-cols-4 lg:grid-cols-7 2xl:grid-cols-8"
+				class="grid grid-cols-2 gap-2 p-3 md:grid-cols-4 lg:grid-cols-7 2xl:grid-cols-8"
 				bind:this={propsParent}
 			>
 				{#await props}

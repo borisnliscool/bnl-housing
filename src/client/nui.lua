@@ -271,6 +271,23 @@ RegisterNUICallback("getProps", function(category, cb)
     cb(data)
 end)
 
+RegisterNUICallback("getShells", function(_, cb)
+    local data = table.map(Data.Shells, function(_, model)
+        return {
+            name = model,
+            value = model
+        }
+    end, true)
+
+    table.sort(data, function(a, b)
+        return a.name < b.name
+    end)
+
+    print(json.encode(data, { indent = true }))
+
+    cb(data)
+end)
+
 RegisterNUICallback("getLocaleItem", function(item, cb)
     cb(locale(item))
 end)

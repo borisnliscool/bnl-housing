@@ -66,7 +66,7 @@
 
 		<div
 			class={cn(
-				'absolute z-50 grid flex-col gap-1 overflow-hidden rounded-md bg-white p-2 shadow-lg',
+				'absolute z-50 grid max-h-48 flex-col gap-1 overflow-y-auto rounded-md bg-white p-2 shadow-lg',
 				className
 			)}
 			transition:fade={{ duration: 200 }}

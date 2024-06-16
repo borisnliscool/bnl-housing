@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import type { PropertyType, SelectOptionType } from '../../types';
 	import { fetchNui } from '../../utils/fetchNui';
+	import { isEnvBrowser } from '../../utils/misc';
 	import { soundOnClick } from '../../utils/sounds';
 	import { useKeyPress } from '../../utils/useKeyPress';
 	import Checkbox from '../elements/Checkbox.svelte';
@@ -10,7 +12,10 @@
 	import Panel from '../elements/Panel.svelte';
 	import Required from '../elements/RequiredStar.svelte';
 	import Select from '../elements/Select.svelte';
+	import Skeleton from '../elements/Skeleton.svelte';
 	import { Input } from '../elements/input';
+
+	let shells: Promise<SelectOptionType[]>;
 
 	const newProperty = {
 		location: {
@@ -34,6 +39,13 @@
 		}
 	};
 
+	const propertyTypes: SelectOptionType[] = [
+		{ name: 'House', value: 'house' },
+		{ name: 'Garage', value: 'garage' },
+		{ name: 'Warehouse', value: 'warehouse' },
+		{ name: 'Office', value: 'office' }
+	];
+
 	let location: string = '';
 
 	$: {
@@ -47,8 +59,11 @@
 		};
 	}
 
-	let propertyTypeSelect: SelectOptionType | undefined;
+	let propertyTypeSelect: SelectOptionType = propertyTypes.at(0)!;
 	$: newProperty.propertyType = propertyTypeSelect?.value as PropertyType;
+
+	let shellSelect: SelectOptionType;
+	$: newProperty.model = shellSelect?.value as string;
 
 	$: canCreate = !!(
 		newProperty.model &&
@@ -64,11 +79,35 @@
 		newProperty.location?.z !== 0 ||
 		newProperty.location?.w !== 0;
 
+	const fetchShells = (): Promise<SelectOptionType[]> => {
+		const shells: Promise<SelectOptionType[]> = isEnvBrowser()
+			? new Promise((r) =>
+					r([
+						{
+							name: 'test',
+							value: 'test'
+						}
+					])
+				)
+			: fetchNui('getShells');
+
+		shells.then((s) => {
+			shellSelect = s.at(0)!;
+			newProperty.model = shellSelect.value as string;
+		});
+
+		return shells;
+	};
+
 	useKeyPress('Escape', () => fetchNui('close'));
 
 	const createProperty = async () => {
 		await fetchNui('createProperty', newProperty);
 	};
+
+	onMount(() => {
+		shells = fetchShells();
+	});
 </script>
 
 <Page id="adminMenu">
@@ -92,12 +131,30 @@
 					</span>
 				{/if}
 
-				<Input
-					label="Shell model"
-					placeholder="shell_michael"
-					required={true}
-					bind:value={newProperty.model}
-				/>
+				<div class="flex flex-col gap-1">
+					<p class="text-sm text-gray-500">
+						Property shell
+						<Required />
+					</p>
+
+					{#await shells}
+						<Skeleton class="h-8" />
+					{:then value}
+						{#if value}
+							<Select
+								class="w-full"
+								items={value}
+								bind:value={shellSelect}
+								placement="bottom"
+								cols={1}
+							/>
+						{:else}
+							<Skeleton class="h-8" />
+						{/if}
+					{:catch error}
+						<p class="col-span-full text-red-500">{error}</p>
+					{/await}
+				</div>
 
 				<div class="flex flex-col gap-1">
 					<p class="text-sm text-gray-500">
@@ -107,12 +164,7 @@
 
 					<Select
 						class="w-full"
-						items={[
-							{ name: 'House', value: 'house' },
-							{ name: 'Garage', value: 'garage' },
-							{ name: 'Warehouse', value: 'warehouse' },
-							{ name: 'Office', value: 'office' }
-						]}
+						items={propertyTypes}
 						bind:value={propertyTypeSelect}
 						placement="bottom"
 						cols={1}
