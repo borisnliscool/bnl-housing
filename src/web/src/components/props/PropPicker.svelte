@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 	import type { PropType, SelectOptionType } from '../../types';
 	import { fetchNui } from '../../utils/fetchNui';
 	import { cn, isEnvBrowser } from '../../utils/misc';
@@ -9,12 +10,15 @@
 	import Panel from '../elements/Panel.svelte';
 	import Skeleton from '../elements/Skeleton.svelte';
 	import DisplayProp from './DisplayProp.svelte';
+	import SelectedProp from './SelectedProp.svelte';
 
 	let categories: Promise<SelectOptionType[]>;
 	let props: Promise<Record<string, PropType>>;
 
 	let category: SelectOptionType | undefined = undefined;
 	let propsParent: HTMLDivElement;
+
+	let selectedProp: PropType | undefined = undefined;
 
 	const fetchProps = (category: string): Promise<Record<string, PropType>> => {
 		const props: Promise<Record<string, PropType>> = isEnvBrowser()
@@ -63,6 +67,12 @@
 </script>
 
 <Page id="propPicker">
+	{#if selectedProp}
+		<div class="fixed right-4 top-4 w-full max-w-md" transition:slide>
+			<SelectedProp {selectedProp} />
+		</div>
+	{/if}
+
 	<GradientBackdrop
 		class="fixed bottom-0 left-0 right-0 grid h-1/3 min-h-72 grid-cols-3 gap-1 rounded-b-none lg:grid-cols-5"
 	>
@@ -112,7 +122,12 @@
 				{:then value}
 					{#if value}
 						{#each Object.values(value) as prop}
-							<DisplayProp {prop} />
+							<DisplayProp
+								on:click={() => {
+									selectedProp = selectedProp?.id === prop.id ? undefined : prop;
+								}}
+								{prop}
+							/>
 						{/each}
 					{:else}
 						{#each Array(12) as _}

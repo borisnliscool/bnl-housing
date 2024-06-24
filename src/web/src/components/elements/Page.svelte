@@ -17,8 +17,8 @@
 	debugData([
 		{
 			action: 'setPage',
-			data: 'adminMenu'
-			// data: 'propPicker'
+			// data: 'adminMenu'
+			data: 'propPicker'
 		}
 	]);
 </script>
