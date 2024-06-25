@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import type { PropType } from '../../types';
 	import { soundOnClick } from '../../utils/sounds';
 	import GradientBackdrop from '../elements/GradientBackdrop.svelte';
 	import Panel from '../elements/Panel.svelte';
 	import PropImage from './PropImage.svelte';
+
+	const dispatch = createEventDispatcher();
+	const click = () => dispatch('click');
 
 	export let selectedProp: PropType;
 </script>
@@ -28,6 +32,7 @@
 			<button
 				class="h-10 w-fit rounded-md bg-gradient-to-tr from-blue-600 to-blue-400 px-6 text-white"
 				use:soundOnClick
+				on:click
 			>
 				Buy now
 			</button>

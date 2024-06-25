@@ -20,6 +20,11 @@
 
 	let selectedProp: PropType | undefined = undefined;
 
+	const clickProp = async () => {
+		await fetchNui('selectProp', selectedProp.id);
+		selectedProp = undefined;
+	};
+
 	const fetchProps = (category: string): Promise<Record<string, PropType>> => {
 		const props: Promise<Record<string, PropType>> = isEnvBrowser()
 			? new Promise((r) =>
@@ -69,7 +74,7 @@
 <Page id="propPicker">
 	{#if selectedProp}
 		<div class="fixed right-4 top-4 w-full max-w-md" transition:slide>
-			<SelectedProp {selectedProp} />
+			<SelectedProp {selectedProp} on:click={clickProp} />
 		</div>
 	{/if}
 
