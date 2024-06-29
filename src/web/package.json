@@ -14,9 +14,13 @@
 	"devDependencies": {
 		"@fontsource-variable/inter": "^5.0.18",
 		"@sveltejs/vite-plugin-svelte": "^3.1.1",
+		"@threlte/core": "^7.3.0",
+		"@threlte/extras": "^8.11.3",
 		"@tsconfig/svelte": "^5.0.4",
+		"@types/three": "^0.165.0",
 		"@typescript-eslint/eslint-plugin": "^7.12.0",
 		"@typescript-eslint/parser": "^7.12.0",
+		"@yushijinhun/three-minifier-rollup": "^0.4.0",
 		"autoprefixer": "^10.4.19",
 		"clsx": "^2.1.1",
 		"eslint": "^8.56.0",
@@ -31,6 +35,7 @@
 		"svelte-check": "^3.8.0",
 		"tailwind-merge": "^2.3.0",
 		"tailwindcss": "^3.4.3",
+		"three": "^0.165.0",
 		"tslib": "^2.6.2",
 		"typescript": "^5.4.5",
 		"vite": "^5.2.12"

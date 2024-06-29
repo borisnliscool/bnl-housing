@@ -29,8 +29,8 @@ RegisterNUICallback("update", function(data, cb)
 
     ---@diagnostic disable-next-line: missing-parameter
     SetEntityCoords(currentEntity, propCoords.x, propCoords.y, propCoords.z)
-    ---@diagnostic disable-next-line: missing-parameter
-    SetEntityRotation(currentEntity, data.prop.rotation.x, data.prop.rotation.y, data.prop.rotation.z)
+    -- SetEntityRotation(currentEntity, data.prop.rotation.pitch, data.prop.rotation.yaw, data.prop.rotation.roll, 5, false)
+    SetEntityRotation(currentEntity, data.prop.rotation.yaw, data.prop.rotation.pitch, data.prop.rotation.roll, 2, false)
 
     if data.camera then
         local camCoords = vec(data.camera.position.z, data.camera.position.x, data.camera.position.y) + coords
@@ -129,6 +129,10 @@ function ShowUI(page)
     TriggerEvent("bnl-housing:on:showUI", page)
 end
 
+RegisterCommand("testpage", function(source, args, rawCommand)
+    ShowUI(args[1])
+end, false)
+
 function HideUI()
     SendNUIMessage({
         action = "setVisible",
@@ -155,16 +159,21 @@ function StartEditorWithEntity(_entity, _coords)
     PointCamAtCoord(_camera, _coords.x, _coords.y, _coords.z)
     RenderScriptCams(true, false, 0, true, false)
 
+    local rotation = GetEntityRotation(_entity, 5)
     SendNUIMessage({
         action = "setup",
         data = {
             entity = _entity,
             position = _coords,
-            rotation = GetEntityRotation(_entity)
+            rotation = {
+                pitch = rotation.x,
+                yaw = rotation.y,
+                roll = rotation.z,
+            }
         }
     })
 
-    ShowUI("decoration")
+    ShowUI("editor")
     TriggerEvent("bnl-housing:on:enterEditor")
 
     currentEntity = _entity

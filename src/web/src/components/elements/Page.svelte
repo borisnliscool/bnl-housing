@@ -18,7 +18,8 @@
 		{
 			action: 'setPage',
 			// data: 'adminMenu'
-			data: 'propPicker'
+			// data: 'propPicker',
+			data: 'editor'
 		}
 	]);
 </script>

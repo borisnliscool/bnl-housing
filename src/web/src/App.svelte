@@ -5,6 +5,7 @@
 	import AdminMenu from './components/admin/AdminMenu.svelte';
 	import PropPicker from './components/props/PropPicker.svelte';
 
+	import Editor from './components/editor/Editor.svelte';
 	import VisibilityProvider from './providers/VisibilityProvider.svelte';
 	import { isEnvBrowser } from './utils/misc';
 </script>
@@ -20,4 +21,5 @@
 <VisibilityProvider>
 	<AdminMenu />
 	<PropPicker />
+	<Editor />
 </VisibilityProvider>
